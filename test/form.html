@@ -1,0 +1,254 @@
+<html>
+    <head>
+        <title>BreadButter JavaScript SDK demo</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <script>
+            var app_id, src;
+            if (document.location.host.indexOf('local') > -1) {
+                app_id = '6b67529d466e416891eb4b0d3f431a21';
+                // app_id = '53ca9dfe597642039fbdc5c000a5ab8e';
+                src = '../dist/breadbutter.min.js';
+            } else {
+                app_id = '6b67529d-466e-4168-91eb-4b0d3f431a21';
+                // app_id = '53ca9dfe597642039fbdc5c000a5ab8e';
+                src =
+                    'https://logon-javascript-sdk.herokuapp.com/dist/breadbutter.min.js';
+            }
+
+            window.spreadButter = function () {
+                BreadButter.configure({
+                    app_id: app_id,
+                    api_path: 'https://api.logon-dev.com/',
+                    // destination_url: 'https://local.logon-dev.com/',
+                    // callback_url: 'http://www.google.com',
+                    app_name: 'Bread & Butter Sample',
+                    locale: {
+                        POPUP: {
+                            TEXT_1: 'Yoyoyo~',
+                            TEXT_2: 'start with it !'
+                        }
+                    }
+                    // force_reauthentication: 'force',
+                    // client_data: {
+                    //     test: 'global config'
+                    // },
+                    // options: {
+                    //     expandedEmailAddress: false
+                    // }
+                });
+                // Logon.api.getProviders('email_address(optional)', function(){});
+                // Logon.api.getAuthorization('google')
+
+                // BreadButter.widgets.buttons('breadbutter1', {
+                //     buttonTheme: 'round-icons',
+                //     // client_data: {
+                //     //     test: 'buttons',
+                //     //     user: 2
+                //     // }
+                //     options: {
+                //         showLoginFocus: false
+                //     }
+                // });
+                // BreadButter.widgets.buttons('breadbutter1', { theme: 'icon' });
+                // BreadButter.widgets.buttons('breadbutter2', { collapsible: true});
+
+                // BreadButter.ui.form('breadbutter3');
+
+                BreadButter.widgets.continueWith();
+
+                // BreadButter.widgets.signIn('breadbutter3', {
+                //     force_reauthentication: 'off',
+                //     client_data: {
+                //         test: 'a',
+                //         user: 2
+                //     }
+                // });
+
+
+                // BreadButter.widgets.continueWith({
+                //     client_data: {
+                //         test: 'continuewith',
+                //         user: 1
+                //     },
+                //     continueTop: 20,
+                //     continueRight: 20,
+                //     onFormClose: function(){
+                //         console.log('closing!!!');
+                //     }
+                // });
+                //
+                BreadButter.widgets.signIn('breadbutter4', {
+                    email_address: 'test@breadbutter.com',
+                    mode: BreadButter.mode.RESET_PASSWORD,
+                    pin: 1234
+                });
+                // BreadButter.widgets.signIn('breadbutter5');
+                // //
+                // BreadButter.widgets.signIn('breadbutter6', { mode: BreadButter.mode.CONFIRM_EMAIL,
+                // email_address: 'test@breadbutter.com', token: '1234'});
+                // //
+                // BreadButter.widgets.signIn('breadbutter7', { mode: BreadButter.mode.RESET_PASSWORD,
+                // email_address: 'ccooollll@gmail.com', token: '8362' });
+                // //
+            };
+
+            (function (d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = src;
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'logon-js');
+        </script>
+
+        <script>
+            var loading = function () {
+                document.getElementById('app').innerHTML = app_id;
+            };
+        </script>
+        <style>
+            body {
+                margin: 0;
+                background: #e9ecea;
+                color: #111;
+                background-image: url(mgi-background.png);
+                background-size: 100% 100%;
+                height: 2000px;
+            }
+            .content {
+                margin: 8px 24px;
+            }
+            .banner {
+                background-image: url(breadbutter.png);
+                height: 50px;
+                background-repeat: no-repeat;
+                width: 100%;
+                background-size: contain;
+                background-color: #ffffff;
+                color: #000;
+                line-height: 50px;
+                padding-left: 250px;
+                font-family: MONOSPACE;
+                font-size: 25px;
+            }
+            input[type='text'] {
+                display: block;
+                width: 300px;
+            }
+            input {
+                margin-top: 0.5rem;
+            }
+            form {
+                padding: 1rem 0.5rem;
+                border-left: 1px solid #757575;
+            }
+
+            * {
+                font-weight: 100;
+            }
+
+            /* .logon-holder {
+                min-width: 320px;
+                width: 375px;
+                margin-bottom: 1rem;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0.7px 0.7px 0.7px 0 rgba(0, 0, 0, 0.4);
+                background-color: #ffffff;
+            } */
+        </style>
+    </head>
+    <body onload="loading()">
+        <div class="banner">JavaScript SDK</div>
+        <div class="content">
+            <h3 id="app"></h3>
+
+<!--            <div-->
+<!--                    class="fb-login-button"-->
+<!--                    data-max-rows="1"-->
+<!--                    data-size="large"-->
+<!--                    data-button-type="continue_with"-->
+<!--                    data-use-continue-as="true"-->
+<!--            ></div>-->
+            <!--    <h4>providing enterprise providers</h4>-->
+            <div class="logon-holder" id="breadbutter1"></div>
+            <div class="logon-holder" id="breadbutter2"></div>
+
+            <h1>form</h1>
+            <div class="logon-holder" id="breadbutter3" style="margin-left: 5%"></div>
+            <hr />
+
+            <h1>register w/ email</h1>
+            <div class="logon-holder" id="breadbutter4"></div>
+            <hr />
+
+            <h1>Register</h1>
+            <div class="logon-holder" id="breadbutter5"></div>
+            <hr />
+
+            <h1>Register w/ token & email</h1>
+            <div class="logon-holder" id="breadbutter6"></div>
+
+            <h1>Reset Password</h1>
+            <div class="logon-holder" id="breadbutter7"></div>
+
+            <h1>Confirmation Email</h1>
+            <div class="logon-holder" id="breadbutter8"></div>
+
+            <button id="top-left"> top left </button>
+            <button id="top-right"> top right </button>
+            <button id="bottom-left"> bottom left </button>
+            <button id="bottom-right"> bottom right </button>
+            <button id="center"> center </button>
+        </div>
+    <script>
+        document.getElementById('top-left').addEventListener('click', function(){
+
+            BreadButter.widgets.continueWith({
+                continue_with_position: {
+                    top: 20,
+                    left: 20
+                }
+            });
+        });
+        document.getElementById('top-right').addEventListener('click', function(){
+
+            BreadButter.widgets.continueWith({
+                continue_with_position: {
+                    top: 20,
+                    right: 20
+                }
+            });
+        });
+        document.getElementById('bottom-left').addEventListener('click', function(){
+            BreadButter.widgets.continueWith({
+                continue_with_position: {
+                    bottom: 20,
+                    left: 20
+                }
+                continueLeft: 20
+            });
+        });
+        document.getElementById('bottom-right').addEventListener('click', function(){
+            BreadButter.widgets.continueWith({
+                continue_with_position: {
+                    bottom: 20,
+                    right: 20
+                }
+            });
+        });
+        document.getElementById('center').addEventListener('click', function(){
+            BreadButter.widgets.continueWith({
+                continue_with_position: {
+                    top: '30%',
+                    left: '25%'
+                }
+            });
+        });
+    </script>
+    </body>
+</html>

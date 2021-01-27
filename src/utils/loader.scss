@@ -1,0 +1,134 @@
+
+$brand-success: #333333;
+$brand-failure: #DC6550;
+$loader-size: 56px;
+$check-height: $loader-size/2;
+$check-width: $check-height/2;
+$check-left: ($loader-size/6 + $loader-size/12);
+$check-thickness: 3px;
+$check-color: $brand-success;
+
+
+$error-height: $loader-size/3;
+$error-width: $loader-size/3;
+$error-left: ($loader-size/6 + $loader-size/12);
+$error-thickness: 3px;
+$error-color: $brand-failure;
+
+.breadbutter-ui-loader-holder {
+  background: rgba(255,255,255,1);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute !important;
+  display: flex;
+  z-index: 2;
+
+  .util-loader {
+    width: $loader-size;
+    height: $loader-size;
+    //border: 1px solid rgba(0, 0, 0, 0.2);
+    border-left-color: $check-color;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-top-color: #333;
+    margin: auto;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    //animation: loader-spin 1.2s infinite linear;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #666;
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite;
+
+    }
+    &:after {
+      content: ' ';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #999;
+      -webkit-animation: spin 1.5s linear infinite;
+      animation: spin 1.5s linear infinite;
+
+    }
+    .util-loader-checkmark {
+      display: none;
+      svg {
+        fill: #4DE515;
+      }
+    }
+    .util-loader-error {
+      display: none;
+
+      svg {
+        fill: #EC1C24;
+      }
+    }
+    &.success {
+      .util-loader-checkmark {
+        display: block;
+      }
+    }
+    &.failure {
+      .util-loader-error {
+        display: block;
+      }
+    }
+    &.complete {
+      -webkit-animation: none;
+      animation: none;
+      border-color: rgba(0,0,0,0);
+      transition: border 100ms ease-out;
+      &:before {
+        display: none;
+      }
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+
+.breadbutter-ui-loader-holder.transparent {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0%   {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

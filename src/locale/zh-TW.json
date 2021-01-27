@@ -1,0 +1,166 @@
+{
+  "POPUP": {
+    "HEADER_1": "歡迎",
+    "HEADER_2": "歡迎使用%APP_NAME%"
+  },
+  "INCOGNITO": {
+    "TITLE": "歡迎"
+  },
+  "REGISTER": {
+    "TITLE": "歡迎",
+    "CONTENT": "您想如何註冊？",
+    "CONTENT_2": "使用您的電子郵件註冊",
+    "SSO": "或使用您的電子郵件地址和密碼創建一個帳戶",
+    "LOCAL": "使用您的電子郵件地址和密碼創建一個帳戶"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "郵件確認",
+    "CONTENT": "確認消息已發送到您的電子郵件地址。請從下面的電子郵件中輸入PIN碼"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "忘記密碼",
+    "CONTENT": "輸入您向我們註冊的電子郵件"
+  },
+  "EXPIRE_PASSWORD": {
+    "TITLE": "更改密碼",
+    "CONTENT": "看來您的密碼需要重設。輸入您向我們註冊的電子郵件"
+  },
+  "NEW_CODE": {
+    "CONTENT_1": "沒有收到您的確認PIN嗎？",
+    "CONTENT_2": "請檢查您的垃圾郵件文件夾",
+    "CONTENT_OR": "要么",
+    "CONTENT_3": "為一個新的代碼",
+    "BUTTON": "點擊這裡"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "你好",
+    "CONTENT": "在下面重置密碼"
+  },
+  "LOGIN": {
+    "TITLE": "你好",
+    "CONTENT": "請輸入您的電子郵件地址",
+    "CONTENT_2": "請輸入您的密碼"
+  },
+  "GREETING": "你好",
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "電子郵件地址",
+    "PASSWD": "密碼",
+    "PASSWORD": "創建密碼",
+    "CONFIRM_PASSWORD": "確認密碼",
+    "NEW_PASSWORD": "創建密碼",
+    "NEW_CONFIRM_PASSWORD": "確認密碼",
+    "FIRST_NAME": "名字",
+    "LAST_NAME": "姓",
+    "PIN": "銷"
+  },
+  "BUTTON": {
+    "SIGN_IN_METHOD": "其他登錄方式",
+    "CONTINUE_WITH": "繼續",
+    "OR_CONTINUE": "或繼續",
+    "USE_DIFFERENT_IDP": "使用其他身份提供者",
+    "SELECT_IDP_SIGN_UP": "選擇一個身份提供者進行註冊",
+    "MORE": "更多的選擇",
+    "LESS": "更少的選擇",
+    "BACK": "背部",
+    "EMAIL_INSTRUCTION": "給我發電子郵件說明",
+    "CANCEL": "取消",
+    "CONTINUE": "繼續",
+    "SET_PASSWORD": "重設密碼",
+    "FORGOT_PASSWORD": "忘記密碼？",
+    "NEW_USER": "新的用戶？",
+    "SWITCH_LOGIN": "不是你？使用其他電子郵件地址登錄",
+    "SWITCH_REGISTER": "不是你？用其他電子郵件地址註冊。",
+    "SWITCH_TRY": "不是你？嘗試使用其他電子郵件地址。",
+    "NEXT": "下一個",
+    "REGISTER": "寄存器",
+    "SIGN_IN": "登入",
+    "CONFIRM": "確認郵件",
+    "OR_CONTINUE_WITH_EMAIL": "或繼續輸入您的電子郵件地址",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或使用您的電子郵件地址和密碼註冊",
+    "CONTINUE_WITH_EMAIL": "在下面輸入您的電子郵件地址"
+  },
+  "HOVER": {
+    "EMAIL_MATCH": "請確保登錄時使用的電子郵件地址已被邀請註冊。",
+    "NEW_USER": "要訪問該網站，您必須首先被邀請加入。<br/><br/>如果您收到了加入邀請，請單擊該電子郵件中的鏈接以完成註冊。<br/><br/>如果您丟失了該電子郵件，請與最初邀請您的人聯繫。"
+  },
+  "PASSWORD_HINT": {
+    "HAS_VALIDATION": "您的密碼必須：",
+    "MINIMUM_ONE": "至少包含一個字符",
+    "MINIMUM_MORE": "至少包含%COUNT%個字符",
+    "LOWER_ONE": "包含至少一個小寫字母（az）",
+    "LOWER_MORE": "至少包含%COUNT%小寫字母（az）",
+    "UPPER_ONE": "包含至少一個大寫字母（AZ）",
+    "UPPER_MORE": "包含至少%COUNT%大寫字母（AZ）",
+    "SYMBOL_ONE": "包含至少一個符號",
+    "SYMBOL_MORE": "至少包含%COUNT%個符號",
+    "NUMBER_ONE": "至少包含一個數字（0-9）",
+    "NUMBER_MORE": "至少包含%COUNT%個數字（0-9）",
+    "NO_EMAIL": "不包含您的姓名或電子郵件地址",
+    "MATCH": "在兩個字段中以相同的方式輸入",
+    "NO_OLD_PASSWORD": "您的新密碼必須與以前的密碼不同"
+  },
+  "ERROR": {
+    "INLINE": {
+      "TITLE": "抱歉",
+      "CONFIRM": "好"
+    },
+    "EMPTY_TOKEN": {
+      "MESSAGE": "您需要輸入PIN碼"
+    },
+    "EMPTY_FIRST_NAME": {
+      "MESSAGE": "請確保您的名字"
+    },
+    "EMPTY_LAST_NAME": {
+      "MESSAGE": "請確保您的姓氏"
+    },
+    "VALID_EMAIL": {
+      "TITLE": "電郵格式",
+      "MESSAGE": "請確保您使用的是有效的電子郵件地址",
+      "CONFIRM": "好"
+    },
+    "PASSWORD_EMPTY": {
+      "TITLE": "密碼太短",
+      "MESSAGE": "請輸入密碼",
+      "CONFIRM": "好"
+    },
+    "PASSWORD_LENGTH": {
+      "TITLE": "密碼太短",
+      "MESSAGE": "請輸入超過%COUNT%個字符的密碼",
+      "CONFIRM": "好"
+    },
+    "PASSWORD_NOT_MATCH": {
+      "TITLE": "密碼不匹配",
+      "MESSAGE": "您的密碼不匹配",
+      "CONFIRM": "好"
+    },
+    "ACCOUNT_NOT_FOUND": {
+      "TITLE": "找不到帳戶",
+      "MESSAGE": "我們找不到您的帳戶。如果您被邀請，請單擊您收到的電子郵件中的鏈接以完成註冊",
+      "CONFIRM": "我去找我的邀請"
+    },
+    "NON_LOCAL_LOGIN": {
+      "TITLE": "",
+      "MESSAGE": "您之前已使用%PROVIDER%登錄。請確認您要設置帳戶密碼。",
+      "CONFIRM": "設置密碼",
+      "CONFIRM_2": "取消"
+    },
+    "NO_PROVIDERS": {
+      "TITLE": "出了點問題",
+      "MESSAGE": "沒有提供者的結果。",
+      "CONFIRM": "再試一次"
+    },
+    "API_ERROR": {
+      "TITLE": "出了點問題",
+      "CONFIRM": "再試一次"
+    },
+    "NO_PROVIDER": {
+      "TITLE": "沒有啟用提供商",
+      "MESSAGE": "該網站尚未啟用任何身份提供商或本地身份驗證。請聯繫網站管理員以獲取更多信息。",
+      "CONFIRM": "好"
+    }
+  },
+  "RES_MAPPING": {
+    "invalid_pin": "請檢查您的PIN碼是否正確",
+    "invalid_email_or_password": "請確保您使用的是最新密碼"
+  }
+}

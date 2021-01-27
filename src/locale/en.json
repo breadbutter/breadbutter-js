@@ -1,0 +1,175 @@
+{
+  "POPUP": {
+    "HEADER_1": "Welcome",
+    "HEADER_2": "Welcome to %APP_NAME%",
+    "TEXT_1": "First step",
+    "TEXT_2": "`Continue with` your trusted login method.<br/>We'll have you started in no time."
+  },
+  "INCOGNITO": {
+    "TITLE": "Welcome"
+  },
+  "REGISTER" : {
+    "TITLE": "Welcome",
+    "CONTENT": "How would you like to sign up?",
+    "CONTENT_2": "Sign up with your email",
+    "SSO": "Or create an account with your email address and a password",
+    "LOCAL": "Create an account with your email address and a password"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "Email confirmation",
+    "CONTENT": "A confirmation message has been sent to your email address. Please enter the PIN from that email below"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Forgot password",
+    "CONTENT": "Enter the email you registered with us & we’ll send you instructions on how to reset your password"
+  },
+  "EXPIRE_PASSWORD": {
+    "TITLE": "Change Password",
+    "CONTENT": "It looks like your password needs to be reset. Enter the email you registered with us & we’ll send you instructions on how to reset your password"
+  },
+  "NEW_CODE" : {
+    "CONTENT_1": "Didn't receive your confirmation PIN?",
+    "CONTENT_2": "Please check your spam folder",
+    "CONTENT_OR": "or ",
+    "CONTENT_3": " for a new code",
+    "BUTTON": "click here"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Hello",
+    "CONTENT": "Reset your password below"
+  },
+  "LOGIN": {
+    "TITLE": "Hello",
+    "CONTENT": "Please enter your email address",
+    "CONTENT_2": "Please enter your password"
+  },
+  "GREETING": "Hello",
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "Email address",
+    "PASSWD": "Password",
+    "PASSWORD": "Create password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "NEW_PASSWORD": "Create password",
+    "NEW_CONFIRM_PASSWORD": "Confirm password",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "PIN": "PIN"
+  },
+  "BUTTON": {
+    "SIGN_IN_METHOD": "Other sign in methods",
+    "CONTINUE_WITH": "Continue with",
+    "OR_CONTINUE": "Or continue with",
+    "USE_DIFFERENT_IDP": "Use a different Identity Provider",
+    "SELECT_IDP_SIGN_UP": "Select an Identity Provider to sign up with",
+    "MORE": "More options",
+    "LESS": "Less options",
+    "BACK": "Back",
+    "EMAIL_INSTRUCTION": "Email me instructions",
+    "CANCEL": "Cancel",
+    "CONTINUE": "Continue",
+    "SET_PASSWORD": "Reset Password",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "NEW_USER": "New user?",
+    "SWITCH_LOGIN": "Not you? Sign in with a different email address",
+    "SWITCH_REGISTER": "Not you? Sign up with a different email address.",
+    "SWITCH_TRY": "Not you? Try with a different email address.",
+    "NEXT": "Next",
+    "REGISTER": "Sign up",
+    "SIGN_IN": "Sign in",
+    "CONFIRM": "Confirm email",
+    "OR_CONTINUE_WITH_EMAIL": "or continue with your email address",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Or sign up with your email address and password",
+    "CONTINUE_WITH_EMAIL": "or enter your email address below",
+    "MORE_INFO": "more information"
+  },
+  "HOVER": {
+    "EMAIL_MATCH": "Please ensure that the email address you use when signing in is one that has been invited to register.",
+    "NEW_USER": "To access this website you must first be invited to join.<br/><br/>If you have received an invitation to join please click the link in that email to complete your registration.<br/><br/>If you have lost that email message please contact the person that originally invited you.",
+    "MORE_INFO": "We respect your privacy. You will be directed to authenticate with the provider you trust."
+  },
+  "PASSWORD_HINT" : {
+    "HAS_VALIDATION": "Your Password must:",
+    "MINIMUM_ONE": "contain at least one character",
+    "MINIMUM_MORE": "contain at least %COUNT% characters",
+    "LOWER_ONE": "contain at least one lower case (a-z)",
+    "LOWER_MORE": "contain at least %COUNT% lower case (a-z)",
+    "UPPER_ONE": "contain at least one upper case (A-Z)",
+    "UPPER_MORE": "contain at least %COUNT% upper case (A-Z)",
+    "SYMBOL_ONE": "contain at least one symbol",
+    "SYMBOL_MORE": "contain at least %COUNT% symbols",
+    "NUMBER_ONE": "contain at least one number (0-9)",
+    "NUMBER_MORE": "contain at least %COUNT% numbers (0-9)",
+    "NO_EMAIL": "does not contain your name or email address",
+    "MATCH": "be entered the same way in both fields",
+    "NO_OLD_PASSWORD": "Your new password must be different than your previous password"
+  },
+  "ERROR": {
+    "INLINE": {
+      "TITLE": "Sorry",
+      "CONFIRM": "ok"
+    },
+    "EMPTY_TOKEN": {
+      "MESSAGE": "You need to enter a PIN"
+    },
+    "EMPTY_FIRST_NAME": {
+      "MESSAGE": "Please make sure you have a first name"
+    },
+    "EMPTY_LAST_NAME": {
+      "MESSAGE": "Please make sure you have a last name"
+    },
+    "VALID_EMAIL" : {
+      "TITLE": "Email format",
+      "MESSAGE": "Please make sure you’re using a valid email address",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_EMPTY": {
+      "TITLE": "Password too short",
+      "MESSAGE": "Please enter a password",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_LENGTH": {
+      "TITLE": "Password too short",
+      "MESSAGE": "Please enter a password longer than %COUNT% characters",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_NOT_MATCH": {
+      "TITLE": "Password not match",
+      "MESSAGE": "Your passwords don't match",
+      "CONFIRM": "ok"
+    },
+    "ACCOUNT_NOT_FOUND": {
+      "TITLE": "Account not found",
+      "MESSAGE": "We were unable to find your account. If you have been invited, please click on the link in the email you received to complete registration",
+      "CONFIRM": "I'll look for my invite"
+    },
+    "NON_LOCAL_LOGIN": {
+      "TITLE": "",
+      "MESSAGE": "You have previously signed in using %PROVIDER%. Please confirm that you want to set an account password instead.",
+      "CONFIRM": "Set Password",
+      "CONFIRM_2": "Cancel"
+    },
+    "NO_PROVIDERS": {
+      "TITLE": "Something is wrong",
+      "MESSAGE": "No results from the providers.",
+      "CONFIRM": "Try again"
+    },
+    "API_ERROR": {
+      "TITLE": "Something is wrong",
+      "CONFIRM": "Try again"
+    },
+    "NO_PROVIDER": {
+      "TITLE": "No Providers Enabled",
+      "MESSAGE": "This website has not enabled any Identity Providers or local authentication. Please contact the website administrator for more information.",
+      "CONFIRM": "ok"
+    }
+  },
+  "RES_MAPPING": {
+    "invalid_pin": "Please check to see if you have the right PIN",
+    "invalid_email_or_password": "Please make sure you're using your latest password"
+  },
+  "PRIVACY_POLICY": {
+    "CONTENT": "By browsing our website, you agree to our use of cookies.",
+    "BUTTON_1": "OK",
+    "BUTTON_2": "Read our policy"
+  }
+}

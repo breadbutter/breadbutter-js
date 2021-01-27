@@ -1,0 +1,334 @@
+<html>
+    <head>
+        <title>LogonLabs JavaScript SDK demo</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <script>
+            var app_id, src;
+            if (document.location.host.indexOf('local') > -1) {
+                app_id = '6b67529d466e416891eb4b0d3f431a21';
+                src = '../dist/logonlabs.min.js';
+            } else {
+                app_id = '6b67529d-466e-4168-91eb-4b0d3f431a21';
+                src =
+                    'https://logon-javascript-sdk.herokuapp.com/dist/logonlabs.min.js';
+            }
+
+            var full_list = [
+                {
+                    type: 'microsoft',
+                },
+                {
+                    type: 'google',
+                },
+                {
+                    type: 'facebook',
+                },
+                {
+                    type: 'linkedin',
+                },
+                {
+                    type: 'slack',
+                },
+                {
+                    type: 'github',
+                },
+                {
+                    type: 'quickbooks',
+                },
+                {
+                    type: 'basecamp',
+                },
+                {
+                    type: 'dropbox',
+                },
+                {
+                    type: 'fitbit',
+                },
+                {
+                    type: 'planningcenter',
+                },
+                {
+                    type: 'apple',
+                },
+                {
+                    type: 'twitch',
+                },
+                {
+                    type: 'twitter',
+                },
+                {
+                    type: 'evernote',
+                },
+                {
+                    type: 'shopify',
+                },
+
+                {
+                    type: 'salesforce',
+                },
+            ];
+
+            var e_list = [
+                {
+                    name: 'okta-6601204813awfsdrt',
+                    identity_provider_id: '6c82d2d0371041f0852c7234d2a69916',
+                    type: 'okta',
+                    login_background_hex_color: '#000000',
+                    login_text_hex_color: '#CCCCCC',
+                },
+                {
+                    name: 'M#1',
+                    identity_provider_id: 'b7b8d4dad2af47f383eef632e7947192',
+                    type: 'microsoft',
+                },
+                {
+                    name: 'goooooogle',
+                    identity_provider_id: '33d47595b713483a84e876f289647c99',
+                    type: 'google',
+                    login_background_hex_color: '#FE9200',
+                    login_icon_image_uri:
+                        'https://howielee.com/apple-icon-60x60.png',
+                    login_text_hex_color: '#999999',
+                },
+                {
+                    name: 'onelogin',
+                    identity_provider_id: '44712d7e85fd417dad2b164efacef94f',
+                    type: 'onelogin',
+                },
+                {
+                    name: 'b111',
+                    identity_provider_id: '2c6be14369034fa19880cf64e5edefdf',
+                    type: 'okta',
+                    login_button_image_uri:
+                        'https://howielee.com/sign_in_howie.png',
+                },
+            ];
+
+            var one_provider = [
+                {
+                    type: 'microsoft',
+                },
+                {
+                    type: 'linkedin',
+                },
+                {
+                    type: 'google',
+                },
+                {
+                    type: 'github',
+                },
+                {
+                    type: 'basecamp',
+                },
+                {
+                    type: 'fitbit',
+                },
+                {
+                    type: 'facebook',
+                },
+                {
+                    type: 'dropbox',
+                },
+                {
+                    type: 'evernote',
+                },
+                {
+                    type: 'shopify',
+                },
+                {
+                    type: 'planningcenter',
+                },
+                {
+                    type: 'twitter',
+                },
+                {
+                    type: 'quickbooks',
+                },
+                {
+                    type: 'slack',
+                },
+                {
+                    type: 'apple',
+                },
+                {
+                    type: 'twitch',
+                },
+                {
+                    type: 'okta',
+                },
+
+                {
+                    type: 'salesforce',
+                },
+            ];
+            var some_list = [
+                {
+                    type: 'microsoft',
+                },
+                {
+                    type: 'google',
+                },
+                {
+                    type: 'facebook',
+                },
+                {
+                    type: 'github',
+                },
+
+                {
+                    type: 'salesforce',
+                },
+            ];
+            window.logonAsync = function () {
+                LogonClient.configure({
+                    app_id: app_id,
+                    api_path: 'https://api.logon-dev.com/',
+                    encryption: true,
+                    mobile_workflow: true,
+                });
+                //Logon.api.getProviders('email_address(optional)', function(){});
+                //Logon.api.getAuthorization('google')
+
+                // LogonClient.ui.button('logonlabs', {
+                //     enterprise_identity_providers: e_list
+                // });
+                // LogonClient.ui.button('logonlabs2', { theme: 'icon' });
+
+                LogonClient.ui.button('logonlabs3', {
+                    social_identity_providers: full_list,
+                });
+                LogonClient.ui.button('logonlabs4', {
+                    theme: 'icon',
+                    social_identity_providers: full_list,
+                });
+                //
+                // LogonClient.getProviders(false, function(res){
+                //     if (res.enterprise_identity_providers) {
+                //         let p = res.enterprise_identity_providers;
+                //
+                //         LogonClient.ui.button('logonlabs5', {
+                //             enterprise_identity_providers: p
+                //         });
+                //         LogonClient.ui.button('logonlabs6', {
+                //             theme: 'icon',
+                //             enterprise_identity_providers: p
+                //         });
+                //
+                //     }
+                // });
+
+                // LogonClient.ui.button('logonlabs5', {
+                //     social_identity_providers: full_list
+                // });
+                //
+                // LogonClient.ui.button('logonlabs6', {
+                //     theme: 'icon',
+                //     social_identity_providers: full_list
+                // });
+                /*
+            LogonClient.ui.button('logonlabs7', {
+                identity_providers: [
+                    {
+                        "type": "twitter"
+                    }
+                ]
+            });
+            LogonClient.ui.button('logonlabs8', {
+                theme: 'icon',
+                identity_providers: [
+                    {
+                        "type": "twitter"
+                    }
+                ]
+            });
+            */
+            };
+
+            (function (d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = src;
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'logon-js');
+        </script>
+
+        <script>
+            var loading = function () {
+                document.getElementById('app').innerHTML = app_id;
+            };
+
+            var postResponse = function (text) {
+                document.getElementById('result').innerText = text;
+            };
+
+            var onDecrypt = function () {
+                var code = document.getElementById('decryption').value;
+                var response = LogonClient.decrypt(code);
+                postResponse(response);
+            };
+        </script>
+        <style>
+            body {
+                margin: 0;
+                background: #fff;
+                color: #111;
+            }
+            .content {
+                margin: 8px 24px;
+            }
+            .banner {
+                background-image: url(logonlabs.png);
+                height: 50px;
+                background-repeat: no-repeat;
+                width: 100%;
+                background-size: contain;
+                background-color: #0b0d0f;
+                color: white;
+                line-height: 50px;
+                padding-left: 200px;
+                font-family: MONOSPACE;
+                font-size: 25px;
+            }
+            input[type='text'] {
+                display: block;
+                width: 300px;
+            }
+            input {
+                margin-top: 0.5rem;
+            }
+            form {
+                padding: 1rem 0.5rem;
+                border-left: 1px solid #757575;
+            }
+
+            * {
+                font-weight: 100;
+            }
+
+            .logon-holder {
+                width: 300px;
+                margin-bottom: 1rem;
+            }
+        </style>
+    </head>
+    <body onload="loading()">
+        <div class="banner">JavaScript SDK</div>
+        <div class="content">
+            <h3 id="app"></h3>
+
+            <!--    <h4>providing enterprise providers</h4>-->
+            <!--    <div class="logon-holder" id="logonlabs5"></div>-->
+            <!--    <div class="logon-holder" id="logonlabs6"></div>-->
+
+            <div class="logon-holder" id="logonlabs"></div>
+            <div class="logon-holder" id="logonlabs2"></div>
+            <div class="logon-holder" id="logonlabs3"></div>
+            <div class="logon-holder" id="logonlabs4"></div>
+        </div>
+    </body>
+</html>

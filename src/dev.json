@@ -1,0 +1,21 @@
+{
+  "DEV": false,
+  "DEV_LOCAL": false,
+  "DEV_NO_LOCAL": false,
+  "DEV_HV_LOCAL": false,
+  "DEV_NOT_HV_LOCAL": false,
+  "DEV_LOCAL_SUGGESTION": false,
+  "DEV_NON_SUGGESTION": false,
+  "DEV_SUGGESTION": false,
+  "DEV_EMPTY_PROVIDER": false,
+  "DEV_ONE_PROVIDER": false,
+  "DEV_USER_STATUS": false,
+  "DEV_NEED_INVITE": false,
+  "DEV_NO_INVITE": false,
+  "DEV_RESET_REQUEST": false,
+  "DEV_NEED_DISCOVERY": false,
+  "DEV_NO_DISCOVERY": false,
+  "DEV_PENDING_ON": false,
+  "DEV_PENDING_OFF": false,
+  "DEV_RESPONSE": false
+}

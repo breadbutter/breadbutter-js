@@ -1,0 +1,166 @@
+{
+  "POPUP": {
+    "HEADER_1": "Bienvenido",
+    "HEADER_2": "Bienvenido a %APP_NAME%"
+  },
+  "INCOGNITO": {
+    "TITLE": "Bienvenido"
+  },
+  "REGISTER": {
+    "TITLE": "Bienvenido",
+    "CONTENT": "¿Cómo te gustaría registrarte?",
+    "CONTENT_2": "Regístrese con su correo electrónico",
+    "SSO": "O cree una cuenta con su dirección de correo electrónico y una contraseña",
+    "LOCAL": "Cree una cuenta con su dirección de correo electrónico y una contraseña"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "Confirmación de correo electrónico",
+    "CONTENT": "Se ha enviado un mensaje de confirmación a su dirección de correo electrónico. Ingrese el PIN de ese correo electrónico a continuación"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Se te olvidó tu contraseña",
+    "CONTENT": "Ingrese el correo electrónico que registró con nosotros"
+  },
+  "EXPIRE_PASSWORD": {
+    "TITLE": "Cambia la contraseña",
+    "CONTENT": "Parece que debe restablecer su contraseña. Ingrese el correo electrónico que registró con nosotros"
+  },
+  "NEW_CODE": {
+    "CONTENT_1": "¿No recibió su PIN de confirmación?",
+    "CONTENT_2": "Por favor revise su carpeta de spam",
+    "CONTENT_OR": "o",
+    "CONTENT_3": "para un nuevo código",
+    "BUTTON": "haga clic aquí"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Hola",
+    "CONTENT": "Restablezca su contraseña a continuación"
+  },
+  "LOGIN": {
+    "TITLE": "Hola",
+    "CONTENT": "Por favor, introduzca su dirección de correo electrónico",
+    "CONTENT_2": "Por favor, introduzca su contraseña"
+  },
+  "GREETING": "Hola",
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "Dirección de correo electrónico",
+    "PASSWD": "Contraseña",
+    "PASSWORD": "Crear contraseña",
+    "CONFIRM_PASSWORD": "Confirmar contraseña",
+    "NEW_PASSWORD": "Crear contraseña",
+    "NEW_CONFIRM_PASSWORD": "Confirmar contraseña",
+    "FIRST_NAME": "Nombre de pila",
+    "LAST_NAME": "Apellido",
+    "PIN": "ALFILER"
+  },
+  "BUTTON": {
+    "SIGN_IN_METHOD": "Otros métodos de inicio de sesión",
+    "CONTINUE_WITH": "Continua con",
+    "OR_CONTINUE": "O continuar con",
+    "USE_DIFFERENT_IDP": "Utilice un proveedor de identidad diferente",
+    "SELECT_IDP_SIGN_UP": "Seleccione un proveedor de identidad para registrarse",
+    "MORE": "Mas opciones",
+    "LESS": "Menos opciones",
+    "BACK": "atrás",
+    "EMAIL_INSTRUCTION": "Envíeme instrucciones por correo electrónico",
+    "CANCEL": "Cancelar",
+    "CONTINUE": "Seguir",
+    "SET_PASSWORD": "Restablecer la contraseña",
+    "FORGOT_PASSWORD": "¿Se te olvidó tu contraseña?",
+    "NEW_USER": "¿Nuevo Usuario?",
+    "SWITCH_LOGIN": "¿No tú? Iniciar sesión con una dirección de correo electrónico diferente",
+    "SWITCH_REGISTER": "¿No tú? Regístrese con una dirección de correo electrónico diferente.",
+    "SWITCH_TRY": "¿No tú? Pruebe con una dirección de correo electrónico diferente.",
+    "NEXT": "próximo",
+    "REGISTER": "Registrarse",
+    "SIGN_IN": "Registrarse",
+    "CONFIRM": "Confirmar correo electrónico",
+    "OR_CONTINUE_WITH_EMAIL": "o continúe con su dirección de correo electrónico",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "O regístrese con su dirección de correo electrónico y contraseña",
+    "CONTINUE_WITH_EMAIL": "ingrese su dirección de correo electrónico a continuación"
+  },
+  "HOVER": {
+    "EMAIL_MATCH": "Asegúrese de que la dirección de correo electrónico que utiliza al iniciar sesión sea una que haya sido invitada a registrarse.",
+    "NEW_USER": "Para acceder a este sitio web, primero debe ser invitado a unirse.<br/><br/> Si ha recibido una invitación para unirse, haga clic en el enlace de ese correo electrónico para completar su registro.<br/><br/> Si ha perdido ese mensaje de correo electrónico, comuníquese con la persona que lo invitó originalmente."
+  },
+  "PASSWORD_HINT": {
+    "HAS_VALIDATION": "Tu contraseña debe:",
+    "MINIMUM_ONE": "contener al menos un carácter",
+    "MINIMUM_MORE": "contener al menos %COUNT% caracteres",
+    "LOWER_ONE": "contener al menos una minúscula (az)",
+    "LOWER_MORE": "contener al menos %COUNT% minúsculas (az)",
+    "UPPER_ONE": "contener al menos una mayúscula (AZ)",
+    "UPPER_MORE": "contener al menos %COUNT% mayúscula (AZ)",
+    "SYMBOL_ONE": "contener al menos un símbolo",
+    "SYMBOL_MORE": "contener al menos %COUNT% símbolos",
+    "NUMBER_ONE": "contener al menos un número (0-9)",
+    "NUMBER_MORE": "contener al menos %COUNT% números (0-9)",
+    "NO_EMAIL": "no contiene su nombre o dirección de correo electrónico",
+    "MATCH": "ser ingresado de la misma manera en ambos campos",
+    "NO_OLD_PASSWORD": "Su nueva contraseña debe ser diferente a su contraseña anterior"
+  },
+  "ERROR": {
+    "INLINE": {
+      "TITLE": "Lo siento",
+      "CONFIRM": "Okay"
+    },
+    "EMPTY_TOKEN": {
+      "MESSAGE": "Debes ingresar un PIN"
+    },
+    "EMPTY_FIRST_NAME": {
+      "MESSAGE": "Por favor asegúrese de tener un nombre"
+    },
+    "EMPTY_LAST_NAME": {
+      "MESSAGE": "Por favor asegúrese de tener un apellido"
+    },
+    "VALID_EMAIL": {
+      "TITLE": "Formato de Correo Electrónico",
+      "MESSAGE": "Asegúrate de estar usando una dirección de correo electrónico válida.",
+      "CONFIRM": "Okay"
+    },
+    "PASSWORD_EMPTY": {
+      "TITLE": "Contraseña demasiado corta",
+      "MESSAGE": "porfavor ingrese una contraseña",
+      "CONFIRM": "Okay"
+    },
+    "PASSWORD_LENGTH": {
+      "TITLE": "Contraseña demasiado corta",
+      "MESSAGE": "Ingrese una contraseña de más de %COUNT% caracteres",
+      "CONFIRM": "Okay"
+    },
+    "PASSWORD_NOT_MATCH": {
+      "TITLE": "La contraseña no coincide",
+      "MESSAGE": "Tus contraseñas no coinciden",
+      "CONFIRM": "Okay"
+    },
+    "ACCOUNT_NOT_FOUND": {
+      "TITLE": "Cuenta no encontrada",
+      "MESSAGE": "No pudimos encontrar su cuenta. Si ha sido invitado, haga clic en el enlace del correo electrónico que recibió para completar el registro.",
+      "CONFIRM": "Buscaré mi invitación"
+    },
+    "NON_LOCAL_LOGIN": {
+      "TITLE": "",
+      "MESSAGE": "Has iniciado sesión anteriormente con %PROVIDER%. Confirme que desea establecer una contraseña de cuenta.",
+      "CONFIRM": "Configurar la clave",
+      "CONFIRM_2": "Cancelar"
+    },
+    "NO_PROVIDERS": {
+      "TITLE": "Algo está mal",
+      "MESSAGE": "No hay resultados de los proveedores.",
+      "CONFIRM": "Inténtalo de nuevo"
+    },
+    "API_ERROR": {
+      "TITLE": "Algo está mal",
+      "CONFIRM": "Inténtalo de nuevo"
+    },
+    "NO_PROVIDER": {
+      "TITLE": "No hay proveedores habilitados",
+      "MESSAGE": "Este sitio web no ha habilitado ningún proveedor de identidad ni autenticación local. Comuníquese con el administrador del sitio web para obtener más información.",
+      "CONFIRM": "Okay"
+    }
+  },
+  "RES_MAPPING": {
+    "invalid_pin": "Verifique si tiene el PIN correcto",
+    "invalid_email_or_password": "Asegúrate de estar usando tu última contraseña"
+  }
+}

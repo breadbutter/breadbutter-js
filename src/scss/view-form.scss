@@ -1,0 +1,997 @@
+@import 'theme';
+
+.form-message.hide {
+    display: none;
+}
+
+.breadbutter-register-holder {
+    //display: none;
+}
+
+.breadbutter-forgot {
+    display: none;
+}
+
+.breadbutter-expire {
+    display: none;
+}
+
+.forgot > div {
+    display: none;
+}
+
+.forgot:not(.alert) > div.breadbutter-forgot {
+    display: block;
+}
+
+.expire > div {
+    display: none;
+}
+
+.expire:not(.alert) > div.breadbutter-expire {
+    display: block;
+}
+
+.alert > div,
+.alert > input {
+    display: none;
+}
+
+.alert > div.breadbutter-alert {
+    display: flex;
+}
+
+//.form-options::before {
+//    content: '＋';
+//    border-radius: 1rem;
+//    border: 1px solid black;
+//    width: 1rem;
+//    height: 1rem;
+//    display: inline-block;
+//    margin-right: 0.5rem;
+//    line-height: 0.9rem;
+//    text-align: center;
+//    vertical-align: middle;
+//}
+
+.breadbutter-forms .more-options {
+    display: none !important;
+}
+
+.breadbutter-forms.more .less-options {
+    display: none !important;
+}
+.breadbutter-forms.more .more-options {
+    display: flex !important;
+}
+
+.breadbutter-forms {
+    background: #fff;
+    position: relative;
+}
+
+//.more .form-options::before {
+//    content: '－';
+//}
+//.more-content .form-options::before {
+//    content: '－';
+//}
+//.more-content.less-content .form-options::before {
+//    content: '＋';
+//}
+
+.breadbutter {
+    &-forms > div {
+        position: relative;
+    }
+    &-forms * {
+        position: relative;
+    }
+
+    &-email,
+    &-incognito {
+        background-color: #ffffff;
+        padding: 0;
+        position: relative;
+    }
+
+    &-forgot-form,
+    &-expire-form,
+    &-register,
+    &-reset-title,
+    &-confirm-title,
+    &-alert {
+        background-color: #ffffff;
+        padding: 12px 13px 48px 14px;
+        position: relative;
+    }
+
+    &-forgot-form,
+    &-expire-form,
+    &-register,
+    &-alert,
+    &-reset
+    {
+        .breadbutter-module-poweredby {
+            margin-left: -14px;
+            margin-right: -13px;
+        }
+    }
+    &-forgot
+    {
+        .breadbutter-module-poweredby {
+            margin-left: 14px;
+        }
+    }
+
+    &-forgot-form {
+        padding-bottom: 10px;
+        .form-title {
+            padding: 42px 0 42px;
+        }
+    }
+
+    &-password-validation {
+        background-color: transparent;
+        color: #414042;
+        padding: 20px 0 0 40px;
+        text-align: left;
+        position: relative;
+        width: 260px;
+
+        .form-message {
+            font-style: normal !important;
+            text-align: left !important;
+            margin-top: 0 !important;
+            font-size: 11px !important;
+        }
+    }
+
+    &-reset-title,
+    &-confirm-title {
+        padding-bottom: 5px !important;
+    }
+
+    &-confirm-title {
+        .form-subtitle {
+            font-size: 12px !important;
+            line-height: 17px !important;
+            margin-top: 22px !important;
+        }
+    }
+
+    &-register + .breadbutter-register-holder {
+        margin-top: 1rem;
+    }
+
+    &-switch-login {
+        position: relative;
+        background-color: #ffffff;
+        padding: 15px $view-padding 14px;
+    }
+
+    &-reset-title,
+    &-confirm-title,
+    &-alert {
+        padding-top: 41px;
+        padding-bottom: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-alert {
+        .form-message {
+            padding: 0px 25px;
+        }
+    }
+
+    &-buttons-holder,
+    &-forgot-buttons,
+    &-expire-buttons,
+    &-reset-form,
+    &-confirm-form {
+        background-color: #eeeeee;
+        padding: 20px $view-padding;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .form-password-toggle {
+            //margin-left: 75% !important;
+            //cursor: pointer;
+            //margin-top: -30px;
+            //margin-bottom: 30px;
+        }
+    }
+
+    &-forgot-buttons {
+        background-color: transparent;
+        padding: 15px $view-padding 17px;
+    }
+
+    &-incognito-holder {
+        background-color: #fff;
+        padding: 0 0 0px;
+        display: flex;
+        flex-direction: column;
+        //align-items: center;
+        .breadbutter-module-email-discovery {
+            margin: 0 25px 22.5px;
+        }
+    }
+
+    &-confirm-form {
+        background-color: #fff;
+        padding-top: 0px;
+    }
+
+    &-buttons-holder {
+        background-color: #fff;
+        padding: 10px 0;
+        &.login-provider {
+            margin: 0 -3px;
+            background-color: #fff;
+            * {
+                box-sizing: content-box;
+            }
+        }
+
+        &.register-suggested {
+            background-color: #fff !important;
+            padding: 0px;
+            margin-bottom: 7px !important;
+            .breadbutter-buttons {
+                margin: 0px;
+            }
+        }
+
+        .form-message {
+            margin-top: 10px !important;
+        }
+
+        .suggested-list {
+            .after-suggested {
+                width: 20px;
+                height: 20px;
+                top: 19px;
+                right: -7px;
+                position: absolute;
+                display: none !important;
+
+                svg {
+                    fill: #c3c3c3;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+
+        .suggested-list:not(.local-only) {
+            width: 100%;
+            padding: 0;
+            margin-bottom: 0;
+            align-items: flex-start;
+            justify-content: flex-start;
+            z-index: 1;
+            background-color: #e6e6e6;
+
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+
+            &.collapsed {
+                background-color: initial;
+            }
+            .more {
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
+                //top: -2px;
+                //right: -36px;
+                //bottom: 0;
+            }
+
+            //> div:not(.more-block) {
+            //margin: 6px 5px;
+
+            .after-suggested {
+                top: 10px;
+                right: -25px;
+            }
+        }
+
+        .collapsible {
+            width: 100%;
+            padding: 0px;
+            background-color: $breadbutter-light-grey;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            padding-bottom: 3px;
+            margin-top: -4px;
+            align-items: center;
+
+            > div {
+                width: 100%;
+                > div {
+                    margin: 3px;
+                }
+            }
+        }
+    }
+
+    &-login {
+        padding: 0 13px 0px 14px;
+        .breadbutter-module {
+            &-password {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    &-register,
+    &-register-holder {
+        .form-email {
+            &.form-disabled-email {
+                background: none;
+                border: none;
+            }
+        }
+    }
+
+    &-register-holder {
+        background-color: #fff;
+        padding: 0 13px 0 14px;
+        flex-direction: column;
+        align-items: center;
+
+        .form-email {
+            &.form-disabled-email {
+                margin-top: 10px !important;
+            }
+        }
+
+        & > .form-message {
+            font-size: 14px;
+            padding: 0 30px;
+            margin-top: 0 !important;
+        }
+
+        .form-password-toggle {
+            //margin-left: 75% !important;
+            //cursor: pointer;
+            //margin-top: -30px;
+            //margin-bottom: 30px;
+        }
+
+        .breadbutter-forms.more & {
+            display: flex;
+        }
+    }
+
+    &-login,
+    &-register-holder {
+        .breadbutter-module {
+            &-form-input,
+            &-password {
+                margin-left: 27.5px;
+                margin-right: 20.5px;
+            }
+        }
+    }
+
+    &-incognito {
+        &.confirm > *:not(.breadbutter-confirm) {
+            display: none;
+        }
+
+        .breadbutter-buttons-holder {
+            background-color: #eee;
+            align-items: flex-start;
+            padding: 6px 10px 6px 10px;
+            .breadbutter-buttons {
+                padding: 0;
+            }
+            .form-message {
+                margin-left: 20px;
+                margin-bottom: 8px;
+                text-align: left;
+            }
+            .form-options {
+                color: #707070;
+                text-decoration: underline;
+                background-color: transparent;
+                margin: 8px auto;
+                &.continue-email-address {
+                    cursor: default;
+                    text-decoration: none;
+                    margin: 8px auto 14px auto;
+                }
+            }
+            .form-expand-icon {
+                display: none;
+                border-right: solid 2px #4e5051;
+                border-bottom: solid 2px #4e5051;
+                top: 30px;
+                right: 20px;
+                width: 6px;
+                height: 6px;
+                transform: rotate(45deg);
+                position: absolute;
+                cursor: pointer;
+            }
+        }
+
+        .breadbutter-incognito-holder {
+            .breadbutter-incognito-login,
+            .breadbutter-incognito-register {
+                display: none;
+            }
+
+            .breadbutter-incognito-login,
+            breadbutter-incognito-register {
+                display: none;
+            }
+
+            .form-switch-login,
+            .form-options {
+                display: none;
+            }
+
+            &.more-content {
+                &.less-content {
+                    padding: 0;
+                }
+                &.less-content > *:not(.form-options) {
+                    display: none;
+                }
+                .form-options {
+                    display: block;
+                }
+            }
+            &.login,
+            &.register {
+                .form-incognito-next {
+                    display: none;
+                }
+                .form-switch-login {
+                    display: block;
+                }
+            }
+            &.login {
+                .breadbutter-incognito-login {
+                    display: block;
+                }
+            }
+            &.register {
+                .breadbutter-incognito-register {
+                    display: block;
+                }
+            }
+        }
+
+        .form-register {
+            margin: 26px 40px !important;
+        }
+    }
+}
+
+:not(.breadbutter-popup-holder) > .breadbutter-ui {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 64px 0 rgba(0, 0, 0, 0.2);
+}
+
+.breadbutter-ui {
+    width: 375px;
+    button {
+        &.form-next,
+        &.form-incognito-next {
+            height: 40px;
+            background-color: $breadbutter-blue;
+            color: #ffffff;
+            font-weight: 600;
+            border: 1px solid $breadbutter-blue;
+            border-radius: 4px;
+            margin: 26px 10px 10px;
+        }
+
+        &.form-forgot-reset {
+            background-color: #50aff5;
+            color: #ffffff;
+            font-weight: 600;
+            border: 1px solid #50aff5;
+            border-radius: 4px;
+            margin: 0 10px 10px;
+            width: 100%;
+        }
+
+        &.form-options {
+            background-color: #fff;
+            color: $breadbutter-dark-grey2;
+            font-size: 13px;
+            line-height: 1.455;
+            border: none;
+            padding: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+
+            svg {
+                margin-right: 4px;
+                fill: $breadbutter-grey;
+            }
+        }
+
+        &.form-register,
+        &.form-login,
+        &.form-reset-password,
+        &.form-confirm-email,
+        &.form-alert-confirm {
+            height: 40px;
+            background-color: #50aff5;
+            color: #ffffff;
+            border: 1px solid #50aff5;
+            border-radius: 5px;
+            margin: 26px 0px 0px;
+            width: 100%;
+        }
+
+        &.form-alert-confirm {
+            width: 100%;
+            margin: 26px 0px 0px;
+        }
+
+        &.form-cancel,
+        &.form-alert-confirm-2 {
+            background-color: transparent;
+            border: none;
+            color: #c3c3c3;
+            text-decoration: underline;
+            margin: 10px 10px 0;
+            width: 100%;
+        }
+        &.form-cancel {
+            margin: 10px 0px 10px;
+        }
+        &.disabled {
+            background-color: #989898;
+            border: 1px solid #989898;
+        }
+    }
+
+    .form-email {
+        margin-top: 34px;
+        &.form-disabled-email {
+            background-color: transparent !important;
+            color: #414042 !important;
+            font-size: 16px;
+            line-height: 0.88;
+            text-align: center;
+            border: none;
+            margin-top: -10px;
+        }
+    }
+
+    .form-back,
+    .form-forgot,
+    .form-expire,
+    .form-switch-login,
+    .form-new-user {
+        min-width: initial;
+        background-color: transparent;
+        color: #50aff5;
+        font-size: 11px;
+        line-height: 1.5;
+        border: none;
+        padding: 5px 10px;
+        margin: 5px 10px;
+        display: inline;
+    }
+
+    .form-more-information {
+        min-width: initial;
+        background-color: transparent;
+        color: rgba(112, 112, 112, 0.5);
+        font-size: 12px;
+        line-height: 1.5;
+        border: none;
+        padding: 19px 10px 19px 10px;
+        margin: 0px auto;
+        display: inline;
+        left: 50%;
+        margin-left: -75px;
+        width: 150px;
+
+        &::before {
+            content: 'i';
+            color: white;
+            background-color: rgba(112,112,112,0.5);
+            border-radius: 50%;
+            width: 18px;
+            display: inline-block;
+            height: 18px;
+            vertical-align: middle;
+            text-align: center;
+            margin-right: 6px;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+
+    .breadbutter-module-more-information {
+        display: none !important;
+    }
+
+    .form-switch-login,
+    .form-new-user {
+        text-align: left;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0 0 0 20px;
+        display: block;
+    }
+
+    .form-message,
+    .form-sub-message {
+        font-size: 13px;
+        //font-style: italic;
+        line-height: 1.38;
+        text-align: center;
+        color: #707070;
+
+        &.in_provider {
+            height: 18px;
+            color: $breadbutter-grey;
+            font-size: 12px;
+            line-height: 18px;
+            margin-top: 0 !important;
+            margin-bottom: 15px;
+        }
+
+        .break {
+            display: block;
+        }
+
+        .link {
+            color: #50aff5;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        &.new_code {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+    }
+
+    .form-message {
+        font-size: 13px;
+        margin-top: 22px;
+        margin-bottom: 10px;
+    }
+
+    .form-next-holder,
+    .form-login-holder,
+    .form-register-holder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 37px;
+        margin: 10px 0 0;
+    }
+    .form-login-holder {
+        .breadbutter-ui-loader-holder {
+            width: auto !important;
+            width: height !important;
+        }
+    }
+
+    .form-subtitle,
+    .form-subtitle-error {
+        color: #414042;
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        margin: auto;
+    }
+    .form-subtitle-error {
+        display: none;
+    }
+
+    .breadbutter-confirm {
+        .form-subtitle {
+            padding: 9px 38px 0;
+        }
+    }
+
+    .form-title,
+    .form-title-error {
+        color: #414042;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.44;
+        text-align: center;
+        margin: 0;
+    }
+
+    .form-title-error {
+        display: none;
+    }
+
+    .form-hint-title {
+        padding-bottom: 14px;
+    }
+
+    .form-hint {
+        font-size: 11px;
+        line-height: 15px;
+        padding-bottom: 2px;
+        color: #afafaf;
+
+        &::before {
+            content: '•';
+            padding-right: 5px;
+        }
+
+        &.pass {
+            color: $breadbutter-green !important;
+            &::before {
+                content: '✓';
+            }
+        }
+        &.fail {
+            color: #ec1c24 !important;
+            &::before {
+                content: '×';
+            }
+        }
+    }
+
+    .form-error-message {
+        color: $breadbutter-red;
+        font-size: 12px;
+        line-height: 17px;
+        text-align: center;
+        width: 225px;
+        margin: 13px auto 0;
+    }
+
+    //.breadbutter-register-holder .form-hint {
+    //    color: #fff;
+    //}
+
+    .form-token-pin {
+        margin-top: 8px;
+        display: flex;
+
+        .form-pin {
+            height: 40px;
+            width: 30px;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 2px;
+            padding: 5px;
+            margin-left: 15px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+        &.error {
+            .form-pin {
+                border: 1px solid #ec1c24 !important;
+                color: #ec1c24 !important;
+            }
+        }
+    }
+
+    .form-password-toggle {
+        //margin-left: -30px;
+        cursor: pointer;
+        position: absolute;
+        svg {
+            width: 25px;
+            position: absolute;
+            fill: #989898;
+            top: 0;
+            right: 17px;
+            &.sight {
+                display: none;
+            }
+        }
+
+        &.sight {
+            svg {
+                &.visible {
+                    display: none;
+                }
+                &.sight {
+                    display: block;
+                }
+            }
+        }
+    }
+    .breadbutter {
+        &-reset-form {
+            background-color: #fff;
+            padding-top: 10px;
+
+            .form-email {
+                margin-top: 0;
+            }
+        }
+
+        &-reset {
+            padding: 0 13px 0 14px;
+
+
+            .breadbutter-module-password {
+                padding: 0 20px;
+            }
+        }
+
+        &-register {
+            padding-bottom: 0px;
+            button {
+                &.form-options {
+                    background-color: #eeeeee;
+                    text-decoration: underline;
+                    color: #707070 !important;
+                    padding: 10px 0px 20px 0px;
+                }
+            }
+
+            .breadbutter-buttons-holder {
+                background-color: #eeeeee;
+                padding: 10px 10px 0px 11px;
+                margin: 0 -13px 0 -14px;
+                .form-message {
+                    margin-bottom: 3px;
+                }
+                .breadbutter-buttons {
+                    padding: 0px;
+                    margin: 0px;
+                    &.icon {
+                        margin-top: 11px;
+                    }
+                }
+            }
+        }
+    }
+
+    input {
+        &.error {
+            border-color: #ec1c24;
+        }
+    }
+}
+
+.error {
+    //.form-title {
+    //  display: none;
+    //}
+    //
+    //.form-title-error {
+    //  display: block;
+    //}
+    //
+    //.form-subtitle {
+    //  display: none;
+    //}
+    //
+    //.form-subtitle-error {
+    //  display: block;
+    //}
+    //
+    //.form-sub-message {
+    //  display: none;
+    //}
+}
+.breadbutter-module-email-discovery {
+    position: relative;
+    padding: 15px;
+    margin: 0 25px;
+
+    .form-email {
+        margin-top: 0;
+        padding: 8px 28px 8px 14px;
+        border-radius: 0;
+        border: 1px solid #eeeef0;
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        background: none;
+        background-color: rgba(0, 0, 0, 0) !important;
+
+        &.focus {
+            border-color: #50aff5;
+
+            & + .form-next-icon {
+                background: #50aff5;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        }
+    }
+
+    .form-next-icon {
+        position: absolute;
+        right: 18px;
+        top: 21px;
+        height: 24px;
+        cursor: pointer;
+        svg {
+            width: 12px;
+            height: 12px;
+            margin: 6px;
+            fill: #878787;
+        }
+        background: #eeeef0;
+        &:hover {
+            background: #50aff5;
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+
+    &.error {
+        .form-email {
+            border-color: #ec1c24;
+        }
+    }
+    &.form-disabled-email {
+        .form-email {
+            background-color: transparent !important;
+            color: #414042 !important;
+            font-size: 16px;
+            line-height: 0.88;
+            text-align: center;
+            border: none;
+            margin-top: 0;
+        }
+        .form-next-icon {
+            display: none;
+        }
+    }
+}
+.breadbutter-module-header-discovery {
+    padding: 42px 0 42px;
+}
+
+.breadbutter-module-half-spacer {
+    padding: 10px 0;
+}
+
+.breadbutter-module-spacer {
+    padding: 21px 0;
+}
+
+.breadbutter-module-password {
+    position: relative;
+    .form-password-toggle {
+        svg {
+            right: 0px;
+            top: 17px;
+        }
+    }
+}
+
+.breadbutter-login {
+    position: relative;
+    .breadbutter-module-password {
+        display: none;
+    }
+    &.local-login {
+        .no-local {
+            display: none;
+        }
+        .breadbutter-module-password {
+            display: block;
+        }
+    }
+}
+
+

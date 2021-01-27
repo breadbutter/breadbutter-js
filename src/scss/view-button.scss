@@ -1,0 +1,1119 @@
+@import 'theme';
+//@import 'scss/mixins/breadbutter-buttons-type';
+
+.breadbutter-buttons button {
+    background: #fefefe;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 1rem;
+    padding: 1rem;
+    width: 7rem;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.breadbutter-buttons button:focus {
+    outline: 0;
+}
+
+.breadbutter-buttons {
+    color: #3c3c3c;
+    font-family: 'Open Sans', Arial;
+    font-size: 16px !important;
+    padding: 4px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.breadbutter-buttons * {
+    box-sizing: content-box;
+    position: relative;
+}
+
+.breadbutter-buttons.collapsed > div {
+    display: none;
+}
+
+.breadbutter-buttons.suggested-list.collapsed > div {
+    display: block;
+}
+
+.breadbutter-buttons.collapsed > div.first {
+    display: block;
+}
+
+.breadbutter-buttons {
+    .more {
+        width: 28px;
+        height: 40px;
+        background-color: $breadbutter-light-grey;
+        line-height: 40px;
+        border-radius: 4px;
+        //padding: 0 10px;
+        top: 0;
+        z-index: 1;
+        right: 0px;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            fill: $breadbutter-dark-grey;
+            transform: rotateZ(180deg);
+        }
+        //&:after {
+        //    content: '▲';
+        //    color: $breadbutter-dark-grey;
+        //    font-size: 15px;
+        //}
+    }
+
+    &.collapsed .more {
+        background-color: $breadbutter-dark-grey;
+
+        svg {
+            fill: #ffffff;
+            transform: rotateZ(0deg);
+        }
+        //&:after {
+        //    content: '▼';
+        //    color: #fff;
+        //    font-size: 15px;
+        //}
+    }
+}
+
+.breadbutter-buttons .more-block {
+    position: absolute;
+}
+
+.breadbutter-buttons:not(.local-only) .more-block {
+    display: block !important;
+}
+
+.breadbutter-buttons.local-only .more-block {
+    display: none !important;
+}
+
+.breadbutter-buttons:not(.icon) {
+    margin: 0 auto;
+}
+
+.breadbutter-buttons > div {
+    cursor: pointer;
+}
+
+.breadbutter-buttons.icon {
+    display: flex;
+    flex-direction: row;
+    background: none;
+    padding: 0 23px;
+    margin: 15px auto 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.breadbutter-buttons.error {
+    background: #f7f7f7;
+    display: block;
+}
+
+.breadbutter-buttons .footer {
+    list-style: none;
+    padding-inline-start: 0.5rem;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+}
+
+.breadbutter-buttons .footer svg {
+    height: 1rem;
+    vertical-align: top;
+    margin-right: 0.5rem;
+}
+
+.breadbutter-buttons .message {
+    color: #ff4441;
+}
+
+/*
+.google {
+  border-radius: 1px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+  box-sizing: border-box;
+  transition: background-color .218s, border-color .218s, box-shadow .218s;
+  background-color: #fff;
+  background-image: none;
+  color: #262626;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: auto;
+}
+ */
+
+.breadbutter-buttons .enterprise:hover {
+    opacity: 0.65;
+}
+
+.breadbutter-buttons {
+    .item {
+        border: none;
+        border-radius: 2px;
+        //box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .4);
+    }
+    &.round {
+        .item {
+            border-radius: 50%;
+        }
+        .custom-icon {
+            border-radius: 50%;
+        }
+    }
+}
+
+.breadbutter-buttons:not(.icon) {
+    & > div {
+        height: 40px;
+        width: 100%;
+        margin: 3px 0;
+        > div {
+            margin: 0 3px;
+        }
+
+        .item {
+            border: none;
+            border-radius: 2px;
+            //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
+        }
+
+        .wrapper {
+            border: none;
+            border-radius: 4px;
+            //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
+            height: 38px;
+            text-align: center;
+
+            .icon {
+                margin: 7px 10px 7px 10px;
+                float: left;
+                width: 24px;
+                height: 24px;
+                position: absolute;
+
+                &.medium {
+                    svg {
+                        margin: 2px;
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                &.small {
+                    svg {
+                        margin: 3px;
+                        width: 18px;
+                        height: 18px;
+                    }
+                }
+            }
+
+            span {
+                font-family: 'Open Sans';
+                //font-weight: 500;
+                letter-spacing: 0.25px;
+                vertical-align: top;
+                font-size: 12px;
+                line-height: 40px;
+            }
+        }
+    }
+
+    & > div:not(.enterprise) {
+        .wrapper {
+            border: none;
+            border-radius: 4px;
+            //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
+            height: 38px;
+            text-align: center;
+
+            span {
+                font-size: 12px;
+                //font-weight: 500;
+                letter-spacing: 0.25px;
+                line-height: 40px;
+                vertical-align: top;
+                margin-left: 2px;
+            }
+        }
+
+        .microsoft {
+            span {
+                font-family: 'Selawik', 'Segoe UI', Arial !important;
+            }
+
+            .wrapper {
+                background-color: #fff;
+                color: #797a79;
+                border: 1px solid #e6e6e6;
+            }
+
+            .icon {
+            }
+        }
+
+        .google {
+            span {
+                font-family: Roboto, 'Arial' !important;
+                font-weight: 600;
+            }
+            /* background-color: #4285f4; */
+            .wrapper {
+                background-color: #fff;
+                color: rgba(0, 0, 0, 0.54);
+                border: 1px solid #e6e6e6;
+            }
+
+            .icon {
+            }
+        }
+
+        .facebook {
+            span {
+                font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
+                    'Arial' !important;
+                font-weight: 400;
+                margin-left: 0px;
+            }
+            .wrapper {
+                background-color: #227aed;
+                border: 1px solid #227aed;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .apple {
+            span {
+                font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
+                    'Arial' !important;
+                font-weight: 600;
+            }
+            .wrapper {
+                background-color: #000;
+                border: 1px solid #000;
+                color: #fff;
+            }
+            .icon {
+            }
+        }
+
+        .linkedin {
+            .wrapper {
+                background-color: #fff;
+                color: #797a79;
+                border: 1px solid #e6e6e6;
+            }
+
+            .icon {
+                fill: #2f7ab1;
+            }
+        }
+
+        .github {
+            .wrapper {
+                background-color: #444;
+                border: 1px solid #444;
+                color: #fff;
+            }
+
+            .icon {
+                fill: #fff;
+            }
+        }
+
+        .basecamp {
+            .wrapper {
+                background-color: #1d2d35;
+                border: 1px solid #1d2d35;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .fitbit {
+            .wrapper {
+                background-color: #002a3a;
+                color: #fff;
+                border: 1px solid #002a3a;
+            }
+
+            .icon {
+            }
+        }
+
+        .dropbox {
+            .wrapper {
+                background-color: #0061ff;
+                border: 1px solid #0061ff;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .evernote {
+            .wrapper {
+                border: 1px solid #00a82d;
+                background-color: #00a82d;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .shopify {
+            .wrapper {
+                border: 1px solid #95bf47;
+                background-color: #95bf47;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .planningcenter {
+            span {
+                margin-left: -6px;
+            }
+            .wrapper {
+                background-color: #2266f7;
+                border: 1px solid #2266f7;
+                color: #fff;
+            }
+
+            .icon {
+            }
+        }
+
+        .twitter {
+            .wrapper {
+                background-color: #3399ff;
+                border: 1px solid #3399ff;
+                color: #fff;
+            }
+            .icon {
+                fill: #fff;
+            }
+        }
+
+        .slack {
+            .wrapper {
+                background-color: #fff;
+                color: #393a3f;
+                border: 1px solid #e6e6e6;
+                b {
+                    font-weight: 800;
+                }
+            }
+            .icon {
+            }
+        }
+        .salesforce {
+            .wrapper {
+                background-color: #fff;
+                color: #797a79;
+                border: 1px solid #e6e6e6;
+                b {
+                    font-weight: 800;
+                }
+            }
+            .icon {
+            }
+        }
+
+        .quickbooks {
+            span {
+                margin-left: -1px;
+            }
+
+            .wrapper {
+                background-color: #2ca01c;
+                border: 1px solid #2ca01c;
+                color: #fff;
+            }
+
+            .icon {
+                fill: #fff;
+            }
+        }
+
+        .twitch {
+            .wrapper {
+                background-color: #9146ff;
+                border: 1px solid #9146ff;
+                color: #fff;
+            }
+
+            .icon {
+                fill: #000;
+            }
+        }
+
+        .local:not(.green) {
+            .wrapper {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+                color: #797a79;
+            }
+
+            .icon {
+                background: #555555;
+                border-radius: 50%;
+                fill: #ffffff;
+
+                svg {
+                    width: 12px;
+                    height: 12px;
+                    margin-top: 5px;
+                    vertical-align: inherit;
+                }
+            }
+        }
+
+        .local.green {
+            .wrapper {
+                background-color: $breadbutter-green;
+                border: 1px solid $breadbutter-green;
+                color: #fff;
+
+                span {
+                    font-weight: 600;
+                    margin-left: 0;
+                }
+            }
+            .icon {
+                margin: 7px 10px 7px 5px;
+                fill: #fff;
+                svg {
+                    height: 16.6px;
+                    margin-top: 4px;
+                }
+            }
+        }
+    }
+}
+
+.breadbutter-buttons:not(.icon) {
+    & > div:not(.enterprise):hover {
+        .microsoft {
+            .wrapper {
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+                color: #797a79;
+            }
+        }
+
+        .linkedin {
+            .wrapper {
+                background-color: #2f7ab1;
+                border: 1px solid #2f7ab1;
+                color: #ffffff;
+            }
+            .icon {
+                fill: #fff;
+            }
+        }
+
+        .google {
+            .wrapper {
+                background-color: #3e82f1;
+                border: 1px solid #3e82f1;
+                color: #fff;
+            }
+            .icon {
+                background: #fff;
+                border-radius: 2px;
+                height: 24px;
+                width: 24px;
+                margin: 1px;
+                padding: 5px 8px 7px;
+                float: left;
+            }
+        }
+
+        .github {
+            .wrapper {
+                background-color: #5f6060;
+                border: 1px solid #5f6060;
+            }
+        }
+
+        .basecamp {
+            .wrapper {
+                background-color: #31474f;
+                border: 1px solid #31474f;
+            }
+        }
+
+        .fitbit {
+            .wrapper {
+                background-color: #06475b;
+                border: 1px solid #06475b;
+            }
+        }
+
+        .facebook {
+            .wrapper {
+                background-color: #5e9ef2;
+                border: 1px solid #5e9ef2;
+            }
+        }
+
+        .dropbox {
+            .wrapper {
+                background-color: #044bb2;
+                border: 1px solid #044bb2;
+            }
+        }
+
+        .evernote {
+            .wrapper {
+                background-color: #077020;
+                border: 1px solid #077020;
+            }
+        }
+
+        .shopify {
+            .wrapper {
+                background-color: #6a8432;
+                border: 1px solid #6a8432;
+            }
+        }
+
+        .planningcenter {
+            .wrapper {
+                background-color: #1e51ad;
+                border: 1px solid #1e51ad;
+            }
+        }
+
+        .twitter {
+            .wrapper {
+                background-color: #2778ba;
+                border: 1px solid #2778ba;
+            }
+        }
+
+        .slack {
+            .wrapper {
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+            }
+        }
+
+        .salesforce {
+            .wrapper {
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+            }
+        }
+        .quickbooks {
+            .wrapper {
+                background-color: #145907;
+                border: 1px solid #145907;
+            }
+        }
+
+        .twitch {
+            .wrapper {
+                background-color: #5511bf;
+                border: 1px solid #5511bf;
+            }
+        }
+
+        .apple {
+            .wrapper {
+                background-color: #464646;
+                border: 1px solid #464646;
+            }
+        }
+
+        .local {
+            .wrapper {
+                background-color: #f1f1f1;
+                border: 1px solid #f1f1f1;
+            }
+        }
+
+        .local.green {
+            .wrapper {
+                background-color: #53913c;
+                border: 1px solid #53913c;
+            }
+        }
+    }
+}
+
+.breadbutter-buttons.icon {
+    > div:not(.enterprise) {
+        .item {
+            flex: 1;
+            padding: 0;
+            //margin: 0 0.25em 0.25em 0;
+            height: 40px;
+            width: 40px;
+            svg {
+                height: 24px;
+                width: 24px;
+                position: absolute;
+                margin: 8px;
+            }
+            &[data-name='microsoft'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+                svg {
+                }
+            }
+            &[data-name='linkedin'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+                svg {
+                    fill: #2f7ab1;
+                }
+            }
+            &[data-name='google'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+                svg {
+                    height: 20px;
+                    width: 20px;
+                    margin: 10px;
+                }
+            }
+            &[data-name='github'] {
+                background-color: #444;
+                border: 1px solid #444;
+                svg {
+                    fill: #fff;
+                }
+            }
+            &[data-name='basecamp'] {
+                background-color: #1d2d35;
+                border: 1px solid #1d2d35;
+                svg {
+                    fill: #fff;
+                }
+            }
+            &[data-name='fitbit'] {
+                background-color: #002a3a;
+                border: 1px solid #002a3a;
+                svg {
+                }
+            }
+            &[data-name='facebook'] {
+                background-color: #227aed;
+                border: 1px solid #227aed;
+                svg {
+                }
+            }
+            &[data-name='dropbox'] {
+                background-color: #0061ff;
+                border: 1px solid #0061ff;
+                svg {
+                }
+            }
+            &[data-name='evernote'] {
+                background-color: #00a82d;
+                border: 1px solid #00a82d;
+                svg {
+                }
+            }
+            &[data-name='shopify'] {
+                background-color: #95bf47;
+                border: 1px solid #95bf47;
+                svg {
+                }
+            }
+            &[data-name='planningcenter'] {
+                background-color: #2266f7;
+                border: 1px solid #2266f7;
+                svg {
+                }
+            }
+            &[data-name='twitter'] {
+                background-color: #3399ff;
+                border: 1px solid #3399ff;
+                svg {
+                    fill: #fff;
+                }
+            }
+            &[data-name='quickbooks'] {
+                background-color: #2ca01c;
+                border: 1px solid #2ca01c;
+                svg {
+                    fill: #fff;
+                }
+            }
+            &[data-name='slack'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+            }
+            &[data-name='salesforce'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+            }
+            &[data-name='apple'] {
+                background-color: #000;
+                border: 1px solid #000;
+            }
+            &[data-name='twitch'] {
+                background-color: #9146ff;
+                border: 1px solid #9146ff;
+            }
+            &[data-name='local'] {
+                background-color: #fff;
+                border: 1px solid #e6e6e6;
+            }
+        }
+    }
+}
+
+.breadbutter-buttons.icon {
+    & > div:not(.enterprise):hover {
+        .item {
+            &[data-name='microsoft'] {
+                background-color: #f1f1f1;
+                border: 1px solid #f1f1f1;
+            }
+
+            &[data-name='linkedin'] {
+                background-color: #2f7ab1;
+                border: 1px solid #2f7ab1;
+                svg {
+                    fill: #fff;
+                }
+            }
+
+            &[data-name='google'] {
+                background-color: #3e82f1;
+                border: 1px solid #3e82f1;
+                svg {
+                    background: #fff;
+                    margin: 2px;
+                    padding: 8px;
+                }
+            }
+
+            &[data-name='github'] {
+                background-color: #5f6060;
+                border: 1px solid #5f6060;
+            }
+
+            &[data-name='basecamp'] {
+                background-color: #31474f;
+                border: 1px solid #31474f;
+            }
+
+            &[data-name='fitbit'] {
+                background-color: #06475b;
+                border: 1px solid #06475b;
+            }
+
+            &[data-name='facebook'] {
+                background-color: #5e9ef2;
+                border: 1px solid #5e9ef2;
+            }
+
+            &[data-name='dropbox'] {
+                background-color: #044bb2;
+                border: 1px solid #044bb2;
+            }
+
+            &[data-name='evernote'] {
+                background-color: #077020;
+                border: 1px solid #077020;
+            }
+
+            &[data-name='shopify'] {
+                background-color: #6a8432;
+                border: 1px solid #6a8432;
+            }
+
+            &[data-name='planningcenter'] {
+                background-color: #1e51ad;
+                border: 1px solid #1e51ad;
+            }
+
+            &[data-name='twitter'] {
+                background-color: #2778ba;
+                border: 1px solid #2778ba;
+            }
+
+            &[data-name='slack'] {
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+            }
+
+            &[data-name='salesforce'] {
+                background-color: #f4f4f4;
+                border: 1px solid #f4f4f4;
+            }
+            &[data-name='quickbooks'] {
+                background-color: #145907;
+                border: 1px solid #145907;
+            }
+
+            &[data-name='twitch'] {
+                background-color: #5511bf;
+                border: 1px solid #5511bf;
+            }
+
+            &[data-name='apple'] {
+                background-color: #464646;
+                border: 1px solid #464646;
+            }
+
+            &[data-name='local'] {
+                background-color: #f1f1f1;
+                border: 1px solid #f1f1f1;
+            }
+        }
+    }
+}
+
+.breadbutter-buttons {
+    &:not(.icon) {
+        .enterprise {
+            .custom-button {
+                height: 40px;
+                padding: 0;
+                margin: 0;
+                background-position: center;
+                background-size: 100% 100%;
+                background-color: transparent;
+            }
+            > div {
+                .wrapper {
+                    .icon-holder {
+                        border-radius: 0;
+                        margin: 7px 8px 9px 8px;
+                        width: 18px;
+                        height: 18px;
+                        padding: 3px;
+                        position: absolute;
+                        left: 0px;
+                        .icon {
+                            margin: 0;
+                            width: 18px;
+                            height: 18px;
+                        }
+                        svg {
+                            width: 18px;
+                            height: 18px;
+                        }
+                        .custom-icon {
+                            width: 18px;
+                            height: 18px;
+                            background-position: center;
+                            background-size: 100% 100%;
+                            background-color: transparent;
+                        }
+                    }
+
+                    span {
+                        //width: 150px;
+                        height: 40px;
+                        overflow: hidden;
+                        display: block;
+                        line-height: 40px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        padding: 0 5px;
+                        text-overflow: ellipsis;
+                    }
+                }
+                &.okta {
+                    .wrapper {
+                        color: #007dc1;
+                        background-color: #fff;
+                        border: 1px solid #e6e6e6;
+                        svg {
+                            fill: #007dc1;
+                        }
+                    }
+                }
+                &.onelogin {
+                    .wrapper {
+                        background-color: #1c1f2a;
+                        border: 1px solid #e6e6e6;
+                        color: #fff;
+                    }
+                }
+                &.microsoft {
+                    .wrapper {
+                        color: #8c8c8c;
+                        background-color: #fff;
+                        border: 1px solid #e6e6e6;
+                        span {
+                            font-family: 'Selawik', 'Segoe UI', Arial !important;
+                        }
+                    }
+                }
+                &.google {
+                    .wrapper {
+                        background-color: #fff;
+                        border: 1px solid #e6e6e6;
+                        color: #8c8c8c;
+                        span {
+                            font-weight: 600;
+                            font-family: Roboto, Arial !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.icon {
+        > div {
+            margin: 0 9px 16px 9px;
+        }
+
+        .enterprise {
+            display: flex;
+
+            .custom-icon {
+                height: 40px;
+                width: 40px;
+                padding: 0;
+                background-position: center;
+                background-size: 100% 100%;
+                background-color: transparent;
+                border: 1px solid #e6e6e6;
+            }
+
+            .item {
+                flex: 1;
+                padding: 0;
+                height: 40px;
+                width: 40px;
+                border: 1px solid #e6e6e6;
+
+                svg {
+                    fill: transparent;
+                    height: 30px;
+                    width: 30px;
+                    vertical-align: top;
+                    margin: 10px;
+                }
+                span {
+                    width: 40px;
+                    font-weight: 400;
+                    line-height: 42px;
+                    vertical-align: top;
+                    display: inline-block;
+                    text-align: center;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+                &[data-name='okta'] {
+                    background-color: #f7f7f7;
+                    border: 1px solid #f7f7f7;
+                    color: #007dc1;
+                }
+                &[data-name='onelogin'] {
+                    background-color: #1c1f2a;
+                    border: 1px solid #1c1f2a;
+                    color: #fff;
+                }
+                &[data-name='google'] {
+                    background-color: #4285f4;
+                    border: 1px solid #4285f4;
+                    color: #fff;
+                }
+                &[data-name='microsoft'] {
+                    background-color: #fff;
+                    border: 1px solid #e6e6e6;
+                    color: #8c8c8c;
+                }
+            }
+        }
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.apple :not(.enterprise) .apple,
+.basecamp :not(.enterprise) .basecamp,
+.dropbox :not(.enterprise) .dropbox,
+.facebook :not(.enterprise) .facebook,
+.fitbit :not(.enterprise) .fitbit,
+.github :not(.enterprise) .github,
+.linkedin :not(.enterprise) .linkedin,
+.okta :not(.enterprise) .okta,
+.onelogin :not(.enterprise) .onelogin,
+.planningcenter :not(.enterprise) .planningcenter,
+.quickbooks :not(.enterprise) .quickbooks,
+.slack :not(.enterprise) .slack,
+.twitch :not(.enterprise) .twitch,
+.twitter :not(.enterprise) .twitter,
+.keycloak :not(.enterprise) .keycloak,
+.salesforce :not(.enterprise) .salesforce,
+.local :not(.enterprise) .local,
+.microsoft :not(.enterprise) .microsoft,
+.google :not(.enterprise) .google {
+    &::before {
+        content: ' ';
+        border-radius: 1rem;
+        background-color: #777;
+        display: block;
+        position: absolute;
+        top: 14px;
+        left: -20px;
+        width: 15px;
+        height: 15px;
+        box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3) inset;
+    }
+}
+
+.apple [name='apple']:not(.enterprise),
+.basecamp [name='basecamp']:not(.enterprise),
+.dropbox [name='dropbox']:not(.enterprise),
+.facebook [name='facebook']:not(.enterprise),
+.fitbit [name='fitbit']:not(.enterprise),
+.github [name='github']:not(.enterprise),
+.linkedin [name='linkedin']:not(.enterprise),
+.okta [name='okta']:not(.enterprise),
+.onelogin [name='onelogin']:not(.enterprise),
+.planningcenter [name='planningcenter']:not(.enterprise),
+.quickbooks [name='quickbooks']:not(.enterprise),
+.slack [name='slack']:not(.enterprise),
+.twitch [name='twitch']:not(.enterprise),
+.twitter [name='twitter']:not(.enterprise),
+.keycloak [name='keycloak']:not(.enterprise),
+.salesforce [name='salesforce']:not(.enterprise),
+.local [name='local']:not(.enterprise),
+.microsoft [name='microsoft']:not(.enterprise),
+.google [name='google']:not(.enterprise) {
+    display: none;
+}
+.breadbutter-buttons.round.icon>div:not(.enterprise):hover .item[data-name='google'] svg {
+    border-radius: 50%;
+}

@@ -1,0 +1,166 @@
+{
+  "POPUP": {
+    "HEADER_1": "Bienvenue",
+    "HEADER_2": "Bienvenue dans %APP_NAME%"
+  },
+  "INCOGNITO": {
+    "TITLE": "Bienvenue"
+  },
+  "REGISTER": {
+    "TITLE": "Bienvenue",
+    "CONTENT": "Comment souhaitez-vous vous inscrire?",
+    "CONTENT_2": "Inscrivez-vous avec votre email",
+    "SSO": "Ou créez un compte avec votre adresse e-mail et un mot de passe",
+    "LOCAL": "Créez un compte avec votre adresse e-mail et un mot de passe"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "Confirmation de l&#39;émail",
+    "CONTENT": "Un message de confirmation a été envoyé à votre adresse e-mail. Veuillez saisir le code PIN de cet e-mail ci-dessous"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Mot de passe oublié",
+    "CONTENT": "Entrez l&#39;e-mail que vous avez enregistré avec nous"
+  },
+  "EXPIRE_PASSWORD": {
+    "TITLE": "Changer le mot de passe",
+    "CONTENT": "Il semble que votre mot de passe doit être réinitialisé. Entrez l&#39;e-mail que vous avez enregistré avec nous"
+  },
+  "NEW_CODE": {
+    "CONTENT_1": "Vous n&#39;avez pas reçu votre code PIN de confirmation?",
+    "CONTENT_2": "Veuillez vérifier votre dossier spam",
+    "CONTENT_OR": "ou",
+    "CONTENT_3": "pour un nouveau code",
+    "BUTTON": "cliquez ici"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Bonjour",
+    "CONTENT": "Réinitialisez votre mot de passe ci-dessous"
+  },
+  "LOGIN": {
+    "TITLE": "Bonjour",
+    "CONTENT": "Veuillez saisir votre adresse e-mail",
+    "CONTENT_2": "s&#39;il vous plait entrez votre mot de passe"
+  },
+  "GREETING": "Bonjour",
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "Adresse e-mail",
+    "PASSWD": "Mot de passe",
+    "PASSWORD": "Créer un mot de passe",
+    "CONFIRM_PASSWORD": "Confirmez le mot de passe",
+    "NEW_PASSWORD": "Créer un mot de passe",
+    "NEW_CONFIRM_PASSWORD": "Confirmez le mot de passe",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom de famille",
+    "PIN": "ÉPINGLE"
+  },
+  "BUTTON": {
+    "SIGN_IN_METHOD": "Autres méthodes de connexion",
+    "CONTINUE_WITH": "Continue avec",
+    "OR_CONTINUE": "Ou continuez avec",
+    "USE_DIFFERENT_IDP": "Utiliser un autre fournisseur d&#39;identité",
+    "SELECT_IDP_SIGN_UP": "Sélectionnez un fournisseur d&#39;identité avec lequel vous inscrire",
+    "MORE": "Plus d&#39;options",
+    "LESS": "Moins d&#39;options",
+    "BACK": "Retour",
+    "EMAIL_INSTRUCTION": "Envoyez-moi des instructions par e-mail",
+    "CANCEL": "Annuler",
+    "CONTINUE": "Continuer",
+    "SET_PASSWORD": "réinitialiser le mot de passe",
+    "FORGOT_PASSWORD": "mot de passe oublié?",
+    "NEW_USER": "Nouvel utilisateur?",
+    "SWITCH_LOGIN": "Pas toi? Connectez-vous avec une autre adresse e-mail",
+    "SWITCH_REGISTER": "Pas toi? Inscrivez-vous avec une adresse e-mail différente.",
+    "SWITCH_TRY": "Pas toi? Essayez avec une autre adresse e-mail.",
+    "NEXT": "Prochain",
+    "REGISTER": "S&#39;inscrire",
+    "SIGN_IN": "se connecter",
+    "CONFIRM": "Confirmez votre e-mail",
+    "OR_CONTINUE_WITH_EMAIL": "ou continuez avec votre adresse e-mail",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscrivez-vous avec votre adresse e-mail et votre mot de passe",
+    "CONTINUE_WITH_EMAIL": "entrez votre adresse e-mail ci-dessous"
+  },
+  "HOVER": {
+    "EMAIL_MATCH": "Veuillez vous assurer que l&#39;adresse e-mail que vous utilisez lors de la connexion est celle qui a été invitée à vous inscrire.",
+    "NEW_USER": "Pour accéder à ce site Web, vous devez d&#39;abord être invité à le rejoindre.<br/><br/> Si vous avez reçu une invitation à vous inscrire, veuillez cliquer sur le lien dans cet e-mail pour terminer votre inscription.<br/><br/> Si vous avez perdu cet e-mail, veuillez contacter la personne qui vous a initialement invité."
+  },
+  "PASSWORD_HINT": {
+    "HAS_VALIDATION": "Votre mot de passe doit:",
+    "MINIMUM_ONE": "contenir au moins un caractère",
+    "MINIMUM_MORE": "contiennent au moins %COUNT% caractères",
+    "LOWER_ONE": "contiennent au moins une minuscule (az)",
+    "LOWER_MORE": "contiennent au moins %COUNT% minuscules (az)",
+    "UPPER_ONE": "contenir au moins une majuscule (AZ)",
+    "UPPER_MORE": "contiennent au moins %COUNT% majuscules (AZ)",
+    "SYMBOL_ONE": "contenir au moins un symbole",
+    "SYMBOL_MORE": "contiennent au moins %COUNT% symboles",
+    "NUMBER_ONE": "contenir au moins un nombre (0-9)",
+    "NUMBER_MORE": "contiennent au moins %COUNT% nombres (0-9)",
+    "NO_EMAIL": "ne contient ni votre nom ni votre adresse e-mail",
+    "MATCH": "être saisi de la même manière dans les deux champs",
+    "NO_OLD_PASSWORD": "Votre nouveau mot de passe doit être différent de votre ancien mot de passe"
+  },
+  "ERROR": {
+    "INLINE": {
+      "TITLE": "Pardon",
+      "CONFIRM": "D&#39;accord"
+    },
+    "EMPTY_TOKEN": {
+      "MESSAGE": "Vous devez entrer un code PIN"
+    },
+    "EMPTY_FIRST_NAME": {
+      "MESSAGE": "Veuillez vous assurer que vous avez un prénom"
+    },
+    "EMPTY_LAST_NAME": {
+      "MESSAGE": "Veuillez vous assurer que vous avez un nom de famille"
+    },
+    "VALID_EMAIL": {
+      "TITLE": "Format Email",
+      "MESSAGE": "Veuillez vous assurer que vous utilisez une adresse e-mail valide",
+      "CONFIRM": "D&#39;accord"
+    },
+    "PASSWORD_EMPTY": {
+      "TITLE": "Mot de passe trop court",
+      "MESSAGE": "Veuillez entrer un mot de passe",
+      "CONFIRM": "D&#39;accord"
+    },
+    "PASSWORD_LENGTH": {
+      "TITLE": "Mot de passe trop court",
+      "MESSAGE": "Veuillez saisir un mot de passe de plus de %COUNT% caractères",
+      "CONFIRM": "D&#39;accord"
+    },
+    "PASSWORD_NOT_MATCH": {
+      "TITLE": "Le mot de passe ne correspond pas",
+      "MESSAGE": "Vos mots de passe ne correspondent pas",
+      "CONFIRM": "D&#39;accord"
+    },
+    "ACCOUNT_NOT_FOUND": {
+      "TITLE": "Compte non trouvé",
+      "MESSAGE": "Nous n&#39;avons pas pu trouver votre compte. Si vous avez été invité, veuillez cliquer sur le lien dans l&#39;e-mail que vous avez reçu pour terminer l&#39;inscription",
+      "CONFIRM": "Je chercherai mon invitation"
+    },
+    "NON_LOCAL_LOGIN": {
+      "TITLE": "",
+      "MESSAGE": "Vous vous êtes déjà connecté avec %PROVIDER%. Veuillez confirmer que vous souhaitez définir un mot de passe de compte à la place.",
+      "CONFIRM": "Définir le mot de passe",
+      "CONFIRM_2": "Annuler"
+    },
+    "NO_PROVIDERS": {
+      "TITLE": "Quelque chose ne va pas",
+      "MESSAGE": "Aucun résultat des fournisseurs.",
+      "CONFIRM": "Réessayer"
+    },
+    "API_ERROR": {
+      "TITLE": "Quelque chose ne va pas",
+      "CONFIRM": "Réessayer"
+    },
+    "NO_PROVIDER": {
+      "TITLE": "Aucun fournisseur activé",
+      "MESSAGE": "Ce site Web n&#39;a activé aucun fournisseur d&#39;identité ou authentification locale. Veuillez contacter l&#39;administrateur du site Web pour plus d&#39;informations.",
+      "CONFIRM": "D&#39;accord"
+    }
+  },
+  "RES_MAPPING": {
+    "invalid_pin": "Veuillez vérifier si vous avez le bon code PIN",
+    "invalid_email_or_password": "Veuillez vous assurer que vous utilisez votre dernier mot de passe"
+  }
+}

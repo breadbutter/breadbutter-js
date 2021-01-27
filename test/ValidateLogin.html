@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ValidateLogin</title>
+        <style>
+            .logonlabs {
+                width: 300px;
+            }
+        </style>
+        <script>
+            // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+
+            var qs = (function (a) {
+                if (a == '') return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i) {
+                    var p = a[i].split('=', 2);
+                    if (p.length == 1) b[p[0]] = '';
+                    else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ' '));
+                }
+                return b;
+            })(window.location.search.substr(1).split('&'));
+
+            window.logonAsync = function () {
+                LogonClient.configure({
+                    app_id: qs.app_id ?? '029e592fc2144dd0b88203cf387f5485',
+                    app_secret:
+                        qs.app_secret ??
+                        'Nktdy0yYF9JLF9MuhZm7qzblhsoaqRqFpUJZ43/qBKg=',
+                    api_path: qs.api_path ?? 'https://api.logon-dev.com/', //'https://local-idpx.logon-dev.com/'
+                });
+
+                LogonClient.validateLogin(qs.token, function (response) {
+                    document.getElementById(
+                        'response'
+                    ).innerHTML = JSON.stringify(response);
+                });
+            };
+
+            (function (d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'http://localhost:8080/dist/logonlabs.min.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'logon-js');
+
+            var loading = function () {
+                document.getElementById('qs').innerHTML =
+                    'callback received: app_id = ' +
+                    qs.app_id +
+                    ' token = ' +
+                    qs.token;
+            };
+        </script>
+    </head>
+    <body onload="loading()">
+        <div id="qs"></div>
+        <div id="response"></div>
+    </body>
+</html>

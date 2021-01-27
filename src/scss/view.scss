@@ -1,0 +1,116 @@
+.breadbutter {
+    &-ui {
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+
+        button {
+            min-width: 180px;
+            font-size: 12px;
+            line-height: 1.7;
+            text-align: center;
+            padding: 8px 20px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        input {
+            width: 100%;
+            background-color: rgba(0,0,0,0) !important;
+            color: #1c1958 !important;
+            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.7;
+            border: 1px solid #c7ccd6;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            padding: 8px 13.5px;
+            margin-top: 10px;
+            outline: none;
+            display: inline-block;
+            border-radius: 0;
+            &.focus, &:focus {
+              border-color: #50aff5;
+              & + .form-next-icon{
+                background: #50aff5;
+                svg {
+                  fill: #fff;
+                }
+              }
+            }
+            &::placeholder {
+                color: #989898;
+            }
+        }
+
+        .font11 {
+            font-size: 11px !important;
+        }
+
+        .font12 {
+            font-size: 12px !important;
+        }
+
+        .font13 {
+            font-size: 13px !important;
+        }
+
+        .font14 {
+            font-size: 14px !important;
+        }
+
+        .font15 {
+            font-size: 15px !important;
+        }
+
+        .font16 {
+            font-size: 16px !important;
+        }
+    }
+}
+
+.breadbutter-ui-hover-holder {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    position: fixed;
+    background: #fff;
+    color: #707070;
+    padding: 19px 20px;
+    border-radius: 12px;
+    box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.26);
+    max-width: 275px;
+    opacity: 1;
+    z-index: 10001;
+
+    &.hide {
+        display: none;
+    }
+
+    .breadbutter-ui-hover-text {
+        font-size: 13px;
+        line-height: 1.38;
+    }
+    .breadbutter-ui-hover-arrow {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        left: 45%;
+        &.bottom {
+            bottom: -10px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #fff;
+        }
+        &.top {
+            top: -10px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid #fff;
+        }
+        &.left {
+            left: 15px;
+        }
+        &.right {
+            left: auto;
+            right: 15px;
+        }
+    }
+}

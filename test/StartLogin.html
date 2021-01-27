@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LogonLabs Sample</title>
+        <style>
+            .logonlabs {
+                width: 300px;
+            }
+        </style>
+        <script>
+            // https://stackoverflow.com/questions/43493323/cross-origin-request-for-local-file
+
+            var qs = (function (a) {
+                if (a == '') return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i) {
+                    var p = a[i].split('=', 2);
+                    if (p.length == 1) b[p[0]] = '';
+                    else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, ' '));
+                }
+                return b;
+            })(window.location.search.substr(1).split('&'));
+
+            window.logonAsync = function () {
+                LogonClient.configure({
+                    app_id: qs.app_id ?? '029e592fc2144dd0b88203cf387f5485',
+                    api_path: qs.api_path ?? 'https://api.logon-dev.com/', //'https://local-idpx.logon-dev.com/'
+                });
+
+                if (window.location.search.substr(1).length > 0) {
+                    LogonClient.startLogin(qs);
+                } else {
+                    LogonClient.ui.button('logonlabs-default-style');
+                    LogonClient.ui.button('logonlabs-icon-style', {
+                        theme: 'icon',
+                    });
+                }
+            };
+
+            (function (d, s, id) {
+                var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'http://localhost:8080/dist/logonlabs.min.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            })(document, 'script', 'logon-js');
+        </script>
+    </head>
+    <body>
+        <h1>LogonLabs JS Quickstart Sample</h1>
+        <h2>Default Style:</h2>
+        <div class="logonlabs" id="logonlabs-default-style"></div>
+        <h2>Icon Style:</h2>
+        <div class="logonlabs" id="logonlabs-icon-style"></div>
+    </body>
+</html>

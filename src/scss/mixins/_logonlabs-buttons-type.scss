@@ -1,0 +1,12 @@
+@mixin breadbutter-buttons-type($name, $primaryColor, $fontColor) {
+    .#{$name} {
+        .wrapper {
+            background-color: $primaryColor;
+            border: 1px solid $primaryColor;
+
+            @if $fontColor {
+                color: $fontColor;
+            }
+        }
+    }
+}

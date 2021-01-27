@@ -1,0 +1,352 @@
+<html>
+    <head>
+        <title>LogonLabs HTML Sample</title>
+        <script>
+            window.logonAsync = function () {
+                LogonClient.configure({
+                    app_id: '6b67529d-466e-4168-91eb-4b0d3f431a21',
+                    api_path: 'https://api.logon-dev.com/',
+                });
+
+                LogonClient.ui.button('logonlabs1-1');
+                LogonClient.ui.button('logonlabs1-2', { theme: 'icon' });
+
+                LogonClient.ui.button('logonlabs2-1', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.MICROSOFT,
+                    ],
+                });
+                LogonClient.ui.button('logonlabs2-2', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.GOOGLE,
+                    ],
+                });
+
+                LogonClient.ui.button('logonlabs2-3', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.FACEBOOK,
+                    ],
+                    theme: 'icon',
+                });
+                LogonClient.ui.button('logonlabs2-4', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.MICROSOFT,
+                        LogonClient.identityProviderList.GOOGLE,
+                        LogonClient.identityProviderList.FACEBOOK,
+                        LogonClient.identityProviderList.LINKEDIN,
+                        LogonClient.identityProviderList.SLACK,
+                        LogonClient.identityProviderList.GITHUB,
+                        LogonClient.identityProviderList.QUICKBOOKS,
+                        LogonClient.identityProviderList.BASECAMP,
+                        LogonClient.identityProviderList.DROPBOX,
+                        LogonClient.identityProviderList.FITBIT,
+                        LogonClient.identityProviderList.PLANNINGCENTER,
+                        LogonClient.identityProviderList.APPLE,
+                        LogonClient.identityProviderList.TWITCH,
+                        LogonClient.identityProviderList.TWITTER,
+                    ],
+                    theme: 'icon',
+                });
+                LogonClient.ui.button('logonlabs2-5', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.TWITCH,
+                    ],
+                    theme: 'icon',
+                });
+                LogonClient.ui.button('logonlabs2-6', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.APPLE,
+                    ],
+                });
+                LogonClient.ui.button('logonlabs2-7', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.GITHUB,
+                    ],
+                    theme: 'icon',
+                });
+                LogonClient.ui.button('logonlabs2-8', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.LINKEDIN,
+                    ],
+                    theme: 'icon',
+                });
+
+                LogonClient.ui.button('logonlabs2-9', {
+                    social_identity_providers: [
+                        LogonClient.identityProviderList.GOOGLE,
+                    ],
+                });
+
+                document
+                    .getElementById('facebook')
+                    .addEventListener('click', function () {
+                        LogonClient.startLogin({
+                            identity_provider: 'facebook',
+                        });
+                    });
+                document
+                    .getElementById('google')
+                    .addEventListener('click', function () {
+                        LogonClient.startLogin({ identity_provider: 'google' });
+                    });
+
+                document
+                    .getElementById('submit_email')
+                    .addEventListener('click', function () {
+                        var email = document.getElementById('email').value;
+                        LogonClient.getProviders(email, function (res) {
+                            var p1 = Object.assign({}, res);
+                            var p2 = Object.assign(
+                                {
+                                    theme: 'icon',
+                                },
+                                res
+                            );
+                            LogonClient.ui.button('logonlabs6', p1);
+                            LogonClient.ui.button('logonlabs7', p2);
+                            document.getElementById('email_valid').innerText =
+                                'Here are list of providers this email can login: ' +
+                                email;
+                        });
+                    });
+
+                const buttons = document.querySelectorAll('.toggle');
+                for (const button of buttons) {
+                    button.addEventListener('click', function (event) {
+                        let code = event.target.nextElementSibling;
+                        if (code.classList.contains('show')) {
+                            code.classList.remove('show');
+                        } else {
+                            code.classList.add('show');
+                        }
+                    });
+                }
+            };
+        </script>
+        <script async defer src="../dist/logonlabs.min.js"></script>
+        <style>
+            .logon-holder {
+                width: 300px;
+            }
+            .block {
+                margin-bottom: 2rem;
+            }
+            code {
+                display: none;
+                background-color: #f0f0f0;
+                margin-left: 1rem;
+                width: 80%;
+                padding: 1rem;
+                border-radius: 3px;
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+                transition: background-color 0.218s, border-color 0.218s,
+                    box-shadow 0.218s;
+            }
+            .show {
+                display: block;
+            }
+            .spacy {
+                height: 10vh;
+            }
+            .wild {
+                position: relative;
+                height: 130px;
+            }
+            .center1,
+            .center2 {
+                position: absolute;
+            }
+            .pos1,
+            .pos2,
+            .pos3 {
+                position: absolute;
+            }
+            .pos1 {
+                left: 10px;
+                top: 10px;
+                z-index: 10;
+            }
+            .pos2 {
+                left: 40px;
+                top: 40px;
+                z-index: 11;
+            }
+            .pos3 {
+                left: 70px;
+                top: 70px;
+                z-index: 12;
+            }
+            .center1 {
+                top: 0;
+                left: 40px;
+                z-index: 8;
+            }
+            .center2 {
+                top: 30px;
+                left: 80px;
+                z-index: 9;
+            }
+            .wild .logonlabs-ui {
+                margin: 0 0 !important;
+            }
+        </style>
+    </head>
+    <body onload="onload">
+        <div class="block">
+            <h2>intializing the ultimate LogonLabs client!!</h2>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+window.logonAsync = function() {
+    LogonClient.configure({
+        app_id: '6b67529d-466e-4168-91eb-4b0d3f431a21',
+        api_path: 'https://api.logon-dev.com/'
+    });
+};
+            </code>
+        </pre>
+        </div>
+        <hr />
+        <div class="block">
+            <h2>easy peasy</h2>
+            <p>Here is a list of social providers generate from defaults!</p>
+            <div class="logon-holder" id="logonlabs1-1"></div>
+            <div class="logon-holder" id="logonlabs1-2"></div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+LogonClient.ui.button('logonlabs1-1');
+LogonClient.ui.button('logonlabs1-2', {theme: 'icon'});
+            </code>
+        </pre>
+        </div>
+        <hr />
+        <div class="block">
+            <h2>customizable</h2>
+            <sub
+                >if you did not enabled the identity providers in the settings,
+                then it won't work~</sub
+            >
+
+            <p>sometext... login with microsoft ?</p>
+            <div class="logon-holder" id="logonlabs2-1"></div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+LogonClient.ui.button('logonlabs2-1', {
+    social_identity_providers: [LogonClient.identityProviderList.MICROSOFT]
+});
+            </code>
+        </pre>
+            <p>somemoretext... login with google ?</p>
+            <div class="logon-holder" id="logonlabs2-2"></div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+LogonClient.ui.button('logonlabs2-2', {
+    social_identity_providers: [LogonClient.identityProviderList.GOOGLE]
+});
+            </code>
+        </pre>
+            <p>somemoretext... login with just the facebook icon ?</p>
+            <div class="logon-holder" id="logonlabs2-3"></div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+LogonClient.ui.button('logonlabs2-3', {
+    social_identity_providers: [LogonClient.identityProviderList.FACEBOOK],
+    theme: 'icon'
+});
+            </code>
+        </pre>
+            <p>somemoretext... or from the selections ?</p>
+            <div class="logon-holder" id="logonlabs2-4"></div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+LogonClient.ui.button('logonlabs2-4', {
+    social_identity_providers: [
+        LogonClient.identityProviderList.MICROSOFT,
+        LogonClient.identityProviderList.GOOGLE,
+        LogonClient.identityProviderList.FACEBOOK,
+        LogonClient.identityProviderList.LINKEDIN,
+        LogonClient.identityProviderList.SLACK,
+        LogonClient.identityProviderList.GITHUB,
+        LogonClient.identityProviderList.QUICKBOOKS,
+        LogonClient.identityProviderList.BASECAMP,
+        LogonClient.identityProviderList.DROPBOX,
+        LogonClient.identityProviderList.FITBIT,
+        LogonClient.identityProviderList.PLANNINGCENTER,
+        LogonClient.identityProviderList.APPLE,
+        LogonClient.identityProviderList.TWITCH,
+        LogonClient.identityProviderList.TWITTER
+    ],
+    theme: 'icon'
+});
+            </code>
+        </pre>
+            <p>somemoretext... do you want to go wild ?</p>
+            <div class="wild">
+                <div class="center1" id="logonlabs2-6"></div>
+                <div class="center2" id="logonlabs2-9"></div>
+                <div class="pos1" id="logonlabs2-5"></div>
+                <div class="pos2" id="logonlabs2-7"></div>
+                <div class="pos3" id="logonlabs2-8"></div>
+            </div>
+            <p>you can put it wherever and however you like</p>
+        </div>
+        <hr />
+        <div class="block">
+            <h2>your own buttons</h2>
+            <sub
+                >if you did not enabled the identity providers in the settings,
+                then it won't work~</sub
+            >
+            <p>
+                <button id="facebook">I want to connect to facebook!</button>
+                <button id="google">I want to connect to google!</button>
+            </p>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+document.getElementById("facebook").addEventListener("click", function(){
+    LogonClient.startLogin({identity_provider:'facebook'});
+});
+document.getElementById("google").addEventListener("click", function(){
+    LogonClient.startLogin({identity_provider:'google'});
+});
+            </code>
+        </pre>
+        </div>
+        <hr />
+        <div class="block">
+            <h2>you like some challenge?</h2>
+            <input id="email" type="text" placeholder="your@email.com" />
+            <button id="submit_email">SUBMIT</button>
+            <div>
+                <p id="email_valid"></p>
+                <div class="logon-holder" id="logonlabs6"></div>
+                <div class="logon-holder" id="logonlabs7"></div>
+            </div>
+            <pre>
+<button class="toggle">CODE</button>
+            <code>
+document.getElementById("submit_email").addEventListener("click", function(){
+    var email = document.getElementById('email').value;
+    LogonClient.getProviders(email, function(res) {
+        var p1 = Object.assign({}, res);
+        var p2 = Object.assign({
+            theme: 'icon'
+        }, res);
+        LogonClient.ui.button('logonlabs6', p1);
+        LogonClient.ui.button('logonlabs7', p2);
+        document.getElementById('email_valid').innerText =
+            "Here are list of providers this email can login: " + email;
+    });
+});
+            </code>
+        </pre>
+        </div>
+        <div class="spacy"></div>
+    </body>
+</html>
