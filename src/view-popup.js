@@ -11,6 +11,9 @@ const ARROW_HOLDER_ID = 'breadbutter-floating-arrow-holder';
 
 const TEXT_HOLDER_ID = 'breadbutter-floating-text-holder';
 const TEXT_ID = 'breadbutter-floating-text';
+const MESSAGE_HOLDER_ID = 'breadbutter-floating-message-holder';
+const MESSAGE_ID = 'breadbutter-floating-message';
+const MORE_ID = 'breadbutter-floating-more';
 const TEXT_TITLE_ID = 'breadbutter-floating-text-title';
 
 import lang from './locale.js';
@@ -131,6 +134,15 @@ const addView = function (id) {
     let container = false;
     if (id) {
         container = document.createElement('div');
+        container.classList.add(id);
+    }
+    return container;
+};
+
+const addSpanView = function (id) {
+    let container = false;
+    if (id) {
+        container = document.createElement('span');
         container.classList.add(id);
     }
     return container;
@@ -274,21 +286,28 @@ const assignTextLocation = function() {
         bottom = true;
     }
 
+    let text_holder = getTextHolder();
+    currentPopup.appendChild(text_holder);
     if (fit) {
-        let text_holder = getTextHolder();
         text_holder.classList.add(left ? 'left' : 'right');
         text_holder.classList.add(bottom ? 'bottom' : 'top');
-        currentPopup.appendChild(text_holder);
 
         if (bottom) {
             text_holder.appendChild(getArrowIcon(left, bottom));
             text_holder.appendChild(getTextTitle());
             text_holder.appendChild(getText());
+            text_holder.appendChild(getMessage());
         } else {
             text_holder.appendChild(getTextTitle());
             text_holder.appendChild(getText());
+            text_holder.appendChild(getMessage());
             text_holder.appendChild(getArrowIcon(left, bottom));
         }
+    } else {
+        text_holder.classList.add('nowhere');
+        text_holder.appendChild(getTextTitle());
+        text_holder.appendChild(getText());
+        text_holder.appendChild(getMessage());
     }
 };
 
@@ -307,6 +326,23 @@ const getText = function() {
     let b = addView(TEXT_ID);
     b.innerHTML = Locale.POPUP.TEXT_2;
     return b;
+};
+
+const getMessage = function() {
+    let a = addView(MESSAGE_HOLDER_ID);
+
+    let b = addSpanView(MESSAGE_ID);
+    b.innerHTML = Locale.POPUP.TEXT_3;
+
+    let c = addSpanView(MORE_ID);
+    c.innerHTML = Locale.POPUP.MORE;
+    c.addEventListener("click", function() {
+        b.innerHTML = Locale.POPUP.TEXT_3_2;
+        this.remove();
+    });
+    a.appendChild(b);
+    a.appendChild(c);
+    return a;
 };
 
 const getArrowIcon = function(left, bottom) {

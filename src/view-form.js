@@ -402,6 +402,15 @@ const getInviteRequired = function () {
     return invite_required;
 };
 
+const getClientEmail = function(email, res) {
+    if (!email) {
+        if (res && res.user_profile && res.user_profile.state == USER_STATE.VERIFIED) {
+            email = res.user_profile.email_address;
+        }
+    }
+    return email;
+}
+
 const getLocalEmail = function (email) {
     let email_address = email;
     if (localStorage && !email) {
@@ -655,6 +664,7 @@ const addForm = function (id, options) {
             options.onProvider(!invite_required && !discovery_required && hasProviders(res));
         }
         options.email_address = getLocalEmail(options.email_address);
+        options.email_address = getClientEmail(options.email_address, res);
         addDiscoveryForm(id, res, options)
     });
 };
@@ -1024,10 +1034,9 @@ const getPinTokenSet = function (length, pin, cb) {
 
 const getToken = function (pin, cb) {
     let b = view.addBlock('input', FORM.TOKEN);
-    b.type = 'text';
+    b.type = 'hidden';
     if (pin) {
         b.value = pin;
-        b.type = 'hidden';
     } else {
         b.placeholder = Locale.PLACEHOLDER.PIN;
     }
@@ -2026,6 +2035,7 @@ const togglePasswordOnSight = function (e) {
         } else {
             button.classList.add('sight');
         }
+        password.focus();
     }
 };
 
@@ -2424,20 +2434,23 @@ const goRegistration = function(holder, response) {
         } else {
             button_holder.append(getParagraph(Locale.BUTTON.SELECT_IDP_SIGN_UP));
         }
-        let buttons= viewButton.getButtonLists(list, opt);
+        let buttons = viewButton.getButtonLists(list, opt);
         const container_main = buttons.container;
         if (list.length > 1) {
             button_holder.append(container_main);
         } else if (!suggested) {
             button_holder.append(container_main);
         }
-        register_container.appendChild(button_holder);
 
         if (local) {
             let more = getMoreSignupModuleOptions(function(e){
                 goLocalRegistration(top);
             });
             button_holder.appendChild(more);
+        }
+
+        if (button_holder.children.length != 0) {
+            register_container.appendChild(button_holder);
         }
 
         insertSwitchLogin(register_container);
@@ -2649,12 +2662,16 @@ const switchLocalLogin = function (holder) {
         suggested.classList.add('collapsed');
     }
 
-    const next = findChild(holder, FORM.PASSWORD);
-    if (next) {
-        next.focus();
-    }
     insertSwitchLogin(top, true);
     top.classList.add('local-login');
+
+    const module_password = findChild(top, MODULE_PASSWORD);
+    if (module_password) {
+        const next = findChild(module_password, FORM.PASSWORD);
+        if (next) {
+            next.focus();
+        }
+    }
 };
 
 const processProviders = function(res, register) {

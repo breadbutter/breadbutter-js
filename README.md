@@ -27,7 +27,7 @@ The official BreadButter JavaScript client library.
             BreadButter.widgets.continueWith();
         };
     </script>
-    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.3.0.0.142.min.js"></script>
+    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.3.1.0.181.min.js"></script>
   </head>
  <body></body>
 </html>

@@ -429,7 +429,7 @@ const registerDevice = function(callback) {
     request(url, request_data, 'POST', callback);
 };
 
-const createEvent = async function (type, custom, pageview, callback) {
+const createEvent = async function (code, data, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/events';
 
     let request_data = {};
@@ -437,20 +437,17 @@ const createEvent = async function (type, custom, pageview, callback) {
     let device_id = await getDeviceId();
     request_data['device_id'] = device_id;
 
-    if (type) {
-        request_data['type'] = type;
+    if (code) {
+        request_data['code'] = code;
     }
-    if (custom) {
-        request_data['custom'] = custom;
-    }
-    if (pageview) {
-        request_data['page_view'] = pageview;
+    if (data) {
+        request_data['data'] = data;
     }
 
     const deviceCheckCallback = function(res) {
         if (checkDeviceId(res)) {
             cleanDeviceId();
-            createEvent(type, custom, pageview, callback);
+            createEvent(type, data, callback);
         } else if (typeof callback == 'function') {
             callback(res);
         }

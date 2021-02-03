@@ -1,6 +1,6 @@
 .breadbutter-floating-text-holder {
   position: absolute;
-  width: 450px;
+  width: 465px;
   height: 250px;
   display: flex;
   flex-direction: column;
@@ -19,19 +19,34 @@
     left: -500px;
     align-items: flex-end;
   }
+  &.nowhere {
+    display: none;
+  }
   svg {
     stroke: #fff;
     fill: #fff;
   }
 
+  .breadbutter-floating-message-holder {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    width: 100%;
+    font-style: italic;
+  }
+  .breadbutter-floating-more {
+    cursor: pointer;
+  }
   .breadbutter-floating-text {
     font-size: 22px;
-    line-height: 30px;
+    line-height: 2;
+    font-style: normal;
+    margin-bottom: 24px;
     width: 100%;
   }
   .breadbutter-floating-text-title {
     font-size: 38px;
-    line-height: 50px;
+    line-height: 1.32;
     font-weight: bold;
     margin-bottom: 24px;
     width: 100%;
@@ -146,5 +161,60 @@
         }
       }
     }
+  }
+}
+
+@media (max-width:499px) {
+  .breadbutter-popup {
+    top: 300px !important;
+    bottom: auto !important;
+    left: 50%!important;
+    right: auto !important;
+    margin-left: -187px;
+  }
+  .breadbutter-floating-text-holder {
+    width: 375px !important;
+    top: -200px !important;
+    left: 50%!important;
+    right: auto!important;
+    bottom: auto!important;
+    margin-left: -187px;
+    &.nowhere {
+      display: flex !important;
+    }
+    .breadbutter-floating-message-holder {
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 7px;
+    }
+    .breadbutter-floating-text {
+      font-size: 15px;
+      line-height: 2;
+      font-style: normal;
+      margin-bottom: 7px;
+    }
+    .breadbutter-floating-text-title {
+      font-size: 22px;
+      line-height: 1.32;
+      font-weight: bold;
+      margin-bottom: 7px;
+      width: 100%;
+    }
+    .breadbutter-floating-arrow-holder {
+      display: none;
+    }
+  }
+}
+
+
+@media (max-width:375px) {
+  .breadbutter-popup {
+    transform: scale(0.9, 0.9);
+  }
+}
+
+@media (max-width:340px) {
+  .breadbutter-popup {
+    transform: scale(0.8, 0.8);
   }
 }

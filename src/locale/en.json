@@ -3,7 +3,10 @@
     "HEADER_1": "Welcome",
     "HEADER_2": "Welcome to %APP_NAME%",
     "TEXT_1": "First step",
-    "TEXT_2": "`Continue with` your trusted login method.<br/>We'll have you started in no time."
+    "TEXT_2": "`Continue with’ your trusted login method.*<br/>We'll have you started in no time.",
+    "TEXT_3": "*You will be redirected to authenticate your account; we never see your authentication method or password. ",
+    "TEXT_3_2": "*You will be redirected to authenticate your account; we never see your authentication method or password. A simple yes/no is all we receive; although some Identity Providers will also pass along your name. You can change your authentication method at any time.",
+    "MORE": "more>>"
   },
   "INCOGNITO": {
     "TITLE": "Welcome"

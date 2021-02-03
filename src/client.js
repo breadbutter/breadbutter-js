@@ -175,12 +175,11 @@ const api = new (function () {
 
 const events = new (function(){
     this.custom = function(custom, callback){
-        API.createEvent(event_type.CUSTOM, {
-            code: custom
-        }, false, callback);
+        API.createEvent(custom, callback);
     };
     this.pageview = function(callback){
-        API.createEvent(event_type.PAGE_VIEW, false, {
+        API.createEvent(event_type.PAGE_VIEW, {
+            title: document.title,
             url: document.location.href
         }, callback);
     };
