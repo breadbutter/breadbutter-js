@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.3.0.0.142.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.3.1.0.181.min.js
     
 ## Configuration
 
@@ -206,14 +206,14 @@ BreadButter.widgets.signIn(TARGET_DOM_ID, {
 ### Buttons Widget
 
 #### Buttons
-![LL icon](ll_buttons.png) 
+![LL icon](bb_buttons.png) 
 
 ```
 BreadButter.widgets.buttons(TARGET_DOM_ID);
 ```
 
 #### Icons
-![LL icon](ll_icons.png) 
+![LL icon](bb_icons.png) 
 ```
 BreadButter.widgets.buttons(TARGET_DOM_ID, {
     buttonTheme: ‘round-icons’
