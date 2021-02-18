@@ -72,7 +72,10 @@ const setData = function(holder, options) {
         callback_url: options.callback_url,
         force_reauthentication: options.force_reauthentication,
         pin: options.pin,
-        adjustHeader: options.adjustHeader
+        adjustHeader: options.adjustHeader,
+        onLogin: options.onLogin,
+        onProvider: options.onProvider,
+        addEvent: options.addEvent
     };
 };
 
@@ -272,14 +275,14 @@ const enterpriseStyle = function (provider) {
 
 const svgButtons_e = function (provider, register) {
     var html = '';
-    let type = provider.provider;
+    let type = provider.idp;
     let name = provider.name;
 
     let sign_in = register ? 'Continue' : 'Sign in';
     let icon = enterpriseIcon(type, provider);
     if (icon) {
         icon =
-            '<div class="icon-holder"><div class="icon">' +
+            '<div class="icon-holder"><div class="bb-icon">' +
             icon +
             '</div></div>';
     } else {
@@ -288,6 +291,10 @@ const svgButtons_e = function (provider, register) {
 
     let style = enterpriseStyle(provider);
 
+    sign_in = sign_in + ' w/ ' + name;
+    if (provider.alias) {
+        sign_in = "Sign in as " + provider.alias;
+    }
     html =
         '<div data-name="' +
         type +
@@ -297,9 +304,7 @@ const svgButtons_e = function (provider, register) {
         style +
         '">' +
         icon +
-        '<span>' + sign_in + ' w/ ' +
-        name +
-        '</span></div></div>';
+        '<span>' + sign_in + '</span></div></div>';
 
     if (provider.customization && provider.customization.login_button_image_url) {
         html =
@@ -313,7 +318,7 @@ const svgButtons_e = function (provider, register) {
 
 const svgIcons_e = function (provider) {
     var html = '';
-    let type = provider.provider;
+    let type = provider.idp;
     let name = provider.name.slice(0, 2);
 
     let style = enterpriseStyle(provider);
@@ -344,124 +349,124 @@ const svgButtons = function (type, opt, register) {
     let sign_in = register ? 'Continue' : 'Sign in';
     switch (TYPE) {
         case 'google':
+            sign_in += ' with Google';
             html =
                 '<div data-name="google" class="google"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Google</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg;
             break;
         case 'facebook':
+            sign_in += ' with Facebook';
             html =
                 '<div data-name="facebook" class="facebook"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Facebook</span></div></div>';
+                '<div class="bb-icon">' +
+                svg ;
             break;
         case 'microsoft':
+            sign_in += ' with Microsoft';
             html =
                 '<div data-name="microsoft" class="microsoft"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Microsoft</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg ;
             break;
         case 'linkedin':
+            sign_in += ' with LinkedIn';
             html =
                 '<div data-name="linkedin" class="linkedin"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' with LinkedIn</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg;
             break;
         case 'twitter':
+            sign_in += ' with Twitter';
             html =
                 '<div data-name="twitter" class="twitter"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Twitter</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'quickbooks':
+            sign_in += ' with QuickBooks';
             html =
                 '<div data-name="quickbooks" class="quickbooks"><div class="wrapper">' +
-                '<div class="icon medium">' +
-                svg +
-                '</div><span>'+ sign_in + ' with QuickBooks</span></div></div>';
+                '<div class="bb-icon medium">' +
+                svg;
             break;
         case 'github':
+            sign_in += ' with GitHub';
             html =
                 '<div data-name="github" class="github"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with GitHub</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'slack':
+            sign_in += ' with slack';
             html =
                 '<div data-name="slack" class="slack"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with slack</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
 
         case 'basecamp':
+            sign_in += ' with Basecamp';
             html =
                 '<div data-name="basecamp" class="basecamp"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Basecamp</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'dropbox':
+            sign_in += ' with Dropbox';
             html =
                 '<div data-name="dropbox" class="dropbox"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Dropbox</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'shopify':
+            sign_in += ' with Shopify';
             html =
                 '<div data-name="shopify" class="shopify"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Shopify</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'evernote':
+            sign_in += ' with Evernote';
             html =
                 '<div data-name="evernote" class="evernote"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Evernote</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'planningcenter':
+            sign_in += ' w/planning center';
             html =
                 '<div data-name="planningcenter" class="planningcenter"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' w/planning center</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg;
             break;
         case 'fitbit':
+            sign_in += ' with fitbit';
             html =
                 '<div data-name="fitbit" class="fitbit"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with fitbit</span></div></div>';
+                '<div class="bb-icon">' +
+                svg ;
             break;
         case 'apple':
+            sign_in += ' with Apple';
             html =
                 '<div data-name="apple" class="apple"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Apple</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg;
             break;
         case 'twitch':
+            sign_in += ' with twitch';
             html =
                 '<div data-name="twitch" class="twitch"><div class="wrapper">' +
-                '<div class="icon small">' +
-                svg +
-                '</div><span>'+ sign_in + ' with twitch</span></div></div>';
+                '<div class="bb-icon small">' +
+                svg;
             break;
         case 'salesforce':
+            sign_in += ' with Salesforce';
             html =
                 '<div data-name="salesforce" class="salesforce"><div class="wrapper">' +
-                '<div class="icon">' +
-                svg +
-                '</div><span>'+ sign_in + ' with Salesforce</span></div></div>';
+                '<div class="bb-icon">' +
+                svg;
             break;
         case 'local':
             let text = opt.text ? opt.text : 'Sign in with email';
@@ -470,12 +475,18 @@ const svgButtons = function (type, opt, register) {
                 '<div data-name="local" class="local ' +
                 cls +
                 '"><div class="wrapper">' +
-                '<div class="icon">' +
+                '<div class="bb-icon">' +
                 svg +
                 '</div><span>' +
                 text +
                 '</span></div></div>';
             break;
+    }
+    if (TYPE != 'local') {
+        if (opt.alias) {
+            sign_in = "Sign in as " + opt.alias;
+        }
+        html += '</div><span>'+ sign_in + '</span></div></div>';
     }
     return html;
 };
@@ -613,7 +624,8 @@ const loadSVG = function (type) {
             break;
         case 'apple':
             svg =
-                '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" viewBox="-93.59 0 1187.198 1187.198"><g class="currentLayer" style="fill: #fff;"><path d="m 979.04184,925.18785 c -17.95397,41.47737 -39.20563,79.65705 -63.82824,114.75895 -33.56298,47.8528 -61.04356,80.9761 -82.22194,99.3698 -32.83013,30.192 -68.00529,45.6544 -105.67203,46.5338 -27.04089,0 -59.6512,-7.6946 -97.61105,-23.3035 -38.08442,-15.5358 -73.08371,-23.2303 -105.08578,-23.2303 -33.56296,0 -69.55888,7.6945 -108.06101,23.2303 -38.5608,15.6089 -69.62484,23.7432 -93.37541,24.5493 -36.12049,1.5389 -72.1237,-14.3632 -108.06101,-47.7796 -22.93711,-20.0059 -51.62684,-54.3017 -85.99592,-102.8874 C 92.254176,984.54592 61.937588,924.38175 38.187028,855.7902 12.750995,781.70252 0,709.95986 0,640.50361 0,560.94181 17.191859,492.32094 51.626869,434.81688 78.689754,388.62753 114.69299,352.19192 159.75381,325.44413 c 45.06086,-26.74775 93.74914,-40.37812 146.18212,-41.25019 28.68971,0 66.3125,8.8744 113.06613,26.31542 46.62174,17.49964 76.55727,26.37404 89.68198,26.37404 9.8124,0 43.06758,-10.37669 99.4431,-31.06405 53.31237,-19.18512 98.30724,-27.12887 135.16787,-23.99975 99.8828,8.06098 174.92313,47.43518 224.82789,118.37174 -89.33023,54.12578 -133.51903,129.93556 -132.63966,227.18753 0.8061,75.75115 28.28668,138.78795 82.2952,188.8393 24.47603,23.23022 51.81008,41.18421 82.22186,53.93522 -6.59525,19.12648 -13.557,37.44688 -20.95846,55.03446 z M 749.96366,23.751237 c 0,59.37343 -21.69138,114.810233 -64.92748,166.121963 -52.17652,60.99961 -115.28658,96.24803 -183.72426,90.68597 -0.87204,-7.12298 -1.37769,-14.61967 -1.37769,-22.49743 0,-56.99843 24.81315,-117.99801 68.87738,-167.873453 21.99909,-25.25281 49.978,-46.25018 83.90738,-63.00018 C 686.57507,10.688027 718.59913,1.5631274 748.71783,5.2734376e-4 749.59727,7.9378274 749.96366,15.875627 749.96366,23.750467 Z" id="path4"></path></g></svg>';
+                //-93.59 0 1187.198 1187.198
+                '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" viewBox="-170 0 1287.198 1287.198"><g class="currentLayer" style="fill: #fff;"><path d="m 979.04184,925.18785 c -17.95397,41.47737 -39.20563,79.65705 -63.82824,114.75895 -33.56298,47.8528 -61.04356,80.9761 -82.22194,99.3698 -32.83013,30.192 -68.00529,45.6544 -105.67203,46.5338 -27.04089,0 -59.6512,-7.6946 -97.61105,-23.3035 -38.08442,-15.5358 -73.08371,-23.2303 -105.08578,-23.2303 -33.56296,0 -69.55888,7.6945 -108.06101,23.2303 -38.5608,15.6089 -69.62484,23.7432 -93.37541,24.5493 -36.12049,1.5389 -72.1237,-14.3632 -108.06101,-47.7796 -22.93711,-20.0059 -51.62684,-54.3017 -85.99592,-102.8874 C 92.254176,984.54592 61.937588,924.38175 38.187028,855.7902 12.750995,781.70252 0,709.95986 0,640.50361 0,560.94181 17.191859,492.32094 51.626869,434.81688 78.689754,388.62753 114.69299,352.19192 159.75381,325.44413 c 45.06086,-26.74775 93.74914,-40.37812 146.18212,-41.25019 28.68971,0 66.3125,8.8744 113.06613,26.31542 46.62174,17.49964 76.55727,26.37404 89.68198,26.37404 9.8124,0 43.06758,-10.37669 99.4431,-31.06405 53.31237,-19.18512 98.30724,-27.12887 135.16787,-23.99975 99.8828,8.06098 174.92313,47.43518 224.82789,118.37174 -89.33023,54.12578 -133.51903,129.93556 -132.63966,227.18753 0.8061,75.75115 28.28668,138.78795 82.2952,188.8393 24.47603,23.23022 51.81008,41.18421 82.22186,53.93522 -6.59525,19.12648 -13.557,37.44688 -20.95846,55.03446 z M 749.96366,23.751237 c 0,59.37343 -21.69138,114.810233 -64.92748,166.121963 -52.17652,60.99961 -115.28658,96.24803 -183.72426,90.68597 -0.87204,-7.12298 -1.37769,-14.61967 -1.37769,-22.49743 0,-56.99843 24.81315,-117.99801 68.87738,-167.873453 21.99909,-25.25281 49.978,-46.25018 83.90738,-63.00018 C 686.57507,10.688027 718.59913,1.5631274 748.71783,5.2734376e-4 749.59727,7.9378274 749.96366,15.875627 749.96366,23.750467 Z" id="path4"></path></g></svg>';
             break;
         case 'twitch':
             svg =

@@ -38,6 +38,7 @@ const MODULE_PLACEHOLDER = 'breadbutter-module-placeholder';
 const MODULE_PASSWORD = 'breadbutter-module-password';
 const MODULE_FORM_INPUT = 'breadbutter-module-form-input';
 const MODULE_MORE_INFO = 'breadbutter-module-more-information';
+const MODULE_DROPDOWN = 'breadbutter-module-dropdown';
 
 
 import lang from './locale.js';
@@ -174,12 +175,12 @@ const applyDev = function (res) {
         if (DEV_LOCAL_SUGGESTION) {
             // res.suggested_identity_provider = 'local';
         }
-        if (DEV_NON_SUGGESTION) {
-            // res.suggested_identity_provider = false;
-        }
         if (DEV_SUGGESTION) {
             res.suggested_provider = providers_hash[DEV_SUGGESTION];
             // res.suggested_identity_provider = DEV_SUGGESTION;
+        }
+        if (DEV_NON_SUGGESTION) {
+            res.suggested_provider = false;
         }
         if (DEV_ONE_PROVIDER) {
             // res.social_providers = [res.social_providers[0]];
@@ -572,8 +573,9 @@ const enterDiscovery = function(email_address, holder, email_input) {
             if (
                 settings &&
                 settings.invite_required &&
-                !profile
-            ) {
+                (profile.state == USER_STATE.ANONYMOUS ||
+                    profile.state == USER_STATE.IDENTIFIED) &&
+                !profile.invited) {
                 ready();
                 showAlert(holder, Locale.ERROR.ACCOUNT_NOT_FOUND);
                 return;
@@ -601,12 +603,9 @@ const enterDiscovery = function(email_address, holder, email_input) {
 
             if (profile && profile.pending_pin_confirmation && !suggested) {
                 switchConfirmation(top);
-            } else if ((profile && profile.invited) ||
-                (profile && (
-                    profile.state == USER_STATE.ANONYMOUS ||
-                    profile.state == USER_STATE.IDENTIFIED
-                ))) {
-                goRegistration(holder, res);
+            } else if (profile.state == USER_STATE.ANONYMOUS ||
+                profile.state == USER_STATE.IDENTIFIED) {
+                checkRegistration(holder, res);
             } else if (profile &&
                 profile.reset_required &&
                 profile.has_password) {
@@ -806,7 +805,6 @@ const insertSwitchLogin = function (top, skip) {
     let holder = view.addView(SWITCH_HOLDER_ID);
     if (!skip) {
         if (getInviteRequired()) {
-            console.log(getInviteRequired());
             let new_user = getNewUser();
             hover.addHoverEffect(new_user, Locale.HOVER.NEW_USER);
             holder.appendChild(new_user);
@@ -1230,6 +1228,15 @@ const getDropdownButton = function(cb) {
     return button;
 };
 
+const getModuleDropdown = function(cb) {
+    const button = view.addBlock('div', MODULE_DROPDOWN);
+    if (cb) {
+        button.onclick = cb
+    }
+    button.appendChild(getDropdownButton());
+    return button;
+}
+
 const getMoreModuleOptions = function (cb) {
     const button = getButton(Locale.BUTTON.OR_CONTINUE_WITH_EMAIL, FORM.OPTIONS, cb);
     return button;
@@ -1451,15 +1458,15 @@ const incognitoForm = function (res, email_address) {
     if (list) {
         let contin = getParagraph(Locale.BUTTON.CONTINUE_WITH);
         button_holder.prepend(contin);
-        let { container, error, button_theme } = viewButton.getButtonLists(list, opt);
-        if (button_theme) {
-            button_holder.classList.add(button_theme);
+        let { container, error, theme_class } = viewButton.getButtonLists(list, opt);
+        if (theme_class) {
+            button_holder.classList.add(theme_class);
         }
         button_holder.append(container);
         top.appendChild(button_holder);
 
-        let dropdown = getDropdownButton(expandingIcons);
-        button_holder.appendChild(dropdown);
+        let dropdown = getModuleDropdown(expandingIcons);
+        top.appendChild(dropdown);
     }
 
     if (local) {
@@ -1561,7 +1568,18 @@ const triggerListCollapse = function (e) {
     if (suggested_list.classList.contains('collapsed')) {
         suggested_list.classList.remove('collapsed');
         container.classList.remove('hide');
+        expandingIcons(e);
     } else {
+        suggested_list.classList.add('collapsed');
+        container.classList.add('hide');
+    }
+};
+
+const triggerCollapse = function (button_holder) {
+    const login_container = button_holder.parentElement;
+    if (!login_container.classList.contains('local-login')) {
+        const suggested_list = findChild(button_holder, 'suggested-list');
+        const container = findChild(button_holder, 'collapsible');
         suggested_list.classList.add('collapsed');
         container.classList.add('hide');
     }
@@ -2384,6 +2402,89 @@ const convertMoreOptions = function(button) {
     button.innerText = Locale.BUTTON.CONTINUE_WITH_EMAIL;
 };
 
+const checkRegistration = function(holder, res) {
+    let invite_required = res.settings.invite_required;
+    let discovery_required = res.settings.discovery_required;
+    let password_settings = res.settings.password_settings;
+    let password_enabled = password_settings && password_settings.enabled;
+    // console.log(res);
+    // goRegistration(holder, res);
+    if (!invite_required && !discovery_required && password_enabled) {
+        goAdvanceRegistration(holder, res);
+    } else {
+        goRegistration(holder, res);
+    }
+}
+
+const goAdvanceRegistration = function(holder, response) {
+    showPopupTitle(holder, false);
+    // console.log('goRegistration');
+    let email_address = getLocalEmail();
+    let top = holder.parentElement;
+    let register_container = view.addView(REGISTER_ID);
+    let header = getHeaderModule(Locale.REGISTER.TITLE, Locale.REGISTER.CONTENT);
+    register_container.appendChild(header);
+    register_container.appendChild(getEmail(email_address, true));
+
+    let {list,
+        suggested_list,
+        suggested,
+        local} = processProviders(response, true);
+
+    let opt = {
+        button_theme: OPTS.button_theme,
+        suggested: suggested,
+        email_address: email_address,
+        register: true
+    };
+
+    if (list || local) {
+        cleanChild(top);
+        top.appendChild(register_container);
+    }
+
+    if (list && local) {
+        let button_holder = view.addView(BUTTON_HOLDER_ID);
+        if (list.length == 1 && !suggested) {
+            suggested = list[0].type;
+            suggested_list = [list[0]];
+        }
+        if (suggested && suggested != 'local') {
+            let button_holder2 = view.addView(BUTTON_HOLDER_ID);
+            button_holder2.classList.add('register-suggested');
+            let opt2 = Object.assign({}, opt);
+            opt2.button_theme = false;
+            let {container, error} = viewButton.getButtonLists(
+                suggested_list,
+                opt2
+            );
+            button_holder2.append(container);
+            register_container.append(button_holder2);
+        }  else {
+            let buttons = viewButton.getButtonLists(list, opt);
+            const container_main = buttons.container;
+            if (list.length > 1) {
+                button_holder.append(container_main);
+            } else if (!suggested) {
+                button_holder.append(container_main);
+            }
+            if (button_holder.children.length != 0) {
+                register_container.appendChild(button_holder);
+            }
+        }
+
+
+        let or_local = getParagraph(Locale.REGISTER.OR_LOCAL);
+        register_container.appendChild(or_local);
+
+        getLocalRegistrationContainer(register_container);
+
+        insertSwitchLogin(register_container);
+    } else if (local) {
+        goLocalRegistration(top);
+    }
+};
+
 const goRegistration = function(holder, response) {
     showPopupTitle(holder, false);
     // console.log('goRegistration');
@@ -2493,6 +2594,23 @@ const goLocalRegistration = function(top, pin) {
     top.appendChild(register_container);
 
 };
+
+const getLocalRegistrationContainer = function(register_container) {
+    register_container.appendChild(getFirstName());
+    register_container.appendChild(getLastName());
+
+    let pwd = getPasswordModule(triggerRegisterPasswordKeyup, Locale.PLACEHOLDER.PASSWORD);
+    pwd.classList.add(FORM.PASSWORD);
+    register_container.appendChild(pwd);
+    let rpwd = getPasswordModule(triggerRegisterCompleteKeyup, Locale.PLACEHOLDER.CONFIRM_PASSWORD);
+    rpwd.classList.add(FORM.RE_PASSWORD);
+    register_container.appendChild(rpwd);
+
+    register_container.appendChild(passwordValidationList(true));
+    register_container.appendChild(getRegisterButton(triggerRegisterComplete));
+    return register_container;
+};
+
 const alertLocalRegisterConfirmationComplete = function(e) {
     if (loading) return;
     const button = e.currentTarget;
@@ -2527,6 +2645,7 @@ const alertLocalRegisterConfirmation = function (e) {
 
 const goLogin = function(holder, response) {
     showPopupTitle(holder, false);
+    triggerOnLogin(holder, response);
     let email_address = getLocalEmail();
     let top = holder.parentElement;
 
@@ -2572,6 +2691,16 @@ const goLogin = function(holder, response) {
     if (list) {
         let button_holder = view.addView(BUTTON_HOLDER_ID);
         button_holder.classList.add('login-provider');
+        // console.log(response);
+        // console.log(suggested_list);
+        if (response.user_profile && suggested_list.length) {
+            if (response.user_profile.profile_image_url) {
+                suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
+            }
+            if (response.user_profile.first_name) {
+                suggested_list[0].alias = response.user_profile.first_name;
+            }
+        }
         let buttons = viewButton.getButtonLists(
           suggested_list,
           opt
@@ -2594,6 +2723,10 @@ const goLogin = function(holder, response) {
             let continue_with = getParagraph(Locale.BUTTON.CONTINUE_WITH);
             continue_with.classList.add('no-local');
             login_container.appendChild(continue_with);
+
+            addPopupEvent(top, 'scrolling', function() {
+                triggerCollapse(button_holder);
+            });
         }
         button_holder.append(container_main);
         login_container.appendChild(button_holder);
@@ -2638,6 +2771,7 @@ const goLogin = function(holder, response) {
             showAlert(top, alert, false, triggerAlertConfirm);
         }
     }
+    login_container.appendChild(getModuleDropdown(expandingIcons));
 };
 
 const switchLocalLogin = function (holder) {
@@ -2724,12 +2858,12 @@ const processProviders = function(res, register) {
         list = false;
     }
 
-    console.log({
-        list,
-        suggested_list,
-        suggested,
-        local
-    });
+    // console.log({
+    //     list,
+    //     suggested_list,
+    //     suggested,
+    //     local
+    // });
     return {
         list,
         suggested_list,
@@ -2738,6 +2872,12 @@ const processProviders = function(res, register) {
     }
 };
 
+const isAdvanceDiscovery = function(res) {
+    let invite_required = res.settings.invite_required;
+    let discovery_required = res.settings.discovery_required;
+    return !invite_required && !discovery_required && hasProviders(res);
+}
+
 const showPopupTitle = function(container, show) {
     let adjustHeader = view.getData(container, 'adjustHeader');
     if (typeof adjustHeader == 'function') {
@@ -2745,6 +2885,21 @@ const showPopupTitle = function(container, show) {
     }
 };
 
+const triggerOnLogin = function(container, res) {
+    let onLogin = view.getData(container, 'onLogin');
+    if (typeof onLogin == 'function') {
+        onLogin(isAdvanceDiscovery(res));
+    }
+}
+
+const addPopupEvent = function(container, event, func) {
+    // console.log(container);
+    let addEvent = view.getData(container, 'addEvent');
+    // console.log(addEvent);
+    if (typeof addEvent == 'function') {
+        addEvent(event, func);
+    }
+}
 
 export default {
     addForm,

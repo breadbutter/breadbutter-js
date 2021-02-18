@@ -367,8 +367,10 @@
         }
     }
 
+
     &-login,
-    &-register-holder {
+    &-register-holder,
+    &-register {
         .breadbutter-module {
             &-form-input,
             &-password {
@@ -378,11 +380,25 @@
         }
     }
 
+    &-module-dropdown {
+        display: none;
+        background-color: #eeeef0;
+        height: 21px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        .form-expand-icon {
+            border-right: solid 3px #878787;
+            border-bottom: solid 3px #878787;
+            width: 15px;
+            height: 15px;
+            transform: rotate(45deg) skew(-30deg, -30deg);
+        }
+    }
     &-incognito {
         &.confirm > *:not(.breadbutter-confirm) {
             display: none;
         }
-
         .breadbutter-buttons-holder {
             background-color: #eee;
             align-items: flex-start;
@@ -405,18 +421,6 @@
                     text-decoration: none;
                     margin: 8px auto 14px auto;
                 }
-            }
-            .form-expand-icon {
-                display: none;
-                border-right: solid 2px #4e5051;
-                border-bottom: solid 2px #4e5051;
-                top: 30px;
-                right: 20px;
-                width: 6px;
-                height: 6px;
-                transform: rotate(45deg);
-                position: absolute;
-                cursor: pointer;
             }
         }
 
@@ -851,7 +855,7 @@
                 .breadbutter-buttons {
                     padding: 0px;
                     margin: 0px;
-                    &.icon {
+                    &.bb-icon {
                         margin-top: 11px;
                     }
                 }
@@ -995,3 +999,49 @@
 }
 
 
+
+.breadbutter-buttons-holder {
+    &.register-suggested {
+        .breadbutter-buttons {
+            .google, .microsoft, .slack, .salesforce, .linkedin {
+                .wrapper {
+                    border: solid 1px #414042 !important;
+                }
+            }
+            & > div:not(.more-block):hover {
+                .google {
+                    .wrapper {
+                        border: solid 1px #3e82f1 !important;
+                    }
+                }
+                .linkedin {
+                    .wrapper {
+                        border: solid 1px #2f7ab1 !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .suggested-list{
+        &.collapsed {
+            .google, .microsoft, .slack, .salesforce, .linkedin {
+                .wrapper {
+                    border: solid 1px #414042 !important;
+                }
+            }
+            & > div:not(.more-block):hover {
+                .google {
+                    .wrapper {
+                        border: solid 1px #3e82f1 !important;
+                    }
+                }
+                .linkedin {
+                    .wrapper {
+                        border: solid 1px #2f7ab1 !important;
+                    }
+                }
+            }
+        }
+    }
+}

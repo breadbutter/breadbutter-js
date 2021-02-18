@@ -48,11 +48,13 @@ const getButtonLists = function (providers, options) {
     const collapsible = options.collapsible ? options.collapsible : false;
     const container = VIEW.addView(ID);
     let error = false;
+    let theme_class = false;
     if (button_theme == 'icon' || button_theme == 'square-icons' || button_theme == 'round-icons') {
-        container.classList.add('icon');
+        container.classList.add('bb-icon');
         if (button_theme == 'round-icons') {
-            container.classList.add('round');
+            container.classList.add('bb-round');
         }
+        theme_class = 'bb-icon';
         button_theme = 'icon';
     }
     if (providers) {
@@ -68,7 +70,7 @@ const getButtonLists = function (providers, options) {
                                 pass,
                                 register,
                                 pin,
-                                email_address,
+                                email_address
                             },
                             first
                         )
@@ -96,7 +98,7 @@ const getButtonLists = function (providers, options) {
         container.prepend(getMoreButton(triggerMore));
     }
 
-    return { container, error, button_theme };
+    return { container, error, theme_class };
 };
 
 const buttons = function (
@@ -104,7 +106,7 @@ const buttons = function (
     { button_theme, pass, register, pin, email_address },
     first
 ) {
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     if (provider.type == 'enterprise') {
         if (button_theme == 'icon') {
             div.innerHTML = VIEW.svgIcons_e(provider);
@@ -126,6 +128,14 @@ const buttons = function (
         var idp_id = document.createAttribute('provider_id');
         idp_id.value = provider.id;
         div.setAttributeNode(idp_id);
+    }
+
+    if (button_theme != 'icon' && provider.profile_image_url) {
+        // console.log(provider.profile_image_url);
+        let image = document.createElement('div');
+        image.classList.add('bb-profile-image');
+        image.style['background-image'] = `url(${provider.profile_image_url})`;
+        div.appendChild(image);
     }
 
     if (first && button_theme != 'icon') {

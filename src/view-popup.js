@@ -158,7 +158,10 @@ const parsePosition = function(position) {
 
 const createView = function (options) {
     options.onProvider = triggerProvider;
+    options.onLogin = triggerLogin;
     options.adjustHeader = triggerAdjustHeader;
+    options.addEvent = addEvent;
+    TRIGGER_EVENT = {};
 
     if (typeof options.onFormClose == 'function') {
         EVENT_CALLBACK.push(options.onFormClose);
@@ -177,11 +180,15 @@ const createView = function (options) {
             popup.style.top = parsePosition(options.continue_with_position.top);
         } else if (options.continue_with_position.bottom) {
             popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+        } else {
+            popup.style.top = '30px';
         }
         if (options.continue_with_position.left) {
             popup.style.left = parsePosition(options.continue_with_position.left);
         } else if (options.continue_with_position.right) {
             popup.style.right = parsePosition(options.continue_with_position.right);
+        } else {
+            popup.style.right = '30px';
         }
     } else {
         popup.style.top = '30px';
@@ -205,6 +212,7 @@ const createView = function (options) {
 };
 
 const triggerAdjustHeader = function(show) {
+    // console.log('triggerAdjustHeader');
     let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
     let header = findChild(wrapper, POPUP_HEADER_ID);
     let title = findChild(header, FORM.TITLE);
@@ -215,12 +223,39 @@ const triggerAdjustHeader = function(show) {
     }
 };
 
+const triggerLogin = function(advanced) {
+    let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
+    let header = findChild(wrapper, POPUP_HEADER_ID);
+    let title = findChild(header, FORM.TITLE);
+    title.innerText = getTitleText2();
+}
+
 const triggerProvider = function(advanced) {
+    // console.log('triggerProvider');
     if (advanced) {
         assignMask();
         setupScrollingTrigger();
     }
 };
+let TRIGGER_EVENT = {};
+const addEvent = function(event, func) {
+    if (!TRIGGER_EVENT[event]) {
+        TRIGGER_EVENT[event] = [];
+    }
+    TRIGGER_EVENT[event].push(func);
+};
+
+const triggerEvent = function(event, params) {
+    if (TRIGGER_EVENT && TRIGGER_EVENT[event]) {
+        // console.log(TRIGGER_EVENT);
+        for (let i = 0; i < TRIGGER_EVENT[event].length; i++) {
+            let func = TRIGGER_EVENT[event][i];
+            if (typeof func == 'function') {
+                func(params);
+            }
+        }
+    }
+}
 
 let scrolling = false;
 let scrollPosition = false;
@@ -228,7 +263,10 @@ let scrollTimer = false;
 
 const setupScrollingTrigger = function() {
     window.addEventListener('scroll', function(event){
-        scrollingTrigger(event);
+        if (currentPopup) {
+            // console.log('scrolling...');
+            scrollingTrigger(event);
+        }
     }, true);
 };
 
@@ -244,6 +282,7 @@ const scrollingTrigger = function(event) {
         let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
         let holder = findChild(wrapper, POPUP_HOLDER_ID);
         holder.classList.add('scrolling');
+        triggerEvent('scrolling');
     }
     scrollTimer = setTimeout(function(){
         scrolling = false;
@@ -365,6 +404,14 @@ const getArrowIcon = function(left, bottom) {
 
     return svg;
 }
+
+const getTitleText2 = function() {
+    let text = Locale.POPUP.HEADER_BACK_1;
+    if (APP_NAME) {
+        text = lang.replace({ APP_NAME }, Locale.POPUP.HEADER_BACK_2);
+    }
+    return text;
+};
 
 const getTitleText = function() {
     let text = Locale.POPUP.HEADER_1;

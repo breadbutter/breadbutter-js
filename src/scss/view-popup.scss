@@ -142,7 +142,10 @@
         .more-content {
           display: none;
         }
-        .breadbutter-buttons-holder.icon {
+        .breadbutter-module-dropdown {
+          display: flex;
+        }
+        .breadbutter-buttons-holder.bb-icon {
           padding: 0px 10px;
           .form-message,.form-options {
             display: none;
@@ -155,10 +158,31 @@
               display: block;
             }
           }
-          .form-expand-icon {
-            display: block;
-          }
         }
+      }
+      .breadbutter-login:not(.local-login) {
+        .breadbutter-module-dropdown {
+          display: flex;
+          margin: 0 -13px 0px -14px;
+        }
+        .breadbutter-switch-login {
+          display: none;
+        }
+        .breadbutter-module-poweredby {
+           display: none;
+         }
+      }
+    }
+
+    .breadbutter-login:not(.local-login) {
+      .breadbutter-module-header-discovery {
+        display: none;
+      }
+      .form-email {
+        display: none;
+      }
+      .form-message.no-local {
+        display: none;
       }
     }
   }

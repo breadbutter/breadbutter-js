@@ -2,6 +2,8 @@
   "POPUP": {
     "HEADER_1": "Welcome",
     "HEADER_2": "Welcome to %APP_NAME%",
+    "HEADER_BACK_1": "Welcome back",
+    "HEADER_BACK_2": "Welcome back to %APP_NAME%",
     "TEXT_1": "First step",
     "TEXT_2": "`Continue with’ your trusted login method.*<br/>We'll have you started in no time.",
     "TEXT_3": "*You will be redirected to authenticate your account; we never see your authentication method or password. ",
@@ -16,7 +18,8 @@
     "CONTENT": "How would you like to sign up?",
     "CONTENT_2": "Sign up with your email",
     "SSO": "Or create an account with your email address and a password",
-    "LOCAL": "Create an account with your email address and a password"
+    "LOCAL": "Create an account with your email address and a password",
+    "OR_LOCAL": "Or fill in the form below"
   },
   "CONFIRM_EMAIL": {
     "TITLE": "Email confirmation",

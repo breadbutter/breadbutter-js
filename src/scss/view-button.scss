@@ -27,6 +27,15 @@
     position: relative;
     box-sizing: border-box;
     width: 100%;
+    .bb-profile-image {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-size: contain;
+        border-radius: 30px;
+        top: 5px;
+        left: 45px;
+    }
 }
 
 .breadbutter-buttons * {
@@ -100,7 +109,7 @@
     display: none !important;
 }
 
-.breadbutter-buttons:not(.icon) {
+.breadbutter-buttons:not(.bb-icon) {
     margin: 0 auto;
 }
 
@@ -108,7 +117,7 @@
     cursor: pointer;
 }
 
-.breadbutter-buttons.icon {
+.breadbutter-buttons.bb-icon {
     display: flex;
     flex-direction: row;
     background: none;
@@ -170,7 +179,7 @@
         border-radius: 2px;
         //box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .4);
     }
-    &.round {
+    &.bb-round {
         .item {
             border-radius: 50%;
         }
@@ -180,7 +189,7 @@
     }
 }
 
-.breadbutter-buttons:not(.icon) {
+.breadbutter-buttons:not(.bb-icon) {
     & > div {
         height: 40px;
         width: 100%;
@@ -202,7 +211,7 @@
             height: 38px;
             text-align: center;
 
-            .icon {
+            .bb-icon {
                 margin: 7px 10px 7px 10px;
                 float: left;
                 width: 24px;
@@ -266,7 +275,7 @@
                 border: 1px solid #e6e6e6;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -282,7 +291,7 @@
                 border: 1px solid #e6e6e6;
             }
 
-            .icon {
+            .bb-icon {
                 padding: 5px 8px 7px;
                 margin: 1px;
             }
@@ -301,7 +310,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -316,7 +325,7 @@
                 border: 1px solid #000;
                 color: #fff;
             }
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -327,7 +336,7 @@
                 border: 1px solid #e6e6e6;
             }
 
-            .icon {
+            .bb-icon {
                 fill: #2f7ab1;
             }
         }
@@ -339,7 +348,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
                 fill: #fff;
             }
         }
@@ -351,7 +360,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -362,7 +371,7 @@
                 border: 1px solid #002a3a;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -373,7 +382,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -384,7 +393,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -395,7 +404,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -409,7 +418,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -419,7 +428,7 @@
                 border: 1px solid #3399ff;
                 color: #fff;
             }
-            .icon {
+            .bb-icon {
                 fill: #fff;
             }
         }
@@ -433,7 +442,7 @@
                     font-weight: 800;
                 }
             }
-            .icon {
+            .bb-icon {
             }
         }
         .salesforce {
@@ -445,7 +454,7 @@
                     font-weight: 800;
                 }
             }
-            .icon {
+            .bb-icon {
             }
         }
 
@@ -460,7 +469,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
                 fill: #fff;
             }
         }
@@ -472,7 +481,7 @@
                 color: #fff;
             }
 
-            .icon {
+            .bb-icon {
                 fill: #000;
             }
         }
@@ -484,7 +493,7 @@
                 color: #797a79;
             }
 
-            .icon {
+            .bb-icon {
                 background: #555555;
                 border-radius: 50%;
                 fill: #ffffff;
@@ -509,7 +518,7 @@
                     margin-left: 0;
                 }
             }
-            .icon {
+            .bb-icon {
                 margin: 7px 10px 7px 5px;
                 fill: #fff;
                 svg {
@@ -521,7 +530,7 @@
     }
 }
 
-.breadbutter-buttons:not(.icon) {
+.breadbutter-buttons:not(.bb-icon) {
     & > div:not(.enterprise):hover {
         .microsoft {
             .wrapper {
@@ -537,7 +546,7 @@
                 border: 1px solid #2f7ab1;
                 color: #ffffff;
             }
-            .icon {
+            .bb-icon {
                 fill: #fff;
             }
         }
@@ -548,7 +557,7 @@
                 border: 1px solid #3e82f1;
                 color: #fff;
             }
-            .icon {
+            .bb-icon {
                 background: #fff;
                 border-radius: 2px;
                 height: 24px;
@@ -672,7 +681,7 @@
     }
 }
 
-.breadbutter-buttons.icon {
+.breadbutter-buttons.bb-icon {
     > div:not(.enterprise) {
         .item {
             flex: 1;
@@ -796,7 +805,7 @@
     }
 }
 
-.breadbutter-buttons.icon {
+.breadbutter-buttons.bb-icon {
     & > div:not(.enterprise):hover {
         .item {
             &[data-name='microsoft'] {
@@ -900,7 +909,7 @@
 }
 
 .breadbutter-buttons {
-    &:not(.icon) {
+    &:not(.bb-icon) {
         .enterprise {
             .custom-button {
                 height: 40px;
@@ -920,7 +929,7 @@
                         padding: 3px;
                         position: absolute;
                         left: 0px;
-                        .icon {
+                        .bb-icon {
                             margin: 0;
                             width: 18px;
                             height: 18px;
@@ -991,7 +1000,7 @@
             }
         }
     }
-    &.icon {
+    &.bb-icon {
         > div {
             margin: 0 9px 16px 9px;
         }
@@ -1116,6 +1125,6 @@
 .google [name='google']:not(.enterprise) {
     display: none;
 }
-.breadbutter-buttons.round.icon>div:not(.enterprise):hover .item[data-name='google'] svg {
+.breadbutter-buttons.bb-round.bb-icon>div:not(.enterprise):hover .item[data-name='google'] svg {
     border-radius: 50%;
 }
