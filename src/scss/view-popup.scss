@@ -5,17 +5,17 @@
   display: flex;
   flex-direction: column;
   color: #fff;
-  &.top {
+  &.bb-top {
     top: -150px;
     justify-content: flex-end;
   }
-  &.bottom {
+  &.bb-bottom {
     bottom: -150px;
   }
-  &.right {
+  &.bb-right {
     right: -500px;
   }
-  &.left {
+  &.bb-left {
     left: -500px;
     align-items: flex-end;
   }
@@ -101,6 +101,8 @@
       background: rgba(118, 118, 128, 0.12);
       border: none;
       padding: 0;
+      width: 26px;
+      height: 26px;
       svg {
         width: 26px;
         height: 26px;

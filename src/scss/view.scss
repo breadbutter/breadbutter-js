@@ -2,7 +2,7 @@
     &-ui {
         font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 
-        button {
+        .bb-button {
             min-width: 180px;
             font-size: 12px;
             line-height: 1.7;
@@ -17,17 +17,18 @@
             background-color: rgba(0,0,0,0) !important;
             color: #1c1958 !important;
             font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px;
-            line-height: 1.7;
-            border: 1px solid #c7ccd6;
-            border-top: none;
-            border-left: none;
-            border-right: none;
+            font-size: 13px !important;
+            line-height: 1.7 !important;
+            border-bottom: 1px solid #c7ccd6;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
             padding: 8px 13.5px;
             margin-top: 10px;
-            outline: none;
+            outline: none !important;
             display: inline-block;
-            border-radius: 0;
+            border-radius: 0 !important;
+            box-shadow: none !important;
             &.focus, &:focus {
               border-color: #50aff5;
               & + .form-next-icon{

@@ -93,14 +93,14 @@ const getContent = function() {
 };
 
 const getOkButton = function() {
-    let b = view.addBlock('button', FORM.BUTTON_1);
+    let b = view.addButton(FORM.BUTTON_1);
     b.innerHTML = Locale.PRIVACY_POLICY.BUTTON_1;
     b.onclick = triggerOkButton;
     return b;
 };
 
 const getReadButton = function() {
-    let b = view.addBlock('button', FORM.BUTTON_2);
+    let b = view.addButton(FORM.BUTTON_2);
     b.innerHTML = Locale.PRIVACY_POLICY.BUTTON_2;
     b.onclick = triggerReadButton;
     return b;

@@ -162,7 +162,38 @@ const mode = {
     INVITATION: 'invitation'
 };
 
+const encoded_action = {
+    TARGET: "action_code",
+    TYPE: "m",
+    APP_ID: "a",
+    PIN: "p",
+    EMAIL: "e"
+};
+
+const encoded_hash = {
+    'reset_password': 'resetpassword',
+    'confirm_email': 'confirmemail',
+    'invitation': 'invitation',
+}
+
+const gateway_emails = {
+    TYPE: "action",
+    EMAIL: "email",
+    APP_ID: "app_id",
+    PIN: "pin"
+};
+
+const gateway_hash = {
+    'reset_password': 'resetpassword',
+    'confirm_email': 'confirmemail',
+    'invitation': 'invitation',
+}
+
 export default {
+    encoded_hash,
+    encoded_action,
+    gateway_hash,
+    gateway_emails,
     providers,
     providers_buttons,
     providers_hash,

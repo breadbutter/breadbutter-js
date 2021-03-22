@@ -138,6 +138,15 @@ const addBlock = function (type, cls) {
     return container;
 };
 
+const addButton = function (cls) {
+    const container = document.createElement('div');
+    container.classList.add('bb-button');
+    if (cls) {
+        container.classList.add(cls);
+    }
+    return container;
+};
+
 const messages = function (msg) {
     var div = document.createElement('div');
     div.className = 'message';
@@ -300,7 +309,7 @@ const svgButtons_e = function (provider, register) {
         type +
         '" class="' +
         type +
-        '"><div class="wrapper" style="' +
+        '"><div class="bb-icon-wrapper" style="' +
         style +
         '">' +
         icon +
@@ -326,7 +335,7 @@ const svgIcons_e = function (provider) {
     html =
         '<div data-name="' +
         type +
-        '" class="item" style="' +
+        '" class="bb-item" style="' +
         style +
         '"><span>' +
         name +
@@ -351,56 +360,56 @@ const svgButtons = function (type, opt, register) {
         case 'google':
             sign_in += ' with Google';
             html =
-                '<div data-name="google" class="google"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="google" class="google"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'facebook':
             sign_in += ' with Facebook';
             html =
-                '<div data-name="facebook" class="facebook"><div class="wrapper">' +
+                '<div data-name="facebook" class="facebook"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg ;
             break;
         case 'microsoft':
             sign_in += ' with Microsoft';
             html =
-                '<div data-name="microsoft" class="microsoft"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="microsoft" class="microsoft"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg ;
             break;
         case 'linkedin':
             sign_in += ' with LinkedIn';
             html =
-                '<div data-name="linkedin" class="linkedin"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="linkedin" class="linkedin"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'twitter':
             sign_in += ' with Twitter';
             html =
-                '<div data-name="twitter" class="twitter"><div class="wrapper">' +
+                '<div data-name="twitter" class="twitter"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'quickbooks':
             sign_in += ' with QuickBooks';
             html =
-                '<div data-name="quickbooks" class="quickbooks"><div class="wrapper">' +
-                '<div class="bb-icon medium">' +
+                '<div data-name="quickbooks" class="quickbooks"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-medium">' +
                 svg;
             break;
         case 'github':
             sign_in += ' with GitHub';
             html =
-                '<div data-name="github" class="github"><div class="wrapper">' +
+                '<div data-name="github" class="github"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'slack':
             sign_in += ' with slack';
             html =
-                '<div data-name="slack" class="slack"><div class="wrapper">' +
+                '<div data-name="slack" class="slack"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
@@ -408,63 +417,63 @@ const svgButtons = function (type, opt, register) {
         case 'basecamp':
             sign_in += ' with Basecamp';
             html =
-                '<div data-name="basecamp" class="basecamp"><div class="wrapper">' +
+                '<div data-name="basecamp" class="basecamp"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'dropbox':
             sign_in += ' with Dropbox';
             html =
-                '<div data-name="dropbox" class="dropbox"><div class="wrapper">' +
+                '<div data-name="dropbox" class="dropbox"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'shopify':
             sign_in += ' with Shopify';
             html =
-                '<div data-name="shopify" class="shopify"><div class="wrapper">' +
+                '<div data-name="shopify" class="shopify"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'evernote':
             sign_in += ' with Evernote';
             html =
-                '<div data-name="evernote" class="evernote"><div class="wrapper">' +
+                '<div data-name="evernote" class="evernote"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'planningcenter':
             sign_in += ' w/planning center';
             html =
-                '<div data-name="planningcenter" class="planningcenter"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="planningcenter" class="planningcenter"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'fitbit':
             sign_in += ' with fitbit';
             html =
-                '<div data-name="fitbit" class="fitbit"><div class="wrapper">' +
+                '<div data-name="fitbit" class="fitbit"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg ;
             break;
         case 'apple':
             sign_in += ' with Apple';
             html =
-                '<div data-name="apple" class="apple"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="apple" class="apple"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'twitch':
             sign_in += ' with twitch';
             html =
-                '<div data-name="twitch" class="twitch"><div class="wrapper">' +
-                '<div class="bb-icon small">' +
+                '<div data-name="twitch" class="twitch"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'salesforce':
             sign_in += ' with Salesforce';
             html =
-                '<div data-name="salesforce" class="salesforce"><div class="wrapper">' +
+                '<div data-name="salesforce" class="salesforce"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
@@ -474,7 +483,7 @@ const svgButtons = function (type, opt, register) {
             html =
                 '<div data-name="local" class="local ' +
                 cls +
-                '"><div class="wrapper">' +
+                '"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg +
                 '</div><span>' +
@@ -493,7 +502,7 @@ const svgButtons = function (type, opt, register) {
 
 const svgIcons = function (type) {
     let svg = loadSVG(type);
-    let html = '<div data-name="' + type + '" class="item">' + svg + '</div>';
+    let html = '<div data-name="' + type + '" class="bb-item">' + svg + '</div>';
     return html;
 };
 
@@ -656,6 +665,7 @@ export default {
     addView,
     initView,
     addBlock,
+    addButton,
     svgIcons_e,
     svgButtons_e,
     svgIcons,

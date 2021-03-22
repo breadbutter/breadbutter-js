@@ -7,6 +7,8 @@ let DESTINATION_URL;
 let CALLBACK_URL;
 let CLIENT_DATA;
 let FORCE_REAUTHENTICATION;
+let PAGE_VIEW_ID;
+let ALLOW_SUB_DOMAIN;
 
 let DEVICE_ID;
 const CACHE_STORAGE = {
@@ -42,9 +44,35 @@ const checkDeviceId = function(res) {
     return res && res.error && res.error.message && res.error.message.indexOf(ERROR_MESSAGE.DEVICE_ID) != -1;
 }
 
+const getDeviceIdFromCookie = function() {
+    let cookie = parseCookie(document.cookie);
+    let device_id = false;
+    if (cookie[APP_ID]) {
+        device_id = cookie[APP_ID];
+        localStorage.setItem(CACHE_STORAGE.DEVICE_ID, device_id);
+    }
+    return device_id;
+};
+
+const setDeviceIdToCookie = function(device_id) {
+    let domains = document.location.host.split('.');
+    let domain = "." + domains.slice(-2).join('.');
+    document.cookie = APP_ID + "=" + device_id + ";path=/;domain=" + domain;
+};
+
 const getDeviceId = function() {
     return new Promise(function(resolve){
         let device_id = localStorage.getItem(CACHE_STORAGE.DEVICE_ID);
+
+        if (ALLOW_SUB_DOMAIN) {
+            if (!device_id) {
+                let cookie = getDeviceIdFromCookie();
+                if (cookie) {
+                    device_id = cookie;
+                    localStorage.setItem(CACHE_STORAGE.DEVICE_ID, device_id);
+                }
+            }
+        }
         if (!device_id || device_id == 'undefined') {
             if (!DEVICE_PROCESS) {
                 DEVICE_PROCESS = true;
@@ -55,6 +83,9 @@ const getDeviceId = function() {
                         device_id = res.device_id;
                         if (device_id) {
                             localStorage.setItem(CACHE_STORAGE.DEVICE_ID, device_id);
+                            if (ALLOW_SUB_DOMAIN) {
+                                setDeviceIdToCookie(device_id);
+                            }
                         }
                     }
                     resolveDevice(device_id);
@@ -134,6 +165,10 @@ const ProviderData = function (data) {
     return request_data;
 };
 
+const setPageViewId = function(id) {
+    PAGE_VIEW_ID = id;
+};
+
 const configure = async function (data) {
     if (typeof data.api_path != 'undefined' && data.api_path) {
         API_PATH = data.api_path.replace(/\/?$/, '/');
@@ -164,7 +199,24 @@ const configure = async function (data) {
     if (typeof data.client_data != 'undefined' && data.client_data) {
         CLIENT_DATA = data.client_data;
     }
+
+    if (typeof data.allow_sub_domain != 'undefined') {
+        ALLOW_SUB_DOMAIN = data.allow_sub_domain;
+    }
 };
+
+const parseCookie = (str) => {
+    if (!str) {
+        return {};
+    }
+    return str
+        .split(';')
+        .map(v => v.split('='))
+        .reduce((acc, v) => {
+            acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+            return acc;
+        }, {});
+}
 
 const startLogin = async function (data, callback) {
     await startAuthentication({
@@ -253,6 +305,10 @@ const getClientSettings = async function(email_address, callback) {
 
     if (email_address) {
         request_data['email_address'] = encodeURIComponent(email_address);
+    }
+
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
     const deviceCheckCallback = function(res) {
@@ -444,6 +500,12 @@ const createEvent = async function (code, data, callback) {
         request_data['data'] = data;
     }
 
+    if (code !== 'page_view') {
+        if (PAGE_VIEW_ID) {
+            request_data['page_view_id'] = PAGE_VIEW_ID;
+        }
+    }
+
     const deviceCheckCallback = function(res) {
         if (checkDeviceId(res)) {
             cleanDeviceId();
@@ -462,7 +524,7 @@ const startAuthentication = async function({
     let url = API_PATH +
         'apps/' +
         APP_ID +
-        '/users/authentications';
+        '/authentications';
     let request_data = {
         options: options
     };
@@ -485,6 +547,10 @@ const startAuthentication = async function({
         request_data['email_address'] = email_address;
     }
 
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
+    }
+
     const deviceCheckCallback = function(res) {
         if (checkDeviceId(res)) {
             cleanDeviceId();
@@ -500,6 +566,7 @@ const startAuthentication = async function({
 
 export default {
     configure,
+    setPageViewId,
     getProviders,
     startLogin,
     redirectLogin,

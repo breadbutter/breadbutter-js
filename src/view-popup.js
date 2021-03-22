@@ -328,8 +328,8 @@ const assignTextLocation = function() {
     let text_holder = getTextHolder();
     currentPopup.appendChild(text_holder);
     if (fit) {
-        text_holder.classList.add(left ? 'left' : 'right');
-        text_holder.classList.add(bottom ? 'bottom' : 'top');
+        text_holder.classList.add(left ? 'bb-left' : 'bb-right');
+        text_holder.classList.add(bottom ? 'bb-bottom' : 'bb-top');
 
         if (bottom) {
             text_holder.appendChild(getArrowIcon(left, bottom));
@@ -429,7 +429,7 @@ const getTitle = function () {
 };
 
 const getCloseIcon = function () {
-    let b = view.addBlock('button', FORM.CLOSE);
+    let b = view.addButton(FORM.CLOSE);
     b.innerHTML = getCloseIconSvg();
     b.onclick = triggerClosePopup;
     return b;

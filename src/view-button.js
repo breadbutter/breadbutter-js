@@ -94,7 +94,7 @@ const getButtonLists = function (providers, options) {
         button_theme != 'icon' &&
         collapsible
     ) {
-        container.classList.add('collapsed');
+        container.classList.add('bb-collapsed');
         container.prepend(getMoreButton(triggerMore));
     }
 
@@ -180,10 +180,10 @@ const triggerMore = function (e) {
     // console.log('triggerMore');
     const more = e.currentTarget;
     let classList = more.parentElement.parentElement.classList;
-    if (classList.contains('collapsed')) {
-        classList.remove('collapsed');
+    if (classList.contains('bb-collapsed')) {
+        classList.remove('bb-collapsed');
     } else {
-        classList.add('collapsed');
+        classList.add('bb-collapsed');
     }
     e.stopImmediatePropagation();
 };

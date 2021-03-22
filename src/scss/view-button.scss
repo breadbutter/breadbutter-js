@@ -1,7 +1,7 @@
 @import 'theme';
 //@import 'scss/mixins/breadbutter-buttons-type';
 
-.breadbutter-buttons button {
+.breadbutter-buttons .bb-button {
     background: #fefefe;
     border-radius: 2px;
     display: inline-block;
@@ -12,7 +12,7 @@
     -webkit-appearance: none;
 }
 
-.breadbutter-buttons button:focus {
+.breadbutter-buttons .bb-button:focus {
     outline: 0;
 }
 
@@ -43,15 +43,15 @@
     position: relative;
 }
 
-.breadbutter-buttons.collapsed > div {
+.breadbutter-buttons.bb-collapsed > div {
     display: none;
 }
 
-.breadbutter-buttons.suggested-list.collapsed > div {
+.breadbutter-buttons.suggested-list.bb-collapsed > div {
     display: block;
 }
 
-.breadbutter-buttons.collapsed > div.first {
+.breadbutter-buttons.bb-collapsed > div.first {
     display: block;
 }
 
@@ -82,7 +82,7 @@
         //}
     }
 
-    &.collapsed .more {
+    &.bb-collapsed .more {
         background-color: $breadbutter-dark-grey;
 
         svg {
@@ -174,13 +174,13 @@
 }
 
 .breadbutter-buttons {
-    .item {
+    .bb-item {
         border: none;
         border-radius: 2px;
         //box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .4);
     }
     &.bb-round {
-        .item {
+        .bb-item {
             border-radius: 50%;
         }
         .custom-icon {
@@ -198,13 +198,13 @@
             margin: 0 3px;
         }
 
-        .item {
+        .bb-item {
             border: none;
             border-radius: 2px;
             //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
         }
 
-        .wrapper {
+        .bb-icon-wrapper {
             border: none;
             border-radius: 4px;
             //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
@@ -218,7 +218,7 @@
                 height: 24px;
                 position: absolute;
 
-                &.medium {
+                &.bb-icon-medium {
                     svg {
                         margin: 2px;
                         width: 20px;
@@ -226,7 +226,7 @@
                     }
                 }
 
-                &.small {
+                &.bb-icon-small {
                     svg {
                         margin: 3px;
                         width: 18px;
@@ -247,7 +247,7 @@
     }
 
     & > div:not(.enterprise) {
-        .wrapper {
+        .bb-icon-wrapper {
             border: none;
             border-radius: 4px;
             //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
@@ -269,7 +269,7 @@
                 font-family: 'Selawik', 'Segoe UI', Arial !important;
             }
 
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 color: #797a79;
                 border: 1px solid #e6e6e6;
@@ -285,7 +285,7 @@
                 font-weight: 600;
             }
             /* background-color: #4285f4; */
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 color: rgba(0, 0, 0, 0.54);
                 border: 1px solid #e6e6e6;
@@ -304,7 +304,7 @@
                 font-weight: 400;
                 margin-left: 0px;
             }
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #227aed;
                 border: 1px solid #227aed;
                 color: #fff;
@@ -320,7 +320,7 @@
                     'Arial' !important;
                 font-weight: 600;
             }
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #000;
                 border: 1px solid #000;
                 color: #fff;
@@ -330,7 +330,7 @@
         }
 
         .linkedin {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 color: #797a79;
                 border: 1px solid #e6e6e6;
@@ -342,7 +342,7 @@
         }
 
         .github {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #444;
                 border: 1px solid #444;
                 color: #fff;
@@ -354,7 +354,7 @@
         }
 
         .basecamp {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #1d2d35;
                 border: 1px solid #1d2d35;
                 color: #fff;
@@ -365,7 +365,7 @@
         }
 
         .fitbit {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #002a3a;
                 color: #fff;
                 border: 1px solid #002a3a;
@@ -376,7 +376,7 @@
         }
 
         .dropbox {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #0061ff;
                 border: 1px solid #0061ff;
                 color: #fff;
@@ -387,7 +387,7 @@
         }
 
         .evernote {
-            .wrapper {
+            .bb-icon-wrapper {
                 border: 1px solid #00a82d;
                 background-color: #00a82d;
                 color: #fff;
@@ -398,7 +398,7 @@
         }
 
         .shopify {
-            .wrapper {
+            .bb-icon-wrapper {
                 border: 1px solid #95bf47;
                 background-color: #95bf47;
                 color: #fff;
@@ -412,7 +412,7 @@
             span {
                 margin-left: -6px;
             }
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #2266f7;
                 border: 1px solid #2266f7;
                 color: #fff;
@@ -423,7 +423,7 @@
         }
 
         .twitter {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #3399ff;
                 border: 1px solid #3399ff;
                 color: #fff;
@@ -434,7 +434,7 @@
         }
 
         .slack {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 color: #393a3f;
                 border: 1px solid #e6e6e6;
@@ -446,7 +446,7 @@
             }
         }
         .salesforce {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 color: #797a79;
                 border: 1px solid #e6e6e6;
@@ -463,7 +463,7 @@
                 margin-left: -1px;
             }
 
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #2ca01c;
                 border: 1px solid #2ca01c;
                 color: #fff;
@@ -475,7 +475,7 @@
         }
 
         .twitch {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #9146ff;
                 border: 1px solid #9146ff;
                 color: #fff;
@@ -487,7 +487,7 @@
         }
 
         .local:not(.green) {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #fff;
                 border: 1px solid #e6e6e6;
                 color: #797a79;
@@ -508,7 +508,7 @@
         }
 
         .local.green {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: $breadbutter-green;
                 border: 1px solid $breadbutter-green;
                 color: #fff;
@@ -533,7 +533,7 @@
 .breadbutter-buttons:not(.bb-icon) {
     & > div:not(.enterprise):hover {
         .microsoft {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #f4f4f4;
                 border: 1px solid #f4f4f4;
                 color: #797a79;
@@ -541,7 +541,7 @@
         }
 
         .linkedin {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #2f7ab1;
                 border: 1px solid #2f7ab1;
                 color: #ffffff;
@@ -552,7 +552,7 @@
         }
 
         .google {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #3e82f1;
                 border: 1px solid #3e82f1;
                 color: #fff;
@@ -569,111 +569,111 @@
         }
 
         .github {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #5f6060;
                 border: 1px solid #5f6060;
             }
         }
 
         .basecamp {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #31474f;
                 border: 1px solid #31474f;
             }
         }
 
         .fitbit {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #06475b;
                 border: 1px solid #06475b;
             }
         }
 
         .facebook {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #5e9ef2;
                 border: 1px solid #5e9ef2;
             }
         }
 
         .dropbox {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #044bb2;
                 border: 1px solid #044bb2;
             }
         }
 
         .evernote {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #077020;
                 border: 1px solid #077020;
             }
         }
 
         .shopify {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #6a8432;
                 border: 1px solid #6a8432;
             }
         }
 
         .planningcenter {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #1e51ad;
                 border: 1px solid #1e51ad;
             }
         }
 
         .twitter {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #2778ba;
                 border: 1px solid #2778ba;
             }
         }
 
         .slack {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #f4f4f4;
                 border: 1px solid #f4f4f4;
             }
         }
 
         .salesforce {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #f4f4f4;
                 border: 1px solid #f4f4f4;
             }
         }
         .quickbooks {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #145907;
                 border: 1px solid #145907;
             }
         }
 
         .twitch {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #5511bf;
                 border: 1px solid #5511bf;
             }
         }
 
         .apple {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #464646;
                 border: 1px solid #464646;
             }
         }
 
         .local {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #f1f1f1;
                 border: 1px solid #f1f1f1;
             }
         }
 
         .local.green {
-            .wrapper {
+            .bb-icon-wrapper {
                 background-color: #53913c;
                 border: 1px solid #53913c;
             }
@@ -683,7 +683,7 @@
 
 .breadbutter-buttons.bb-icon {
     > div:not(.enterprise) {
-        .item {
+        .bb-item {
             flex: 1;
             padding: 0;
             //margin: 0 0.25em 0.25em 0;
@@ -807,7 +807,7 @@
 
 .breadbutter-buttons.bb-icon {
     & > div:not(.enterprise):hover {
-        .item {
+        .bb-item {
             &[data-name='microsoft'] {
                 background-color: #f1f1f1;
                 border: 1px solid #f1f1f1;
@@ -920,7 +920,7 @@
                 background-color: transparent;
             }
             > div {
-                .wrapper {
+                .bb-icon-wrapper {
                     .icon-holder {
                         border-radius: 0;
                         margin: 7px 8px 9px 8px;
@@ -960,7 +960,7 @@
                     }
                 }
                 &.okta {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         color: #007dc1;
                         background-color: #fff;
                         border: 1px solid #e6e6e6;
@@ -970,14 +970,14 @@
                     }
                 }
                 &.onelogin {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         background-color: #1c1f2a;
                         border: 1px solid #e6e6e6;
                         color: #fff;
                     }
                 }
                 &.microsoft {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         color: #8c8c8c;
                         background-color: #fff;
                         border: 1px solid #e6e6e6;
@@ -987,7 +987,7 @@
                     }
                 }
                 &.google {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         background-color: #fff;
                         border: 1px solid #e6e6e6;
                         color: #8c8c8c;
@@ -1018,7 +1018,7 @@
                 border: 1px solid #e6e6e6;
             }
 
-            .item {
+            .bb-item {
                 flex: 1;
                 padding: 0;
                 height: 40px;
@@ -1125,6 +1125,6 @@
 .google [name='google']:not(.enterprise) {
     display: none;
 }
-.breadbutter-buttons.bb-round.bb-icon>div:not(.enterprise):hover .item[data-name='google'] svg {
+.breadbutter-buttons.bb-round.bb-icon>div:not(.enterprise):hover .bb-item[data-name='google'] svg {
     border-radius: 50%;
 }

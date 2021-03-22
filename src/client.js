@@ -9,6 +9,10 @@ const providers = constants.providers;
 const providers_hash = constants.providers_hash;
 const providers_buttons = constants.providers_buttons;
 const event_type = constants.event_type;
+const gateway_emails = constants.gateway_emails;
+const gateway_hash = constants.gateway_hash;
+const encoded_action = constants.encoded_action;
+const encoded_hash = constants.encoded_hash;
 
 const initialize = function () {
     loadFonts();
@@ -48,7 +52,8 @@ let options = {
     force_reauthentication: null, //off/attempt/force/null
     button_theme: 'round-icons', //'square-icons', 'round-icons', 'tile'
     expand_email_address: true,
-    show_login_focus: true
+    show_login_focus: true,
+    allow_sub_domain: false
 };
 
 const configure = function (opt) {
@@ -64,7 +69,7 @@ const configure = function (opt) {
     }
 
     if (typeof opt.app_id != 'undefined') {
-        options.app_id = opt.app_id;
+        options.app_id = opt.app_id.replace(/-/g, '');
     }
 
     if (typeof opt.app_secret != 'undefined') {
@@ -103,11 +108,15 @@ const configure = function (opt) {
     }
 
     if (typeof opt.continue_with_position != 'undefined' && typeof opt.continue_with_position == 'object') {
-        options.continue_with_position = opt.options.continue_with_position;
-    }
+        options.continue_with_position = opt.continue_with_position;
+    }encoded_action
 
     if (typeof opt.show_login_focus != 'undefined') {
         options.show_login_focus = opt.show_login_focus;
+    }
+
+    if (typeof opt.allow_sub_domain != 'undefined') {
+        options.allow_sub_domain = opt.allow_sub_domain;
     }
 
     api.configure({
@@ -117,7 +126,8 @@ const configure = function (opt) {
         destination_url: options.destination_url,
         callback_url: options.callback_url,
         force_reauthentication: options.force_reauthentication,
-        client_data: options.client_data
+        client_data: options.client_data,
+        allow_sub_domain: options.allow_sub_domain
     });
 
     tracking();
@@ -133,30 +143,10 @@ const api = new (function () {
             destination_url: opt.destination_url,
             callback_url: opt.callback_url,
             force_reauthentication: opt.force_reauthentication,
-            client_data: opt.client_data
+            client_data: opt.client_data,
+            allow_sub_domain: opt.allow_sub_domain
         });
     };
-
-    // this.startLogin = function (opt, callback) {
-    //     let redirect = true;
-    //     if (opt.redirect === false) {
-    //         redirect = opt.redirect;
-    //     }
-    //
-    //     API.startLogin(opt, function (response) {
-    //         if (response && response.token) {
-    //             if (callback) {
-    //                 callback(API.redirectAuthentication(response.token, redirect));
-    //             } else {
-    //                 API.redirectAuthentication(response.token, redirect);
-    //             }
-    //         } else {
-    //             if (callback) {
-    //                 callback(response);
-    //             }
-    //         }
-    //     });
-    // };
 
     this.getProfile = function(callback) {
         API.getClientSettings(false, function(response) {
@@ -168,7 +158,6 @@ const api = new (function () {
         })
     };
 
-    // this.redirect = API.redirectLogin;
     this.getProviders = API.getProviders;
     this.ping = API.ping;
 })();
@@ -181,7 +170,15 @@ const events = new (function(){
         API.createEvent(event_type.PAGE_VIEW, {
             title: document.title,
             url: document.location.href
-        }, callback);
+        }, function(res){
+            if (res.event_id) {
+                API.setPageViewId(res.event_id);
+            }
+            if (typeof callback == 'function') {
+                callback(res);
+            }
+        });
+
     };
 })();
 
@@ -377,13 +374,104 @@ const ui = new (function () {
         });
 })();
 
+
+const parsingUrl = function(opt) {
+    // console.log(opt);
+    if (opt && opt.mode) {
+        return opt;
+    }
+
+    const querystring = function() {
+        var name, value
+        var params = {};
+        var hash = window.location.hash;
+        var search = window.location.search;
+        var target = search;
+        if(search.length == 0) {
+            target = hash
+        }
+        var p = target.split('?');
+        if (p.length > 1) {
+            var param_array = target.split('?')[1].split('&'), x;
+            for( var i in param_array) {
+                x = param_array[i].split('=');
+                name = x[0];
+                value = x[1];
+                if (typeof value == 'undefined') {
+                    value = null;
+                }
+
+                value = decodeURIComponent(value);
+
+                if (name.length > 0) {
+                    // params[name[0].toUpperCase() + name.substring(1)] = value;
+                    // params[name[0].toLowerCase() + name.substring(1)] = value;
+                    params[name.toLowerCase()] = value;
+                    params[name] = value;
+
+                    // me.keys[name[0].toUpperCase() + name.substring(1)] = name;
+                    // me.keys[name[0].toLowerCase() + name.substring(1)] = name;
+                    // me.keys[name.toLowerCase()] = name;
+                    // me.keys[name] = name;
+                }
+            }
+        }
+        return params;
+    }();
+    // console.log(querystring);
+    if (querystring[encoded_action.TARGET]) {
+        let data = false;
+        try {
+            let action_code =querystring[encoded_action.TARGET];
+            let json = atob(action_code);
+            data = JSON.parse(json);
+            // console.log(json);
+        } catch(e) {
+            return opt;
+        }
+        let type = data[encoded_action.TYPE];
+        let app_id = data[encoded_action.APP_ID];
+        let email = data[encoded_action.EMAIL];
+        let pin = data[encoded_action.PIN];
+
+        if (typeof encoded_hash[type] != 'undefined' &&
+            email && pin && app_id == options.app_id) {
+            if (!opt) {
+                opt = {};
+            }
+            opt.mode = encoded_hash[type];
+            opt.email_address = email;
+            opt.pin = pin;
+        }
+    } else if (querystring[gateway_emails.TYPE]) {
+        let type = querystring[gateway_emails.TYPE];
+        let app_id = querystring[gateway_emails.APP_ID];
+        let pin = querystring[gateway_emails.PIN];
+        let email = querystring[gateway_emails.EMAIL];
+
+        if (typeof gateway_hash[type] != 'undefined' &&
+            email && pin && app_id == options.app_id) {
+            if (!opt) {
+                opt = {};
+            }
+            opt.mode = gateway_hash[type];
+            opt.email_address = email;
+            opt.pin = pin;
+        }
+    }
+
+    return opt;
+}
+
 const widgets = new (function(){
     this.continueWith = function(opt) {
+        opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
+
         if (!mode) {
             ui.form(opt);
         } else {
-            switch(mode) {
+            switch (mode) {
                 case constants.mode.CONFIRM_EMAIL:
                     ui.confirmEmail(opt);
                     break;
@@ -397,11 +485,13 @@ const widgets = new (function(){
         }
     };
     this.signIn = function(id, opt) {
-        let mode = (opt && opt.mode) ? opt.mode : false;
+        opt = parsingUrl(opt);
+        let mode = (opt && opt.mode) ? opt.mode : parsingUrl();
+
         if (!mode) {
             ui.form(id, opt);
         } else {
-            switch(mode) {
+            switch (mode) {
                 case constants.mode.CONFIRM_EMAIL:
                     ui.confirmEmail(id, opt);
                     break;

@@ -1166,7 +1166,7 @@ const getRePassword = function (cb, placeholder) {
 };
 
 const getResetPassword = function (cb) {
-    let b = view.addBlock('button', FORM.RESET_PASSWORD);
+    let b = view.addButton(FORM.RESET_PASSWORD);
     b.innerText = Locale.BUTTON.SET_PASSWORD;
     if (cb) {
         b.onclick = cb;
@@ -1176,7 +1176,7 @@ const getResetPassword = function (cb) {
 };
 
 const getButton = function (text, id, cb) {
-    let b = view.addBlock('button', id);
+    let b = view.addButton(id);
     b.innerText = text;
     if (cb) {
         b.onclick = cb;
@@ -1565,12 +1565,12 @@ const triggerListCollapse = function (e) {
     const suggested_list = button.parentElement;
     const button_holder = suggested_list.parentElement;
     const container = findChild(button_holder, 'collapsible');
-    if (suggested_list.classList.contains('collapsed')) {
-        suggested_list.classList.remove('collapsed');
+    if (suggested_list.classList.contains('bb-collapsed')) {
+        suggested_list.classList.remove('bb-collapsed');
         container.classList.remove('hide');
         expandingIcons(e);
     } else {
-        suggested_list.classList.add('collapsed');
+        suggested_list.classList.add('bb-collapsed');
         container.classList.add('hide');
     }
 };
@@ -1580,7 +1580,7 @@ const triggerCollapse = function (button_holder) {
     if (!login_container.classList.contains('local-login')) {
         const suggested_list = findChild(button_holder, 'suggested-list');
         const container = findChild(button_holder, 'collapsible');
-        suggested_list.classList.add('collapsed');
+        suggested_list.classList.add('bb-collapsed');
         container.classList.add('hide');
     }
 };
@@ -2706,7 +2706,7 @@ const goLogin = function(holder, response) {
           opt
         );
         buttons.container.classList.add('suggested-list');
-        buttons.container.classList.add('collapsed');
+        buttons.container.classList.add('bb-collapsed');
         button_holder.append(buttons.container);
 
         buttons = viewButton.getButtonLists(list, opt);
@@ -2759,7 +2759,7 @@ const goLogin = function(holder, response) {
                 error,
             } = viewButton.getButtonLists([], opt);
             container.classList.add('suggested-list');
-            container.classList.add('collapsed');
+            container.classList.add('bb-collapsed');
             container.classList.add('local-only');
             button_holder.append(container);
 
@@ -2793,7 +2793,7 @@ const switchLocalLogin = function (holder) {
     }
     let suggested = findChild(button_holder, 'suggested-list');
     if (suggested) {
-        suggested.classList.add('collapsed');
+        suggested.classList.add('bb-collapsed');
     }
 
     insertSwitchLogin(top, true);

@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.3.1.0.181.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.3.5.0.220.min.js
     
 ## Configuration
 

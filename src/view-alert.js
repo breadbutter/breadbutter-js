@@ -54,7 +54,7 @@ const getParagraph = function (text) {
 };
 
 const getButton = function (text, id, cb) {
-    let b = view.addBlock('button', id);
+    let b = view.addButton(id);
     b.innerText = text;
     if (cb) {
         b.onclick = cb;

@@ -279,7 +279,7 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
 
-            &.collapsed {
+            &.bb-collapsed {
                 background-color: initial;
             }
             .more {
@@ -486,7 +486,7 @@
 
 .breadbutter-ui {
     width: 375px;
-    button {
+    .bb-button {
         &.form-next,
         &.form-incognito-next {
             height: 40px;
@@ -509,7 +509,7 @@
         }
 
         &.form-options {
-            background-color: #fff;
+            background-color: transparent;
             color: $breadbutter-dark-grey2;
             font-size: 13px;
             line-height: 1.455;
@@ -537,6 +537,7 @@
             border-radius: 5px;
             margin: 26px 0px 0px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         &.form-alert-confirm {
@@ -836,9 +837,9 @@
 
         &-register {
             padding-bottom: 0px;
-            button {
+            .bb-button {
                 &.form-options {
-                    background-color: #eeeeee;
+                    background-color: transparent;
                     text-decoration: underline;
                     color: #707070 !important;
                     padding: 10px 0px 20px 0px;
@@ -1004,18 +1005,18 @@
     &.register-suggested {
         .breadbutter-buttons {
             .google, .microsoft, .slack, .salesforce, .linkedin {
-                .wrapper {
+                .bb-icon-wrapper {
                     border: solid 1px #414042 !important;
                 }
             }
             & > div:not(.more-block):hover {
                 .google {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         border: solid 1px #3e82f1 !important;
                     }
                 }
                 .linkedin {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         border: solid 1px #2f7ab1 !important;
                     }
                 }
@@ -1024,20 +1025,20 @@
     }
 
     .suggested-list{
-        &.collapsed {
+        &.bb-collapsed {
             .google, .microsoft, .slack, .salesforce, .linkedin {
-                .wrapper {
+                .bb-icon-wrapper {
                     border: solid 1px #414042 !important;
                 }
             }
             & > div:not(.more-block):hover {
                 .google {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         border: solid 1px #3e82f1 !important;
                     }
                 }
                 .linkedin {
-                    .wrapper {
+                    .bb-icon-wrapper {
                         border: solid 1px #2f7ab1 !important;
                     }
                 }
