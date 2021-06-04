@@ -9,6 +9,7 @@ let CLIENT_DATA;
 let FORCE_REAUTHENTICATION;
 let PAGE_VIEW_ID;
 let ALLOW_SUB_DOMAIN;
+let SUCCESS_EVENT_CODE;
 
 let DEVICE_ID;
 const CACHE_STORAGE = {
@@ -108,6 +109,13 @@ const LoginOptionData = function(data) {
     } else if (FORCE_REAUTHENTICATION) {
         request_data['force_reauthentication'] = FORCE_REAUTHENTICATION;
     }
+
+    if (data.success_event_code) {
+        request_data['success_event_code'] = data.success_event_code;
+    } else if (SUCCESS_EVENT_CODE) {
+        request_data['success_event_code'] = SUCCESS_EVENT_CODE;
+    }
+
     return request_data;
 };
 
@@ -202,6 +210,10 @@ const configure = async function (data) {
 
     if (typeof data.allow_sub_domain != 'undefined') {
         ALLOW_SUB_DOMAIN = data.allow_sub_domain;
+    }
+
+    if (typeof data.success_event_code != 'undefined') {
+        SUCCESS_EVENT_CODE = data.success_event_code;
     }
 };
 
@@ -485,7 +497,7 @@ const registerDevice = function(callback) {
     request(url, request_data, 'POST', callback);
 };
 
-const createEvent = async function (code, data, callback) {
+const createEvent = async function (code, data, referrer, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/events';
 
     let request_data = {};
@@ -499,6 +511,9 @@ const createEvent = async function (code, data, callback) {
     if (data) {
         request_data['data'] = data;
     }
+    if (referrer) {
+        request_data['referrer_url'] = referrer;
+    }
 
     if (code !== 'page_view') {
         if (PAGE_VIEW_ID) {
@@ -509,7 +524,7 @@ const createEvent = async function (code, data, callback) {
     const deviceCheckCallback = function(res) {
         if (checkDeviceId(res)) {
             cleanDeviceId();
-            createEvent(type, data, callback);
+            createEvent(code, data, referrer, callback);
         } else if (typeof callback == 'function') {
             callback(res);
         }

@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.3.5.0.220.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.4.5.0.270.min.js
     
 ## Configuration
 
@@ -27,7 +27,7 @@ The official BreadButter JavaScript client library.
             BreadButter.widgets.continueWith();
         };
     </script>
-    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.3.2.0.200.min.js"></script>
+    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.4.5.0.270.min.js"></script>
   </head>
  <body></body>
 </html>
@@ -43,7 +43,7 @@ Inject this on your existing page to get started using with Bread & Butter with 
     	BreadButter.configure({ app_id: APP_ID });
     	BreadButter.widgets.continueWith();
     };
-    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.3.2.0.200.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
+    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.4.5.0.270.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
 </script>
 ```
 
@@ -65,7 +65,10 @@ BreadButter.configure({
         left/right
     },
     expand_email_address, //default true
-    show_login_focus //default true
+    show_login_focus, //default true
+    allow_sub_domain, //default true
+    remember_close, //default true
+    success_event_code
 });
 ```
 
@@ -83,6 +86,9 @@ button_theme| [STRING] [VALUES: round-icons/square-icons/tiles] [DEFAULT: 'round
 expand_email_address | [BOOLEAN] [DEFFAULT: true] This parameter is used to expand the email address field on advanced discovery.
 show_login_focus | [BOOLEAN] [DEFFAULT: true] Show the background blur for the continue with login on the advanced discovery.
 continue_with_position | [OBJECT] [Example: {'top': '10px', 'right': '10px'}] Used for positioning the continue with widget. Will accept only 1 parameter for top/bottom and 1 parameter for left/right. Accepts 10, '10px', and '10%' for positioning.
+allow_sub_domain | [BOOLEAN] [DEFAULT: false]
+remember_close | [BOOLEAN] [DEFAULT: false]
+success_event_code | [STRING] 
 
 
 ## Widgets
@@ -103,6 +109,8 @@ button_theme
 continue_with_position
 expand_email_address
 show_login_focus
+remember_close
+success_event_code
 ```
 
 #### Parameters
@@ -166,7 +174,7 @@ client_data
 force_reauthentication
 button_theme
 expand_email_address
-show_login_focus
+success_event_code
 ```
 
 #### Parameters
@@ -216,7 +224,7 @@ BreadButter.widgets.buttons(TARGET_DOM_ID);
 ![LL icon](bb_icons.png) 
 ```
 BreadButter.widgets.buttons(TARGET_DOM_ID, {
-    buttonTheme: ‘round-icons’
+    button_theme: ‘round-icons’
 });
 ```
 

@@ -16,6 +16,8 @@ const MESSAGE_ID = 'breadbutter-floating-message';
 const MORE_ID = 'breadbutter-floating-more';
 const TEXT_TITLE_ID = 'breadbutter-floating-text-title';
 
+const BLUR_HEADER_ID = 'breadbutter-blur-header';
+
 import lang from './locale.js';
 import './scss/view-popup.scss';
 import viewForm from './view-form.js';
@@ -65,9 +67,12 @@ let currentMask = false;
 
 let EVENT_CALLBACK = [];
 
+
 const FORM = {
     TITLE: 'popup-title',
     CLOSE: 'popup-close',
+    MOBILE_HANDLER: 'bb-mobile-handler',
+    MOBILE_DROPDOWN: 'bb-mobile-dropdown'
 };
 
 const EVENT = {
@@ -94,6 +99,7 @@ const loadLanguage = function (options) {
 };
 
 const loadOptions = function (options) {
+    detectMobile();
     loadLanguage(options);
 };
 
@@ -156,13 +162,28 @@ const parsePosition = function(position) {
     return pos;
 }
 
+let isMobile = false;
+const detectMobile = function() {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        // true for mobile device
+        isMobile = true;
+    }
+}
+
 const createView = function (options) {
-    options.onProvider = triggerProvider;
+    if (!isMobile) {
+        options.onProvider = triggerProvider;
+    }
     options.onLogin = triggerLogin;
+    options.onBlur = triggerBlur;
     options.adjustHeader = triggerAdjustHeader;
     options.addEvent = addEvent;
+    options.isContinueWith = true;
     TRIGGER_EVENT = {};
 
+    if (typeof options.internalOnFormClose == 'function') {
+        EVENT_CALLBACK.push(options.internalOnFormClose);
+    }
     if (typeof options.onFormClose == 'function') {
         EVENT_CALLBACK.push(options.onFormClose);
     }
@@ -172,27 +193,36 @@ const createView = function (options) {
         DATA.show_login_focus = true;
     }
 
+    if (isMobile) {
+        DATA.show_login_focus = false;
+    }
+
+
     closeForm();
     let popup = addView(POPUP_ID);
 
-    if (options.continue_with_position) {
-        if (options.continue_with_position.top) {
-            popup.style.top = parsePosition(options.continue_with_position.top);
-        } else if (options.continue_with_position.bottom) {
-            popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+    if (!isMobile) {
+        if (options.continue_with_position) {
+            if (options.continue_with_position.top) {
+                popup.style.top = parsePosition(options.continue_with_position.top);
+            } else if (options.continue_with_position.bottom) {
+                popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+            } else {
+                popup.style.top = '30px';
+            }
+            if (options.continue_with_position.left) {
+                popup.style.left = parsePosition(options.continue_with_position.left);
+            } else if (options.continue_with_position.right) {
+                popup.style.right = parsePosition(options.continue_with_position.right);
+            } else {
+                popup.style.right = '30px';
+            }
         } else {
             popup.style.top = '30px';
-        }
-        if (options.continue_with_position.left) {
-            popup.style.left = parsePosition(options.continue_with_position.left);
-        } else if (options.continue_with_position.right) {
-            popup.style.right = parsePosition(options.continue_with_position.right);
-        } else {
             popup.style.right = '30px';
         }
     } else {
-        popup.style.top = '30px';
-        popup.style.right = '30px';
+        popup.classList.add('bb-mobile-device');
     }
 
 
@@ -203,12 +233,34 @@ const createView = function (options) {
     wrapper.appendChild(header);
     wrapper.appendChild(holder);
 
+    if (isMobile) {
+        header.appendChild(getMobileHandler())
+    }
     header.appendChild(getTitle());
-    header.appendChild(getCloseIcon());
+    if (!isMobile) {
+        header.appendChild(getCloseIcon());
+    }
     document.body.append(popup);
     currentPopup = popup;
 
     return holder;
+};
+
+const triggerBlur = function(height) {
+    let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
+    if (height) {
+        let b = findChild(wrapper, BLUR_HEADER_ID);
+        if (!b) {
+            b = addView(BLUR_HEADER_ID);
+            wrapper.appendChild(b);
+        }
+        b.style.bottom = height + 36 + 'px';
+    } else {
+        let b = findChild(wrapper, BLUR_HEADER_ID);
+        if (b) {
+            b.remove();
+        }
+    }
 };
 
 const triggerAdjustHeader = function(show) {
@@ -433,6 +485,101 @@ const getCloseIcon = function () {
     b.innerHTML = getCloseIconSvg();
     b.onclick = triggerClosePopup;
     return b;
+};
+
+
+const getDropdownButton = function() {
+    const button = view.addBlock('div', FORM.MOBILE_DROPDOWN);
+    return button;
+};
+
+const getMobileHandler = function() {
+    let b = view.addBlock('div', FORM.MOBILE_HANDLER);
+    b.onclick = triggerToggleMobile;
+    b.appendChild(getDropdownButton())
+    return b;
+};
+
+
+function collapseSection(element) {
+    // get the height of the element's inner content, regardless of its actual size
+    let sectionHeight = element.scrollHeight;
+
+    // temporarily disable all css transitions
+    let elementTransition = element.style.transition;
+    element.style.transition = '';
+
+    // on the next frame (as soon as the previous style change has taken effect),
+    // explicitly set the element's height to its current pixel height, so we
+    // aren't transitioning out of 'auto'
+    requestAnimationFrame(function() {
+        element.style.height = sectionHeight + 'px';
+        element.style.transition = elementTransition;
+
+        // on the next frame (as soon as the previous style change has taken effect),
+        // have the element transition to height: 0
+        requestAnimationFrame(function() {
+            element.style.height = 30 + 'px';
+        });
+    });
+
+
+    currentPopup.setAttribute('transitioning', 'true');
+    setTimeout(function() {
+        currentPopup.setAttribute('transitioning', 'false');
+        element.classList.add('bb-mobile-collpase');
+    }, 500);
+
+    // mark the section as "currently collapsed"
+    element.setAttribute('data-collapsed', 'true');
+}
+
+
+function expandSection(element) {
+    // get the height of the element's inner content, regardless of its actual size
+    let sectionHeight = element.scrollHeight;
+
+    // have the element transition to the height of its inner content
+    element.style.height = sectionHeight + 'px';
+
+    function removeListenerTransition(e) {
+        element.removeEventListener('transitionend', removeListenerTransition);
+
+        // remove "height" from the element's inline styles, so it can return to its initial value
+        element.style.height = null;
+    }
+
+    // when the next css transition finishes (which should be the one we just triggered)
+    element.addEventListener('transitionend', function(e) {
+        // remove this event listener so it only gets triggered once
+        removeListenerTransition(e);
+    });
+
+    currentPopup.setAttribute('transitioning', 'true');
+    setTimeout(function() {
+        currentPopup.setAttribute('transitioning', 'false');
+        element.classList.remove('bb-mobile-collpase');
+    }, 500);
+    // mark the section as "currently not collapsed"
+    element.setAttribute('data-collapsed', 'false');
+}
+
+const triggerToggleMobile = function(e) {
+    let isCollapsed = currentPopup.getAttribute('data-collapsed') === 'true';
+
+    if(isCollapsed) {
+        expandSection(currentPopup)
+        currentPopup.setAttribute('data-collapsed', 'false')
+    } else {
+        collapseSection(currentPopup)
+    }
+    // if (currentPopup.classList.contains('bb-mobile-collpase')) {
+    //     //collpase -> open
+    //     currentPopup.classList.remove('bb-mobile-collpase');
+    // } else {
+    //     //open -> collpase
+    //     currentPopup.classList.add('bb-mobile-collpase');
+    // }
 };
 
 const getMask = function () {

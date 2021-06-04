@@ -73,36 +73,36 @@ const start = function (top, infinite, small, transparent) {
         addLoader(top);
         if (infinite) {
             let loader = findChild(loading, LOADER_ID);
-            loader.classList.add('loading');
+            loader.classList.add('bb-loading');
         }
     } else {
         top.appendChild(loading);
     }
     if (small) {
-        loading.classList.add('small');
+        loading.classList.add('bb-small');
     }
     if (transparent) {
-        loading.classList.add('transparent');
+        loading.classList.add('bb-transparent');
     }
 };
 
 const success_hold = function () {
-    return loadIcon('success', true);
+    return loadIcon('bb-success', true);
 };
 
 const success = function () {
-    return loadIcon('success');
+    return loadIcon('bb-success');
 };
 
 const failure = function () {
-    return loadIcon('failure');
+    return loadIcon('bb-failure');
 };
 
 const loadIcon = function (icon, stay) {
     return new Promise((resolve) => {
         if (loading) {
             let loader = findChild(loading, LOADER_ID);
-            loader.classList.add('complete');
+            loader.classList.add('bb-complete');
             loader.classList.add(icon);
             setTimeout(function () {
                 if (!stay) {

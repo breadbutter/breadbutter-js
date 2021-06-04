@@ -82,17 +82,17 @@ $error-color: $brand-failure;
         fill: #EC1C24;
       }
     }
-    &.success {
+    &.bb-success {
       .util-loader-checkmark {
         display: block;
       }
     }
-    &.failure {
+    &.bb-failure {
       .util-loader-error {
         display: block;
       }
     }
-    &.complete {
+    &.bb-complete {
       -webkit-animation: none;
       animation: none;
       border-color: rgba(0,0,0,0);

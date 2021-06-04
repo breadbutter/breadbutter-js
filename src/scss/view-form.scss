@@ -1,482 +1,5 @@
 @import 'theme';
 
-.form-message.hide {
-    display: none;
-}
-
-.breadbutter-register-holder {
-    //display: none;
-}
-
-.breadbutter-forgot {
-    display: none;
-}
-
-.breadbutter-expire {
-    display: none;
-}
-
-.forgot > div {
-    display: none;
-}
-
-.forgot:not(.alert) > div.breadbutter-forgot {
-    display: block;
-}
-
-.expire > div {
-    display: none;
-}
-
-.expire:not(.alert) > div.breadbutter-expire {
-    display: block;
-}
-
-.alert > div,
-.alert > input {
-    display: none;
-}
-
-.alert > div.breadbutter-alert {
-    display: flex;
-}
-
-//.form-options::before {
-//    content: '＋';
-//    border-radius: 1rem;
-//    border: 1px solid black;
-//    width: 1rem;
-//    height: 1rem;
-//    display: inline-block;
-//    margin-right: 0.5rem;
-//    line-height: 0.9rem;
-//    text-align: center;
-//    vertical-align: middle;
-//}
-
-.breadbutter-forms .more-options {
-    display: none !important;
-}
-
-.breadbutter-forms.more .less-options {
-    display: none !important;
-}
-.breadbutter-forms.more .more-options {
-    display: flex !important;
-}
-
-.breadbutter-forms {
-    background: #fff;
-    position: relative;
-}
-
-//.more .form-options::before {
-//    content: '－';
-//}
-//.more-content .form-options::before {
-//    content: '－';
-//}
-//.more-content.less-content .form-options::before {
-//    content: '＋';
-//}
-
-.breadbutter {
-    &-forms > div {
-        position: relative;
-    }
-    &-forms * {
-        position: relative;
-    }
-
-    &-email,
-    &-incognito {
-        background-color: #ffffff;
-        padding: 0;
-        position: relative;
-    }
-
-    &-forgot-form,
-    &-expire-form,
-    &-register,
-    &-reset-title,
-    &-confirm-title,
-    &-alert {
-        background-color: #ffffff;
-        padding: 12px 13px 48px 14px;
-        position: relative;
-    }
-
-    &-forgot-form,
-    &-expire-form,
-    &-register,
-    &-alert,
-    &-reset
-    {
-        .breadbutter-module-poweredby {
-            margin-left: -14px;
-            margin-right: -13px;
-        }
-    }
-    &-forgot
-    {
-        .breadbutter-module-poweredby {
-            margin-left: 14px;
-        }
-    }
-
-    &-forgot-form {
-        padding-bottom: 10px;
-        .form-title {
-            padding: 42px 0 42px;
-        }
-    }
-
-    &-password-validation {
-        background-color: transparent;
-        color: #414042;
-        padding: 20px 0 0 40px;
-        text-align: left;
-        position: relative;
-        width: 260px;
-
-        .form-message {
-            font-style: normal !important;
-            text-align: left !important;
-            margin-top: 0 !important;
-            font-size: 11px !important;
-        }
-    }
-
-    &-reset-title,
-    &-confirm-title {
-        padding-bottom: 5px !important;
-    }
-
-    &-confirm-title {
-        .form-subtitle {
-            font-size: 12px !important;
-            line-height: 17px !important;
-            margin-top: 22px !important;
-        }
-    }
-
-    &-register + .breadbutter-register-holder {
-        margin-top: 1rem;
-    }
-
-    &-switch-login {
-        position: relative;
-        background-color: #ffffff;
-        padding: 15px $view-padding 14px;
-    }
-
-    &-reset-title,
-    &-confirm-title,
-    &-alert {
-        padding-top: 41px;
-        padding-bottom: 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    &-alert {
-        .form-message {
-            padding: 0px 25px;
-        }
-    }
-
-    &-buttons-holder,
-    &-forgot-buttons,
-    &-expire-buttons,
-    &-reset-form,
-    &-confirm-form {
-        background-color: #eeeeee;
-        padding: 20px $view-padding;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .form-password-toggle {
-            //margin-left: 75% !important;
-            //cursor: pointer;
-            //margin-top: -30px;
-            //margin-bottom: 30px;
-        }
-    }
-
-    &-forgot-buttons {
-        background-color: transparent;
-        padding: 15px $view-padding 17px;
-    }
-
-    &-incognito-holder {
-        background-color: #fff;
-        padding: 0 0 0px;
-        display: flex;
-        flex-direction: column;
-        //align-items: center;
-        .breadbutter-module-email-discovery {
-            margin: 0 25px 22.5px;
-        }
-    }
-
-    &-confirm-form {
-        background-color: #fff;
-        padding-top: 0px;
-    }
-
-    &-buttons-holder {
-        background-color: #fff;
-        padding: 10px 0;
-        &.login-provider {
-            margin: 0 -3px;
-            background-color: #fff;
-            * {
-                box-sizing: content-box;
-            }
-        }
-
-        &.register-suggested {
-            background-color: #fff !important;
-            padding: 0px;
-            margin-bottom: 7px !important;
-            .breadbutter-buttons {
-                margin: 0px;
-            }
-        }
-
-        .form-message {
-            margin-top: 10px !important;
-        }
-
-        .suggested-list {
-            .after-suggested {
-                width: 20px;
-                height: 20px;
-                top: 19px;
-                right: -7px;
-                position: absolute;
-                display: none !important;
-
-                svg {
-                    fill: #c3c3c3;
-                    width: 20px;
-                    height: 20px;
-                }
-            }
-        }
-
-        .suggested-list:not(.local-only) {
-            width: 100%;
-            padding: 0;
-            margin-bottom: 0;
-            align-items: flex-start;
-            justify-content: flex-start;
-            z-index: 1;
-            background-color: #e6e6e6;
-
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-
-            &.bb-collapsed {
-                background-color: initial;
-            }
-            .more {
-                border-top-left-radius: 0px;
-                border-bottom-left-radius: 0px;
-                //top: -2px;
-                //right: -36px;
-                //bottom: 0;
-            }
-
-            //> div:not(.more-block) {
-            //margin: 6px 5px;
-
-            .after-suggested {
-                top: 10px;
-                right: -25px;
-            }
-        }
-
-        .collapsible {
-            width: 100%;
-            padding: 0px;
-            background-color: $breadbutter-light-grey;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-            padding-bottom: 3px;
-            margin-top: -4px;
-            align-items: center;
-
-            > div {
-                width: 100%;
-                > div {
-                    margin: 3px;
-                }
-            }
-        }
-    }
-
-    &-login {
-        padding: 0 13px 0px 14px;
-        .breadbutter-module {
-            &-password {
-                margin-bottom: 20px;
-            }
-        }
-    }
-
-    &-register,
-    &-register-holder {
-        .form-email {
-            &.form-disabled-email {
-                background: none;
-                border: none;
-            }
-        }
-    }
-
-    &-register-holder {
-        background-color: #fff;
-        padding: 0 13px 0 14px;
-        flex-direction: column;
-        align-items: center;
-
-        .form-email {
-            &.form-disabled-email {
-                margin-top: 10px !important;
-            }
-        }
-
-        & > .form-message {
-            font-size: 14px;
-            padding: 0 30px;
-            margin-top: 0 !important;
-        }
-
-        .form-password-toggle {
-            //margin-left: 75% !important;
-            //cursor: pointer;
-            //margin-top: -30px;
-            //margin-bottom: 30px;
-        }
-
-        .breadbutter-forms.more & {
-            display: flex;
-        }
-    }
-
-
-    &-login,
-    &-register-holder,
-    &-register {
-        .breadbutter-module {
-            &-form-input,
-            &-password {
-                margin-left: 27.5px;
-                margin-right: 20.5px;
-            }
-        }
-    }
-
-    &-module-dropdown {
-        display: none;
-        background-color: #eeeef0;
-        height: 21px;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        .form-expand-icon {
-            border-right: solid 3px #878787;
-            border-bottom: solid 3px #878787;
-            width: 15px;
-            height: 15px;
-            transform: rotate(45deg) skew(-30deg, -30deg);
-        }
-    }
-    &-incognito {
-        &.confirm > *:not(.breadbutter-confirm) {
-            display: none;
-        }
-        .breadbutter-buttons-holder {
-            background-color: #eee;
-            align-items: flex-start;
-            padding: 6px 10px 6px 10px;
-            .breadbutter-buttons {
-                padding: 0;
-            }
-            .form-message {
-                margin-left: 20px;
-                margin-bottom: 8px;
-                text-align: left;
-            }
-            .form-options {
-                color: #707070;
-                text-decoration: underline;
-                background-color: transparent;
-                margin: 8px auto;
-                &.continue-email-address {
-                    cursor: default;
-                    text-decoration: none;
-                    margin: 8px auto 14px auto;
-                }
-            }
-        }
-
-        .breadbutter-incognito-holder {
-            .breadbutter-incognito-login,
-            .breadbutter-incognito-register {
-                display: none;
-            }
-
-            .breadbutter-incognito-login,
-            breadbutter-incognito-register {
-                display: none;
-            }
-
-            .form-switch-login,
-            .form-options {
-                display: none;
-            }
-
-            &.more-content {
-                &.less-content {
-                    padding: 0;
-                }
-                &.less-content > *:not(.form-options) {
-                    display: none;
-                }
-                .form-options {
-                    display: block;
-                }
-            }
-            &.login,
-            &.register {
-                .form-incognito-next {
-                    display: none;
-                }
-                .form-switch-login {
-                    display: block;
-                }
-            }
-            &.login {
-                .breadbutter-incognito-login {
-                    display: block;
-                }
-            }
-            &.register {
-                .breadbutter-incognito-register {
-                    display: block;
-                }
-            }
-        }
-
-        .form-register {
-            margin: 26px 40px !important;
-        }
-    }
-}
 
 :not(.breadbutter-popup-holder) > .breadbutter-ui {
     border-radius: 12px;
@@ -505,7 +28,7 @@
             border: 1px solid #50aff5;
             border-radius: 4px;
             margin: 0 10px 10px;
-            width: 100%;
+            //width: 100%;
         }
 
         &.form-options {
@@ -536,7 +59,7 @@
             border: 1px solid #50aff5;
             border-radius: 5px;
             margin: 26px 0px 0px;
-            width: 100%;
+            //width: 100%;
             box-sizing: border-box;
         }
 
@@ -552,7 +75,7 @@
             color: #c3c3c3;
             text-decoration: underline;
             margin: 10px 10px 0;
-            width: 100%;
+            //width: 100%;
         }
         &.form-cancel {
             margin: 10px 0px 10px;
@@ -673,6 +196,7 @@
         font-size: 13px;
         margin-top: 22px;
         margin-bottom: 10px;
+        border: none;
     }
 
     .form-next-holder,
@@ -790,28 +314,34 @@
         }
     }
 
-    .form-password-toggle {
-        //margin-left: -30px;
-        cursor: pointer;
-        position: absolute;
-        svg {
-            width: 25px;
-            position: absolute;
-            fill: #989898;
-            top: 0;
-            right: 17px;
-            &.sight {
-                display: none;
-            }
-        }
+    .breadbutter-forms {
+        .breadbutter-module-password {
+            .form-password-toggle {
+                //margin-left: -30px;
+                cursor: pointer;
+                position: absolute;
+                top: 18px;
+                right: 2px;
 
-        &.sight {
-            svg {
-                &.visible {
-                    display: none;
+                svg {
+                    width: 25px;
+                    fill: #989898;
+
+                    &.sight {
+                        display: none;
+                    }
                 }
+
                 &.sight {
-                    display: block;
+                    svg {
+                        &.visible {
+                            display: none;
+                        }
+
+                        &.sight {
+                            display: block;
+                        }
+                    }
                 }
             }
         }
@@ -831,7 +361,7 @@
 
 
             .breadbutter-module-password {
-                padding: 0 20px;
+                margin: 0 20px;
             }
         }
 
@@ -849,7 +379,6 @@
             .breadbutter-buttons-holder {
                 background-color: #eeeeee;
                 padding: 10px 10px 0px 11px;
-                margin: 0 -13px 0 -14px;
                 .form-message {
                     margin-bottom: 3px;
                 }
@@ -869,177 +398,665 @@
             border-color: #ec1c24;
         }
     }
-}
 
-.error {
-    //.form-title {
-    //  display: none;
-    //}
-    //
-    //.form-title-error {
-    //  display: block;
-    //}
-    //
-    //.form-subtitle {
-    //  display: none;
-    //}
-    //
-    //.form-subtitle-error {
-    //  display: block;
-    //}
-    //
-    //.form-sub-message {
-    //  display: none;
-    //}
-}
-.breadbutter-module-email-discovery {
-    position: relative;
-    padding: 15px;
-    margin: 0 25px;
+    .form-message.hide {
+        display: none;
+    }
 
-    .form-email {
-        margin-top: 0;
-        padding: 8px 28px 8px 14px;
-        border-radius: 0;
-        border: 1px solid #eeeef0;
-        border-right: none;
-        border-top: none;
-        border-left: none;
-        background: none;
-        background-color: rgba(0, 0, 0, 0) !important;
+    .breadbutter-register-holder {
+        //display: none;
+    }
 
-        &.focus {
-            border-color: #50aff5;
+    .breadbutter-forgot {
+        display: none;
+    }
 
-            & + .form-next-icon {
+    .breadbutter-expire {
+        display: none;
+    }
+
+    .forgot > div {
+        display: none;
+    }
+
+    .forgot:not(.alert) > div.breadbutter-forgot {
+        display: block;
+    }
+
+    .expire > div {
+        display: none;
+    }
+
+    .expire:not(.alert) > div.breadbutter-expire {
+        display: block;
+    }
+
+    .alert > div,
+    .alert > input {
+        display: none;
+    }
+
+    .alert > div.breadbutter-alert {
+        display: flex;
+    }
+
+    .breadbutter-forms .more-options {
+        display: none !important;
+    }
+
+    .breadbutter-forms.more .less-options {
+        display: none !important;
+    }
+    .breadbutter-forms.more .more-options {
+        display: flex !important;
+    }
+
+    .breadbutter-forms {
+        background: #fff;
+        position: relative;
+    }
+
+    //.more .form-options::before {
+    //    content: '－';
+    //}
+    //.more-content .form-options::before {
+    //    content: '－';
+    //}
+    //.more-content.less-content .form-options::before {
+    //    content: '＋';
+    //}
+
+    .breadbutter {
+        &-forms > div {
+            position: relative;
+        }
+        &-forms * {
+            position: relative;
+        }
+
+        &-email,
+        &-incognito {
+            background-color: #ffffff;
+            padding: 0;
+            position: relative;
+        }
+
+        &-forgot-form,
+        &-expire-form,
+        &-register,
+        &-reset-title,
+        &-confirm-title,
+        &-alert {
+            background-color: #ffffff;
+            padding: 12px 13px 0 14px;
+            position: relative;
+        }
+
+        &-forgot-form,
+        &-expire-form,
+        &-register,
+        &-alert,
+        &-reset
+        {
+            .breadbutter-module-poweredby {
+                margin-left: -14px;
+                margin-right: -13px;
+            }
+        }
+        &-forgot
+        {
+            .breadbutter-module-poweredby {
+                margin-left: 14px;
+            }
+        }
+
+        &-forgot-form {
+            padding-bottom: 10px;
+            .form-title {
+                padding: 42px 0 42px;
+            }
+        }
+
+        &-password-validation {
+            background-color: transparent;
+            color: #414042;
+            padding: 20px 0 0 40px;
+            text-align: left;
+            position: relative;
+            width: 260px;
+
+            .form-message {
+                font-style: normal !important;
+                text-align: left !important;
+                margin-top: 0 !important;
+                font-size: 11px !important;
+            }
+        }
+
+        &-reset-title,
+        &-confirm-title {
+            padding-bottom: 5px !important;
+        }
+
+        &-confirm-title {
+            .form-subtitle {
+                font-size: 12px !important;
+                line-height: 17px !important;
+                margin-top: 22px !important;
+            }
+        }
+
+        &-register + .breadbutter-register-holder {
+            margin-top: 1rem;
+        }
+
+        &-switch-login {
+            position: relative;
+            background-color: #ffffff;
+            padding: 15px $view-padding 14px;
+        }
+
+        &-reset-title,
+        &-confirm-title,
+        &-alert {
+            padding-top: 41px;
+            padding-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &-alert {
+            .form-message {
+                padding: 0px 25px;
+            }
+        }
+
+        &-buttons-holder,
+        &-forgot-buttons,
+        &-expire-buttons,
+        &-reset-form,
+        &-confirm-form {
+            background-color: #eeeeee;
+            padding: 20px $view-padding;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &-forgot-buttons {
+            background-color: transparent;
+            padding: 15px $view-padding 17px;
+        }
+
+        &-incognito-holder {
+            background-color: #fff;
+            padding: 0 0 0px;
+            display: flex;
+            flex-direction: column;
+            //align-items: center;
+            .breadbutter-module-email-discovery {
+                margin: 0 25px 22.5px;
+            }
+        }
+        &-email {
+            padding-bottom: 36px;
+        }
+
+        &-confirm-form {
+            background-color: #fff;
+            padding-top: 0px;
+        }
+
+        &-buttons-holder {
+            background-color: #fff;
+            padding: 10px 0;
+            &.login-provider {
+                margin: 0 -3px;
+                background-color: #fff;
+                * {
+                    box-sizing: content-box;
+                }
+            }
+
+            &.register-suggested {
+                background-color: #fff !important;
+                padding: 0px;
+                margin-bottom: 7px !important;
+                .breadbutter-buttons {
+                    margin: 0px;
+                }
+            }
+
+            .form-message {
+                margin-top: 10px !important;
+            }
+
+            .suggested-list {
+                .after-suggested {
+                    width: 20px;
+                    height: 20px;
+                    top: 19px;
+                    right: -7px;
+                    position: absolute;
+                    display: none !important;
+
+                    svg {
+                        fill: #c3c3c3;
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            .suggested-list:not(.bb-local-only) {
+                width: 100%;
+                padding: 0;
+                margin-bottom: 0;
+                align-items: flex-start;
+                justify-content: flex-start;
+                z-index: 1;
+                background-color: #e6e6e6;
+
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+
+                &.bb-collapsed {
+                    background-color: initial;
+                }
+                .more {
+                    border-top-left-radius: 0px;
+                    border-bottom-left-radius: 0px;
+                    //top: -2px;
+                    //right: -36px;
+                    //bottom: 0;
+                }
+
+                //> div:not(.more-block) {
+                //margin: 6px 5px;
+
+                .after-suggested {
+                    top: 10px;
+                    right: -25px;
+                }
+            }
+
+            .collapsible {
+                width: 100%;
+                padding: 0px;
+                background-color: $breadbutter-light-grey;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                padding-bottom: 3px;
+                margin-top: -4px;
+                align-items: center;
+
+                > div {
+                    width: 100%;
+                    > div {
+                        margin: 3px;
+                    }
+                }
+            }
+        }
+
+        &-login {
+            padding: 0 13px 0px 14px;
+            .breadbutter-module {
+                &-password {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+
+        &-register,
+        &-register-holder {
+            .form-email {
+                &.form-disabled-email {
+                    background: none;
+                    border: none;
+                }
+            }
+        }
+
+        &-register-holder {
+            background-color: #fff;
+            padding: 0 13px 0 14px;
+            flex-direction: column;
+            align-items: center;
+
+            .form-email {
+                &.form-disabled-email {
+                    margin-top: 10px !important;
+                }
+            }
+
+            & > .form-message {
+                font-size: 14px;
+                padding: 0 30px;
+                margin-top: 0 !important;
+            }
+            .breadbutter-forms.more & {
+                display: flex;
+            }
+        }
+
+
+        &-login,
+        &-register-holder,
+        &-register {
+            .breadbutter-module {
+                &-form-input,
+                &-password {
+                    margin-left: 27.5px;
+                    margin-right: 20.5px;
+                }
+            }
+        }
+
+        &-module-dropdown {
+            display: none;
+            background-color: #eeeef0;
+            height: 21px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            .form-expand-icon {
+                border-right: solid 3px #878787;
+                border-bottom: solid 3px #878787;
+                width: 15px;
+                height: 15px;
+                transform: rotate(45deg) skew(-30deg, -30deg);
+            }
+        }
+        &-incognito, &-email {
+            &.confirm > *:not(.breadbutter-confirm) {
+                display: none;
+            }
+            .breadbutter-buttons-holder {
+                background-color: #eee;
+                align-items: flex-start;
+                padding: 6px 10px 6px 10px;
+                .breadbutter-buttons {
+                    padding: 0;
+                }
+                .form-message {
+                    margin-left: 20px;
+                    margin-bottom: 8px;
+                    text-align: left;
+                }
+                .form-options {
+                    color: #707070;
+                    text-decoration: underline;
+                    background-color: transparent;
+                    margin: 8px auto;
+                    &.continue-email-address {
+                        cursor: default;
+                        text-decoration: none;
+                        margin: 8px auto 14px auto;
+                    }
+                }
+            }
+
+            .breadbutter-incognito-holder {
+                .breadbutter-incognito-login,
+                .breadbutter-incognito-register {
+                    display: none;
+                }
+
+                .breadbutter-incognito-login,
+                breadbutter-incognito-register {
+                    display: none;
+                }
+
+                .form-switch-login,
+                .form-options {
+                    display: none;
+                }
+
+                &.more-content {
+                    &.less-content {
+                        padding: 0;
+                    }
+                    &.less-content > *:not(.form-options) {
+                        display: none;
+                    }
+                    .form-options {
+                        display: block;
+                    }
+                }
+                &.login,
+                &.register {
+                    .form-incognito-next {
+                        display: none;
+                    }
+                    .form-switch-login {
+                        display: block;
+                    }
+                }
+                &.login {
+                    .breadbutter-incognito-login {
+                        display: block;
+                    }
+                }
+                &.register {
+                    .breadbutter-incognito-register {
+                        display: block;
+                    }
+                }
+            }
+
+            .form-register {
+                margin: 26px 40px !important;
+            }
+        }
+        &-email {
+            position: relative;
+            .breadbutter-buttons-holder {
+                position: relative;
+                &.bb-blur {
+                    .continue-email-address {
+                        color: white;
+                        z-index: 10003;
+                    }
+                    .breadbutter-module-dropdown {
+                        display: block;
+                        position: absolute;
+                        bottom: 0;
+                        margin: 0 auto;
+                        left: 50%;
+                        margin-left: -10px;
+                        z-index: 10003;
+                        background: none;
+                        .form-expand-icon {
+                            border-color: white;
+                        }
+                    }
+                }
+            }
+
+            .breadbutter-buttons-blur-holder {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 10002;
+                -webkit-backdrop-filter: blur(7.8px);
+                backdrop-filter: blur(7.8px);
+                background-color: rgba(80, 92, 109, .5);
+            }
+
+        }
+    }
+
+    .error {
+        //.form-title {
+        //  display: none;
+        //}
+        //
+        //.form-title-error {
+        //  display: block;
+        //}
+        //
+        //.form-subtitle {
+        //  display: none;
+        //}
+        //
+        //.form-subtitle-error {
+        //  display: block;
+        //}
+        //
+        //.form-sub-message {
+        //  display: none;
+        //}
+    }
+    .breadbutter-module-email-discovery {
+        position: relative;
+        padding: 15px;
+        margin: 0 25px;
+
+        .form-email {
+            margin-top: 0;
+            padding: 8px 28px 8px 14px;
+            border-radius: 0;
+            border: 1px solid #eeeef0;
+            border-right: none;
+            border-top: none;
+            border-left: none;
+            background: none;
+            background-color: rgba(0, 0, 0, 0) !important;
+
+            &.focus {
+                border-color: #50aff5;
+
+                & + .form-next-icon {
+                    background: #50aff5;
+
+                    svg {
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+
+        .form-next-icon {
+            position: absolute;
+            right: 18px;
+            top: 21px;
+            height: 24px;
+            cursor: pointer;
+            svg {
+                width: 12px;
+                height: 12px;
+                margin: 6px;
+                fill: #878787;
+            }
+            background: #eeeef0;
+            &:hover {
                 background: #50aff5;
-
                 svg {
                     fill: #fff;
                 }
             }
         }
-    }
 
-    .form-next-icon {
-        position: absolute;
-        right: 18px;
-        top: 21px;
-        height: 24px;
-        cursor: pointer;
-        svg {
-            width: 12px;
-            height: 12px;
-            margin: 6px;
-            fill: #878787;
+        &.error {
+            .form-email {
+                border-color: #ec1c24;
+            }
         }
-        background: #eeeef0;
-        &:hover {
-            background: #50aff5;
-            svg {
-                fill: #fff;
+        &.form-disabled-email {
+            .form-email {
+                background-color: transparent !important;
+                color: #414042 !important;
+                font-size: 16px;
+                line-height: 0.88;
+                text-align: center;
+                border: none;
+                margin-top: 0;
+            }
+            .form-next-icon {
+                display: none;
             }
         }
     }
-
-    &.error {
-        .form-email {
-            border-color: #ec1c24;
-        }
+    .breadbutter-module-header-discovery {
+        padding: 36px 0 36px;
     }
-    &.form-disabled-email {
-        .form-email {
-            background-color: transparent !important;
-            color: #414042 !important;
-            font-size: 16px;
-            line-height: 0.88;
-            text-align: center;
-            border: none;
-            margin-top: 0;
-        }
-        .form-next-icon {
-            display: none;
-        }
+
+    .breadbutter-module-half-spacer {
+        padding: 10px 0;
     }
-}
-.breadbutter-module-header-discovery {
-    padding: 42px 0 42px;
-}
 
-.breadbutter-module-half-spacer {
-    padding: 10px 0;
-}
-
-.breadbutter-module-spacer {
-    padding: 21px 0;
-}
-
-.breadbutter-module-password {
-    position: relative;
-    .form-password-toggle {
-        svg {
-            right: 0px;
-            top: 17px;
-        }
+    .breadbutter-module-spacer {
+        padding: 21px 0;
     }
-}
 
-.breadbutter-login {
-    position: relative;
     .breadbutter-module-password {
-        display: none;
+        position: relative;
     }
-    &.local-login {
-        .no-local {
+
+    .breadbutter-login {
+        position: relative;
+        .breadbutter-module-password {
             display: none;
         }
-        .breadbutter-module-password {
-            display: block;
-        }
-    }
-}
-
-
-
-.breadbutter-buttons-holder {
-    &.register-suggested {
-        .breadbutter-buttons {
-            .google, .microsoft, .slack, .salesforce, .linkedin {
-                .bb-icon-wrapper {
-                    border: solid 1px #414042 !important;
-                }
+        &.local-login {
+            .no-local {
+                display: none;
             }
-            & > div:not(.more-block):hover {
-                .google {
-                    .bb-icon-wrapper {
-                        border: solid 1px #3e82f1 !important;
-                    }
-                }
-                .linkedin {
-                    .bb-icon-wrapper {
-                        border: solid 1px #2f7ab1 !important;
-                    }
+            .breadbutter-module-password {
+                display: block;
+                .form-password-toggle {
+                    //top: 18px;
                 }
             }
         }
     }
 
-    .suggested-list{
-        &.bb-collapsed {
-            .google, .microsoft, .slack, .salesforce, .linkedin {
-                .bb-icon-wrapper {
-                    border: solid 1px #414042 !important;
-                }
-            }
-            & > div:not(.more-block):hover {
-                .google {
+
+
+    .breadbutter-buttons-holder {
+        &.register-suggested {
+            .breadbutter-buttons {
+                .bb-google, .bb-microsoft, .bb-slack, .bb-salesforce, .bb-linkedin {
                     .bb-icon-wrapper {
-                        border: solid 1px #3e82f1 !important;
+                        border: solid 1px #414042 !important;
                     }
                 }
-                .linkedin {
+                & > div:not(.more-block):hover {
+                    .bb-google {
+                        .bb-icon-wrapper {
+                            border: solid 1px #3e82f1 !important;
+                        }
+                    }
+                    .bb-linkedin {
+                        .bb-icon-wrapper {
+                            border: solid 1px #2f7ab1 !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        .suggested-list{
+            &.bb-collapsed {
+                .bb-google, .bb-microsoft, .bb-slack, .bb-salesforce, .bb-linkedin {
                     .bb-icon-wrapper {
-                        border: solid 1px #2f7ab1 !important;
+                        border: solid 1px #414042 !important;
+                    }
+                }
+                & > div:not(.more-block):hover {
+                    .bb-google {
+                        .bb-icon-wrapper {
+                            border: solid 1px #3e82f1 !important;
+                        }
+                    }
+                    .bb-linkedin {
+                        .bb-icon-wrapper {
+                            border: solid 1px #2f7ab1 !important;
+                        }
                     }
                 }
             }

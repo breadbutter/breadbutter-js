@@ -1,7 +1,14 @@
 {
   "POPUP": {
     "HEADER_1": "Bienvenue",
-    "HEADER_2": "Bienvenue dans %APP_NAME%"
+    "HEADER_2": "Bienvenue dans %APP_NAME%",
+    "HEADER_BACK_1": "Content de te revoir",
+    "HEADER_BACK_2": "Bienvenue à nouveau dans %APP_NAME%",
+    "TEXT_1": "Premier pas",
+    "TEXT_2": "`Continuez avec &#39;votre méthode de connexion de confiance. *<br/> Nous vous ferons démarrer en un rien de temps.",
+    "TEXT_3": "* Vous serez redirigé pour authentifier votre compte; nous ne voyons jamais votre méthode d&#39;authentification ou votre mot de passe.",
+    "TEXT_3_2": "* Vous serez redirigé pour authentifier votre compte; nous ne voyons jamais votre méthode d&#39;authentification ou votre mot de passe. Un simple oui / non est tout ce que nous recevons; bien que certains fournisseurs d&#39;identité transmettent également votre nom. Vous pouvez modifier votre méthode d&#39;authentification à tout moment.",
+    "MORE": "plus &gt;&gt;"
   },
   "INCOGNITO": {
     "TITLE": "Bienvenue"
@@ -11,7 +18,8 @@
     "CONTENT": "Comment souhaitez-vous vous inscrire?",
     "CONTENT_2": "Inscrivez-vous avec votre email",
     "SSO": "Ou créez un compte avec votre adresse e-mail et un mot de passe",
-    "LOCAL": "Créez un compte avec votre adresse e-mail et un mot de passe"
+    "LOCAL": "Créez un compte avec votre adresse e-mail et un mot de passe",
+    "OR_LOCAL": "Ou remplissez le formulaire ci-dessous"
   },
   "CONFIRM_EMAIL": {
     "TITLE": "Confirmation de l&#39;émail",
@@ -77,11 +85,13 @@
     "CONFIRM": "Confirmez votre e-mail",
     "OR_CONTINUE_WITH_EMAIL": "ou continuez avec votre adresse e-mail",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscrivez-vous avec votre adresse e-mail et votre mot de passe",
-    "CONTINUE_WITH_EMAIL": "entrez votre adresse e-mail ci-dessous"
+    "CONTINUE_WITH_EMAIL": "ou entrez votre adresse e-mail ci-dessous",
+    "MORE_INFO": "Plus d&#39;information"
   },
   "HOVER": {
     "EMAIL_MATCH": "Veuillez vous assurer que l&#39;adresse e-mail que vous utilisez lors de la connexion est celle qui a été invitée à vous inscrire.",
-    "NEW_USER": "Pour accéder à ce site Web, vous devez d&#39;abord être invité à le rejoindre.<br/><br/> Si vous avez reçu une invitation à vous inscrire, veuillez cliquer sur le lien dans cet e-mail pour terminer votre inscription.<br/><br/> Si vous avez perdu cet e-mail, veuillez contacter la personne qui vous a initialement invité."
+    "NEW_USER": "Pour accéder à ce site Web, vous devez d&#39;abord être invité à le rejoindre.<br/><br/> Si vous avez reçu une invitation à vous inscrire, veuillez cliquer sur le lien dans cet e-mail pour terminer votre inscription.<br/><br/> Si vous avez perdu cet e-mail, veuillez contacter la personne qui vous a initialement invité.",
+    "MORE_INFO": "Nous respectons votre vie privée. Vous serez invité à vous authentifier auprès du fournisseur de confiance."
   },
   "PASSWORD_HINT": {
     "HAS_VALIDATION": "Votre mot de passe doit:",
@@ -162,5 +172,10 @@
   "RES_MAPPING": {
     "invalid_pin": "Veuillez vérifier si vous avez le bon code PIN",
     "invalid_email_or_password": "Veuillez vous assurer que vous utilisez votre dernier mot de passe"
+  },
+  "PRIVACY_POLICY": {
+    "CONTENT": "En naviguant sur notre site Web, vous acceptez notre utilisation des cookies.",
+    "BUTTON_1": "d&#39;accord",
+    "BUTTON_2": "Lisez notre politique"
   }
 }

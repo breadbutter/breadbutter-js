@@ -27,6 +27,10 @@ const INCOGNITO_HOLDER_ID = 'breadbutter-incognito-holder';
 const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 
+const BLUR_HOLDER_ID = 'breadbutter-buttons-blur-holder';
+const CONTIUNUE_WITH_EMAIL_ID = 'continue-email-address';
+const BLUR_CLASS = 'bb-blur';
+
 const DISCOVERY_ID = 'breadbutter-discovery';
 
 const MODULE_EMAIL_DISCOVERY = 'breadbutter-module-email-discovery';
@@ -256,6 +260,15 @@ const applyDev = function (res) {
     return res;
 };
 
+
+let isMobile = false;
+const detectMobile = function() {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        // true for mobile device
+        isMobile = true;
+    }
+}
+
 const findParents = function (el, cls) {
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el;
@@ -370,6 +383,7 @@ const showAlert = function (top, alert, params, callbacks) {
 //----------------------------------------------------------------------------------------
 
 const init = function (options) {
+    detectMobile();
     loadOptions(options);
     loadApp(options);
 };
@@ -469,6 +483,7 @@ const checkProviders = function (cb) {
 
 const getProviders = function(email, cb) {
     //loader.start(container, true);
+    document.activeElement.blur();
     api.getClientSettings(email, function (res) {
         // loader.remove();
         if (res) {
@@ -520,7 +535,7 @@ const discoveryForm = function(res, email_address, options) {
     if (!invite_required && !discovery_required && hasProviders(res)) {
         form = incognitoForm(res, email_address, options);
     } else {
-        form = emailForm(email_address);
+        form = emailForm(res, email_address, options);
     }
     return form;
 };
@@ -789,7 +804,7 @@ const switchLogin = function (holder) {
                 continueEmailLookup(findChild(form, INCOGNITO_HOLDER_ID));
             }
         } else {
-            let form = emailForm(email_address);
+            let form = emailForm(res, email_address, false, top);
             top.appendChild(form);
             if (email_address) {
                 continueEmailLookup(form);
@@ -996,6 +1011,8 @@ const getEmail = function (email, lock, keyup, keydown) {
 const getPin = function (cls, pin) {
     let b = view.addBlock('input', FORM.PIN);
     b.type = 'text';
+    b.pattern = '[0-9]*';
+    b.inputmode = 'numberic';
     b.setAttribute('maxlength', 1);
 
     if (pin) {
@@ -1370,10 +1387,60 @@ const updateErrorMessage = function (holder, text) {
     }
 };
 
-const emailForm = function (email_address) {
+const highlightEmailForm = function(container, button_holder, on) {
+    // console.log(container);
+    // console.log(button_holder);
+    let email_module = findChild(container, MODULE_EMAIL_DISCOVERY);
+    let height = email_module.offsetHeight;
+    if (on) {
+        let onBlur = triggerOnBlur(container, height);
+        if (!onBlur) {
+            let mask = findChild(container, BLUR_HOLDER_ID);
+            if (!mask) {
+                mask = view.addView(BLUR_HOLDER_ID);
+                container.append(mask);
+            }
+            mask.style.bottom = height + 36 + 'px';
+        }
+        if (button_holder && !button_holder.classList.contains(BLUR_CLASS)) {
+            button_holder.classList.add(BLUR_CLASS);
+        }
+    } else {
+        let onBlur = triggerOnBlur(container, false);
+        if (!onBlur) {
+            let mask = findChild(container, BLUR_HOLDER_ID);
+            if (mask && mask.remove) {
+                mask.remove();
+            }
+        }
+        if (button_holder && button_holder.classList) {
+            button_holder.classList.remove(BLUR_CLASS);
+        }
+
+    }
+}
+
+const emailForm = function (res, email_address, options, holder) {
     let container = view.addView(EMAIL_ID);
-    container.appendChild(getHeaderModule(Locale.LOGIN.TITLE, Locale.LOGIN.CONTENT));
-    container.appendChild(getDiscoveryNextModule(email_address, continueEmailLookupModule));
+
+    let { list, button_holder } = getContinueWith(res, container);
+
+    if (!list || list.length == 0) {
+        container.prepend(getHeaderModule(Locale.LOGIN.TITLE, Locale.LOGIN.CONTENT));
+    } else {
+        if ((options && !options.isContinueWith) || (!options && holder && !isContinueWith(holder))) {
+            container.prepend(getHeaderModule(Locale.INCOGNITO.TITLE));
+        }
+        let buttons = findChild(button_holder, BUTTON_ID);
+        for(let i = 0; buttons.children && i < buttons.children.length; i++) {
+            buttons.children[i].onclick = function() {
+                highlightEmailForm(container, button_holder, true);
+            };
+        }
+        button_holder.appendChild(getModuleDropdown());
+    }
+
+    container.appendChild(getDiscoveryNextModule(email_address, continueBasicEmailLookupModule));
     // insertPoweredByModule(container);
     return container;
 };
@@ -1426,12 +1493,8 @@ const expandingIcons = function(e) {
     }
 };
 
-const incognitoForm = function (res, email_address) {
-    let top = view.addView(INCOGNITO_ID);
-    top.appendChild(getHeaderModule(Locale.REGISTER.TITLE));
+const getContinueWith = function(res, top, incognito) {
     let list = [];
-    let local = false;
-
     if (res && res.providers) {
         for (let i = 0; i < res.providers.length; i++) {
             let provider = res.providers[i];
@@ -1439,10 +1502,6 @@ const incognitoForm = function (res, email_address) {
                 list.push(provider);
             }
         }
-    }
-
-    if (res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled) {
-        local = providers_hash[providers.LOCAL];
     }
 
     if (list.length === 0) {
@@ -1453,6 +1512,10 @@ const incognitoForm = function (res, email_address) {
     let opt = {
         button_theme: theme
     };
+
+    if (!incognito) {
+        opt.pass = true;
+    }
 
     let button_holder = view.addView(BUTTON_HOLDER_ID);
     if (list) {
@@ -1465,8 +1528,30 @@ const incognitoForm = function (res, email_address) {
         button_holder.append(container);
         top.appendChild(button_holder);
 
-        let dropdown = getModuleDropdown(expandingIcons);
-        top.appendChild(dropdown);
+        if (incognito) {
+            let dropdown = getModuleDropdown(expandingIcons);
+            top.appendChild(dropdown);
+        } else {
+
+            let more = getMoreModuleOptions();
+            more.innerText = Locale.BUTTON.START_WITH_EMAIL_ADDRESS;
+            more.classList.add(CONTIUNUE_WITH_EMAIL_ID);
+            button_holder.appendChild(more);
+        }
+    }
+    return {list, button_holder};
+};
+
+const incognitoForm = function (res, email_address) {
+    let top = view.addView(INCOGNITO_ID);
+    top.appendChild(getHeaderModule(Locale.REGISTER.TITLE));
+    let local = false;
+
+
+    let { list, button_holder } = getContinueWith(res, top, true);
+
+    if (res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled) {
+        local = providers_hash[providers.LOCAL];
     }
 
     if (local) {
@@ -1652,6 +1737,7 @@ const continueForgotEmail = function (holder) {
 
     if (pass) {
         loading = true;
+        document.activeElement.blur();
         api.resetPassword(email, callback);
     }
 };
@@ -1692,6 +1778,7 @@ const continueEmailAndPassword = function (holder) {
 
         values = view.applyData(top, values);
 
+        document.activeElement.blur();
         api.loginWithPassword(values, async function (res) {
             if (res && res.authentication_token) {
                 await loader.success_hold();
@@ -1769,6 +1856,7 @@ const continueRegister = function (holder) {
     if (pass) {
         loading = true;
         values = view.applyData(top, values);
+        document.activeElement.blur();
         api.registerWithPassword(values, function (res) {
             if (res && !res.error) {
                 if (res.pending_pin_confirmation) {
@@ -1793,6 +1881,7 @@ const continueResendConfirmationEmail = function (top) {
     let email = email_input.email ? email_input.email : email_input.value;
     loader.start(holder);
     loading = true;
+    document.activeElement.blur();
     api.resendConfirmationEmail(email, async function (res) {
         if (res && !res.error) {
             await loader.success();
@@ -1834,6 +1923,7 @@ const continueConfirmUser = function (holder) {
         loading = true;
         pin.classList.add('hide');
         values = view.applyData(top, values);
+        document.activeElement.blur();
         api.confirmUser(values, async function (res) {
             if (res && !res.error) {
                 await loader.success_hold();
@@ -1907,6 +1997,7 @@ const continueResetPassword = function (holder) {
     if (pass) {
         loader.start(top);
         loading = true;
+        document.activeElement.blur();
         api.confirmResetPassword(
             values.email_address,
             values.pin,
@@ -2361,14 +2452,20 @@ const triggerPasswordKeyup = function (e) {
     continueEmailAndPassword(holder);
 };
 
+const continueBasicEmailLookupModule = function(module) {
+    const holder = module.parentElement;
+    continueEmailLookup(holder, true);
+}
+
 const continueEmailLookupModule = function(module) {
     const holder = module.parentElement;
     continueEmailLookup(holder);
 }
 
-const continueEmailLookup = function (holder) {
-    // console.log(holder);
+const continueEmailLookup = function (holder, basic) {
+
     const module = findChild(holder, MODULE_EMAIL_DISCOVERY);
+    const button_holder = findChild(holder, BUTTON_HOLDER_ID);
     const email_input = findChild(module, FORM.EMAIL);
     let email = email_input.email ? email_input.email : email_input.value;
 
@@ -2379,9 +2476,15 @@ const continueEmailLookup = function (holder) {
         pass = false;
         alert = Locale.ERROR.VALID_EMAIL;
         insertError(email_input, alert.MESSAGE);
+        if (basic && findChild(holder, BUTTON_HOLDER_ID)) {
+            highlightEmailForm(holder, button_holder, true);
+        }
     }
 
     if (pass) {
+        if (basic) {
+            highlightEmailForm(holder, button_holder);
+        }
         loader.start(holder, false, true, false);
         loading = true;
         enterDiscovery(email, top.classList.contains(ID) ? holder : holder.parentElement, email_input);
@@ -2398,7 +2501,7 @@ const triggerIncognitoMoreOptions = function (button, holder) {
 
 const convertMoreOptions = function(button) {
     button.onclick = function(){};
-    button.classList.add('continue-email-address');
+    button.classList.add(CONTIUNUE_WITH_EMAIL_ID);
     button.innerText = Locale.BUTTON.CONTINUE_WITH_EMAIL;
 };
 
@@ -2760,7 +2863,7 @@ const goLogin = function(holder, response) {
             } = viewButton.getButtonLists([], opt);
             container.classList.add('suggested-list');
             container.classList.add('bb-collapsed');
-            container.classList.add('local-only');
+            container.classList.add('bb-local-only');
             button_holder.append(container);
 
             login_container.appendChild(button_holder);
@@ -2899,6 +3002,21 @@ const addPopupEvent = function(container, event, func) {
     if (typeof addEvent == 'function') {
         addEvent(event, func);
     }
+}
+
+const triggerOnBlur = function(container, height) {
+    let onBlur = view.getData(container, 'onBlur');
+    if (typeof onBlur == 'function') {
+        onBlur(height);
+    }
+    return onBlur;
+}
+
+
+const isContinueWith = function(container) {
+    let isContinueWith = view.getData(container, 'isContinueWith');
+    console.log(isContinueWith);
+    return isContinueWith;
 }
 
 export default {

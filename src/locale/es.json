@@ -1,7 +1,14 @@
 {
   "POPUP": {
     "HEADER_1": "Bienvenido",
-    "HEADER_2": "Bienvenido a %APP_NAME%"
+    "HEADER_2": "Bienvenido a %APP_NAME%",
+    "HEADER_BACK_1": "Bienvenido de nuevo",
+    "HEADER_BACK_2": "Bienvenido de nuevo a %APP_NAME%",
+    "TEXT_1": "Primer paso",
+    "TEXT_2": "`Continúe con &#39;su método de inicio de sesión de confianza. *<br/> Lo haremos comenzar en poco tiempo.",
+    "TEXT_3": "* Se le redirigirá para autenticar su cuenta; nunca vemos su método de autenticación o contraseña.",
+    "TEXT_3_2": "* Se le redirigirá para autenticar su cuenta; nunca vemos su método de autenticación o contraseña. Un simple sí / no es todo lo que recibimos; aunque algunos proveedores de identidad también pasarán su nombre. Puede cambiar su método de autenticación en cualquier momento.",
+    "MORE": "más &gt;&gt;"
   },
   "INCOGNITO": {
     "TITLE": "Bienvenido"
@@ -11,7 +18,8 @@
     "CONTENT": "¿Cómo te gustaría registrarte?",
     "CONTENT_2": "Regístrese con su correo electrónico",
     "SSO": "O cree una cuenta con su dirección de correo electrónico y una contraseña",
-    "LOCAL": "Cree una cuenta con su dirección de correo electrónico y una contraseña"
+    "LOCAL": "Cree una cuenta con su dirección de correo electrónico y una contraseña",
+    "OR_LOCAL": "O complete el formulario a continuación"
   },
   "CONFIRM_EMAIL": {
     "TITLE": "Confirmación de correo electrónico",
@@ -72,19 +80,21 @@
     "SWITCH_REGISTER": "¿No tú? Regístrese con una dirección de correo electrónico diferente.",
     "SWITCH_TRY": "¿No tú? Pruebe con una dirección de correo electrónico diferente.",
     "NEXT": "próximo",
-    "REGISTER": "Registrarse",
+    "REGISTER": "Inscribirse",
     "SIGN_IN": "Registrarse",
     "CONFIRM": "Confirmar correo electrónico",
     "OR_CONTINUE_WITH_EMAIL": "o continúe con su dirección de correo electrónico",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "O regístrese con su dirección de correo electrónico y contraseña",
-    "CONTINUE_WITH_EMAIL": "ingrese su dirección de correo electrónico a continuación"
+    "CONTINUE_WITH_EMAIL": "o ingrese su dirección de correo electrónico a continuación",
+    "MORE_INFO": "más información"
   },
   "HOVER": {
     "EMAIL_MATCH": "Asegúrese de que la dirección de correo electrónico que utiliza al iniciar sesión sea una que haya sido invitada a registrarse.",
-    "NEW_USER": "Para acceder a este sitio web, primero debe ser invitado a unirse.<br/><br/> Si ha recibido una invitación para unirse, haga clic en el enlace de ese correo electrónico para completar su registro.<br/><br/> Si ha perdido ese mensaje de correo electrónico, comuníquese con la persona que lo invitó originalmente."
+    "NEW_USER": "Para acceder a este sitio web, primero debe ser invitado a unirse.<br/><br/> Si ha recibido una invitación para unirse, haga clic en el enlace de ese correo electrónico para completar su registro.<br/><br/> Si ha perdido ese mensaje de correo electrónico, comuníquese con la persona que lo invitó originalmente.",
+    "MORE_INFO": "Respetamos tu privacidad. Se le indicará que se autentique con el proveedor en el que confía."
   },
   "PASSWORD_HINT": {
-    "HAS_VALIDATION": "Tu contraseña debe:",
+    "HAS_VALIDATION": "Su contraseña debe:",
     "MINIMUM_ONE": "contener al menos un carácter",
     "MINIMUM_MORE": "contener al menos %COUNT% caracteres",
     "LOWER_ONE": "contener al menos una minúscula (az)",
@@ -162,5 +172,10 @@
   "RES_MAPPING": {
     "invalid_pin": "Verifique si tiene el PIN correcto",
     "invalid_email_or_password": "Asegúrate de estar usando tu última contraseña"
+  },
+  "PRIVACY_POLICY": {
+    "CONTENT": "Al navegar por nuestro sitio web, acepta nuestro uso de cookies.",
+    "BUTTON_1": "OK",
+    "BUTTON_2": "Lea nuestra política"
   }
 }

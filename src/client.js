@@ -53,7 +53,9 @@ let options = {
     button_theme: 'round-icons', //'square-icons', 'round-icons', 'tile'
     expand_email_address: true,
     show_login_focus: true,
-    allow_sub_domain: false
+    allow_sub_domain: false,
+    remember_close: false,
+    success_event_code: false
 };
 
 const configure = function (opt) {
@@ -66,6 +68,8 @@ const configure = function (opt) {
 
     if (typeof opt.locale != 'undefined') {
         options.locale = opt.locale;
+    } else {
+        options.locale = {};
     }
 
     if (typeof opt.app_id != 'undefined') {
@@ -109,7 +113,7 @@ const configure = function (opt) {
 
     if (typeof opt.continue_with_position != 'undefined' && typeof opt.continue_with_position == 'object') {
         options.continue_with_position = opt.continue_with_position;
-    }encoded_action
+    }
 
     if (typeof opt.show_login_focus != 'undefined') {
         options.show_login_focus = opt.show_login_focus;
@@ -117,6 +121,14 @@ const configure = function (opt) {
 
     if (typeof opt.allow_sub_domain != 'undefined') {
         options.allow_sub_domain = opt.allow_sub_domain;
+    }
+
+    if (typeof opt.remember_close != 'undefined') {
+        options.remember_close = opt.remember_close;
+    }
+
+    if (typeof opt.success_event_code != 'undefined') {
+        options.success_event_code = opt.success_event_code;
     }
 
     api.configure({
@@ -127,7 +139,8 @@ const configure = function (opt) {
         callback_url: options.callback_url,
         force_reauthentication: options.force_reauthentication,
         client_data: options.client_data,
-        allow_sub_domain: options.allow_sub_domain
+        allow_sub_domain: options.allow_sub_domain,
+        success_event_code: options.success_event_code
     });
 
     tracking();
@@ -144,7 +157,8 @@ const api = new (function () {
             callback_url: opt.callback_url,
             force_reauthentication: opt.force_reauthentication,
             client_data: opt.client_data,
-            allow_sub_domain: opt.allow_sub_domain
+            allow_sub_domain: opt.allow_sub_domain,
+            success_event_code: opt.success_event_code
         });
     };
 
@@ -162,20 +176,50 @@ const api = new (function () {
     this.ping = API.ping;
 })();
 
+let PAGE_VIEW_EVENT_READY = false;
+let CUSTOM_EVENT_QUEUE = [];
+
+const processEvent = function() {
+    while(CUSTOM_EVENT_QUEUE.length > 0) {
+        let event = CUSTOM_EVENT_QUEUE.splice(0,1)[0];
+        API.createEvent(event.custom, event.callback);
+    }
+};
+
+const queueEvent = function(custom, callback) {
+    CUSTOM_EVENT_QUEUE.push({
+        custom,
+        callback
+    });
+};
+
 const events = new (function(){
     this.custom = function(custom, callback){
-        API.createEvent(custom, callback);
+        if (PAGE_VIEW_EVENT_READY) {
+            API.createEvent(custom, callback);
+        } else {
+            queueEvent(custom, callback);
+        }
     };
-    this.pageview = function(callback){
-        API.createEvent(event_type.PAGE_VIEW, {
+    this.pageview = function(callback, referrer){
+        let data = {
             title: document.title,
             url: document.location.href
-        }, function(res){
+        };
+        API.createEvent(event_type.PAGE_VIEW, data, referrer, function(res){
+            let first_initiated = false;
             if (res.event_id) {
                 API.setPageViewId(res.event_id);
+                if (!PAGE_VIEW_EVENT_READY) {
+                    first_initiated = true;
+                }
+                PAGE_VIEW_EVENT_READY = true;
             }
             if (typeof callback == 'function') {
                 callback(res);
+            }
+            if (first_initiated) {
+                processEvent();
             }
         });
 
@@ -184,7 +228,8 @@ const events = new (function(){
 
 const tracking = function () {
     if (options.page_view_tracking) {
-        events.pageview();
+        let referrer = document.referrer;
+        events.pageview(false, referrer);
         window.addEventListener('hashchange', function(){
             events.pageview();
         });
@@ -196,7 +241,46 @@ const applyOptions = function(opt, key) {
         opt[key] = options[key];
     }
 };
+const MANUAL_CLOSE = 'breadbutter-sdk-manual-close';
+const MANUAL_CLOSE_TIMER = 'breadbutter-sdk-manual-close-timer';
 
+
+const internalOnFormClose = function() {
+    let close = checkCloseAlready();
+    if (!close) {
+        if (localStorage) {
+            localStorage.setItem(MANUAL_CLOSE, 1);
+            localStorage.setItem(MANUAL_CLOSE_TIMER, Date.now());
+        }
+    }
+};
+
+const checkCloseAlready = function() {
+    let close = false;
+    if (localStorage) {
+        close = parseInt(localStorage.getItem(MANUAL_CLOSE));
+        if (close) {
+            let timer = localStorage.getItem(MANUAL_CLOSE_TIMER);
+            if (!timer) {
+                close = false;
+            } else {
+                let expired = parseInt(timer) + 2 * 60 * 60 * 1000;
+                let now = Date.now();
+                if (now > expired) {
+                    close = false;
+                } else {
+                    close = true;
+                }
+            }
+        }
+    }
+    return close;
+}
+
+const checkRememberClose = function(options) {
+    let should_remain_close = options.remember_close && checkCloseAlready();
+    return should_remain_close;
+}
 
 const loadOptions = function (opt) {
     if (!opt) {
@@ -211,7 +295,7 @@ const loadOptions = function (opt) {
         opt['locale'] = options.locale;
     }
 
-    if (options.app_name) {
+    if (options.app_name && !opt['app_name']) {
         opt['app_name'] = options.app_name;
     }
 
@@ -223,7 +307,10 @@ const loadOptions = function (opt) {
     applyOptions(opt, 'expand_email_address');
     applyOptions(opt, 'continue_with_position');
     applyOptions(opt, 'show_login_focus');
+    applyOptions(opt, 'remember_close');
+    applyOptions(opt, 'success_event_code');
 
+    opt.internalOnFormClose = internalOnFormClose;
     return opt;
 };
 
@@ -241,7 +328,6 @@ const ui = new (function () {
             id = false;
         }
         initUI(options);
-        options = loadOptions(options);
         if (options['email_address']) {
             if (localStorage) {
                 localStorage.setItem(
@@ -264,8 +350,6 @@ const ui = new (function () {
             }
             //options required token
             initUI(options);
-            options = loadOptions(options);
-
             if (options['email_address']) {
                 if (localStorage) {
                     localStorage.setItem(
@@ -287,8 +371,6 @@ const ui = new (function () {
                 id = false;
             }
             initUI(options);
-            options = loadOptions(options);
-
             if (id) {
                 viewForm.addForm(id, options);
             } else {
@@ -301,8 +383,6 @@ const ui = new (function () {
                 id = false;
             }
             initUI(options);
-            options = loadOptions(options);
-
             if (options['email_address']) {
                 if (localStorage) {
                     localStorage.setItem(
@@ -311,7 +391,6 @@ const ui = new (function () {
                     );
                 }
             }
-
             if (id) {
                 viewForm.addRegister(id, options);
             } else {
@@ -320,7 +399,6 @@ const ui = new (function () {
         }),
         (this.button = function (id, options) {
             initUI(options);
-            options = loadOptions(options);
 
             let email_address = false;
             if (options['email_address']) {
@@ -393,7 +471,9 @@ const parsingUrl = function(opt) {
         var p = target.split('?');
         if (p.length > 1) {
             var param_array = target.split('?')[1].split('&'), x;
-            for( var i in param_array) {
+            console.log(param_array);
+            // for(var i in param_array) {
+            for( let i = 0; i < param_array.length; i++) {
                 x = param_array[i].split('=');
                 name = x[0];
                 value = x[1];
@@ -468,8 +548,11 @@ const widgets = new (function(){
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
 
+        opt = loadOptions(opt);
         if (!mode) {
-            ui.form(opt);
+            if (!checkRememberClose(opt)) {
+                ui.form(opt);
+            }
         } else {
             switch (mode) {
                 case constants.mode.CONFIRM_EMAIL:
@@ -488,6 +571,7 @@ const widgets = new (function(){
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : parsingUrl();
 
+        opt = loadOptions(opt);
         if (!mode) {
             ui.form(id, opt);
         } else {
@@ -509,6 +593,7 @@ const widgets = new (function(){
         viewPolicy.init(opt);
     };
     this.buttons = function(id, options) {
+        options = loadOptions(options);
         ui.button(id, options);
     };
 })();

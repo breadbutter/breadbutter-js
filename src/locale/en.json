@@ -86,7 +86,8 @@
     "OR_CONTINUE_WITH_EMAIL": "or continue with your email address",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Or sign up with your email address and password",
     "CONTINUE_WITH_EMAIL": "or enter your email address below",
-    "MORE_INFO": "more information"
+    "MORE_INFO": "more information",
+    "START_WITH_EMAIL_ADDRESS": "Start with your email address below"
   },
   "HOVER": {
     "EMAIL_MATCH": "Please ensure that the email address you use when signing in is one that has been invited to register.",

@@ -18,10 +18,10 @@
   "authors": [
     {
       "name": "Howie Lee",
-      "email": "hlee@logonlabs.com"
+      "email": "hlee@breadbutter.io"
     }
   ],
-  "devDependencies": {
+  "dependencies": {
     "colors": "^1.1.2",
     "connect": "^3.7.0",
     "css-loader": "^2.1.1",
@@ -48,15 +48,10 @@
     "url-loader": "^3.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.10.3",
     "crypto-js": "^3.3.0",
-    "extract-text-webpack-plugin": "^3.0.2",
     "font-awesome": "^4.7.0",
-    "scss-compile": "^0.1.7",
-    "style-loader": "^0.23.1",
-    "stylus-loader": "^3.0.2"
+    "scss-compile": "^0.1.7"
   },
   "husky": {
     "hooks": {

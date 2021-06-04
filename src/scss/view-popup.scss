@@ -77,6 +77,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
   }
 
   .breadbutter-popup-header {
@@ -86,6 +87,7 @@
     display: flex;
     align-items: center;
     padding: 0 11px 0 18px;
+    position: relative;
     //height: 50px;
     .popup-title {
       font-size: 14px;
@@ -98,7 +100,7 @@
     .popup-close {
       cursor: pointer;
       border-radius: 50%;
-      background: rgba(118, 118, 128, 0.12);
+      background: rgb(238, 238, 240);
       border: none;
       padding: 0;
       width: 26px;
@@ -115,9 +117,23 @@
     }
   }
 
+  .breadbutter-blur-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    -webkit-backdrop-filter: blur(7.8px);
+    backdrop-filter: blur(7.8px);
+    background-color: rgba(80, 92, 109, .5);
+  }
   .breadbutter-popup-holder {
     min-height: 50px;
     background-color: #eeeeee;
+    .breadbutter-ui {
+      width: 375px!important;
+    }
     .breadbutter {
       &-forgot-form,
       &-expire-form,
@@ -191,7 +207,7 @@
 }
 
 @media (max-width:499px) {
-  .breadbutter-popup {
+  .breadbutter-popup:not(.bb-mobile-device) {
     top: 300px !important;
     bottom: auto !important;
     left: 50%!important;
@@ -234,13 +250,170 @@
 
 
 @media (max-width:375px) {
-  .breadbutter-popup {
+  .breadbutter-popup:not(.bb-mobile-device) {
     transform: scale(0.9, 0.9);
   }
 }
 
 @media (max-width:340px) {
-  .breadbutter-popup {
+  .breadbutter-popup:not(.bb-mobile-device) {
     transform: scale(0.8, 0.8);
+  }
+}
+
+
+
+.breadbutter-popup.bb-mobile-device {
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+
+  height: auto;
+  transition: height .55s ease;
+  max-height: 100%;
+  overflow-y: auto;
+
+  .breadbutter-popup-wrapper {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #fff;
+    .breadbutter-popup-header {
+      padding-top: 30px;
+      position: relative;
+      .popup-title {
+        line-height: 32px;
+      }
+      .bb-mobile-handler {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .bb-mobile-dropdown {
+          border-right: solid 3px #878787;
+          border-bottom: solid 3px #878787;
+          width: 15px;
+          height: 15px;
+          transform: rotate(45deg) skew(-30deg, -30deg);
+        }
+      }
+    }
+    .breadbutter-popup-holder {
+      .breadbutter-ui {
+        width: 100% !important;
+        input {
+          font-size: 16px !important;
+        }
+        .breadbutter-module-header-discovery {
+          padding: 21px 0;
+        }
+        .breadbutter-forms {
+          .breadbutter-confirm {
+            .breadbutter-module-header-discovery {
+              padding-top: 0;
+            }
+            .breadbutter-confirm-form {
+              padding-bottom: 0;
+            }
+            .new_code {
+              margin-top: 15px;
+              margin-bottom: 15px;
+            }
+          }
+          .breadbutter-forgot-form {
+            .form-title {
+              padding: 21px 0;
+            }
+          }
+          .breadbutter-register {
+            padding-bottom: 0;
+            .breadbutter-module-header-discovery {
+              padding-top: 0;
+              padding-bottom: 0;
+              .form-title {
+                display: none;
+              }
+            }
+            .form-message {
+              margin-top: 10px;
+            }
+          }
+          .breadbutter-register-holder {
+            .breadbutter-module-header-discovery {
+              padding-top: 0;
+              padding-bottom: 0;
+              .form-title {
+                display: none;
+              }
+            }
+          }
+          .breadbutter-login {
+            .breadbutter-buttons-holder {
+              padding-bottom: 0;
+            }
+          }
+          .breadbutter-incognito {
+            .breadbutter-incognito-holder {
+              .breadbutter-module-email-discovery {
+                margin-bottom: 0;
+              }
+            }
+            .breadbutter-buttons-holder {
+              .form-message {
+                display: none;
+              }
+            }
+            .continue-email-address {
+              display: none;
+            }
+          }
+          .breadbutter-email {
+            .breadbutter-module-header-discovery {
+              padding: 0;
+              .form-title {
+                display: none;
+              }
+              .form-subtitle {
+                text-align: left;
+                margin-left: 18px;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+      .breadbutter-module-poweredby {
+        display: none;
+      }
+    }
+  }
+
+  &.bb-mobile-collpase {
+    height: 30px;
+    overflow-y: hidden;
+    .breadbutter-popup-wrapper {
+      .breadbutter-popup-holder {
+        //display: none;
+      }
+
+      .breadbutter-popup-header {
+        .popup-title {
+          //display: none;
+        }
+
+        .bb-mobile-handler {
+          .bb-mobile-dropdown {
+            transform: rotate(225deg) skew(-30deg, -30deg);
+          }
+        }
+      }
+    }
   }
 }

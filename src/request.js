@@ -71,6 +71,12 @@ const handleResponse = (e, callback) => {
 
 export function request(url, params, method, callback) {
     method = method ? method : 'POST';
+    //
+    // if (!params) {
+    //     params = {'ErrorDetails': true};
+    // } else if (typeof params == 'object') {
+    //     params['ErrorDetails']  = true;
+    // }
 
     let xhr = new XMLHttpRequest();
     let data;
