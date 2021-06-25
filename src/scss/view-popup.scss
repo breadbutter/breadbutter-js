@@ -165,6 +165,14 @@
         }
         .breadbutter-buttons-holder.bb-icon {
           padding: 0px 10px;
+          &.bb-tile {
+            > .bb-tile {
+              display: none;
+            }
+            > .bb-icon {
+              display: flex;
+            }
+          }
           .form-message,.form-options {
             display: none;
           }

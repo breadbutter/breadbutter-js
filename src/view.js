@@ -305,7 +305,7 @@ const svgButtons_e = function (provider, register) {
 
     sign_in = sign_in + ' w/ ' + name;
     if (provider.alias) {
-        sign_in = "Sign in as " + provider.alias;
+        sign_in = "Continue as " + provider.alias;
     }
     html =
         '<div data-name="' +
@@ -496,7 +496,7 @@ const svgButtons = function (type, opt, register) {
     }
     if (TYPE != 'local') {
         if (opt.alias) {
-            sign_in = "Sign in as " + opt.alias;
+            sign_in = "Continue as " + opt.alias;
         }
         html += '</div><span>'+ sign_in + '</span></div></div>';
     }

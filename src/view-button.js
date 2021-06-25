@@ -38,6 +38,7 @@ const addButtons = function (id, providers, options) {
 };
 
 const getButtonLists = function (providers, options) {
+    // console.log(options);
     // loadClientData(options);
     let button_theme = options.button_theme ? options.button_theme : false;
     const pass = options.pass ? options.pass : false;
@@ -50,13 +51,15 @@ const getButtonLists = function (providers, options) {
     let error = false;
     let theme_class = false;
     if (button_theme == 'icon' || button_theme == 'square-icons' || button_theme == 'round-icons') {
-        container.classList.add('bb-icon');
         if (button_theme == 'round-icons') {
             container.classList.add('bb-round');
         }
         theme_class = 'bb-icon';
         button_theme = 'icon';
+    } else {
+        theme_class = 'bb-tile';
     }
+    container.classList.add(theme_class);
     if (providers) {
         if (providers.length) {
             for (let i = 0; i < providers.length; i++) {

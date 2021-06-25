@@ -393,6 +393,12 @@
         }
     }
 
+    .breadbutter-buttons-holder.bb-tile {
+        > .bb-icon {
+            display: none;
+        }
+    }
+
     input {
         &.error {
             border-color: #ec1c24;

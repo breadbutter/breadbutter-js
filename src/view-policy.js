@@ -74,7 +74,8 @@ const addView = function (id) {
 const init = function(options) {
     let privacy_confirm = getCache();
     if (!privacy_confirm) {
-        viewForm.checkProviders(function(res) {
+        let form = new viewForm();
+        form.checkProviders(function(res) {
             if (res &&
                 res.settings &&
                 res.settings.privacy_policy_url) {

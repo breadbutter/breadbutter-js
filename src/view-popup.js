@@ -20,7 +20,6 @@ const BLUR_HEADER_ID = 'breadbutter-blur-header';
 
 import lang from './locale.js';
 import './scss/view-popup.scss';
-import viewForm from './view-form.js';
 
 const ArrowTopLeft = `
 <svg xmlns="http://www.w3.org/2000/svg" width="85.58" height="50.443" viewBox="0 0 85.58 50.443">
@@ -108,32 +107,33 @@ const init = function (options) {
     loadApp(options);
 };
 
-const addForm = function (options) {
+const addForm = function (options, form) {
     let view = createView(options);
     options.popup = true;
 
-    viewForm.addForm(view, options);
+    // console.log(options);
+    form.addForm(view, options);
 };
 
-const addRegister = function (options) {
+const addRegister = function (options, form) {
     let view = createView(options);
     options.popup = true;
 
-    viewForm.addRegister(view, options);
+    form.addRegister(view, options);
 };
 
-const addReset = function (options) {
+const addReset = function (options, form) {
     let view = createView(options);
     options.popup = true;
 
-    viewForm.addReset(view, options);
+    form.addReset(view, options);
 };
 
-const addConfirm = function (options) {
+const addConfirm = function (options, form) {
     let view = createView(options);
     options.popup = true;
 
-    viewForm.addConfirm(view, options);
+    form.addConfirm(view, options);
 };
 
 const addView = function (id) {
@@ -170,9 +170,18 @@ const detectMobile = function() {
     }
 }
 
+let CONTINUE_WITH_HOVER = {
+    enabled: true,
+    distance: 5,
+    original: 30
+};
+
 const createView = function (options) {
+    // console.log(options);
     if (!isMobile) {
         options.onProvider = triggerProvider;
+    } else {
+        options.button_theme = 'round-icons';
     }
     options.onLogin = triggerLogin;
     options.onBlur = triggerBlur;
@@ -196,7 +205,8 @@ const createView = function (options) {
     if (isMobile) {
         DATA.show_login_focus = false;
     }
-
+    CONTINUE_WITH_HOVER.enabled = options.continue_with_hover;
+    CONTINUE_WITH_HOVER.distance = options.continue_with_hover_distance;
 
     closeForm();
     let popup = addView(POPUP_ID);
@@ -205,8 +215,10 @@ const createView = function (options) {
         if (options.continue_with_position) {
             if (options.continue_with_position.top) {
                 popup.style.top = parsePosition(options.continue_with_position.top);
+                CONTINUE_WITH_HOVER.original = options.continue_with_position.top;
             } else if (options.continue_with_position.bottom) {
                 popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+                CONTINUE_WITH_HOVER.enabled = false;
             } else {
                 popup.style.top = '30px';
             }
@@ -239,7 +251,10 @@ const createView = function (options) {
     header.appendChild(getTitle());
     if (!isMobile) {
         header.appendChild(getCloseIcon());
+        setupScrollingMoveTrigger();
     }
+
+    setupScrollingTrigger();
     document.body.append(popup);
     currentPopup = popup;
 
@@ -286,7 +301,7 @@ const triggerProvider = function(advanced) {
     // console.log('triggerProvider');
     if (advanced) {
         assignMask();
-        setupScrollingTrigger();
+        // setupScrollingTrigger();
     }
 };
 let TRIGGER_EVENT = {};
@@ -314,6 +329,7 @@ let scrollPosition = false;
 let scrollTimer = false;
 
 const setupScrollingTrigger = function() {
+    console.log('scrolling trigger register');
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
             // console.log('scrolling...');
@@ -322,24 +338,52 @@ const setupScrollingTrigger = function() {
     }, true);
 };
 
+const setupScrollingMoveTrigger = function() {
+    console.log('scrolling move register');
+    window.addEventListener('scroll', function(event){
+        if (currentPopup) {
+            scrollingMoveTrigger(event);
+        }
+    }, true);
+
+};
+
 const scrollingTrigger = function(event) {
     let windowHeight = window.innerHeight;
     let scrollArea = windowHeight / 10;
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);
+    // console.log(event);
     clearTimeout(scrollTimer);
+    // console.log(scrollNow, scrollPosition, scrollArea)
     if (scrolling == false) {
+        // console.log('scrolling false');
         scrollPosition = scrollNow;
         scrolling = true;
     } else if (Math.abs(scrollNow - scrollPosition) > scrollArea){
+        // console.log('> scrollArea');
         let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
         let holder = findChild(wrapper, POPUP_HOLDER_ID);
         holder.classList.add('scrolling');
         triggerEvent('scrolling');
     }
+
     scrollTimer = setTimeout(function(){
         scrolling = false;
         scrollPosition = false;
-    }, 5000);
+    }, 3000);
+};
+
+const scrollingMoveTrigger = function(event) {
+    let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);
+
+    if (CONTINUE_WITH_HOVER.enabled) {
+        let top = CONTINUE_WITH_HOVER.original;
+        top -= scrollNow;
+        if (top <= CONTINUE_WITH_HOVER.distance) {
+            top = CONTINUE_WITH_HOVER.distance;
+        }
+        currentPopup.style.top = parsePosition(top);
+    }
 };
 
 const assignMask = function() {

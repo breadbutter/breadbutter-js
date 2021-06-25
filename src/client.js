@@ -50,12 +50,14 @@ let options = {
     client_data: false,
     page_view_tracking: true,
     force_reauthentication: null, //off/attempt/force/null
-    button_theme: 'round-icons', //'square-icons', 'round-icons', 'tile'
+    button_theme: 'tiles', //'square-icons', 'round-icons', 'tile'
     expand_email_address: true,
     show_login_focus: true,
     allow_sub_domain: false,
     remember_close: false,
-    success_event_code: false
+    success_event_code: false,
+    continue_with_hover: true,
+    continue_with_hover_distance: 5
 };
 
 const configure = function (opt) {
@@ -309,6 +311,8 @@ const loadOptions = function (opt) {
     applyOptions(opt, 'show_login_focus');
     applyOptions(opt, 'remember_close');
     applyOptions(opt, 'success_event_code');
+    applyOptions(opt, 'continue_with_hover');
+    applyOptions(opt, 'continue_with_hover_distance');
 
     opt.internalOnFormClose = internalOnFormClose;
     return opt;
@@ -318,7 +322,6 @@ const initUI = function (options) {
     options = loadOptions(options);
     viewPopup.init(options);
     viewButton.init(options);
-    viewForm.init(options);
 };
 
 const ui = new (function () {
@@ -328,6 +331,8 @@ const ui = new (function () {
             id = false;
         }
         initUI(options);
+        let form = new viewForm();
+        form.init(options);
         if (options['email_address']) {
             if (localStorage) {
                 localStorage.setItem(
@@ -338,9 +343,9 @@ const ui = new (function () {
         }
 
         if (id) {
-            viewForm.addConfirm(id, options);
+            form.addConfirm(id, options);
         } else {
-            viewPopup.addConfirm(options);
+            viewPopup.addConfirm(options, form);
         }
     }),
         (this.resetPassword = function (id, options) {
@@ -350,6 +355,8 @@ const ui = new (function () {
             }
             //options required token
             initUI(options);
+            let form = new viewForm();
+            form.init(options);
             if (options['email_address']) {
                 if (localStorage) {
                     localStorage.setItem(
@@ -360,9 +367,9 @@ const ui = new (function () {
             }
 
             if (id) {
-                viewForm.addReset(id, options);
+                form.addReset(id, options);
             } else {
-                viewPopup.addReset(options);
+                viewPopup.addReset(options, form);
             }
         }),
         (this.form = function (id, options) {
@@ -371,10 +378,12 @@ const ui = new (function () {
                 id = false;
             }
             initUI(options);
+            let form = new viewForm();
+            form.init(options);
             if (id) {
-                viewForm.addForm(id, options);
+                form.addForm(id, options);
             } else {
-                viewPopup.addForm(options);
+                viewPopup.addForm(options, form);
             }
         }),
         (this.invitation = function (id, options) {
@@ -383,6 +392,8 @@ const ui = new (function () {
                 id = false;
             }
             initUI(options);
+            let form = new viewForm();
+            form.init(options);
             if (options['email_address']) {
                 if (localStorage) {
                     localStorage.setItem(
@@ -392,9 +403,9 @@ const ui = new (function () {
                 }
             }
             if (id) {
-                viewForm.addRegister(id, options);
+                form.addRegister(id, options);
             } else {
-                viewPopup.addRegister(options);
+                viewPopup.addRegister(options, form);
             }
         }),
         (this.button = function (id, options) {
@@ -471,7 +482,7 @@ const parsingUrl = function(opt) {
         var p = target.split('?');
         if (p.length > 1) {
             var param_array = target.split('?')[1].split('&'), x;
-            console.log(param_array);
+            // console.log(param_array);
             // for(var i in param_array) {
             for( let i = 0; i < param_array.length; i++) {
                 x = param_array[i].split('=');
