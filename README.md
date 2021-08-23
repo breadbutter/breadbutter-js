@@ -7,7 +7,7 @@ The official BreadButter JavaScript client library.
 ## Configuration
 
 - Prior to coding, some configuration is required at https://app.breadbutter.io/app/#/app-settings. Make sure you add your website url to the CORS Allow List.
-- For the full Developer Documentation please visit: https://app.breadbutter.io/docs/api/
+- For the full Developer Documentation please visit: https://app.breadbutter.io/api/
 
 ---
 
