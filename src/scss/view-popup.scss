@@ -6,11 +6,11 @@
   flex-direction: column;
   color: #fff;
   &.bb-top {
-    top: -150px;
+    bottom: 30%;
     justify-content: flex-end;
   }
   &.bb-bottom {
-    bottom: -150px;
+    top: 30%;
   }
   &.bb-right {
     right: -500px;
@@ -155,7 +155,13 @@
         }
       }
     }
-    &.scrolling {
+
+    transition-property: height;
+    transition-duration: 0.125s;
+    transition-timing-function: ease-out;
+
+    &.scrolling:not(.basic) {
+      height: 94px!important;
       .breadbutter-incognito {
         .more-content {
           display: none;

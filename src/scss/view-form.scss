@@ -602,7 +602,7 @@
             flex-direction: column;
             //align-items: center;
             .breadbutter-module-email-discovery {
-                margin: 0 25px 22.5px;
+                margin: 0 25px 36px;
             }
         }
         &-email {
@@ -989,6 +989,9 @@
     }
     .breadbutter-module-header-discovery {
         padding: 36px 0 36px;
+        .form-title {
+            margin-bottom: 16px;
+        }
     }
 
     .breadbutter-module-half-spacer {
@@ -1065,6 +1068,22 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+.breadbutter-ui {
+    .breadbutter-incognito {
+        .breadbutter-incognito-holder{
+            transition-property: height;
+            transition-duration: 0.125s;
+            transition-timing-function: ease-out;
+            &.more-content {
+                height: 105px;
+            }
+            &.less-content {
+                height: 0;
             }
         }
     }

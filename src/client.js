@@ -57,7 +57,8 @@ let options = {
     remember_close: false,
     success_event_code: false,
     continue_with_hover: true,
-    continue_with_hover_distance: 5
+    continue_with_hover_distance: 5,
+    hide_local_auth_domains: []
 };
 
 const configure = function (opt) {
@@ -133,6 +134,11 @@ const configure = function (opt) {
         options.success_event_code = opt.success_event_code;
     }
 
+    if (typeof opt.hide_local_auth_domains != 'undefined') {
+        options.hide_local_auth_domains = opt.hide_local_auth_domains;
+    }
+
+
     api.configure({
         app_id: options.app_id,
         app_secret: options.app_secret,
@@ -142,7 +148,8 @@ const configure = function (opt) {
         force_reauthentication: options.force_reauthentication,
         client_data: options.client_data,
         allow_sub_domain: options.allow_sub_domain,
-        success_event_code: options.success_event_code
+        success_event_code: options.success_event_code,
+        hide_local_auth_domains: options.hide_local_auth_domains
     });
 
     tracking();
@@ -160,7 +167,8 @@ const api = new (function () {
             force_reauthentication: opt.force_reauthentication,
             client_data: opt.client_data,
             allow_sub_domain: opt.allow_sub_domain,
-            success_event_code: opt.success_event_code
+            success_event_code: opt.success_event_code,
+            hide_local_auth_domains: opt.hide_local_auth_domains
         });
     };
 
@@ -184,13 +192,14 @@ let CUSTOM_EVENT_QUEUE = [];
 const processEvent = function() {
     while(CUSTOM_EVENT_QUEUE.length > 0) {
         let event = CUSTOM_EVENT_QUEUE.splice(0,1)[0];
-        API.createEvent(event.custom, event.callback);
+        API.createEvent(event.custom, event.data, false, event.callback);
     }
 };
 
-const queueEvent = function(custom, callback) {
+const queueEvent = function(custom, data, callback) {
     CUSTOM_EVENT_QUEUE.push({
         custom,
+        data,
         callback
     });
 };
@@ -198,9 +207,19 @@ const queueEvent = function(custom, callback) {
 const events = new (function(){
     this.custom = function(custom, callback){
         if (PAGE_VIEW_EVENT_READY) {
-            API.createEvent(custom, callback);
+            API.createEvent(custom, false, false, callback);
         } else {
-            queueEvent(custom, callback);
+            queueEvent(custom, false, callback);
+        }
+    };
+    this.redirect = function(custom, link){
+        const callback = function(){
+            document.location.assign(link);
+        };
+        if (PAGE_VIEW_EVENT_READY) {
+            API.createEvent(custom, false, false, callback);
+        } else {
+            queueEvent(custom, false, callback);
         }
     };
     this.pageview = function(callback, referrer){
@@ -231,6 +250,9 @@ const events = new (function(){
 const tracking = function () {
     if (options.page_view_tracking) {
         let referrer = document.referrer;
+        if (document.referrer.indexOf(document.location.origin) == 0) {
+            referrer = false;
+        }
         events.pageview(false, referrer);
         window.addEventListener('hashchange', function(){
             events.pageview();
@@ -285,6 +307,7 @@ const checkRememberClose = function(options) {
 }
 
 const loadOptions = function (opt) {
+    console.log('load options');
     if (!opt) {
         opt = {};
     }
@@ -294,7 +317,7 @@ const loadOptions = function (opt) {
     }
 
     if (options.locale) {
-        opt['locale'] = options.locale;
+        opt['locale'] = Object.assign(options.locale, opt['locale']);
     }
 
     if (options.app_name && !opt['app_name']) {
@@ -423,6 +446,10 @@ const ui = new (function () {
             ) {
                 providers =
                     options['providers'];
+            }
+
+            if (typeof options['register'] == 'undefined') {
+                options['register'] = true;
             }
 
             if (providers.length === 0) {

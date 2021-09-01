@@ -1,9 +1,9 @@
 {
   "POPUP": {
-    "HEADER_1": "歡迎",
-    "HEADER_2": "歡迎使用％APP_NAME％",
-    "HEADER_BACK_1": "歡迎回來",
-    "HEADER_BACK_2": "歡迎回到％APP_NAME％",
+    "HEADER_1": "登錄以獲得最佳體驗",
+    "HEADER_2": "登錄以獲得最佳體驗",
+    "HEADER_BACK_1": "登錄以獲得最佳體驗",
+    "HEADER_BACK_2": "登錄以獲得最佳體驗",
     "TEXT_1": "第一步",
     "TEXT_2": "“繼續”您受信任的登錄方法。*<br/>我們會盡快讓您開始。",
     "TEXT_3": "*您將被重定向以驗證您的帳戶；我們永遠不會看到您的身份驗證方法或密碼。",
@@ -86,7 +86,8 @@
     "OR_CONTINUE_WITH_EMAIL": "或繼續輸入您的電子郵件地址",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或使用您的電子郵件地址和密碼註冊",
     "CONTINUE_WITH_EMAIL": "或在下面輸入您的電子郵件地址",
-    "MORE_INFO": "更多信息"
+    "MORE_INFO": "更多信息",
+    "START_WITH_EMAIL_ADDRESS": "從下面的電子郵件地址開始"
   },
   "HOVER": {
     "EMAIL_MATCH": "請確保登錄時使用的電子郵件地址已被邀請註冊。",
@@ -96,15 +97,15 @@
   "PASSWORD_HINT": {
     "HAS_VALIDATION": "您的密碼必須：",
     "MINIMUM_ONE": "至少包含一個字符",
-    "MINIMUM_MORE": "至少包含％COUNT％個字符",
+    "MINIMUM_MORE": "至少包含%COUNT%個字符",
     "LOWER_ONE": "包含至少一個小寫字母（az）",
-    "LOWER_MORE": "至少包含％COUNT％小寫字母（az）",
+    "LOWER_MORE": "至少包含%COUNT%小寫字母（az）",
     "UPPER_ONE": "包含至少一個大寫字母（AZ）",
-    "UPPER_MORE": "包含至少％COUNT％大寫字母（AZ）",
+    "UPPER_MORE": "包含至少%COUNT%大寫字母（AZ）",
     "SYMBOL_ONE": "包含至少一個符號",
-    "SYMBOL_MORE": "至少包含％COUNT％個符號",
+    "SYMBOL_MORE": "至少包含%COUNT%個符號",
     "NUMBER_ONE": "至少包含一個數字（0-9）",
-    "NUMBER_MORE": "至少包含％COUNT％個數字（0-9）",
+    "NUMBER_MORE": "至少包含%COUNT%個數字（0-9）",
     "NO_EMAIL": "不包含您的姓名或電子郵件地址",
     "MATCH": "在兩個字段中以相同的方式輸入",
     "NO_OLD_PASSWORD": "您的新密碼必須與以前的密碼不同"
@@ -135,7 +136,7 @@
     },
     "PASSWORD_LENGTH": {
       "TITLE": "密碼太短",
-      "MESSAGE": "請輸入超過％COUNT％個字符的密碼",
+      "MESSAGE": "請輸入超過%COUNT%個字符的密碼",
       "CONFIRM": "好"
     },
     "PASSWORD_NOT_MATCH": {
@@ -150,7 +151,7 @@
     },
     "NON_LOCAL_LOGIN": {
       "TITLE": "",
-      "MESSAGE": "您之前已使用％PROVIDER％登錄。請確認您要設置帳戶密碼。",
+      "MESSAGE": "您之前已使用%PROVIDER%登錄。請確認您要設置帳戶密碼。",
       "CONFIRM": "設置密碼",
       "CONFIRM_2": "取消"
     },

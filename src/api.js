@@ -10,6 +10,7 @@ let FORCE_REAUTHENTICATION;
 let PAGE_VIEW_ID;
 let ALLOW_SUB_DOMAIN;
 let SUCCESS_EVENT_CODE;
+let HIDE_LOCAL_AUTH_DOMAINS;
 
 let DEVICE_ID;
 const CACHE_STORAGE = {
@@ -215,6 +216,10 @@ const configure = async function (data) {
     if (typeof data.success_event_code != 'undefined') {
         SUCCESS_EVENT_CODE = data.success_event_code;
     }
+
+    if (typeof data.hide_local_auth_domains != 'undefined') {
+        HIDE_LOCAL_AUTH_DOMAINS = data.hide_local_auth_domains;
+    }
 };
 
 const parseCookie = (str) => {
@@ -306,6 +311,17 @@ const getProviders = async function (email_address, callback) {
     await getClientSettings(email_address, callback2);
 };
 
+const isEmailInDomain = function(email_address) {
+    let found = false;
+    let domains = HIDE_LOCAL_AUTH_DOMAINS ? HIDE_LOCAL_AUTH_DOMAINS : [];
+    for(let i = 0; email_address && i < domains.length && !found; i++) {
+        if (email_address.indexOf(domains[i]) !== -1 && (email_address.indexOf(domains[i]) + domains[i].length) == email_address.length) {
+            found = true;
+        }
+    }
+    return found;
+}
+
 const getClientSettings = async function(email_address, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/client_settings';
 
@@ -323,12 +339,29 @@ const getClientSettings = async function(email_address, callback) {
         request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
+    const handlingCallback = function(res) {
+        if (res.settings) {
+            if (res.settings.discovery_required || res.settings.invite_required) {
+                if (res.settings.password_settings && res.settings.password_settings.enabled) {
+                    if (res.user_profile && res.user_profile.email_address && isEmailInDomain(res.user_profile.email_address)) {
+                        res.settings.password_settings = false;
+                        res.user_profile.has_password = false;
+                    }
+                }
+            }
+        }
+        console.log(res);
+        if (typeof callback == 'function') {
+            callback(res);
+        }
+    }
+
     const deviceCheckCallback = function(res) {
         if (checkDeviceId(res)) {
             cleanDeviceId();
             getClientSettings(email_address, callback);
-        } else if (typeof callback == 'function') {
-            callback(res);
+        } else {
+            handlingCallback(res);
         }
     };
 

@@ -410,7 +410,7 @@ const svgButtons = function (type, opt, register) {
                 svg;
             break;
         case 'slack':
-            sign_in += ' with slack';
+            sign_in += ' with Slack';
             html =
                 '<div data-name="slack" class="bb-slack"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +

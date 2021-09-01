@@ -1,9 +1,9 @@
 {
   "POPUP": {
-    "HEADER_1": "Bienvenue",
-    "HEADER_2": "Bienvenue dans %APP_NAME%",
-    "HEADER_BACK_1": "Content de te revoir",
-    "HEADER_BACK_2": "Bienvenue à nouveau dans %APP_NAME%",
+    "HEADER_1": "Connectez-vous pour votre meilleure expérience",
+    "HEADER_2": "Connectez-vous pour votre meilleure expérience",
+    "HEADER_BACK_1": "Connectez-vous pour votre meilleure expérience",
+    "HEADER_BACK_2": "Connectez-vous pour votre meilleure expérience",
     "TEXT_1": "Premier pas",
     "TEXT_2": "`Continuez avec &#39;votre méthode de connexion de confiance. *<br/> Nous vous ferons démarrer en un rien de temps.",
     "TEXT_3": "* Vous serez redirigé pour authentifier votre compte; nous ne voyons jamais votre méthode d&#39;authentification ou votre mot de passe.",
@@ -86,7 +86,8 @@
     "OR_CONTINUE_WITH_EMAIL": "ou continuez avec votre adresse e-mail",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscrivez-vous avec votre adresse e-mail et votre mot de passe",
     "CONTINUE_WITH_EMAIL": "ou entrez votre adresse e-mail ci-dessous",
-    "MORE_INFO": "Plus d&#39;information"
+    "MORE_INFO": "Plus d&#39;information",
+    "START_WITH_EMAIL_ADDRESS": "Commencez par votre adresse e-mail ci-dessous"
   },
   "HOVER": {
     "EMAIL_MATCH": "Veuillez vous assurer que l&#39;adresse e-mail que vous utilisez lors de la connexion est celle qui a été invitée à vous inscrire.",

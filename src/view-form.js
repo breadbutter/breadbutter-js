@@ -399,7 +399,7 @@ const VIEWFORM = function() {
     };
 
     const saveInviteRequired = function(res) {
-        let invite_required = res.settings.invite_required;
+        let invite_required = res.settings && res.settings.invite_required;
         if (localStorage) {
             localStorage.setItem(CACHE_STORAGE.INVITE_REQUIRED, invite_required);
         }
@@ -472,6 +472,7 @@ const VIEWFORM = function() {
             // loader.remove();
             if (res) {
                 res = applyDev(res);
+                updatePopupDiscovery(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
                 logger.debug('breadbutter-ui > api.getClientSettings:', res);
@@ -486,6 +487,7 @@ const VIEWFORM = function() {
         api.getClientSettings(email, function(res) {
             // loader.remove();
             if (res) {
+                updatePopupDiscovery(res);
                 res = applyDev(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
@@ -493,6 +495,10 @@ const VIEWFORM = function() {
             }
         });
     };
+
+    const updatePopupDiscovery = function() {
+
+    }
 
 //----------------------------------------------------------------------------------------
 
@@ -1491,16 +1497,21 @@ const VIEWFORM = function() {
         let holder = findParents(icon, UI_ID);
         if (holder && holder.parentElement) {
             holder.parentElement.classList.remove('scrolling');
+            setTimeout(function() {
+                holder.parentElement.style.height = null;
+            }, 250);
         }
     };
 
     const getContinueWith = function(res, top, incognito) {
         let list = [];
+        let continue_with_count = 0;
         if (res && res.providers) {
             for (let i = 0; i < res.providers.length; i++) {
                 let provider = res.providers[i];
                 if (providers_hash[provider.idp]) {
                     list.push(provider);
+                    continue_with_count++;
                 }
             }
         }
@@ -1509,6 +1520,11 @@ const VIEWFORM = function() {
             list = false;
         }
         let theme = OPTS.button_theme;
+
+        // let overflow = false;
+        if ((window.innerHeight - 250 - (continue_with_count * 40)) < 0) {
+            theme = 'round-icons';
+        }
 
         let opt = {
             button_theme: theme,

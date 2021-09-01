@@ -254,7 +254,9 @@ const createView = function (options) {
         setupScrollingMoveTrigger();
     }
 
-    setupScrollingTrigger();
+    if (!isMobile) {
+        setupScrollingTrigger();
+    }
     document.body.append(popup);
     currentPopup = popup;
 
@@ -302,6 +304,10 @@ const triggerProvider = function(advanced) {
     if (advanced) {
         assignMask();
         // setupScrollingTrigger();
+    } else {
+        let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
+        let holder = findChild(wrapper, POPUP_HOLDER_ID);
+        holder.classList.add('basic');
     }
 };
 let TRIGGER_EVENT = {};
@@ -333,7 +339,11 @@ const setupScrollingTrigger = function() {
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
             // console.log('scrolling...');
+            // if (!event.target.classList.contains('breadbutter-buttons')) {
+                //height: 80vh;
+                //overflow-y: scroll;
             scrollingTrigger(event);
+            // }
         }
     }, true);
 };
@@ -348,30 +358,48 @@ const setupScrollingMoveTrigger = function() {
 
 };
 
+let lastScroll = false;
+
 const scrollingTrigger = function(event) {
     let windowHeight = window.innerHeight;
     let scrollArea = windowHeight / 10;
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);
     // console.log(event);
     clearTimeout(scrollTimer);
-    // console.log(scrollNow, scrollPosition, scrollArea)
+    console.log(scrollNow, lastScroll)
     if (scrolling == false) {
         // console.log('scrolling false');
         scrollPosition = scrollNow;
         scrolling = true;
-    } else if (Math.abs(scrollNow - scrollPosition) > scrollArea){
-        // console.log('> scrollArea');
-        let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
-        let holder = findChild(wrapper, POPUP_HOLDER_ID);
-        holder.classList.add('scrolling');
+    // } else if (Math.abs(scrollNow - scrollPosition) > scrollArea){
+    } else if (Math.abs(scrollNow - scrollPosition) > scrollArea && scrollNow > lastScroll){
+        console.log('> scrollArea');
+        addScrolling();
         triggerEvent('scrolling');
     }
-
+    lastScroll = scrollNow;
     scrollTimer = setTimeout(function(){
         scrolling = false;
         scrollPosition = false;
-    }, 3000);
+        lastScroll = false;
+    }, 1500);
 };
+
+const addScrolling = function() {
+    let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
+    let holder = findChild(wrapper, POPUP_HOLDER_ID);
+    let height = holder.firstElementChild.offsetHeight;
+    let position_set = false;
+    if (!holder.classList.contains('scrolling')) {
+        holder.style.height = height + 'px';
+    }
+    setTimeout(function() {
+        holder.classList.add('scrolling');
+    }, 50)
+
+}
+
+
 
 const scrollingMoveTrigger = function(event) {
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);

@@ -1,9 +1,9 @@
 {
   "POPUP": {
-    "HEADER_1": "Bienvenido",
-    "HEADER_2": "Bienvenido a %APP_NAME%",
-    "HEADER_BACK_1": "Bienvenido de nuevo",
-    "HEADER_BACK_2": "Bienvenido de nuevo a %APP_NAME%",
+    "HEADER_1": "Regístrese para su mejor experiencia",
+    "HEADER_2": "Regístrese para su mejor experiencia",
+    "HEADER_BACK_1": "Regístrese para su mejor experiencia",
+    "HEADER_BACK_2": "Regístrese para su mejor experiencia",
     "TEXT_1": "Primer paso",
     "TEXT_2": "`Continúe con &#39;su método de inicio de sesión de confianza. *<br/> Lo haremos comenzar en poco tiempo.",
     "TEXT_3": "* Se le redirigirá para autenticar su cuenta; nunca vemos su método de autenticación o contraseña.",
@@ -86,7 +86,8 @@
     "OR_CONTINUE_WITH_EMAIL": "o continúe con su dirección de correo electrónico",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "O regístrese con su dirección de correo electrónico y contraseña",
     "CONTINUE_WITH_EMAIL": "o ingrese su dirección de correo electrónico a continuación",
-    "MORE_INFO": "más información"
+    "MORE_INFO": "más información",
+    "START_WITH_EMAIL_ADDRESS": "Comience con su dirección de correo electrónico a continuación"
   },
   "HOVER": {
     "EMAIL_MATCH": "Asegúrese de que la dirección de correo electrónico que utiliza al iniciar sesión sea una que haya sido invitada a registrarse.",
