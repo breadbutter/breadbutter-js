@@ -57,7 +57,18 @@ const ArrowBottomRight = `
 </svg>
 `;
 
+const ArrowDown = `
+<svg xmlns="http://www.w3.org/2000/svg" width="85.58" height="50.443" viewBox="0 0 85.58 50.443" style="transform:scale(.5,-.5)rotate(85deg)">
+    <g id="Group_2254" data-name="Group 2254" transform="translate(-1661.785 6446.49) rotate(-96)">
+        <path id="Path_1103" data-name="Path 1103" d="M555.22,773.325s-27.778,5.908-24.813,63.412" transform="matrix(-0.966, -0.259, 0.259, -0.966, 6517.896, 3290.785)" fill="none" stroke-linecap="round" stroke-width="4"/>
+        <path id="Polygon_1" data-name="Polygon 1" d="M10.264,3.039a2,2,0,0,1,3.473,0L22.29,18.008A2,2,0,0,1,20.554,21H3.446A2,2,0,0,1,1.71,18.008Z" transform="translate(6213.694 2324.025) rotate(11)" />
+    </g>
+</svg>
+`;
+
 let TEXT_MARGIN = 650;
+
+let MOBILE_TEXT_MARGIN = 300;
 
 let Locale = {};
 let APP_NAME = false;
@@ -178,9 +189,9 @@ let CONTINUE_WITH_HOVER = {
 
 const createView = function (options) {
     // console.log(options);
-    if (!isMobile) {
-        options.onProvider = triggerProvider;
-    } else {
+    options.onProvider = triggerProvider;
+    options.onFormEntry = triggerFormEntry;
+    if (isMobile) {
         options.button_theme = 'round-icons';
     }
     options.onLogin = triggerLogin;
@@ -202,9 +213,9 @@ const createView = function (options) {
         DATA.show_login_focus = true;
     }
 
-    if (isMobile) {
-        DATA.show_login_focus = false;
-    }
+    // if (isMobile) {
+    // DATA.show_login_focus = false;
+    // }
     CONTINUE_WITH_HOVER.enabled = options.continue_with_hover;
     CONTINUE_WITH_HOVER.distance = options.continue_with_hover_distance;
 
@@ -300,8 +311,8 @@ const triggerLogin = function(advanced) {
 }
 
 const triggerProvider = function(advanced) {
-    // console.log('triggerProvider');
     if (advanced) {
+        currentPopup.classList.add('advance');
         assignMask();
         // setupScrollingTrigger();
     } else {
@@ -310,6 +321,25 @@ const triggerProvider = function(advanced) {
         holder.classList.add('basic');
     }
 };
+
+const triggerFormEntry = function(form) {
+    let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
+    let holder = findChild(wrapper, POPUP_HOLDER_ID);
+    const formMatch = new RegExp('-form');
+    let clean_list = [];
+    for(let i = 0; i < holder.classList.length; i++) {
+        let cls = holder.classList[i];
+        if (formMatch.test(cls)) {
+            clean_list.push(cls);
+        }
+    }
+    for(let i = 0; i < clean_list.length; i++) {
+        holder.classList.remove(clean_list[i]);
+    }
+    holder.classList.add(form);
+    holder.style.height = null;
+};
+
 let TRIGGER_EVENT = {};
 const addEvent = function(event, func) {
     if (!TRIGGER_EVENT[event]) {
@@ -335,7 +365,6 @@ let scrollPosition = false;
 let scrollTimer = false;
 
 const setupScrollingTrigger = function() {
-    console.log('scrolling trigger register');
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
             // console.log('scrolling...');
@@ -349,7 +378,6 @@ const setupScrollingTrigger = function() {
 };
 
 const setupScrollingMoveTrigger = function() {
-    console.log('scrolling move register');
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
             scrollingMoveTrigger(event);
@@ -364,16 +392,14 @@ const scrollingTrigger = function(event) {
     let windowHeight = window.innerHeight;
     let scrollArea = windowHeight / 10;
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);
-    // console.log(event);
+    if (event.target == document) {
+        scrollNow = window.scrollY;
+    }
     clearTimeout(scrollTimer);
-    console.log(scrollNow, lastScroll)
     if (scrolling == false) {
-        // console.log('scrolling false');
         scrollPosition = scrollNow;
         scrolling = true;
-    // } else if (Math.abs(scrollNow - scrollPosition) > scrollArea){
     } else if (Math.abs(scrollNow - scrollPosition) > scrollArea && scrollNow > lastScroll){
-        console.log('> scrollArea');
         addScrolling();
         triggerEvent('scrolling');
     }
@@ -438,8 +464,14 @@ const assignTextLocation = function() {
     let left = false;
     let bottom = false;
 
+    let mobile_fit = false;
+
     if (offsetLeft > TEXT_MARGIN || offsetRight > TEXT_MARGIN) {
         fit = true;
+    }
+
+    if (windowHeight > MOBILE_TEXT_MARGIN) {
+        mobile_fit = true;
     }
 
     if (offsetLeft >= offsetRight) {
@@ -466,6 +498,12 @@ const assignTextLocation = function() {
             text_holder.appendChild(getMessage());
             text_holder.appendChild(getArrowIcon(left, bottom));
         }
+    } else if (mobile_fit) {
+        text_holder.classList.add('mobile');
+        text_holder.appendChild(getTextTitle());
+        text_holder.appendChild(getText());
+        text_holder.appendChild(getMessage());
+        text_holder.appendChild(getArrowDownIcon());
     } else {
         text_holder.classList.add('nowhere');
         text_holder.appendChild(getTextTitle());
@@ -525,6 +563,13 @@ const getArrowIcon = function(left, bottom) {
         }
     }
     svg.innerHTML = arrow;
+
+    return svg;
+}
+
+const getArrowDownIcon = function() {
+    let svg = addView(ARROW_HOLDER_ID);
+    svg.innerHTML = ArrowDown;
 
     return svg;
 }

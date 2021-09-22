@@ -2,12 +2,16 @@ import * as en from './locale/en.json';
 import * as fr from './locale/fr.json';
 import * as zhtw from './locale/zh-TW.json';
 import * as es from './locale/es.json';
+import * as pt from './locale/pt.json';
+import * as bg from './locale/bg.json';
 
 const Locale = {
     en,
     fr,
     'zh-TW': zhtw,
     es,
+    pt,
+    bg
 };
 
 const assignString = function (locale, local) {
@@ -22,6 +26,9 @@ const assignString = function (locale, local) {
 };
 
 const getLocale = function (lang, local) {
+    if (!Locale[lang]) {
+        lang = 'en';
+    }
     let locale = Object.assign({}, Locale[lang]);
     delete locale['default'];
     if (locale && local) {

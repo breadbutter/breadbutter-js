@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.5.0.0.311.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.5.1.0.333.min.js
     
 ## Configuration
 
@@ -27,7 +27,7 @@ The official BreadButter JavaScript client library.
             BreadButter.widgets.continueWith();
         };
     </script>
-    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.5.0.0.311.min.js"></script>
+    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.5.1.0.333.min.js"></script>
   </head>
  <body></body>
 </html>

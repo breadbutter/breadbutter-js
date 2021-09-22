@@ -12,6 +12,8 @@ let ALLOW_SUB_DOMAIN;
 let SUCCESS_EVENT_CODE;
 let HIDE_LOCAL_AUTH_DOMAINS;
 
+let LANDING_REDIRECT_URL;
+
 let DEVICE_ID;
 const CACHE_STORAGE = {
     DEVICE_ID: 'breadbutter-sdk-device-id'
@@ -220,6 +222,10 @@ const configure = async function (data) {
     if (typeof data.hide_local_auth_domains != 'undefined') {
         HIDE_LOCAL_AUTH_DOMAINS = data.hide_local_auth_domains;
     }
+
+    if (typeof data.landing_redirect_url != 'undefined') {
+        LANDING_REDIRECT_URL = data.landing_redirect_url;
+    }
 };
 
 const parseCookie = (str) => {
@@ -252,6 +258,10 @@ const redirectLogin = function (pin, auto_redirect) {
         pin: pin,
     };
 
+    if (LANDING_REDIRECT_URL) {
+        url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
+    }
+
     return redirect(url, request_data, auto_redirect);
 };
 
@@ -262,6 +272,10 @@ const redirectAuthentication = function(pin, auto_redirect) {
         '/authentications/' +
         pin +
         '/redirect';
+
+    if (LANDING_REDIRECT_URL) {
+        url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
+    }
 
     return redirect(url, false, auto_redirect);
 };

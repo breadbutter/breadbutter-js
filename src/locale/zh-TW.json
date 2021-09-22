@@ -61,6 +61,14 @@
     "LAST_NAME": "姓",
     "PIN": "銷"
   },
+  "TILE": {
+    "CONTINUE_AS": "繼續作為",
+    "CONTINUE": "繼續",
+    "SIGN_IN": "登入",
+    "WITH": "和",
+    "W_": "帶",
+    "WITH_EMAIL": "使用電子郵件登錄"
+  },
   "BUTTON": {
     "SIGN_IN_METHOD": "其他登錄方式",
     "CONTINUE_WITH": "繼續",
@@ -178,5 +186,10 @@
     "CONTENT": "瀏覽我們的網站，即表示您同意我們使用cookie。",
     "BUTTON_1": "好的",
     "BUTTON_2": "閱讀我們的政策"
+  },
+  "TOC_PRIVACY": {
+    "CONTENT_ALL": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>",
+    "CONTENT_TOC": "註冊、登錄或繼續，即表示我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>",
+    "CONTENT_PRIVACY": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>"
   }
 }

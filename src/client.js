@@ -58,7 +58,8 @@ let options = {
     success_event_code: false,
     continue_with_hover: true,
     continue_with_hover_distance: 5,
-    hide_local_auth_domains: []
+    hide_local_auth_domains: [],
+    landing_redirect_url: false
 };
 
 const configure = function (opt) {
@@ -138,6 +139,9 @@ const configure = function (opt) {
         options.hide_local_auth_domains = opt.hide_local_auth_domains;
     }
 
+    if (typeof opt.landing_redirect_url != 'undefined') {
+        options.landing_redirect_url = opt.landing_redirect_url;
+    }
 
     api.configure({
         app_id: options.app_id,
@@ -149,7 +153,8 @@ const configure = function (opt) {
         client_data: options.client_data,
         allow_sub_domain: options.allow_sub_domain,
         success_event_code: options.success_event_code,
-        hide_local_auth_domains: options.hide_local_auth_domains
+        hide_local_auth_domains: options.hide_local_auth_domains,
+        landing_redirect_url: options.landing_redirect_url
     });
 
     tracking();
@@ -168,7 +173,8 @@ const api = new (function () {
             client_data: opt.client_data,
             allow_sub_domain: opt.allow_sub_domain,
             success_event_code: opt.success_event_code,
-            hide_local_auth_domains: opt.hide_local_auth_domains
+            hide_local_auth_domains: opt.hide_local_auth_domains,
+            landing_redirect_url: options.landing_redirect_url
         });
     };
 
@@ -307,7 +313,6 @@ const checkRememberClose = function(options) {
 }
 
 const loadOptions = function (opt) {
-    console.log('load options');
     if (!opt) {
         opt = {};
     }

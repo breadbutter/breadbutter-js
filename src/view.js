@@ -10,6 +10,7 @@ const init = function (options) {
 };
 
 const loadLanguage = function (options) {
+    console.log(options);
     if (options.language) {
         let locale = lang.getLocale(options.language, options.locale);
         if (locale) {
@@ -290,7 +291,8 @@ const svgButtons_e = function (provider, register) {
     let type = provider.idp;
     let name = provider.name;
 
-    let sign_in = register ? 'Continue' : 'Sign in';
+    let sign_in = register ? Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
+    sign_in += " ";
     let icon = enterpriseIcon(type, provider);
     if (icon) {
         icon =
@@ -303,9 +305,9 @@ const svgButtons_e = function (provider, register) {
 
     let style = enterpriseStyle(provider);
 
-    sign_in = sign_in + ' w/ ' + name;
+    sign_in = sign_in + Locale.TILE.W_ + name;
     if (provider.alias) {
-        sign_in = "Continue as " + provider.alias;
+        sign_in = Locale.TILE.CONTINUE_AS + " " + provider.alias;
     }
     html =
         '<div data-name="' +
@@ -358,59 +360,60 @@ const svgButtons = function (type, opt, register) {
     let html = '';
     let TYPE = type;
     let svg = loadSVG(type);
-    let sign_in = register ? 'Continue' : 'Sign in';
+    let sign_in = register ?  Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
+    sign_in += " ";
     switch (TYPE) {
         case 'google':
-            sign_in += ' with Google';
+            sign_in += Locale.TILE.WITH + ' Google';
             html =
                 '<div data-name="google" class="bb-google"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'facebook':
-            sign_in += ' with Facebook';
+            sign_in += Locale.TILE.WITH + ' Facebook';
             html =
                 '<div data-name="facebook" class="bb-facebook"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg ;
             break;
         case 'microsoft':
-            sign_in += ' with Microsoft';
+            sign_in += Locale.TILE.WITH + ' Microsoft';
             html =
                 '<div data-name="microsoft" class="bb-microsoft"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg ;
             break;
         case 'linkedin':
-            sign_in += ' with LinkedIn';
+            sign_in += Locale.TILE.WITH + ' LinkedIn';
             html =
                 '<div data-name="linkedin" class="bb-linkedin"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'twitter':
-            sign_in += ' with Twitter';
+            sign_in += Locale.TILE.WITH + ' Twitter';
             html =
                 '<div data-name="twitter" class="bb-twitter"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'quickbooks':
-            sign_in += ' with QuickBooks';
+            sign_in += Locale.TILE.WITH + ' QuickBooks';
             html =
                 '<div data-name="quickbooks" class="bb-quickbooks"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-medium">' +
                 svg;
             break;
         case 'github':
-            sign_in += ' with GitHub';
+            sign_in += Locale.TILE.WITH + ' GitHub';
             html =
                 '<div data-name="github" class="bb-github"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'slack':
-            sign_in += ' with Slack';
+            sign_in += Locale.TILE.WITH + ' Slack';
             html =
                 '<div data-name="slack" class="bb-slack"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
@@ -418,70 +421,70 @@ const svgButtons = function (type, opt, register) {
             break;
 
         case 'basecamp':
-            sign_in += ' with Basecamp';
+            sign_in += Locale.TILE.WITH + ' Basecamp';
             html =
                 '<div data-name="basecamp" class="bb-basecamp"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'dropbox':
-            sign_in += ' with Dropbox';
+            sign_in += Locale.TILE.WITH + ' Dropbox';
             html =
                 '<div data-name="dropbox" class="bb-dropbox"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'shopify':
-            sign_in += ' with Shopify';
+            sign_in += Locale.TILE.WITH + ' Shopify';
             html =
                 '<div data-name="shopify" class="bb-shopify"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'evernote':
-            sign_in += ' with Evernote';
+            sign_in += Locale.TILE.WITH + ' Evernote';
             html =
                 '<div data-name="evernote" class="bb-evernote"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'planningcenter':
-            sign_in += ' w/planning center';
+            sign_in += Locale.TILE.W_ + 'planning center';
             html =
                 '<div data-name="planningcenter" class="bb-planningcenter"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'fitbit':
-            sign_in += ' with fitbit';
+            sign_in += Locale.TILE.WITH + ' fitbit';
             html =
                 '<div data-name="fitbit" class="bb-fitbit"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg ;
             break;
         case 'apple':
-            sign_in += ' with Apple';
+            sign_in += Locale.TILE.WITH + ' Apple';
             html =
                 '<div data-name="apple" class="bb-apple"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'twitch':
-            sign_in += ' with twitch';
+            sign_in += Locale.TILE.WITH + ' twitch';
             html =
                 '<div data-name="twitch" class="bb-twitch"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon bb-icon-small">' +
                 svg;
             break;
         case 'salesforce':
-            sign_in += ' with Salesforce';
+            sign_in += Locale.TILE.WITH + ' Salesforce';
             html =
                 '<div data-name="salesforce" class="bb-salesforce"><div class="bb-icon-wrapper">' +
                 '<div class="bb-icon">' +
                 svg;
             break;
         case 'local':
-            let text = opt.text ? opt.text : 'Sign in with email';
+            let text = opt.text ? opt.text : Locale.TILE.WITH_EMAIL;
             let cls = opt.cls ? opt.cls : '';
             html =
                 '<div data-name="local" class="bb-local ' +
@@ -496,7 +499,7 @@ const svgButtons = function (type, opt, register) {
     }
     if (TYPE != 'local') {
         if (opt.alias) {
-            sign_in = "Continue as " + opt.alias;
+            sign_in = Locale.TILE.CONTINUE_AS + " " + opt.alias;
         }
         html += '</div><span>'+ sign_in + '</span></div></div>';
     }

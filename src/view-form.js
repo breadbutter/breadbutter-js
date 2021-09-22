@@ -27,6 +27,9 @@ const INCOGNITO_HOLDER_ID = 'breadbutter-incognito-holder';
 const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 
+const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
+const TERM_POLICY_ID = 'breadbutter-term-policy';
+
 const BLUR_HOLDER_ID = 'breadbutter-buttons-blur-holder';
 const CONTIUNUE_WITH_EMAIL_ID = 'continue-email-address';
 const BLUR_CLASS = 'bb-blur';
@@ -143,6 +146,14 @@ const USER_STATE = {
     VERIFIED: 'verified'
 };
 
+const RESET_FORM = 'reset-form';
+const CONFIRM_FORM = 'confirm-form';
+const INCOGNITO_FORM = 'incognito-form';
+const EMAIL_FORM = 'email-form';
+const LOGIN_FORM = 'login-form';
+const LOCAL_LOGIN_FORM = 'local-login-form';
+const REGISTER_FORM = 'register-form';
+
 import api from './api.js';
 import constants from './constants';
 import view from './view.js';
@@ -172,6 +183,8 @@ const VIEWFORM = function() {
     let APP_NAME = false;
     let OPTS = {};
     let loading = false;
+    let PRIVACY_LINK = false;
+    let TOC_LINK = false;
     const applyDev = function(res) {
 
         if (res) {
@@ -387,6 +400,9 @@ const VIEWFORM = function() {
         loadApp(options);
     };
 
+    let onProvider = false;
+    let onFormEntry = false;
+
     const loadOptions = function(options) {
         loadLanguage(options);
         //loadClientData(options);
@@ -395,6 +411,17 @@ const VIEWFORM = function() {
         }
         if (typeof options.expand_email_address != 'undefined') {
             OPTS.expand_email_address = options['expand_email_address'];
+        }
+
+
+        onProvider = options.onProvider;
+        onFormEntry = options.onFormEntry;
+
+    };
+
+    const formEntry = function(form) {
+        if (typeof onFormEntry == 'function') {
+            onFormEntry(form);
         }
     };
 
@@ -466,16 +493,37 @@ const VIEWFORM = function() {
     };
 //----------------------------------------------------------------------------------------
 
+    const updateTermPrivacyLink = function(res) {
+        TOC_LINK = false;
+        PRIVACY_LINK = false;
+        if (res.settings) {
+            if (res.settings.privacy_policy_url) {
+                PRIVACY_LINK = res.settings.privacy_policy_url;
+            }
+
+            if (res.settings.terms_and_conditions_url) {
+                TOC_LINK = res.settings.terms_and_conditions_url;
+            }
+        }
+    }
+
     const checkProviders = function(cb) {
         //loader.start(container, true);
         api.getClientSettings(false, function(res) {
             // loader.remove();
             if (res) {
                 res = applyDev(res);
+                updateTermPrivacyLink(res);
                 updatePopupDiscovery(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
-                logger.debug('breadbutter-ui > api.getClientSettings:', res);
+
+                if (typeof onProvider == 'function') {
+                    let invite_required = res.settings.invite_required;
+                    let discovery_required = res.settings.discovery_required;
+                    onProvider(!invite_required && !discovery_required && hasProviders(res));
+                }
+
                 cb(res);
             }
         });
@@ -487,10 +535,17 @@ const VIEWFORM = function() {
         api.getClientSettings(email, function(res) {
             // loader.remove();
             if (res) {
-                updatePopupDiscovery(res);
                 res = applyDev(res);
+                updateTermPrivacyLink(res);
+                updatePopupDiscovery(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
+
+                if (typeof onProvider == 'function') {
+                    let invite_required = res.settings.invite_required;
+                    let discovery_required = res.settings.discovery_required;
+                    onProvider(!invite_required && !discovery_required && hasProviders(res));
+                }
                 cb(res);
             }
         });
@@ -677,11 +732,6 @@ const VIEWFORM = function() {
 
         loadOptions(options);
         checkProviders((res) => {
-            if (typeof options.onProvider == 'function') {
-                let invite_required = res.settings.invite_required;
-                let discovery_required = res.settings.discovery_required;
-                options.onProvider(!invite_required && !discovery_required && hasProviders(res));
-            }
             options.email_address = getLocalEmail(options.email_address);
             options.email_address = getClientEmail(options.email_address, res);
             addDiscoveryForm(id, res, options)
@@ -845,6 +895,34 @@ const VIEWFORM = function() {
         hover.addHoverEffect(more_info, Locale.HOVER.MORE_INFO);
         holder.appendChild(more_info);
         top.appendChild(holder);
+
+        insertTermPolicyHolder(top);
+    };
+
+    const insertTermPolicyHolder = function(top) {
+        removeChild(top, TERM_POLICY_HOLDER_ID);
+        if (TOC_LINK || PRIVACY_LINK) {
+            let text;
+            if (TOC_LINK && PRIVACY_LINK) {
+                text = lang.replace({ APP_NAME, TOC_LINK, PRIVACY_LINK  }, Locale.TOC_PRIVACY.CONTENT_ALL);
+            } else if (TOC_LINK) {
+                text = lang.replace({ APP_NAME, TOC_LINK  }, Locale.TOC_PRIVACY.CONTENT_TOC);
+            } else if (PRIVACY_LINK) {
+                text = lang.replace({ APP_NAME, PRIVACY_LINK  }, Locale.TOC_PRIVACY.CONTENT_PRIVACY);
+            }
+            let holder = view.addView(TERM_POLICY_HOLDER_ID);
+            let content = getDiv(text, TERM_POLICY_ID);
+            holder.appendChild(content);
+            top.appendChild(holder);
+            top.classList.add('bb-toc-term');
+        }
+    }
+
+    const getDiv = function(text, cls) {
+        cls = cls ? cls : '';
+        let b = view.addBlock('div', cls);
+        b.innerHTML = text;
+        return b;
     };
 
     const getText = function(text, cls) {
@@ -1270,7 +1348,7 @@ const VIEWFORM = function() {
     };
 
     const confirmForm = function(email_address, pin) {
-
+        formEntry(CONFIRM_FORM);
         let container = view.addView(CONFIRM_ID);
         let form = view.addView(CONFIRM_FORM_ID);
         container.appendChild(getHeaderModule(Locale.CONFIRM_EMAIL.TITLE, Locale.CONFIRM_EMAIL.CONTENT));
@@ -1294,6 +1372,7 @@ const VIEWFORM = function() {
     };
 
     const resetForm = function(email_address, pin) {
+        formEntry(RESET_FORM);
         let container = view.addView(RESET_ID);
 
         container.appendChild(getHeaderModule(Locale.RESET_PASSWORD.TITLE, Locale.RESET_PASSWORD.CONTENT));
@@ -1426,6 +1505,7 @@ const VIEWFORM = function() {
     }
 
     const emailForm = function(res, email_address, options, holder) {
+        formEntry(EMAIL_FORM);
         let container = view.addView(EMAIL_ID);
 
         let {list, button_holder} = getContinueWith(res, container);
@@ -1522,7 +1602,7 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        if ((window.innerHeight - 250 - (continue_with_count * 40)) < 0) {
+        if ((window.innerHeight - 300 - (continue_with_count * 40)) <= 0) {
             theme = 'round-icons';
         }
 
@@ -1573,6 +1653,7 @@ const VIEWFORM = function() {
     };
 
     const incognitoForm = function(res, email_address) {
+        formEntry(INCOGNITO_FORM);
         let top = view.addView(INCOGNITO_ID);
         top.appendChild(getHeaderModule(Locale.REGISTER.TITLE));
         let local = false;
@@ -2539,6 +2620,7 @@ const VIEWFORM = function() {
     };
 
     const checkRegistration = function(holder, res) {
+        formEntry(REGISTER_FORM);
         let invite_required = res.settings.invite_required;
         let discovery_required = res.settings.discovery_required;
         let password_settings = res.settings.password_settings;
@@ -2784,6 +2866,7 @@ const VIEWFORM = function() {
     };
 
     const goLogin = function(holder, response) {
+        formEntry(LOGIN_FORM);
         showPopupTitle(holder, false);
         triggerOnLogin(holder, response);
         let email_address = getLocalEmail();
@@ -2817,6 +2900,8 @@ const VIEWFORM = function() {
         }
 
         if (suggested == 'local' || (!list && local)) {
+
+            formEntry(LOCAL_LOGIN_FORM);
             login_container.classList.add('local-login');
             const next = findChild(login_container, FORM.PASSWORD);
             if (next) {

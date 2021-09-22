@@ -61,6 +61,14 @@
     "LAST_NAME": "Last name",
     "PIN": "PIN"
   },
+  "TILE": {
+    "CONTINUE_AS": "Continue as",
+    "CONTINUE": "Continue",
+    "SIGN_IN": "Sign in",
+    "WITH": "with",
+    "W_": "w/",
+    "WITH_EMAIL": "Sign in with email"
+  },
   "BUTTON": {
     "SIGN_IN_METHOD": "Other sign in methods",
     "CONTINUE_WITH": "Continue with",
@@ -178,5 +186,10 @@
     "CONTENT": "By browsing our website, you agree to our use of cookies.",
     "BUTTON_1": "OK",
     "BUTTON_2": "Read our policy"
+  },
+  "TOC_PRIVACY": {
+    "CONTENT_ALL": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
+    "CONTENT_TOC": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
+    "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>"
   }
 }

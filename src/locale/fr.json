@@ -36,7 +36,7 @@
   "NEW_CODE": {
     "CONTENT_1": "Vous n&#39;avez pas reçu votre code PIN de confirmation?",
     "CONTENT_2": "Veuillez vérifier votre dossier spam",
-    "CONTENT_OR": "ou",
+    "CONTENT_OR": "ou ",
     "CONTENT_3": "pour un nouveau code",
     "BUTTON": "cliquez ici"
   },
@@ -60,6 +60,14 @@
     "FIRST_NAME": "Prénom",
     "LAST_NAME": "Nom de famille",
     "PIN": "ÉPINGLE"
+  },
+  "TILE": {
+    "CONTINUE_AS": "Continuer comme",
+    "CONTINUE": "Continuer",
+    "SIGN_IN": "se connecter",
+    "WITH": "avec",
+    "W_": "avec",
+    "WITH_EMAIL": "Connectez-vous avec e-mail"
   },
   "BUTTON": {
     "SIGN_IN_METHOD": "Autres méthodes de connexion",
@@ -178,5 +186,10 @@
     "CONTENT": "En naviguant sur notre site Web, vous acceptez notre utilisation des cookies.",
     "BUTTON_1": "d&#39;accord",
     "BUTTON_2": "Lisez notre politique"
+  },
+  "TOC_PRIVACY": {
+    "CONTENT_ALL": "En m&#39;inscrivant, en me connectant ou en continuant, j&#39;accepte les <a href='%TOC_LINK%' target='_blank'>conditions d&#39;utilisation</a> et la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité de %APP_NAME%</a>",
+    "CONTENT_TOC": "En m&#39;inscrivant, en me connectant ou en continuant, j&#39;accepte les <a href='%TOC_LINK%' target='_blank'>conditions d&#39;utilisation de %APP_NAME%</a>",
+    "CONTENT_PRIVACY": "En m&#39;inscrivant, en me connectant ou en continuant, j&#39;accepte la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité de %APP_NAME%</a>"
   }
 }

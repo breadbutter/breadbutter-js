@@ -13,6 +13,7 @@ const showAlert = viewAlert.showAlert;
 
 const init = function (options) {
     loadOptions(options);
+    VIEW.init(options);
 };
 
 const loadOptions = function (options) {

@@ -1,0 +1,195 @@
+{
+  "POPUP": {
+    "HEADER_1": "Inscreva-se para a sua melhor experiência",
+    "HEADER_2": "Inscreva-se para a sua melhor experiência",
+    "HEADER_BACK_1": "Inscreva-se para a sua melhor experiência",
+    "HEADER_BACK_2": "Inscreva-se para a sua melhor experiência",
+    "TEXT_1": "Primeiro passo",
+    "TEXT_2": "Continue com o nosso método de início de sessão fidedigno.*<br/>Ficará pronto a começar num instante.",
+    "TEXT_3": "*Será redirecionado para a autenticação da sua conta; nunca vemos o seu método de autenticação ou a palavra-passe da mesma.",
+    "TEXT_3_2": "*Será redirecionado para a autenticação da sua conta; nunca vemos o método de autenticação ou a palavra-passe da mesma. Tudo o que recebemos é um simples sim/não; embora alguns fornecedores de identidade também indiquem o seu nome. Pode alterar o seu método de autenticação a qualquer altura.",
+    "MORE": "mais>>"
+  },
+  "INCOGNITO": {
+    "TITLE": "Seja bem-vindo"
+  },
+  "REGISTER": {
+    "TITLE": "Seja bem-vindo",
+    "CONTENT": "Como gostaria de se inscrever?",
+    "CONTENT_2": "Inscrever-se com o seu e-mail",
+    "SSO": "Ou crie uma conta com o seu endereço de e-mail e uma palavra-passe",
+    "LOCAL": "Crie uma conta com o seu endereço de e-mail e uma palavra-passe",
+    "OR_LOCAL": "Ou preencha o formulário seguinte"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "Confirmação de e-mail",
+    "CONTENT": "Foi enviada uma mensagem de confirmação para o seu endereço de e-mail. Introduza o PIN contido no e-mail abaixo"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Esqueci-me da palavra-passe",
+    "CONTENT": "Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções sobre como redefinir a sua palavra-passe."
+  },
+  "EXPIRE_PASSWORD": {
+    "TITLE": "Alterar palavra-passe",
+    "CONTENT": "Parece que a sua palavra-passe tem de ser redefinida. Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções para redefinir a sua palavra-passe."
+  },
+  "NEW_CODE": {
+    "CONTENT_1": "Não recebeu o seu PIN de confirmação?",
+    "CONTENT_2": "Verifique a pasta do spam",
+    "CONTENT_OR": "ou ",
+    "CONTENT_3": " para um código novo",
+    "BUTTON": "clique aqui"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Olá",
+    "CONTENT": "Redefina a sua palavra-passe abaixo"
+  },
+  "LOGIN": {
+    "TITLE": "Olá",
+    "CONTENT": "Introduza o seu endereço de e-mail",
+    "CONTENT_2": "Introduza a sua palavra-passe"
+  },
+  "GREETING": "Olá",
+  "PLACEHOLDER": {
+    "EMAIL_ADDRESS": "Endereço de e-mail",
+    "PASSWD": "Palavra-passe",
+    "PASSWORD": "Criar palavra-passe",
+    "CONFIRM_PASSWORD": "Confirmar palavra-passe",
+    "NEW_PASSWORD": "Criar palavra-passe",
+    "NEW_CONFIRM_PASSWORD": "Confirmar palavra-passe",
+    "FIRST_NAME": "Nome próprio",
+    "LAST_NAME": "Apelido",
+    "PIN": "PIN"
+  },
+  "TILE": {
+    "CONTINUE_AS": "Continuar como",
+    "CONTINUE": "Continuar",
+    "SIGN_IN": "Iniciar sessão",
+    "WITH": "com",
+    "W_": "c/",
+    "WITH_EMAIL": "Iniciar sessão com o e-mail"
+  },
+  "BUTTON": {
+    "SIGN_IN_METHOD": "Outros métodos de início de sessão",
+    "CONTINUE_WITH": "Continuar com",
+    "OR_CONTINUE": "Ou continue com",
+    "USE_DIFFERENT_IDP": "Utilizar um fornecedor de identidade diferente",
+    "SELECT_IDP_SIGN_UP": "Selecione um fornecedor de identidade com o qual se registar",
+    "MORE": "Mais opções",
+    "LESS": "Menos opções",
+    "BACK": "Voltar",
+    "EMAIL_INSTRUCTION": "Enviar instruções para o meu e-mail",
+    "CANCEL": "Cancelar",
+    "CONTINUE": "Continuar",
+    "SET_PASSWORD": "Redefinir palavra-passe",
+    "FORGOT_PASSWORD": "Esqueceu-se da palavra-passe?",
+    "NEW_USER": "Novo utilizador?",
+    "SWITCH_LOGIN": "Não é você? Inicie sessão com um endereço de e-mail diferente",
+    "SWITCH_REGISTER": "Não é você? Inicie sessão com um endereço de e-mail diferente.",
+    "SWITCH_TRY": "Não é você? Experimente um endereço de e-mail diferente.",
+    "NEXT": "Seguinte",
+    "REGISTER": "Inscrever-se",
+    "SIGN_IN": "Iniciar sessão",
+    "CONFIRM": "Confirmar e-mail",
+    "OR_CONTINUE_WITH_EMAIL": "ou continue com o seu endereço de e-mail",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscreva-se com o seu endereço de e-mail e palavra-passe",
+    "CONTINUE_WITH_EMAIL": "ou introduza o seu endereço de e-mail abaixo",
+    "MORE_INFO": "mais informações",
+    "START_WITH_EMAIL_ADDRESS": "Comece com o seu endereço de e-mail abaixo"
+  },
+  "HOVER": {
+    "EMAIL_MATCH": "Certifique-se de que o endereço de e-mail que utiliza quando inicia sessão foi o que foi convidado a inscrever-se.",
+    "NEW_USER": "Para aceder a este site, deve primeiro ser convidado a aderir.<br/><br/>Se tiver recebido um convite de adesão, clique na ligação contida no e-mail para completar o seu registo.<br/><br/>Caso tenha perdido a mensagem de e-mail, contacte a pessoa que lhe enviou o convite.",
+    "MORE_INFO": "Respeitamos a sua privacidade. Será redirecionado para se autenticar com o fornecedor da sua confiança."
+  },
+  "PASSWORD_HINT": {
+    "HAS_VALIDATION": "A sua palavra-passe deve:",
+    "MINIMUM_ONE": "conter pelo menos um carácter",
+    "MINIMUM_MORE": "conter pelo menos %COUNT% caracteres",
+    "LOWER_ONE": "conter pelo menos uma letra minúscula (a-z)",
+    "LOWER_MORE": "conter pelo menos %COUNT% letras minúsculas (a-z)",
+    "UPPER_ONE": "conter pelo menos uma letra maiúscula (A-Z)",
+    "UPPER_MORE": "conter pelo menos %COUNT% letras maiúsculas (A-Z)",
+    "SYMBOL_ONE": "conter pelo menos um símbolo",
+    "SYMBOL_MORE": "conter pelo menos %COUNT% símbolos",
+    "NUMBER_ONE": "conter pelo menos um número (0-9)",
+    "NUMBER_MORE": "conter pelo menos %COUNT% números (0-9)",
+    "NO_EMAIL": "não conter o seu nome ou endereço de e-mail",
+    "MATCH": "ser introduzida da mesma forma em ambos os campos",
+    "NO_OLD_PASSWORD": "A sua palavra-passe nova deve ser diferente da palavra-passe anterior"
+  },
+  "ERROR": {
+    "INLINE": {
+      "TITLE": "Lamentamos",
+      "CONFIRM": "ok"
+    },
+    "EMPTY_TOKEN": {
+      "MESSAGE": "Deve introduzir um PIN"
+    },
+    "EMPTY_FIRST_NAME": {
+      "MESSAGE": "Certifique-se de que tem um nome próprio"
+    },
+    "EMPTY_LAST_NAME": {
+      "MESSAGE": "Certifique-se de que tem um apelido"
+    },
+    "VALID_EMAIL": {
+      "TITLE": "Formato de e-mail",
+      "MESSAGE": "Certifique-se de que está a utilizar um endereço de e-mail válido",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_EMPTY": {
+      "TITLE": "A palavra-passe é muito curta",
+      "MESSAGE": "Introduza uma palavra-passe",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_LENGTH": {
+      "TITLE": "A palavra-passe é muito curta",
+      "MESSAGE": "Introduza uma palavra-passe com mais de %COUNT% caracteres",
+      "CONFIRM": "ok"
+    },
+    "PASSWORD_NOT_MATCH": {
+      "TITLE": "As palavras-passe não coincidem",
+      "MESSAGE": "As palavras-passe não coincidem",
+      "CONFIRM": "ok"
+    },
+    "ACCOUNT_NOT_FOUND": {
+      "TITLE": "A conta não foi encontrada",
+      "MESSAGE": "Não conseguimos encontrar a sua conta. Caso tenha recebido um convite, clique na ligação contida no e-mail que recebeu para completar o seu registo",
+      "CONFIRM": "Vou procurar o meu convite"
+    },
+    "NON_LOCAL_LOGIN": {
+      "TITLE": "",
+      "MESSAGE": "Iniciou sessão anteriormente usando %PROVIDER%. Confirme se, em vez disso, pretende definir uma palavra-passe para a conta.",
+      "CONFIRM": "Definir palavra-passe",
+      "CONFIRM_2": "Cancelar"
+    },
+    "NO_PROVIDERS": {
+      "TITLE": "Ocorreu um erro",
+      "MESSAGE": "Sem resultados dos fornecedores.",
+      "CONFIRM": "Tente novamente"
+    },
+    "API_ERROR": {
+      "TITLE": "Ocorreu um erro",
+      "CONFIRM": "Tente novamente"
+    },
+    "NO_PROVIDER": {
+      "TITLE": "Nenhum fornecedor ativo",
+      "MESSAGE": "Este site não ativou nenhum fornecedor de identidade ou autenticação local. Para mais informações, contacte o administrador do site.",
+      "CONFIRM": "ok"
+    }
+  },
+  "RES_MAPPING": {
+    "invalid_pin": "Verifique se tem o PIN correto",
+    "invalid_email_or_password": "Certifique-se de que usa a sua palavra-passe mais recente"
+  },
+  "PRIVACY_POLICY": {
+    "CONTENT": "Ao navegar no nosso site, concorda com a nossa utilização de cookies.",
+    "BUTTON_1": "OK",
+    "BUTTON_2": "Leia a nossa política"
+  },
+  "TOC_PRIVACY": {
+    "CONTENT_ALL": "Ao inscrever-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a> e a <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a> de %APP_NAME%",
+    "CONTENT_TOC": "Ao inscrever-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a> de %APP_NAME%",
+    "CONTENT_PRIVACY": "Ao inscrever-me, iniciar sessão ou continuar, concordo com a <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a> de %APP_NAME%"
+  }
+}
