@@ -7,7 +7,7 @@ The official BreadButter JavaScript client library.
 ## Configuration
 
 - Prior to coding, some configuration is required at https://app.breadbutter.io/app/#/app-settings. Make sure you add your website url to the CORS Allow List.
-- For the full Developer Documentation please visit: https://app.breadbutter.io/docs/api/
+- For the full Developer Documentation please visit: https://breadbutter.io/api
 
 ---
 
@@ -82,9 +82,9 @@ app_name | [STRING] Application name that you want  displayed in the JSL widgets
 client_data | [OBJECT] Client data is used to allow you to pass parameters from the client side to your backend which processes the authentication.
 force_reauthentication | [STRING] [off/attempt/force] Force reauthentication for the provider when your user logs in (ie, disregard the user's current session if the providers supports it).
 page_view_tracking | [BOOLEAN] [DEFAULT: true] By default, the JSL will create events for all your user's page views. This parameter allows you to disable this feature.
-button_theme| [STRING] [VALUES: round-icons/square-icons/tiles] [DEFAULT: 'round-icons'] This paremeter allows you to change the theme the provider buttons are displayed in your widgets.
+button_theme| [STRING] [VALUES: round-icons/square-icons/tiles] [DEFAULT: 'tiles'] This paremeter allows you to change the theme the provider buttons are displayed in your widgets.
 expand_email_address | [BOOLEAN] [DEFAULT: true] This parameter is used to expand the email address field on advanced discovery.
-show_login_focus | [BOOLEAN] [DEFAULT: true] Show the background blur for the continue with login on the advanced discovery.
+show_login_focus | [BOOLEAN] [DEFAULT: false] Show the background blur for the continue with login on the advanced discovery.
 continue_with_position | [OBJECT] [Example: {'top': '10px', 'right': '10px'}] Used for positioning the continue with widget. Will accept only 1 parameter for top/bottom and 1 parameter for left/right. Accepts 10, '10px', and '10%' for positioning.
 allow_sub_domain | [BOOLEAN] [DEFAULT: false]
 remember_close | [BOOLEAN] [DEFAULT: false]
