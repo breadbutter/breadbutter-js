@@ -98,6 +98,10 @@ const failure = function () {
     return loadIcon('bb-failure');
 };
 
+const failure_hold = function () {
+    return loadIcon('bb-failure', true);
+};
+
 const loadIcon = function (icon, stay) {
     return new Promise((resolve) => {
         if (loading) {
@@ -128,5 +132,6 @@ export default {
     success,
     success_hold,
     failure,
+    failure_hold,
     remove,
 };

@@ -1,0 +1,377 @@
+.breadbutter-ui-profile-widget {
+  clear: both;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 40px;
+  display: block;
+  font-size: 15px;
+  position: relative;
+
+  .breadbutter-ui-profile-avatar {
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+    //background-image: linear-gradient(357deg, #fea228, #feda31);
+    background-color: #f8f8f8;
+
+    margin-left: -20px;
+    width: 40px;
+    height: 40px;
+    float: left;
+    border-radius: 100px;
+    font-weight: normal;
+    background-size: contain;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      margin-top: 6px;
+      fill: #a0a8b1;
+    }
+  }
+
+  .breadbutter-ui-profile-name {
+    padding: 0 31px 0 31px;
+    line-height: 40px;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .breadbutter-ui-profile-dropdown {
+    width: 6px;
+    height: 6px;
+    top: 15px;
+    right: 13px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    position: absolute;
+    transform: rotate(45deg) skew(10deg, 10deg);
+  }
+}
+.bb-signout .breadbutter-ui-profile-widget{
+  .breadbutter-ui-profile-avatar {
+    margin-top: 4px;
+    margin-left: -16px;
+    width: 32px;
+    height: 32px;
+    svg {
+      margin-top: 4px;
+    }
+  }
+
+  .breadbutter-ui-profile-name {
+    padding: 0 11px 0 27px;
+  }
+}
+
+.breadbutter-ui-profile-widget-container {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  z-index: 9998;
+  display: block;
+  padding-bottom: 30px;
+  padding-top: 10px;
+  margin-top: -10px;
+  margin-bottom: -30px;
+  margin-left: 20px;
+  box-sizing: border-box;
+
+  .breadbutter-ui-profile-dashboard {
+    position: absolute;
+    width: auto;
+    margin: .5rem;
+    right: -7px;
+    top: 60px;
+    width: 375px;
+    background: white;
+    box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    display: none;
+
+    .breadbutter-ui-profile-arrow {
+      background: white;
+      top: -7px;
+      right: 75px;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      transform: rotate(45deg) ;
+    }
+
+    .breadbutter-ui-profile-dashboard-content {
+      .breadbutter-ui-profile-dashboard-header {
+        padding: 30px;
+        .breadbutter-ui-profile-dashboard-title {
+          font-size: 13px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: left;
+          color: #707070;
+          margin-bottom: 10px;
+        }
+        .breadbutter-ui-profile-dashboard-detail {
+          margin-top: 20px;
+          margin-bottom: 10px;
+          .breadbutter-ui-profile-dashboard-provider {
+            display: block;
+            box-sizing: border-box;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            float: left;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 14px;
+            background-size: contain;
+            margin-right: 6px;
+          }
+
+          .breadbutter-ui-profile-dashboard-avatar {
+            display: block;
+            box-sizing: border-box;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            float: left;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 14px;
+            background-size: contain;
+            margin-right: 16px;
+          }
+
+          .breadbutter-ui-profile-dashboard-profile {
+            .breadbutter-ui-profile-dashboard-name {
+              font-size: 14px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              letter-spacing: normal;
+              text-align: left;
+              color: #4e5051;
+              line-height: 20px;
+            }
+
+            .breadbutter-ui-profile-dashboard-email {
+              font-size: 12px;
+              font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              letter-spacing: normal;
+              text-align: left;
+              color: #4e5051;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+
+      .breadbutter-ui-profile-dashboard-footer {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 53px 30px 45px 30px;
+        background-color: #eeeeee;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+
+        .breadbutter-ui-profile-dashboard-logout-button {
+          box-sizing: content-box;
+          font-weight: bold;
+          width: 180px;
+          height: 18px;
+          text-align: center;
+          border-radius: 4px;
+          background-color: #2c2c2c;
+          color: white;
+          font-size: 14px;
+          line-height: 18px;
+          padding: 11px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &:not(.bb-signout) {
+    &:hover {
+      .breadbutter-ui-profile-name {
+        background-color: #f1f5fb;
+      }
+
+      .breadbutter-ui-profile-dashboard {
+        display: block;
+      }
+    }
+  }
+
+  .breadbutter-ui-profile-dashboard:hover {
+    display: block;
+  }
+}
+
+
+.breadbutter-ui-profile-dashboard-provider {
+  .bb-item {
+    border-radius: 50%;
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    box-sizing: content-box;
+    svg {
+      height: 24px;
+      width: 24px;
+      position: absolute;
+      margin: 8px;
+      top: 0;
+      left: 0;
+    }
+
+    &[data-name='microsoft'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+
+      svg {
+      }
+    }
+
+    &[data-name='linkedin'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+
+      svg {
+        fill: #2f7ab1;
+      }
+    }
+
+    &[data-name='google'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+
+      svg {
+        height: 20px;
+        width: 20px;
+        margin: 10px;
+      }
+    }
+
+    &[data-name='github'] {
+      background-color: #444;
+      border: 1px solid #444;
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    &[data-name='basecamp'] {
+      background-color: #1d2d35;
+      border: 1px solid #1d2d35;
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    &[data-name='fitbit'] {
+      background-color: #002a3a;
+      border: 1px solid #002a3a;
+
+      svg {
+      }
+    }
+
+    &[data-name='facebook'] {
+      background-color: #227aed;
+      border: 1px solid #227aed;
+
+      svg {
+      }
+    }
+
+    &[data-name='dropbox'] {
+      background-color: #0061ff;
+      border: 1px solid #0061ff;
+
+      svg {
+      }
+    }
+
+    &[data-name='evernote'] {
+      background-color: #00a82d;
+      border: 1px solid #00a82d;
+
+      svg {
+      }
+    }
+
+    &[data-name='shopify'] {
+      background-color: #95bf47;
+      border: 1px solid #95bf47;
+
+      svg {
+      }
+    }
+
+    &[data-name='planningcenter'] {
+      background-color: #2266f7;
+      border: 1px solid #2266f7;
+
+      svg {
+      }
+    }
+
+    &[data-name='twitter'] {
+      background-color: #3399ff;
+      border: 1px solid #3399ff;
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    &[data-name='quickbooks'] {
+      background-color: #2ca01c;
+      border: 1px solid #2ca01c;
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    &[data-name='slack'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+    }
+
+    &[data-name='salesforce'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+    }
+
+    &[data-name='apple'] {
+      background-color: #000;
+      border: 1px solid #000;
+    }
+
+    &[data-name='twitch'] {
+      background-color: #9146ff;
+      border: 1px solid #9146ff;
+    }
+
+    &[data-name='local'] {
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+    }
+  }
+}

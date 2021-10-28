@@ -604,6 +604,11 @@
             .breadbutter-module-email-discovery {
                 margin: 0 25px 25px;
             }
+            &.bb-magic-link {
+                .breadbutter-module-email-discovery {
+                    margin: 0 25px;
+                }
+            }
         }
         &-email {
             padding-bottom: 36px;
@@ -896,6 +901,12 @@
         }
     }
 
+    .bb-magic-link {
+        .breadbutter-switch-login {
+            padding-top: 6px;
+        }
+    }
+
     .error {
         //.form-title {
         //  display: none;
@@ -1086,11 +1097,17 @@
             margin: 0 25px 10px;
             padding: 0px 13px 14px;
         }
+        .breadbutter-magic-link-button-holder {
+            margin: 0 13px;
+        }
     }
     .breadbutter-login, .breadbutter-register, .breadbutter-register-holder {
         .breadbutter-term-policy-holder {
             margin: 0 19px;
             padding: 15px 13px 14px;
+        }
+        .breadbutter-magic-link-button-holder {
+            margin: 0;
         }
     }
 }
@@ -1103,6 +1120,9 @@
             transition-timing-function: ease-out;
             &.more-content {
                 height: 105px;
+                &.bb-magic-link {
+                    height: 175px;
+                }
                 //&.bb-toc-term {
                 //    height: 163px;
                 //}
@@ -1110,6 +1130,80 @@
             &.less-content {
                 height: 0 !important;
             }
+        }
+    }
+}
+
+.breadbutter-magic-link-button-holder {
+    margin: 0;
+    cursor: pointer;
+    .breadbutter-magic-link-button {
+        font-size: 13px;
+        color: #797a79;
+        line-height: 40px;
+        border: 1px solid #e6e6e6;
+        border-radius: 4px;
+        position: relative;
+        height: 40px;
+        text-align: center;
+        .breadbutter-magic-link-wand {
+            position: absolute;
+            margin: 8px;
+            top: 0;
+        }
+    }
+}
+
+.breadbutter-ui {
+    .breadbutter-magic-link {
+        .breadbutter-magic-link-view {
+            .breadbutter-magic-link-plane {
+                text-align: center;
+                box-sizing: content-box;
+                padding-top: 20px;
+                height: 116.358px;
+            }
+        }
+        .form-title {
+            margin-bottom: 10px;
+        }
+        .breadbutter-magic-link-title-confirming {
+            display: none;
+        }
+        .breadbutter-magic-link-title-logging {
+            display: none;
+        }
+        &.bb-confirming {
+            .breadbutter-magic-link-title {
+                display: none;
+            }
+            .breadbutter-magic-link-title-confirming {
+                display: block;
+            }
+        }
+        &.bb-logging {
+            .breadbutter-magic-link-title {
+                display: none;
+            }
+            .breadbutter-magic-link-title-logging {
+                display: block;
+            }
+        }
+
+        .breadbutter-magic-link-message {
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: #000;
+            padding: 25px 60px;
+        }
+        .form-switch-magic-link {
+            color: #50aff5;
+            padding-bottom: 20px;
         }
     }
 }

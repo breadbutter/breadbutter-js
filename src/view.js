@@ -4,13 +4,19 @@ import './scss/view.scss';
 import lang from './locale.js';
 let Locale = {};
 let DOM_DATA = {};
-
+let APP_ID = false
 const init = function (options) {
+    loadAppId(options);
     loadLanguage(options);
 };
 
+const loadAppId = function(options) {
+    if (options['app_id']) {
+        APP_ID = options['app_id'];
+    }
+};
+
 const loadLanguage = function (options) {
-    console.log(options);
     if (options.language) {
         let locale = lang.getLocale(options.language, options.locale);
         if (locale) {
@@ -84,7 +90,8 @@ const setData = function(holder, options) {
 };
 
 const initView = function (id, options, container, error) {
-    loadLanguage(options);
+    init(options);
+    // loadLanguage(options);
 
     let holder = addView();
     setData(holder, options);
@@ -230,8 +237,12 @@ let poweredByIndex = 0;
 
 const svgPoweredByFooter = function () {
     poweredByIndex++;
-    var html = `
-    <a href="https://breadbutter.io/" target="_blank">
+    let url = "https://breadbutter.io/";
+    if (APP_ID) {
+        url += '?app_id=' + APP_ID;
+    }
+    let html = `
+    <a href=${url} target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375" height="49" viewBox="0 0 375 49">
             <defs>
             <clipPath id="clip-path-${poweredByIndex}">
@@ -681,5 +692,6 @@ export default {
     applyData,
     getData,
     unsetData,
-    svgPoweredByFooter
+    svgPoweredByFooter,
+    loadSVG
 };

@@ -21,7 +21,8 @@ const CACHE_STORAGE = {
 
 const AUTH_TYPE = {
     SSO: 'sso',
-    AUTH: 'password'
+    AUTH: 'password',
+    MAGIC_LINK: 'magic_link'
 };
 
 const ERROR_MESSAGE = {
@@ -273,6 +274,7 @@ const redirectAuthentication = function(pin, auto_redirect) {
         pin +
         '/redirect';
 
+    //console.log(LANDING_REDIRECT_URL)
     if (LANDING_REDIRECT_URL) {
         url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
     }
@@ -289,7 +291,7 @@ const validateLogin = function (pin, callback) {
         pin: pin,
     };
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const refreshToken = function (provider_id, token, callback) {
@@ -301,7 +303,7 @@ const refreshToken = function (provider_id, token, callback) {
         token: token,
     };
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const revokeToken = function (provider_id, token, callback) {
@@ -313,7 +315,7 @@ const revokeToken = function (provider_id, token, callback) {
         token: token,
     };
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const getProviders = async function (email_address, callback) {
@@ -364,7 +366,8 @@ const getClientSettings = async function(email_address, callback) {
                 }
             }
         }
-        console.log(res);
+
+        // console.log(res);
         if (typeof callback == 'function') {
             callback(res);
         }
@@ -379,7 +382,7 @@ const getClientSettings = async function(email_address, callback) {
         }
     };
 
-    request(url, request_data, 'GET', deviceCheckCallback);
+    return request(url, request_data, 'GET', deviceCheckCallback);
 };
 
 const ping = function (callback) {
@@ -389,7 +392,15 @@ const ping = function (callback) {
         app_id: APP_ID,
     };
 
-    request(url, request_data, 'GET', callback);
+    return request(url, request_data, 'GET', callback);
+};
+
+const startMagicLink = async function(data, callback) {
+    await startAuthentication({
+        email_address: data.email_address,
+        auth_type: AUTH_TYPE.MAGIC_LINK,
+        options: LoginOptionData(data),
+        callback});
 };
 
 const login = async function (data, callback) {
@@ -461,7 +472,7 @@ const resetPassword = function (email_address, callback) {
         request_data['email_address'] = email_address;
     }
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const confirmResetPassword = function (email_address, pin, password, callback) {
@@ -484,7 +495,7 @@ const confirmResetPassword = function (email_address, pin, password, callback) {
         request_data['password'] = password;
     }
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const confirmUser = async function (data, callback) {
@@ -516,7 +527,7 @@ const confirmUser = async function (data, callback) {
             callback(res);
         }
     };
-    request(url, request_data, 'POST', deviceCheckCallback);
+    return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
 const resendConfirmationEmail = function (email_address, callback) {
@@ -531,7 +542,7 @@ const resendConfirmationEmail = function (email_address, callback) {
         request_data['email_address'] = email_address;
     }
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const registerDevice = function(callback) {
@@ -541,7 +552,7 @@ const registerDevice = function(callback) {
         app_id: APP_ID,
     };
 
-    request(url, request_data, 'POST', callback);
+    return request(url, request_data, 'POST', callback);
 };
 
 const createEvent = async function (code, data, referrer, callback) {
@@ -577,7 +588,7 @@ const createEvent = async function (code, data, referrer, callback) {
         }
     };
 
-    request(url, request_data, 'POST', deviceCheckCallback);
+    return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
 const startAuthentication = async function({
@@ -598,6 +609,9 @@ const startAuthentication = async function({
         case AUTH_TYPE.SSO:
             request_data['auth_type'] = AUTH_TYPE.SSO;
             request_data['provider'] = provider;
+            break;
+        case AUTH_TYPE.MAGIC_LINK:
+            request_data['auth_type'] = AUTH_TYPE.MAGIC_LINK;
             break;
         case AUTH_TYPE.AUTH:
             request_data['auth_type'] = AUTH_TYPE.AUTH;
@@ -623,7 +637,30 @@ const startAuthentication = async function({
             callback(res);
         }
     };
-    request(url, request_data, 'POST', deviceCheckCallback);
+    return request(url, request_data, 'POST', deviceCheckCallback);
+};
+
+const confirmMagicLinkCode = function(magic_link_code, callback) {
+    let url = API_PATH + 'apps/' + APP_ID + '/magic_link';
+
+    let request_data = {
+        magic_link_code: magic_link_code,
+    };
+
+    return request(url, request_data, 'POST', callback);
+};
+
+const getMagicLinkAuthenticated = function(authentication_token, callback) {
+    let url = API_PATH + 'apps/' + APP_ID + '/magic_link/' + authentication_token;
+    return request(url, {}, 'GET', callback);
+};
+
+const resetDeviceVerification = async function(callback) {
+    let device_id = await getDeviceId();
+    let url = API_PATH + 'apps/' + APP_ID + '/devices/' + device_id + '/reset_verification';
+    let request_data = {
+    };
+    return request(url, request_data, 'POST', callback);
 };
 
 export default {
@@ -646,5 +683,9 @@ export default {
     createEvent,
     getClientSettings,
     redirectAuthentication,
-    startAuthentication
+    startAuthentication,
+    startMagicLink,
+    confirmMagicLinkCode,
+    getMagicLinkAuthenticated,
+    resetDeviceVerification
 };

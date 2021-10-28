@@ -191,5 +191,13 @@
     "CONTENT_ALL": "С регистрацията, влизането или продължаването си приемам <a href='%TOC_LINK%' target='_blank'>Общите условия</a> и <a href='%PRIVACY_LINK%' target='_blank'>политиката за поверителност на %APP_NAME%</a>",
     "CONTENT_TOC": "С регистрацията, влизането или продължаването, приемам <a href='%TOC_LINK%' target='_blank'>Общите условия на %APP_NAME%</a>",
     "CONTENT_PRIVACY": "С регистрацията, влизането или продължаването приемам <a href='%PRIVACY_LINK%' target='_blank'>Декларацията за поверителност на %APP_NAME%</a>"
+  },
+  "UI": {
+    "LOGOUT": "Logout",
+    "LOGIN": "Login",
+    "SIGNUP_IN": "Sign up / in",
+    "HELLO": "Hello, %FIRST_NAME%",
+    "SIGN_IN_TITLE": "You are currently signed in as",
+    "SIGN_OUT": "SIGN OUT"
   }
 }

@@ -191,5 +191,13 @@
     "CONTENT_ALL": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>",
     "CONTENT_TOC": "註冊、登錄或繼續，即表示我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>",
     "CONTENT_PRIVACY": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>"
+  },
+  "UI": {
+    "LOGOUT": "Logout",
+    "LOGIN": "Login",
+    "SIGNUP_IN": "Sign up / in",
+    "HELLO": "Hello, %FIRST_NAME%",
+    "SIGN_IN_TITLE": "You are currently signed in as",
+    "SIGN_OUT": "SIGN OUT"
   }
 }

@@ -140,6 +140,13 @@ const addReset = function (options, form) {
     form.addReset(view, options);
 };
 
+const addMagicLink = function (options, form) {
+    let view = createView(options);
+    options.popup = true;
+
+    form.addMagicLink(view, options);
+};
+
 const addConfirm = function (options, form) {
     let view = createView(options);
     options.popup = true;
@@ -461,8 +468,8 @@ const assignTextLocation = function() {
     const offsetBottom = windowHeight - (popup.offsetTop + popup.offsetHeight);
 
     let fit = false;
-    let left = false;
-    let bottom = false;
+    let left = null;
+    let bottom = null;
 
     let mobile_fit = false;
 
@@ -474,12 +481,37 @@ const assignTextLocation = function() {
         mobile_fit = true;
     }
 
-    if (offsetLeft >= offsetRight) {
-        left = true;
-    }
-    if (offsetBottom >= offsetTop) {
+    if (popup.style.top) {
         bottom = true;
     }
+    if (popup.style.bottom) {
+        bottom = false
+    }
+
+    if (popup.style.right) {
+        left = true;
+    }
+    if (popup.style.left) {
+        left = false;
+    }
+
+
+    if (left === null) {
+        if (offsetLeft >= offsetRight) {
+            left = true;
+        } else {
+            left = false;
+        }
+    }
+
+    if (bottom === null) {
+        if (offsetBottom >= offsetTop) {
+            bottom = true;
+        } else {
+            bottom = false;
+        }
+    }
+
 
     let text_holder = getTextHolder();
     currentPopup.appendChild(text_holder);
@@ -787,5 +819,6 @@ export default {
     addRegister,
     addReset,
     addConfirm,
+    addMagicLink,
     init,
 };

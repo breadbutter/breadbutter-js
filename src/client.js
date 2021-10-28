@@ -3,7 +3,9 @@ import viewButton from './view-button';
 import viewForm from './view-form';
 import viewPopup from './view-popup';
 import viewPolicy from './view-policy';
+import viewUI from './view-ui';
 import constants from './constants';
+import lang from './locale.js';
 
 const providers = constants.providers;
 const providers_hash = constants.providers_hash;
@@ -14,12 +16,23 @@ const gateway_hash = constants.gateway_hash;
 const encoded_action = constants.encoded_action;
 const encoded_hash = constants.encoded_hash;
 
-const initialize = function () {
+let Locale = {};
+
+const loadLanguage = function(options) {
+    if (options.language) {
+        let locale = lang.getLocale(options.language, options.locale);
+        if (locale) {
+            Locale = locale;
+        }
+    }
+};
+
+const initialize = function() {
     loadFonts();
 };
 
-const loadFonts = function () {
-    (function (d, s, id) {
+const loadFonts = function() {
+    (function(d, s, id) {
         var js,
             fjs = d.getElementsByTagName(s)[0];
         if (!fjs) {
@@ -52,17 +65,23 @@ let options = {
     force_reauthentication: null, //off/attempt/force/null
     button_theme: 'tiles', //'square-icons', 'round-icons', 'tile'
     expand_email_address: true,
-    show_login_focus: true,
+    show_login_focus: false,
     allow_sub_domain: false,
     remember_close: false,
     success_event_code: false,
+    ga_measurement_id: false,
     continue_with_hover: true,
     continue_with_hover_distance: 5,
     hide_local_auth_domains: [],
     landing_redirect_url: false
 };
 
-const configure = function (opt) {
+let profile_init = false;
+let profile = {};
+let suggested_provider = false;
+let device_verified = false;
+
+const configure = function(opt) {
     if (typeof opt.app_name != 'undefined') {
         options.app_name = opt.app_name;
     }
@@ -143,6 +162,10 @@ const configure = function (opt) {
         options.landing_redirect_url = opt.landing_redirect_url;
     }
 
+    if (typeof opt.ga_measurement_id != 'undefined') {
+        options.ga_measurement_id = opt.ga_measurement_id;
+    }
+
     api.configure({
         app_id: options.app_id,
         app_secret: options.app_secret,
@@ -158,10 +181,23 @@ const configure = function (opt) {
     });
 
     tracking();
+    loadLanguage(options);
+    viewUI.init(options);
+
+    return new Promise(function(resolve) {
+        api.getProfile(function(up, suggested, dv) {
+            profile_init = true;
+            device_verified = dv;
+            suggested_provider = suggested;
+            profile = up;
+            processProfileQueue();
+            resolve(up, dv);
+        })
+    });
 };
 
-const api = new (function () {
-    this.configure = function (opt) {
+const api = new (function() {
+    this.configure = function(opt) {
         API.configure({
             app_id: opt.app_id,
             app_secret: opt.app_secret,
@@ -180,9 +216,9 @@ const api = new (function () {
 
     this.getProfile = function(callback) {
         API.getClientSettings(false, function(response) {
-            if (response && response.user_profile) {
+            if (response) {
                 if (callback) {
-                    callback(response.user_profile);
+                    callback(response.user_profile, response.suggested_provider, response.device_verified);
                 }
             }
         })
@@ -196,8 +232,8 @@ let PAGE_VIEW_EVENT_READY = false;
 let CUSTOM_EVENT_QUEUE = [];
 
 const processEvent = function() {
-    while(CUSTOM_EVENT_QUEUE.length > 0) {
-        let event = CUSTOM_EVENT_QUEUE.splice(0,1)[0];
+    while (CUSTOM_EVENT_QUEUE.length > 0) {
+        let event = CUSTOM_EVENT_QUEUE.splice(0, 1)[0];
         API.createEvent(event.custom, event.data, false, event.callback);
     }
 };
@@ -210,16 +246,16 @@ const queueEvent = function(custom, data, callback) {
     });
 };
 
-const events = new (function(){
-    this.custom = function(custom, callback){
+const events = new (function() {
+    this.custom = function(custom, callback) {
         if (PAGE_VIEW_EVENT_READY) {
             API.createEvent(custom, false, false, callback);
         } else {
             queueEvent(custom, false, callback);
         }
     };
-    this.redirect = function(custom, link){
-        const callback = function(){
+    this.redirect = function(custom, link) {
+        const callback = function() {
             document.location.assign(link);
         };
         if (PAGE_VIEW_EVENT_READY) {
@@ -228,12 +264,15 @@ const events = new (function(){
             queueEvent(custom, false, callback);
         }
     };
-    this.pageview = function(callback, referrer){
+    this.pageview = function(callback, referrer, options) {
         let data = {
             title: document.title,
             url: document.location.href
         };
-        API.createEvent(event_type.PAGE_VIEW, data, referrer, function(res){
+        if (options) {
+            data = Object.assign(data, options);
+        }
+        API.createEvent(event_type.PAGE_VIEW, data, referrer, function(res) {
             let first_initiated = false;
             if (res.event_id) {
                 API.setPageViewId(res.event_id);
@@ -253,14 +292,59 @@ const events = new (function(){
     };
 })();
 
-const tracking = function () {
+const tracking = function() {
     if (options.page_view_tracking) {
         let referrer = document.referrer;
         if (document.referrer.indexOf(document.location.origin) == 0) {
             referrer = false;
         }
-        events.pageview(false, referrer);
-        window.addEventListener('hashchange', function(){
+        if (querystring && querystring['bb_noref'] &&  querystring['bb_noref'] == "true") {
+            referrer = false;
+        }
+
+        if (options.ga_measurement_id) {
+            if (typeof window.gtag == 'undefined') {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+            }
+            gtag('get', options.ga_measurement_id, 'client_id', (client_id) => {
+                // do something with client_id
+                if (client_id) {
+                    events.pageview(false, referrer, {
+                        'ga_data': {
+                            "cid": client_id
+                        }
+                    });
+                } else {
+                    events.pageview(false, referrer);
+                }
+            });
+        } else {
+            let cookie = parseCookie(document.cookie);
+            if (typeof ga == 'function') {
+                ga.getAll().forEach((tracker) => {
+                    let cid = tracker.get('clientId');
+                    let uid = tracker.get('userId');
+                    events.pageview(false, referrer, {
+                        'ga_data': {
+                            "cid": cid,
+                            "uid": uid
+                        }
+                    });
+                })
+            } else if (cookie['_ga']) {
+                let client_id = cookie['_ga'].split('.').slice(2).join('.');
+                events.pageview(false, referrer, {
+                    'ga_data': {
+                        "cid": client_id
+                    }
+                });
+            } else {
+                events.pageview(false, referrer);
+            }
+        }
+
+        window.addEventListener('hashchange', function() {
             events.pageview();
         });
     }
@@ -312,7 +396,7 @@ const checkRememberClose = function(options) {
     return should_remain_close;
 }
 
-const loadOptions = function (opt) {
+const loadOptions = function(opt) {
     if (!opt) {
         opt = {};
     }
@@ -327,6 +411,10 @@ const loadOptions = function (opt) {
 
     if (options.app_name && !opt['app_name']) {
         opt['app_name'] = options.app_name;
+    }
+
+    if (options.app_id) {
+        opt['app_id'] = options.app_id;
     }
 
     applyOptions(opt, 'destination_url');
@@ -346,14 +434,14 @@ const loadOptions = function (opt) {
     return opt;
 };
 
-const initUI = function (options) {
+const initUI = function(options) {
     options = loadOptions(options);
     viewPopup.init(options);
     viewButton.init(options);
 };
 
-const ui = new (function () {
-    (this.confirmEmail = function (id, options) {
+const UI = new (function() {
+    (this.confirmEmail = function(id, options) {
         if (typeof id != 'string') {
             options = id;
             id = false;
@@ -376,7 +464,7 @@ const ui = new (function () {
             viewPopup.addConfirm(options, form);
         }
     }),
-        (this.resetPassword = function (id, options) {
+        (this.resetPassword = function(id, options) {
             if (typeof id != 'string') {
                 options = id;
                 id = false;
@@ -400,7 +488,31 @@ const ui = new (function () {
                 viewPopup.addReset(options, form);
             }
         }),
-        (this.form = function (id, options) {
+        (this.magicLink = function(id, options) {
+            if (typeof id != 'string') {
+                options = id;
+                id = false;
+            }
+            //options required token
+            initUI(options);
+            let form = new viewForm();
+            form.init(options);
+            // if (options['email_address']) {
+            //     if (localStorage) {
+            //         localStorage.setItem(
+            //             'breadbutter-sdk-email-address',
+            //             options['email_address']
+            //         );
+            //     }
+            // }
+
+            if (id) {
+                form.addMagicLink(id, options);
+            } else {
+                viewPopup.addMagicLink(options, form);
+            }
+        }),
+        (this.form = function(id, options) {
             if (typeof id != 'string') {
                 options = id;
                 id = false;
@@ -414,7 +526,7 @@ const ui = new (function () {
                 viewPopup.addForm(options, form);
             }
         }),
-        (this.invitation = function (id, options) {
+        (this.invitation = function(id, options) {
             if (typeof id != 'string') {
                 options = id;
                 id = false;
@@ -436,7 +548,7 @@ const ui = new (function () {
                 viewPopup.addRegister(options, form);
             }
         }),
-        (this.button = function (id, options) {
+        (this.button = function(id, options) {
             initUI(options);
 
             let email_address = false;
@@ -458,10 +570,10 @@ const ui = new (function () {
             }
 
             if (providers.length === 0) {
-                api.getProviders(email_address, function (res) {
+                api.getProviders(email_address, function(res) {
                     let list = [];
                     if (res && res.providers) {
-                        for(let i = 0; i < res.providers.length; i++) {
+                        for (let i = 0; i < res.providers.length; i++) {
                             let provider = res.providers[i];
                             if (provider.idp && providers_hash[provider.idp]) {
                                 list.push(provider);
@@ -495,61 +607,60 @@ const ui = new (function () {
         });
 })();
 
+const querystring = function() {
+    var name, value
+    var params = {};
+    var hash = window.location.hash;
+    var search = window.location.search;
+    var target = search;
+    if (search.length == 0) {
+        target = hash
+    }
+    var p = target.split('?');
+    if (p.length > 1) {
+        var param_array = target.split('?')[1].split('&'), x;
+        // console.log(param_array);
+        // for(var i in param_array) {
+        for (let i = 0; i < param_array.length; i++) {
+            x = param_array[i].split('=');
+            name = x[0];
+            value = x[1];
+            if (typeof value == 'undefined') {
+                value = null;
+            }
+
+            value = decodeURIComponent(value);
+
+            if (name.length > 0) {
+                // params[name[0].toUpperCase() + name.substring(1)] = value;
+                // params[name[0].toLowerCase() + name.substring(1)] = value;
+                params[name.toLowerCase()] = value;
+                params[name] = value;
+
+                // me.keys[name[0].toUpperCase() + name.substring(1)] = name;
+                // me.keys[name[0].toLowerCase() + name.substring(1)] = name;
+                // me.keys[name.toLowerCase()] = name;
+                // me.keys[name] = name;
+            }
+        }
+    }
+    return params;
+}();
 
 const parsingUrl = function(opt) {
     // console.log(opt);
     if (opt && opt.mode) {
         return opt;
     }
-
-    const querystring = function() {
-        var name, value
-        var params = {};
-        var hash = window.location.hash;
-        var search = window.location.search;
-        var target = search;
-        if(search.length == 0) {
-            target = hash
-        }
-        var p = target.split('?');
-        if (p.length > 1) {
-            var param_array = target.split('?')[1].split('&'), x;
-            // console.log(param_array);
-            // for(var i in param_array) {
-            for( let i = 0; i < param_array.length; i++) {
-                x = param_array[i].split('=');
-                name = x[0];
-                value = x[1];
-                if (typeof value == 'undefined') {
-                    value = null;
-                }
-
-                value = decodeURIComponent(value);
-
-                if (name.length > 0) {
-                    // params[name[0].toUpperCase() + name.substring(1)] = value;
-                    // params[name[0].toLowerCase() + name.substring(1)] = value;
-                    params[name.toLowerCase()] = value;
-                    params[name] = value;
-
-                    // me.keys[name[0].toUpperCase() + name.substring(1)] = name;
-                    // me.keys[name[0].toLowerCase() + name.substring(1)] = name;
-                    // me.keys[name.toLowerCase()] = name;
-                    // me.keys[name] = name;
-                }
-            }
-        }
-        return params;
-    }();
     // console.log(querystring);
     if (querystring[encoded_action.TARGET]) {
         let data = false;
         try {
-            let action_code =querystring[encoded_action.TARGET];
+            let action_code = querystring[encoded_action.TARGET];
             let json = atob(action_code);
             data = JSON.parse(json);
             // console.log(json);
-        } catch(e) {
+        } catch (e) {
             return opt;
         }
         let type = data[encoded_action.TYPE];
@@ -581,31 +692,409 @@ const parsingUrl = function(opt) {
             opt.email_address = email;
             opt.pin = pin;
         }
+    } else if (querystring[constants.magic_link_code]) {
+        if (!opt) {
+            opt = {};
+        }
+        opt.mode = constants.mode.MAGIC_LINK;
+        opt.pin = querystring[constants.magic_link_code];
     }
 
     return opt;
 }
+// BB.ui.gatePages(pages: [], redirect: '', exceptions: []) --Maybe redirects with querystring?
+// BB.ui.gateLink(pages: [], blurOptions? : {})
+// BB.ui.gateRoute(pages: [], redirect: '', blurOptions? : {}, exceptions: []) --Maybe redirects with querystring?
 
-const widgets = new (function(){
+let profile_queue = [];
+
+let isVerifiedState = function() {
+    return device_verified && profile && profile.state == 'verified';
+}
+
+let processProfileQueue = function() {
+    if (profile_queue.length) {
+        let x = profile_queue.shift();
+        ui[x.call].apply(ui, x.params);
+        processProfileQueue();
+    }
+}
+
+let isProfileInit = function(queue) {
+    if (!profile_init) {
+        profile_queue.push(queue);
+        return false;
+    }
+    return true;
+}
+
+let isFieldExist = function(field) {
+    return field;
+}
+
+const ui = new (function() {
+    this.addEventToLink = function(link_id, event) {
+        const link = document.getElementById(link_id);
+        if (link) {
+            link.onclick = function() {
+                let url = this.href;
+                events.redirect(event, url);
+                return false;
+            };
+        }
+    };
+    this.gateContent = function(urls, redirect) {
+        if (!isProfileInit({
+            call: 'gateContent',
+            params: [urls, redirect]
+        }))
+            return;
+
+        if (isVerifiedState())
+            return;
+
+        for (let i = 0; i < urls.length; i++) {
+            let url = urls[i];
+            let pathname = document.location.pathname;
+            let wildgate = false;
+            if (url.indexOf('*') != -1) {
+                wildgate = true;
+                url = url.replace('/*', '');
+                //all sub-path of this need to be blocked.
+            }
+            if (wildgate) {
+                if (pathname.indexOf(url) == 0 && pathname.replace(url, '').indexOf('/') == 0) {
+                    document.location.assign(redirect);
+                }
+            } else {
+                if (pathname == url) {
+                    document.location.assign(redirect);
+                }
+            }
+        }
+    };
+    this.gateLink = function(urls, options) {
+        if (!isProfileInit({
+            call: 'gateLink',
+            params: [urls]
+        }))
+            return;
+        if (isVerifiedState())
+            return;
+
+        options = options ? options : {};
+        const linkAssign = function(a, url) {
+            a.onclick = function() {
+                widgets.continueWith({
+                    show_login_focus: true,
+                    destination_url: url
+                });
+                return false;
+            };
+        };
+
+        let all_links = document.getElementsByTagName('a');
+        for (let i = 0; i < urls.length; i++) {
+            let url = urls[i];
+            let wildgate = false;
+            if (url.indexOf('*') != -1) {
+                wildgate = true;
+                url = url.replace('/*', '');
+            }
+
+            for (let i = 0; i < all_links.length; i++) {
+                let a = all_links[i];
+                let href = a.href.replace(document.location.origin, '');
+                let target_url = a.href;
+                if (target_url.indexOf('http') != 0) {
+                    let paths = document.location.pathname.split('/');
+                    let newpath = target_url.split('/').reduce(function(a, b){
+                        if (!a) {
+                            return b;
+                        }
+                        if (typeof a != 'object' || !a.length) {
+                            a = [a];
+                        }
+                        return a.concat(b);
+                    });
+                    newpath = [-1, 1].concat(newpath);
+                    Array.prototype.splice.apply(paths, newpath);
+                    target_url = document.location.origin + paths.join('/');
+                }
+                if (wildgate) {
+                    if (href.indexOf(url) == 0 && href.replace(url, '').indexOf('/') == 0) {
+                        linkAssign(a, target_url);
+                    }
+                } else if (href == url) {
+                    linkAssign(a, target_url);
+                }
+            }
+        }
+    };
+    this.gateRoute = function(urls, redirect, options) {
+        if (!isProfileInit({
+            call: 'gateRoute',
+            params: [urls, redirect, options]
+        }))
+            return;
+        if (isVerifiedState())
+            return;
+        this.gateContent(urls, redirect);
+        this.gateLink(urls, options);
+    };
+
+    this.applyFormControl = function(form_info) {
+        if (!isProfileInit({
+            call: 'applyFormControl',
+            params: [form_info]
+        }))
+            return;
+
+        form_info = form_info ? form_info : {};
+
+        const onBlurLogin = function(target) {
+            target.onkeydown = function() {
+                return false;
+            };
+            target.onclick = function() {
+                this.blur();
+                widgets.continueWith({
+                    show_login_focus: true,
+                    destination_url: document.location.href
+                });
+            }
+        };
+
+        const form = document.getElementById(form_info.form);
+
+        const submit = document.getElementById(form_info.submit);
+
+        if (form && submit) {
+            if (isVerifiedState()) {
+                if (form_info.name) {
+                    const name = document.getElementById(form_info.name);
+                    if (name) {
+                        name.value = (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+
+                if (form_info.first_name) {
+                    const name = document.getElementById(form_info.first_name);
+                    if (name) {
+                        name.value = (profile.first_name).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+
+                if (form_info.last_name) {
+                    const name = document.getElementById(form_info.last_name);
+                    if (name) {
+                        name.value = (profile.last_name).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+                if (form_info.email) {
+                    const email = document.getElementById(form_info.email);
+                    if (email) {
+                        email.value = profile.email_address;
+                        email.disabled = 'disabled';
+                    }
+                }
+
+                let event = form_info.event ? form_info.event : "form_submission";
+                form.addEventListener('submit', function(){
+                   events.custom(event);
+                });
+            } else {
+                const types = ['textarea', 'input'];
+                for (let i = 0; form && i < form.children.length; i++) {
+                    const other = form.children[i];
+                    if (types.indexOf(other.localName) != -1) {
+                        onBlurLogin(other);
+                    }
+                }
+                submit.disabled = 'disabled';
+            }
+        }
+    };
+    this.handleLogout = function(field_id) {
+        if (!isProfileInit({
+            call: 'handleLogout',
+            params: [field_id]
+        }))
+            return;
+
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        field.addEventListener("click", event => {
+            window.localStorage.clear();
+            window.location.reload();
+        });
+        if (!isVerifiedState()) {
+            field.style.display = 'none';
+        }
+    };
+    this.handleLogin = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'handleLogin',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        field.addEventListener("click", event => {
+            widgets.continueWith(options);
+        });
+        if (isVerifiedState()) {
+            field.style.display = 'none';
+        }
+    };
+
+    this.toggleLoginLogout = function(field_id, ui_options) {
+        if (!isProfileInit({
+            call: 'toggleLoginLogout',
+            params: [field_id, ui_options]
+        }))
+            return;
+
+        ui_options = ui_options ? ui_options : {};
+        options = options ? options : {};
+
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        if (isVerifiedState()) {
+            field.addEventListener("click", event => {
+                window.localStorage.clear();
+                window.location.reload();
+            });
+            field.innerText = ui_options.logout_text || Locale.UI.LOGOUT || 'Sign out';
+        } else {
+            field.addEventListener("click", event => {
+                widgets.continueWith(options);
+            });
+            field.innerText = ui_options.login_text || Locale.UI.LOGIN || 'Sign in';
+        }
+    };
+
+    this.applyText = function(field_id, template, ui_options) {
+        if (!isProfileInit({
+            call: 'applyText',
+            params: [field_id, template, ui_options]
+        }))
+            return;
+
+        ui_options = ui_options ? ui_options : {};
+
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        if (isVerifiedState()) {
+            let new_string = lang.replace({
+                'FIRST_NAME': profile.first_name,
+                'LAST_NAME': profile.last_name,
+                'NAME': (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim(),
+                'EMAIL': profile.email_address
+            }, template);
+            switch(ui_options.type) {
+                case 'html':
+                    field.innerHTML = new_string;
+                    break;
+                case 'text':
+                default:
+                    field.innerText = new_string;
+                    break;
+            }
+        } else {
+            if (ui_options.hide_on_logout) {
+                field.style.display = "none";
+            }
+        }
+    };
+
+    this.addProfileWidget = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'addProfileWidget',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+
+        let field = document.getElementById(field_id);
+        if (!field)
+            return;
+
+        if (isVerifiedState()) {
+            field.innerHTML = viewUI.getProfileWidget(profile, suggested_provider);
+            const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
+            if (logout_button) {
+                logout_button.onclick = async function() {
+                    await API.resetDeviceVerification();
+                    window.location.reload();
+                };
+            }
+        } else {
+            let field = document.getElementById(field_id);
+            field.innerHTML = viewUI.getLoginWidget();
+            field.onclick = function(){
+                widgets.continueWith(options);
+            };
+        }
+    };
+
+    this.continueWith = function(options) {
+        if (!isProfileInit({
+            call: 'continueWith',
+            params: [options]
+        }))
+            return;
+
+        options = options ? options : {};
+
+        if (!isVerifiedState()) {
+            widgets.continueWith(options);
+        }
+    };
+})();
+
+let triggerBlurScreen = false;
+const widgets = new (function() {
     this.continueWith = function(opt) {
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
 
         opt = loadOptions(opt);
+        if (!triggerBlurScreen && opt['show_login_focus']) {
+            triggerBlurScreen = true;
+            events.custom('blur_screen');
+        }
         if (!mode) {
             if (!checkRememberClose(opt)) {
-                ui.form(opt);
+                UI.form(opt);
             }
         } else {
             switch (mode) {
                 case constants.mode.CONFIRM_EMAIL:
-                    ui.confirmEmail(opt);
+                    UI.confirmEmail(opt);
                     break;
                 case constants.mode.RESET_PASSWORD:
-                    ui.resetPassword(opt);
+                    UI.resetPassword(opt);
                     break;
                 case constants.mode.INVITATION:
-                    ui.invitation(opt);
+                    UI.invitation(opt);
+                    break;
+                case constants.mode.MAGIC_LINK:
+                    UI.magicLink(opt);
                     break;
             }
         }
@@ -616,17 +1105,20 @@ const widgets = new (function(){
 
         opt = loadOptions(opt);
         if (!mode) {
-            ui.form(id, opt);
+            UI.form(id, opt);
         } else {
             switch (mode) {
                 case constants.mode.CONFIRM_EMAIL:
-                    ui.confirmEmail(id, opt);
+                    UI.confirmEmail(id, opt);
                     break;
                 case constants.mode.RESET_PASSWORD:
-                    ui.resetPassword(id, opt);
+                    UI.resetPassword(id, opt);
                     break;
                 case constants.mode.INVITATION:
-                    ui.invitation(id, opt);
+                    UI.invitation(id, opt);
+                    break;
+                case constants.mode.MAGIC_LINK:
+                    UI.magicLink(opt);
                     break;
             }
         }
@@ -637,9 +1129,22 @@ const widgets = new (function(){
     };
     this.buttons = function(id, options) {
         options = loadOptions(options);
-        ui.button(id, options);
+        UI.button(id, options);
     };
 })();
+
+const parseCookie = (str) => {
+    if (!str) {
+        return {};
+    }
+    return str
+        .split(';')
+        .map(v => v.split('='))
+        .reduce((acc, v) => {
+            acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+            return acc;
+        }, {});
+};
 
 export default {
     configure,

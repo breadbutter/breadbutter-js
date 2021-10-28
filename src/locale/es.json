@@ -191,5 +191,13 @@
     "CONTENT_ALL": "Al registrarme, iniciar sesión o continuar, acepto las <a href='%TOC_LINK%' target='_blank'>Condiciones de servicio</a> y <a href='%PRIVACY_LINK%' target='_blank'>la Política de privacidad de %APP_NAME%</a>",
     "CONTENT_TOC": "Al registrarme, iniciar sesión o continuar, acepto las <a href='%TOC_LINK%' target='_blank'>Condiciones de servicio de %APP_NAME%</a>",
     "CONTENT_PRIVACY": "Al registrarme, iniciar sesión o continuar, acepto la <a href='%PRIVACY_LINK%' target='_blank'>Política de privacidad de %APP_NAME%</a>"
+  },
+  "UI": {
+    "LOGOUT": "Logout",
+    "LOGIN": "Login",
+    "SIGNUP_IN": "Sign up / in",
+    "HELLO": "Hello, %FIRST_NAME%",
+    "SIGN_IN_TITLE": "You are currently signed in as",
+    "SIGN_OUT": "SIGN OUT"
   }
 }

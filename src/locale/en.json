@@ -191,5 +191,22 @@
     "CONTENT_ALL": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
     "CONTENT_TOC": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
     "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>"
+  },
+  "UI": {
+    "LOGOUT": "Logout",
+    "LOGIN": "Login",
+    "SIGNUP_IN": "Sign up / in",
+    "HELLO": "Hello, %FIRST_NAME%",
+    "SIGN_IN_TITLE": "You are currently signed in as",
+    "SIGN_OUT": "SIGN OUT"
+  },
+  "MAGIC_LINK": {
+    "SEND_BUTTON_TEXT": "Send Magic Link",
+    "LEAVE_MAGIC_LINK": "Sign-in by selecting an IDP or using your email & password",
+    "CHECK_YOUR_EMAIL": "Check your email",
+    "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, check your email",
+    "CONFIRMING": "Confirming Authentication",
+    "LOGGING_IN": "Logging you in",
+    "CONFIRM_MESSAGE": "We’ve sent a link to confirm your account to the email address above. Click the link to finish signing in."
   }
 }

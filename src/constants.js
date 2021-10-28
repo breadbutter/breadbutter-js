@@ -159,7 +159,8 @@ const event_type = {
 const mode = {
     RESET_PASSWORD: 'resetpassword',
     CONFIRM_EMAIL: 'confirmemail',
-    INVITATION: 'invitation'
+    INVITATION: 'invitation',
+    MAGIC_LINK: 'magiclink'
 };
 
 const encoded_action = {
@@ -189,6 +190,8 @@ const gateway_hash = {
     'invitation': 'invitation',
 }
 
+const magic_link_code = 'magic_link_code';
+
 export default {
     encoded_hash,
     encoded_action,
@@ -199,5 +202,6 @@ export default {
     providers_hash,
     providers_list,
     event_type,
-    mode
+    mode,
+    magic_link_code
 };

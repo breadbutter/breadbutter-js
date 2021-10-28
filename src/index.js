@@ -7,11 +7,12 @@ const client = clientdefault.default;
 
 const bb = new (function () {
     let me = this;
+    me.init = false;
     me.configure = client.configure;
     me.getProfile = client.api.getProfile;
     me.ping = client.api.ping;
     me.api = client.api;
-    // me.ui = client.ui;
+    me.ui = client.ui;
     me.events = client.events;
     me.providers = client.providers;
     me.providersButtons = client.providers_buttons;
@@ -35,6 +36,14 @@ const bb = new (function () {
     if (w['launchBreadButter']) {
         w['launchBreadButter']();
     }
+    if (w['breadbutterQueue'] && w['breadbutterQueue'].length) {
+        for(let i = 0; i < w['breadbutterQueue'].length; i++) {
+            if (typeof w['breadbutterQueue'][i] == 'function') {
+                w['breadbutterQueue'][i]()
+            }
+        }
+    }
+    bb.init = true;
 })(window);
 
 module.exports = bb;

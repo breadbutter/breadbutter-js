@@ -70,51 +70,61 @@ const handleResponse = (e, callback) => {
 };
 
 export function request(url, params, method, callback) {
-    method = method ? method : 'POST';
-    //
-    // if (!params) {
-    //     params = {'ErrorDetails': true};
-    // } else if (typeof params == 'object') {
-    //     params['ErrorDetails']  = true;
-    // }
+    return new Promise((resolve, reject) => {
 
-    let xhr = new XMLHttpRequest();
-    let data;
-    switch (method) {
-        case 'PUT':
-        case 'PATCH':
-        case 'POST':
-            data = getPostData(params);
-            // url += '?ErrorDetails=true';
-            break;
-        case 'GET':
-            url = getGetData(url, params);
-            break;
-    }
-    xhr.open(method, url, true);
-    xhr.withCredentials = true;
-    xhr.setRequestHeader('Accept', 'application/json');
-    switch(method) {
-        case 'PUT':
-        case 'PATCH':
-        case 'POST':
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-            break;
-    }
+        method = method ? method : 'POST';
+        //
+        // if (!params) {
+        //     params = {'ErrorDetails': true};
+        // } else if (typeof params == 'object') {
+        //     params['ErrorDetails']  = true;
+        // }
 
-    if (params['app_secret']) {
-        xhr.setRequestHeader('x-app-secret', params['app_secret']);
-    }
+        let xhr = new XMLHttpRequest();
+        let data;
+        switch (method) {
+            case 'PUT':
+            case 'PATCH':
+            case 'POST':
+                data = getPostData(params);
+                // url += '?ErrorDetails=true';
+                break;
+            case 'GET':
+                url = getGetData(url, params);
+                break;
+        }
+        xhr.open(method, url, true);
+        xhr.withCredentials = true;
+        xhr.setRequestHeader('Accept', 'application/json');
+        switch(method) {
+            case 'PUT':
+            case 'PATCH':
+            case 'POST':
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                break;
+        }
 
-    xhr.onload = function (e) {
-        handleResponse(e, callback);
-    };
-    xhr.onerror = function (e) {
-        handleResponse(e, callback);
-    };
+        if (params['app_secret']) {
+            xhr.setRequestHeader('x-app-secret', params['app_secret']);
+        }
 
-    xhr.send(data);
+        const handleCall = function(response){
+          if(typeof callback == 'function')  {
+              callback(response);
+          }
+          resolve(response);
+        };
 
+        xhr.onload = function (e) {
+            handleResponse(e, handleCall);
+        };
+        xhr.onerror = function (e) {
+            handleResponse(e, handleCall);
+        };
+
+        xhr.send(data);
+
+    });
     // console.log(url);
     // console.log(method);
 }

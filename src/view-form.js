@@ -30,6 +30,19 @@ const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
 const TERM_POLICY_ID = 'breadbutter-term-policy';
 
+const MAGIC_LINK_BUTTON_HOLDER_ID = 'breadbutter-magic-link-button-holder';
+const MAGIC_LINK_BUTTON_ID = 'breadbutter-magic-link-button';
+const MAGIC_LINK_WAND_ID = 'breadbutter-magic-link-wand';
+
+const MAGIC_LINK_ID = 'breadbutter-magic-link';
+const MAGIC_LINK_VIEW_ID = 'breadbutter-magic-link-view';
+const MAGIC_LINK_PLANE_ID = 'breadbutter-magic-link-plane';
+const MAGIC_LINK_TITLE_ID = 'breadbutter-magic-link-title';
+const MAGIC_LINK_TITLE_CONFIRMING_ID = 'breadbutter-magic-link-title-confirming';
+const MAGIC_LINK_TITLE_LOGGING_ID = 'breadbutter-magic-link-title-logging';
+const MAGIC_LINK_EMAIL_ID = 'breadbutter-magic-link-email';
+const MAGIC_LINK_MESSAGE_ID = 'breadbutter-magic-link-message';
+
 const BLUR_HOLDER_ID = 'breadbutter-buttons-blur-holder';
 const CONTIUNUE_WITH_EMAIL_ID = 'continue-email-address';
 const BLUR_CLASS = 'bb-blur';
@@ -87,6 +100,7 @@ const FORM = {
     ALERT_CONFIRM: 'form-alert-confirm',
     ALERT_CONFIRM_2: 'form-alert-confirm-2',
     SWITCH_LOGIN: 'form-switch-login',
+    SWITCH_MAGIC_LINK: 'form-switch-magic-link',
     PASSWORD_TOGGLE: 'form-password-toggle',
     NEW_USER: 'form-new-user',
     SUB_MESSAGE: 'form-sub-message',
@@ -149,6 +163,7 @@ const USER_STATE = {
 const RESET_FORM = 'reset-form';
 const CONFIRM_FORM = 'confirm-form';
 const INCOGNITO_FORM = 'incognito-form';
+const MAGIC_LINK_FORM = 'magic-link-form';
 const EMAIL_FORM = 'email-form';
 const LOGIN_FORM = 'login-form';
 const LOCAL_LOGIN_FORM = 'local-login-form';
@@ -185,6 +200,11 @@ const VIEWFORM = function() {
     let loading = false;
     let PRIVACY_LINK = false;
     let TOC_LINK = false;
+    let MAGIC_LINK_ENABLED = false;
+    let MAGIC_LINK_REGISTRATION_ENABLED = false;
+    let PROFILE_DATA = false;
+    let DEVICE_VERIFIED = false;
+
     const applyDev = function(res) {
 
         if (res) {
@@ -507,13 +527,42 @@ const VIEWFORM = function() {
         }
     }
 
+    const updateMagicLinkEnabled = function(res) {
+        MAGIC_LINK_ENABLED = false;
+        MAGIC_LINK_REGISTRATION_ENABLED = false;
+        if (res.settings) {
+            if (res.settings.magic_link_settings) {
+                if (res.settings.magic_link_settings.enabled) {
+                    MAGIC_LINK_ENABLED = true;
+                }
+                if (res.settings.magic_link_settings.registration_enabled) {
+                    MAGIC_LINK_REGISTRATION_ENABLED = true;
+                }
+            }
+        }
+    }
+
+    const updateProfileData = function(res) {
+        PROFILE_DATA = false;
+        DEVICE_VERIFIED = false;
+        if (res) {
+            DEVICE_VERIFIED = res.device_verified;
+
+            if (res.user_profile) {
+                PROFILE_DATA = res.user_profile;
+            }
+        }
+    }
+
     const checkProviders = function(cb) {
         //loader.start(container, true);
         api.getClientSettings(false, function(res) {
             // loader.remove();
             if (res) {
                 res = applyDev(res);
+                updateProfileData(res);
                 updateTermPrivacyLink(res);
+                updateMagicLinkEnabled(res);
                 updatePopupDiscovery(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
@@ -536,7 +585,9 @@ const VIEWFORM = function() {
             // loader.remove();
             if (res) {
                 res = applyDev(res);
+                updateProfileData(res);
                 updateTermPrivacyLink(res);
+                updateMagicLinkEnabled(res);
                 updatePopupDiscovery(res);
                 saveInviteRequired(res);
                 loadPasswordRegulation(res);
@@ -738,6 +789,25 @@ const VIEWFORM = function() {
         });
     };
 
+    const addMagicLink = function(id, options) {
+        loadOptions(options);
+        let email_address = getLocalEmail(options.email_address);
+        let pin = options.pin ? options.pin : false;
+
+        let container = addUI(options);
+        loading = true;
+        getProviders(email_address, function(res) {
+            loading = false;
+            loadFirstName(res);
+            let form = magicLinkForm(email_address, false, pin);
+            // updateTitle(findChild(reset_form, MODULE_HEADER));
+            container.appendChild(form);
+            view.initView(id, options, container);
+            showPopupTitle(container, true);
+        });
+
+    };
+
     const addReset = function(id, options) {
         loadOptions(options);
         let email_address = getLocalEmail(options.email_address);
@@ -851,6 +921,7 @@ const VIEWFORM = function() {
             const email_address = getLocalEmail();
             let top = holder.parentElement;
 
+            loader.remove();
             cleanChild(top);
             if (!invite_required && !discovery_required && hasProviders(res)) {
                 let form = incognitoForm(res, email_address);
@@ -868,7 +939,14 @@ const VIEWFORM = function() {
         });
     };
 
-    const insertSwitchLogin = function(top, skip) {
+    const switchMagicLinkConfirmation = function(holder, email_address, authentication_token, magic_link_code) {
+        showPopupTitle(holder, true);
+        cleanChild(holder);
+        let form = magicLinkForm(email_address, authentication_token, magic_link_code);
+        holder.appendChild(form);
+    }
+
+    const insertSwitchLogin = function(top, skip, registering) {
 
         removeChild(top, SWITCH_HOLDER_ID);
         removeChild(top, MODULE_SPACER);
@@ -884,11 +962,15 @@ const VIEWFORM = function() {
         }
         holder.appendChild(getSwitchLogin(triggerSwitchLogin));
         top.appendChild(holder);
-        insertMoreInformation(top);
+        insertMoreInformation(top, registering);
         insertPoweredByModule(top);
     };
 
-    const insertMoreInformation = function(top) {
+    const insertMoreInformation = function(top, registering) {
+        if (!registering || MAGIC_LINK_REGISTRATION_ENABLED) {
+            insertMagicLinkButton(top);
+        }
+
         removeChild(top, MODULE_MORE_INFO);
         let holder = view.addView(MODULE_MORE_INFO);
         let more_info = getButton(Locale.BUTTON.MORE_INFO, FORM.MORE_INFO);
@@ -898,6 +980,131 @@ const VIEWFORM = function() {
 
         insertTermPolicyHolder(top);
     };
+
+    const getMagicLinkPlane = function() {
+        let b = view.addBlock('div', MAGIC_LINK_PLANE_ID);
+        b.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="119.287" height="116.358" viewBox="0 0 119.287 116.358">
+  <defs>
+    <linearGradient id="linear-gradient-plane" x1="-0.098" y1="0.555" x2="0.917" y2="0.555" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#eac040"/>
+      <stop offset="0" stop-color="#a0a0a0"/>
+      <stop offset="1" stop-color="#fafafc"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-plane-2" x1="-0.068" y1="0.585" x2="0.936" y2="0.585" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c9c8c8"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-plane-3" x1="-0.115" y1="0.555" x2="0.907" y2="0.555" xlink:href="#linear-gradient-plane-2"/>
+  </defs>
+  <g id="Group_15568" data-name="Group 15568" transform="translate(-946.841 -582.253)">
+    <g id="Group_15523" data-name="Group 15523" transform="translate(950.399 585.81)">
+      <path id="Path_13894" data-name="Path 13894" d="M976.175,750.909l21.052,16.974,12.564,2.134-.039,7.949,25.545,20.522,39.3-61.212Z" transform="translate(-969.297 -685.688)" opacity="0.094" style="mix-blend-mode: multiply;isolation: isolate"/>
+      <g id="Group_15522" data-name="Group 15522">
+        <g id="Group_15518" data-name="Group 15518">
+          <g id="Group_15516" data-name="Group 15516" transform="translate(25.427)">
+            <path id="Path_13895" data-name="Path 13895" d="M1028.32,628.292l4.148,20.97,82.6-57.008Z" transform="translate(-1028.32 -592.253)" fill="url(#linear-gradient-plane)"/>
+          </g>
+          <g id="Group_15517" data-name="Group 15517">
+            <path id="Path_13896" data-name="Path 13896" d="M1069.014,592.253l-86.746,36.038-25.427-20.5Z" transform="translate(-956.841 -592.253)" fill="url(#linear-gradient-plane-2)"/>
+          </g>
+        </g>
+        <g id="Group_15521" data-name="Group 15521" transform="translate(29.575)">
+          <g id="Group_15519" data-name="Group 15519">
+            <path id="Path_13897" data-name="Path 13897" d="M1045.944,636.435l-5.964,12.827,82.6-57.008Z" transform="translate(-1039.98 -592.253)" fill="#4eaff7"/>
+          </g>
+          <g id="Group_15520" data-name="Group 15520" transform="translate(5.964)">
+            <path id="Path_13898" data-name="Path 13898" d="M1133.379,592.253l-76.634,44.181,31.846,25.585Z" transform="translate(-1056.745 -592.253)" fill="url(#linear-gradient-plane-3)"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <path id="Path_13899" data-name="Path 13899" d="M1065.569,583.894a3.556,3.556,0,0,0-3.485-1.607L949.911,597.824a3.557,3.557,0,0,0-1.745,6.293l24.421,19.69,3.9,19.7a3.557,3.557,0,0,0,5.51,2.238l9.614-6.635,23.948,19.239a3.558,3.558,0,0,0,5.221-.851l44.788-69.767A3.558,3.558,0,0,0,1065.569,583.894Zm-47.785,71.683-26.014-20.9-2.047,1.413-9.749,6.728-4.148-20.97-25.427-20.5,112.173-15.537Z"/>
+  </g>
+</svg>
+`;
+        return b;
+    };
+
+    const getMagicLinkIcon = function() {
+        let b = view.addBlock('div', MAGIC_LINK_WAND_ID);
+        b.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.164" height="24.4" viewBox="0 0 24.164 24.4">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fdd03a"/>
+      <stop offset="0.648" stop-color="#d98b7a"/>
+      <stop offset="1" stop-color="#9203fa"/>
+    </radialGradient>
+  </defs>
+  <g id="Group_15318" data-name="Group 15318" transform="translate(479.338 -2635.516)">
+    <g id="Group_14825" data-name="Group 14825" transform="translate(-503.977 2630.618)">
+      <g id="Group_13895" data-name="Group 13895" transform="translate(30.624 4.898)">
+        <path id="Path_13311" data-name="Path 13311" d="M57.655,7.512a.686.686,0,0,0-.97,0l-2.91,2.91a.686.686,0,0,0,.97.97l2.91-2.91a.686.686,0,0,0,0-.97ZM51.934,5.1a.686.686,0,0,0-1.167.485L50.76,9.695a.69.69,0,0,0,1.379,0L52.132,5.58a.68.68,0,0,0-.2-.485Zm8.138,8.138a.68.68,0,0,0-.485-.2l-4.115-.008a.689.689,0,1,0,0,1.379l4.115-.008a.686.686,0,0,0,.485-1.167ZM46.016,7.028a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,1,0,.97-.97Zm9.214,9.214a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,0,0,.97-.97ZM47.365,12.6a.669.669,0,0,0-.477-.2l-4.115.008a.682.682,0,0,0,0,1.364l4.115.008a.681.681,0,0,0,.477-1.175Zm5.2,5.2a.681.681,0,0,0-1.175.477l.008,4.114a.682.682,0,0,0,1.364,0l.008-4.115a.669.669,0,0,0-.2-.477Z" transform="translate(-42.091 -4.898)" fill="url(#radial-gradient)"/>
+      </g>
+      <g id="Group_13896" data-name="Group 13896" transform="translate(24.639 11.687)">
+        <path id="Path_13312" data-name="Path 13312" d="M39.884,24.885a.712.712,0,0,0-.97,0L24.829,39.205a.713.713,0,0,0,0,.97l1.94,1.94a.713.713,0,0,0,.97,0l14.084-14.32a.712.712,0,0,0,0-.97ZM39.4,26.34l.97.97-3.88,3.88-.97-.97Z" transform="translate(-24.639 -24.694)"/>
+      </g>
+    </g>
+  </g>
+</svg>
+`;
+        return b;
+    };
+
+    const insertMagicLinkButton = function(top) {
+        //MAGIC_LINK_BUTTON_HOLDER_ID
+        removeChild(top, MAGIC_LINK_BUTTON_HOLDER_ID);
+        if (MAGIC_LINK_ENABLED) {
+            let holder = view.addView(MAGIC_LINK_BUTTON_HOLDER_ID);
+            let content = getDiv(Locale.MAGIC_LINK.SEND_BUTTON_TEXT, MAGIC_LINK_BUTTON_ID);
+            let icon = getMagicLinkIcon();
+            content.appendChild(icon);
+            holder.appendChild(content);
+            top.appendChild(holder);
+            top.classList.add('bb-magic-link');
+            holder.addEventListener('click', onClickMagicLink);
+        }
+    };
+
+    const onClickMagicLink = function(events) {
+        let target = events.target;
+        if (!target.classList.contains(MAGIC_LINK_BUTTON_HOLDER_ID)) {
+            target = findParents(target, MAGIC_LINK_BUTTON_HOLDER_ID);
+            if (!target) {
+                return false;
+            }
+        }
+
+        let top = target.parentElement;
+        let email_holder = top.querySelector('.' + FORM.EMAIL);
+        let email = email_holder.email ? email_holder.email : email_holder.value;
+
+        if (!val.isEmail(email)) {
+            let alert = Locale.ERROR.VALID_EMAIL;
+            insertError(email_holder, alert.MESSAGE);
+            return;
+        }
+        cleanError(email_holder);
+        cleanError(target);
+
+        let values = {
+            email_address: email
+        };
+        api.startMagicLink(values,
+            async function(res) {
+                if (res && res.authentication_token) {
+                    switchMagicLinkConfirmation(top.closest('.' + ID), email, res.authentication_token);
+                } else {
+                    console.error('Something is wrong');
+                    console.error(res.error);
+                    if (res && res.error && res.error.message) {
+                        insertError(target, res.error.message);
+                    }
+                }
+            });
+
+    }
 
     const insertTermPolicyHolder = function(top) {
         removeChild(top, TERM_POLICY_HOLDER_ID);
@@ -1166,6 +1373,7 @@ const VIEWFORM = function() {
         return b;
     };
 
+
     const getPasswordModule = function(cb, placeholder) {
         let container = view.addView(MODULE_PASSWORD);
         container.appendChild(
@@ -1223,6 +1431,7 @@ const VIEWFORM = function() {
             const holder = input.parentElement;
             if (e.code != 'Tab' && e.code != 'Enter') {
                 cleanError(holder);
+                cleanError(input);
             }
             if (e.code != 'Enter') {
                 return;
@@ -1346,6 +1555,99 @@ const VIEWFORM = function() {
         const button = getButton(Locale.BUTTON.OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD, FORM.OPTIONS, cb);
         return button;
     };
+
+    const magicLinkForm = function(email_address, authentication_token, magic_link_code) {
+        formEntry(MAGIC_LINK_FORM);
+        let verified = false;
+        if (PROFILE_DATA && PROFILE_DATA.state == 'verified') {
+            verified = true;
+        }
+        let container = view.addView(MAGIC_LINK_ID);
+        let form = view.addView(MAGIC_LINK_VIEW_ID);
+        form.appendChild(getMagicLinkPlane());
+        container.appendChild(form);
+
+        let title_message = Locale.MAGIC_LINK.CHECK_YOUR_EMAIL;
+        if (verified) {
+            title_message = lang.replace({
+                FIRST_NAME: PROFILE_DATA.first_name
+            }, Locale.MAGIC_LINK.CHECK_YOUR_EMAIL_2);
+        }
+        let title = getTitle(title_message);
+        title.classList.add(MAGIC_LINK_TITLE_ID);
+        let email = getSubtitle(email_address);
+        email.classList.add(MAGIC_LINK_EMAIL_ID);
+        let message = getDiv(Locale.MAGIC_LINK.CONFIRM_MESSAGE, MAGIC_LINK_MESSAGE_ID)
+        container.appendChild(title);
+
+        title = getTitle(Locale.MAGIC_LINK.CONFIRMING);
+        title.classList.add(MAGIC_LINK_TITLE_CONFIRMING_ID);
+        container.appendChild(title);
+        title = getTitle(Locale.MAGIC_LINK.LOGGING_IN);
+        title.classList.add(MAGIC_LINK_TITLE_LOGGING_ID);
+        container.appendChild(title);
+
+        container.appendChild(email);
+        container.appendChild(message);
+
+        container.appendChild(
+            getButton(Locale.MAGIC_LINK.LEAVE_MAGIC_LINK, FORM.SWITCH_MAGIC_LINK, triggerMagicLinkCancel)
+        );
+
+        if (verified) {
+            insertPoweredByModule(container);
+        }
+
+        if (authentication_token) {
+            constantCheckMagicLink(container, authentication_token);
+        }
+        if (magic_link_code){
+            verifyMagicLink(container, magic_link_code);
+        }
+        return container;
+
+    }
+
+    const verifyMagicLink = function(container, magic_link_code) {
+        let view = findChild(container, MAGIC_LINK_VIEW_ID);
+        loader.start(view, false, true, false);
+        container.classList.remove('bb-logging');
+        container.classList.add('bb-confirming');
+        api.confirmMagicLinkCode(magic_link_code, async function(res) {
+            if (res && res.authentication_token) {
+                container.classList.add('bb-logging');
+                container.classList.remove('bb-confirming');
+                await loader.success_hold();
+                api.redirectAuthentication(res.authentication_token, true);
+            } else {
+                await loader.failure_hold();
+                switchLogin(container);
+            }
+        });
+    };
+
+    const constantCheckMagicLink = function(container, authentication_token) {
+        setTimeout(function(){
+            let view = findChild(container, MAGIC_LINK_VIEW_ID);
+            api.getMagicLinkAuthenticated(authentication_token, async function(res) {
+                if (res && !res.error) { 
+                    if (res.magic_link_authenticated){
+                        container.classList.add('bb-logging');
+                        loader.start(view, false, true, false);
+                        await loader.success_hold();
+                        api.redirectAuthentication(authentication_token, true);
+                    } else {
+                        constantCheckMagicLink(container, authentication_token);
+                    }
+                } else {
+                    loader.start(view, false, true, false);
+                    await loader.failure();
+                    switchLogin(container);
+
+                }
+            })
+        }, 5000);
+    }
 
     const confirmForm = function(email_address, pin) {
         formEntry(CONFIRM_FORM);
@@ -1602,8 +1904,16 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        if ((window.innerHeight - 300 - (continue_with_count * 40)) <= 0) {
+        // console.log(top);
+        let bounding = top.getBoundingClientRect();
+        let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
+        // console.log(gap);
+        if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= 0) {
             theme = 'round-icons';
+        }
+
+        if (isMobile && list.length == 1) {
+            theme = 'tiles';
         }
 
         let opt = {
@@ -2268,6 +2578,13 @@ const VIEWFORM = function() {
         continueConfirmUser(holder.parentElement);
     };
 
+    const triggerMagicLinkCancel = function(e) {
+        if (loading) return;
+        const button = e.currentTarget;
+        const holder = button.parentElement;
+        switchLogin(holder);
+    }
+
     const triggerConfirmCancel = function(e) {
         if (loading) return;
         const button = e.currentTarget;
@@ -2585,6 +2902,7 @@ const VIEWFORM = function() {
         let pass = true;
         let top = holder.parentElement;
 
+        cleanError(email_input);
         if (!val.isEmail(email)) {
             pass = false;
             alert = Locale.ERROR.VALID_EMAIL;
@@ -2699,7 +3017,7 @@ const VIEWFORM = function() {
 
             getLocalRegistrationContainer(register_container);
 
-            insertSwitchLogin(register_container);
+            insertSwitchLogin(register_container, false, true);
         } else if (local) {
             goLocalRegistration(top);
         }
@@ -2776,7 +3094,7 @@ const VIEWFORM = function() {
                 register_container.appendChild(button_holder);
             }
 
-            insertSwitchLogin(register_container);
+            insertSwitchLogin(register_container, false, true);
         } else if (local) {
             goLocalRegistration(top);
         }
@@ -2810,7 +3128,7 @@ const VIEWFORM = function() {
 
         register_container.appendChild(passwordValidationList(true));
         register_container.appendChild(getRegisterButton(triggerRegisterComplete));
-        insertSwitchLogin(register_container);
+        insertSwitchLogin(register_container, false, true);
 
         cleanChild(top);
         top.appendChild(register_container);
@@ -3148,6 +3466,7 @@ const VIEWFORM = function() {
     this.addForm = addForm;
     this.addRegister = addRegister;
     this.addReset = addReset;
+    this.addMagicLink = addMagicLink;
     this.addConfirm = addConfirm;
 
     this.showAlert = showAlert;
