@@ -1091,14 +1091,22 @@
             text-decoration: underline;
         }
     }
+    .breadbutter-email {
+        .breadbutter-module-magic-link {
+            padding: 0 13px;
+        }
+    }
     .breadbutter-incognito {
         .breadbutter-term-policy-holder {
             display: none;
             margin: 0 25px 10px;
             padding: 0px 13px 14px;
         }
-        .breadbutter-magic-link-button-holder {
-            margin: 0 13px;
+        .breadbutter-module-magic-link {
+            padding: 0 13px;
+            .breadbutter-magic-link-mask {
+                bottom: -64px;
+            }
         }
     }
     .breadbutter-login, .breadbutter-register, .breadbutter-register-holder {
@@ -1106,8 +1114,8 @@
             margin: 0 19px;
             padding: 15px 13px 14px;
         }
-        .breadbutter-magic-link-button-holder {
-            margin: 0;
+        .breadbutter-module-magic-link {
+            padding: 0;
         }
     }
 }
@@ -1134,9 +1142,10 @@
     }
 }
 
-.breadbutter-magic-link-button-holder {
+.breadbutter-module-magic-link {
     margin: 0;
     cursor: pointer;
+    position: relative;
     .breadbutter-magic-link-button {
         font-size: 13px;
         color: #797a79;
@@ -1150,6 +1159,42 @@
             position: absolute;
             margin: 8px;
             top: 0;
+        }
+    }
+    .breadbutter-magic-link-mask {
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: -36px;
+        left: 0;
+        right: 0;
+        backdrop-filter: blur(7.8px);
+        background-color: rgba(80,92,109,0.5);
+        .breadbutter-magic-link-mask-text {
+            font-size: 13px;
+            line-height: 1.455;
+            border: none;
+            padding: 0;
+            margin: 0 auto;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .breadbutter-magic-link-mask-arrow {
+            border-right: solid 3px white;
+            border-bottom: solid 3px white;
+            width: 15px;
+            height: 15px;
+            transform: rotate(-135deg) skew(-30deg, -30deg);
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -8px;
+        }
+    }
+    &.bb-blur {
+        .breadbutter-magic-link-mask {
+            display: block;
         }
     }
 }

@@ -1,6 +1,6 @@
 import * as en from './locale/en.json';
 import * as fr from './locale/fr.json';
-import * as zhtw from './locale/zh-TW.json';
+import * as zhcn from './locale/zh-CN.json';
 import * as es from './locale/es.json';
 import * as pt from './locale/pt.json';
 import * as bg from './locale/bg.json';
@@ -8,7 +8,7 @@ import * as bg from './locale/bg.json';
 const Locale = {
     en,
     fr,
-    'zh-TW': zhtw,
+    'zh-CN': zhcn,
     es,
     pt,
     bg

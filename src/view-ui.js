@@ -26,6 +26,10 @@ const loadLanguage = function (options) {
     }
 };
 
+const getDefaultAvatar = function() {
+  return `<svg data-v-84d03bbe="" class="default-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><g data-name="Group 6439"><g data-name="Group 6438" transform="translate(-329 -2158)"><g data-name="Group 3232"><g data-name="Group 438"><g data-name="Ellipse 64" transform="translate(329 2158)" fill="#fff" stroke="#d0d8e2"><circle cx="20" cy="20" r="20" stroke="none"></circle><circle cx="20" cy="20" r="19.5" fill="none"></circle></g></g></g><circle data-name="Ellipse 571" cx="7" cy="7" r="7" transform="translate(342 2167)" fill="#d0d8e2"></circle><path data-name="Path 2398" d="M348.935 2182c-7.815 0-14.447 2.356-16.935 5.643a19.476 19.476 0 0 0 33.87 0c-2.488-3.287-9.12-5.643-16.935-5.643z" fill="#d0d8e2"></path></g></g></svg>`;
+};
+
 const getLoginWidget = function() {
     return `
     
@@ -55,15 +59,18 @@ const getProfileWidget = function(profile, suggested) {
         full_name = profile.email_address.split('@')[0];
     }
     let avatar_style = "";
+    let default_avatar = "";
     if (avatar) {
         avatar_style = 'style="background-image:url(' + avatar + '); border:none;"';
+    } else {
+        default_avatar = getDefaultAvatar();
     }
 
-    let provider = view.svgIcons(suggested.idp);
+    let provider = view.svgIcons((suggested && suggested.idp) ? suggested.idp : 'local');
     return `
     <div class="breadbutter-ui-profile-widget-container">
         <div class="breadbutter-ui-profile-widget">
-            <div class="breadbutter-ui-profile-avatar" ${avatar_style}></div>
+            <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
             <div class="breadbutter-ui-profile-name">${welcome}</div>
             <div class="breadbutter-ui-profile-dropdown"></div>
         </div>
@@ -78,6 +85,7 @@ const getProfileWidget = function(profile, suggested) {
                         ${provider}                        
                         </div>
                         <div class="breadbutter-ui-profile-dashboard-avatar"  ${avatar_style}>
+                        ${default_avatar}
                         </div>
                         <div class="breadbutter-ui-profile-dashboard-profile">
                             <div class="breadbutter-ui-profile-dashboard-name">

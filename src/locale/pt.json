@@ -1,38 +1,38 @@
 {
-  "POPUP": {
-    "HEADER_1": "Inscreva-se para a sua melhor experiência",
-    "HEADER_2": "Inscreva-se para a sua melhor experiência",
-    "HEADER_BACK_1": "Inscreva-se para a sua melhor experiência",
-    "HEADER_BACK_2": "Inscreva-se para a sua melhor experiência",
-    "TEXT_1": "Primeiro passo",
-    "TEXT_2": "Continue com o nosso método de início de sessão fidedigno.*<br/>Ficará pronto a começar num instante.",
-    "TEXT_3": "*Será redirecionado para a autenticação da sua conta; nunca vemos o seu método de autenticação ou a palavra-passe da mesma.",
-    "TEXT_3_2": "*Será redirecionado para a autenticação da sua conta; nunca vemos o método de autenticação ou a palavra-passe da mesma. Tudo o que recebemos é um simples sim/não; embora alguns fornecedores de identidade também indiquem o seu nome. Pode alterar o seu método de autenticação a qualquer altura.",
-    "MORE": "mais>>"
-  },
-  "INCOGNITO": {
-    "TITLE": "Seja bem-vindo"
-  },
-  "REGISTER": {
-    "TITLE": "Seja bem-vindo",
-    "CONTENT": "Como gostaria de se inscrever?",
-    "CONTENT_2": "Inscrever-se com o seu e-mail",
-    "SSO": "Ou crie uma conta com o seu endereço de e-mail e uma palavra-passe",
-    "LOCAL": "Crie uma conta com o seu endereço de e-mail e uma palavra-passe",
-    "OR_LOCAL": "Ou preencha o formulário seguinte"
-  },
-  "CONFIRM_EMAIL": {
-    "TITLE": "Confirmação de e-mail",
-    "CONTENT": "Foi enviada uma mensagem de confirmação para o seu endereço de e-mail. Introduza o PIN contido no e-mail abaixo"
-  },
-  "FORGOT_PASSWORD": {
-    "TITLE": "Esqueci-me da palavra-passe",
-    "CONTENT": "Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções sobre como redefinir a sua palavra-passe."
-  },
-  "EXPIRE_PASSWORD": {
-    "TITLE": "Alterar palavra-passe",
-    "CONTENT": "Parece que a sua palavra-passe tem de ser redefinida. Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções para redefinir a sua palavra-passe."
-  },
+    "POPUP": {
+        "HEADER_1": "﻿Inscreva-se para a sua melhor experiência",
+        "HEADER_2": "﻿Inscreva-se para a sua melhor experiência",
+        "HEADER_BACK_1": "﻿Inscreva-se para a sua melhor experiência",
+        "HEADER_BACK_2": "﻿Inscreva-se para a sua melhor experiência",
+        "TEXT_1": "﻿Primeiro passo",
+        "TEXT_2": "﻿Continue com o nosso método de início de sessão fidedigno.*<br/>Ficará pronto a começar num instante.",
+        "TEXT_3": "﻿*Será redirecionado para a autenticação da sua conta; nunca vemos o seu método de autenticação ou a palavra-passe da mesma.",
+        "TEXT_3_2": "﻿*Será redirecionado para a autenticação da sua conta; nunca vemos o método de autenticação ou a palavra-passe da mesma. Tudo o que recebemos é um simples sim/não; embora alguns fornecedores de identidade também indiquem o seu nome. Pode alterar o seu método de autenticação a qualquer altura.",
+        "MORE": "﻿mais>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "﻿Seja bem-vindo"
+    },
+    "REGISTER": {
+        "TITLE": "﻿Seja bem-vindo",
+        "CONTENT": "﻿Como gostaria de se inscrever?",
+        "CONTENT_2": "﻿Inscrever-se com o seu e-mail",
+        "SSO": "﻿Ou crie uma conta com o seu endereço de e-mail e uma palavra-passe",
+        "LOCAL": "﻿Crie uma conta com o seu endereço de e-mail e uma palavra-passe",
+        "OR_LOCAL": "﻿Ou preencha o formulário seguinte"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "﻿Confirmação de e-mail",
+        "CONTENT": "﻿Foi enviada uma mensagem de confirmação para o seu endereço de e-mail. Introduza o PIN contido no e-mail abaixo"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "﻿Esqueci-me da palavra-passe",
+        "CONTENT": "﻿Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções sobre como redefinir a sua palavra-passe."
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "﻿Alterar palavra-passe",
+        "CONTENT": "﻿Parece que a sua palavra-passe tem de ser redefinida. Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções para redefinir a sua palavra-passe."
+    },
   "NEW_CODE": {
     "CONTENT_1": "Não recebeu o seu PIN de confirmação?",
     "CONTENT_2": "Verifique a pasta do spam",
@@ -61,14 +61,14 @@
     "LAST_NAME": "Apelido",
     "PIN": "PIN"
   },
-  "TILE": {
-    "CONTINUE_AS": "Continuar como",
-    "CONTINUE": "Continuar",
-    "SIGN_IN": "Iniciar sessão",
-    "WITH": "com",
-    "W_": "c/",
-    "WITH_EMAIL": "Iniciar sessão com o e-mail"
-  },
+    "TILE": {
+        "CONTINUE_AS": "Continuar como",
+        "CONTINUE": "Continuar",
+        "SIGN_IN": "Iniciar sessão",
+        "WITH": "com",
+        "W_": "c/",
+        "WITH_EMAIL": "Iniciar sessão com endereço de correio eletrónico"
+    },
   "BUTTON": {
     "SIGN_IN_METHOD": "Outros métodos de início de sessão",
     "CONTINUE_WITH": "Continuar com",
@@ -178,26 +178,36 @@
       "CONFIRM": "ok"
     }
   },
-  "RES_MAPPING": {
-    "invalid_pin": "Verifique se tem o PIN correto",
-    "invalid_email_or_password": "Certifique-se de que usa a sua palavra-passe mais recente"
-  },
-  "PRIVACY_POLICY": {
-    "CONTENT": "Ao navegar no nosso site, concorda com a nossa utilização de cookies.",
-    "BUTTON_1": "OK",
-    "BUTTON_2": "Leia a nossa política"
-  },
-  "TOC_PRIVACY": {
-    "CONTENT_ALL": "Ao inscrever-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a> e a <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a> de %APP_NAME%",
-    "CONTENT_TOC": "Ao inscrever-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a> de %APP_NAME%",
-    "CONTENT_PRIVACY": "Ao inscrever-me, iniciar sessão ou continuar, concordo com a <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a> de %APP_NAME%"
-  },
-  "UI": {
-    "LOGOUT": "Logout",
-    "LOGIN": "Login",
-    "SIGNUP_IN": "Sign up / in",
-    "HELLO": "Hello, %FIRST_NAME%",
-    "SIGN_IN_TITLE": "You are currently signed in as",
-    "SIGN_OUT": "SIGN OUT"
-  }
+    "RES_MAPPING": {
+        "invalid_pin": "﻿Verifique se tem o PIN correto",
+        "invalid_email_or_password": "﻿Certifique-se de que usa a sua palavra-passe mais recente"
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "﻿Ao navegar no nosso site, concorda com a nossa utilização de cookies.",
+        "BUTTON_1": "﻿OK",
+        "BUTTON_2": "﻿Leia a nossa política"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar os <a href='%TOC_LINK%' target='_blank'>termos de serviço</a> e a <a href='%PRIVACY_LINK%' target='_blank'>política de privacidade</a> de %APP_NAME%.",
+        "CONTENT_TOC": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar os <a href='%TOC_LINK%' target='_blank'>termos de serviço</a> de %APP_NAME%.",
+        "CONTENT_PRIVACY": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar a <a href='%PRIVACY_LINK%' target='_blank'>política de privacidade</a> de %APP_NAME%."
+    },
+    "UI": {
+        "LOGOUT": "Terminar sessão",
+        "LOGIN": "Iniciar sessão",
+        "SIGNUP_IN": "Registar-se/Iniciar sessão",
+        "HELLO": "Olá, %FIRST_NAME%",
+        "SIGN_IN_TITLE": "Tem sessão iniciada como",
+        "SIGN_OUT": "TERMINAR SESSÃO"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "Enviar ligação mágica",
+        "LEAVE_MAGIC_LINK": "Inicie sessão com um IDP ou através do seu endereço de correio eletrónico e palavra-passe",
+        "CHECK_YOUR_EMAIL": "Consulte a sua caixa de correio eletrónico",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, consulte a sua caixa de correio eletrónico",
+        "CONFIRMING": "Confirmar autenticação",
+        "LOGGING_IN": "A iniciar a sua sessão em",
+        "CONFIRM_MESSAGE": "Enviámos uma ligação para confirmar a sua conta para o endereço de correio eletrónico indicado acima. Clique na ligação para prosseguir com o início de sessão.",
+        "FOCUS_MASK_TEXT": "Comece com o seu endereço de correio eletrónico acima"
+    }
 }

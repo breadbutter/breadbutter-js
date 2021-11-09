@@ -1,0 +1,213 @@
+{
+    "POPUP": {
+        "HEADER_1": "登录以获得最佳体验",
+        "HEADER_2": "登录以获得最佳体验",
+        "HEADER_BACK_1": "登录以获得最佳体验",
+        "HEADER_BACK_2": "登录以获得最佳体验",
+        "TEXT_1": "第一步",
+        "TEXT_2": "使用你最信任的登录方式‘继续’。*<br/>你很快就可以开始了。",
+        "TEXT_3": "*你将被重定向前往认证你的账户；我们从未看到你的认证方式或密码。",
+        "TEXT_3_2": "*你将被重定向前往认证你的账户；我们从未看到你的认证方式或密码。我们只会收到是/否的简单答案；尽管有些身份验证提供方也会将你的名字传送过来。你随时可以更改认证方式。",
+        "MORE": "更多>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "欢迎"
+    },
+    "REGISTER": {
+        "TITLE": "欢迎",
+        "CONTENT": "你想怎样进行注册？",
+        "CONTENT_2": "使用你的电子邮件进行注册",
+        "SSO": "或者使用你的电子邮件地址和一个密码创建一个账户",
+        "LOCAL": "使用你的电子邮件地址和一个密码创建一个账户",
+        "OR_LOCAL": "或者填写下方的表格"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "电子邮件确认",
+        "CONTENT": "一条确认信息已经发送到你的电子邮件地址。请在下方输入那封电子邮件内的 PIN 码"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "忘记密码",
+        "CONTENT": "输入你注册使用的电子邮件，我们将会给你发送重置密码的说明"
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "更改密码",
+        "CONTENT": "你的密码似乎需要重置。输入你注册使用的电子邮件，我们将会给你发送重置密码的说明"
+    },
+    "NEW_CODE": {
+        "CONTENT_1": "没有收到你的确认 PIN 码？",
+        "CONTENT_2": "请查看垃圾邮件文件夹",
+        "CONTENT_OR": "或者",
+        "CONTENT_3": "请求一个新的验证码",
+        "BUTTON": "点击此处"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "你好",
+        "CONTENT": "请在下方重置你的密码"
+    },
+    "LOGIN": {
+        "TITLE": "你好",
+        "CONTENT": "请输入你的电子邮件地址",
+        "CONTENT_2": "请输入你的密码"
+    },
+    "GREETING": "你好",
+    "PLACEHOLDER": {
+        "EMAIL_ADDRESS": "电子邮件地址",
+        "PASSWD": "密码",
+        "PASSWORD": "创建密码",
+        "CONFIRM_PASSWORD": "确认密码",
+        "NEW_PASSWORD": "创建密码",
+        "NEW_CONFIRM_PASSWORD": "确认密码",
+        "FIRST_NAME": "名字",
+        "LAST_NAME": "姓氏",
+        "PIN": "PIN 码"
+    },
+    "TILE": {
+        "CONTINUE_AS": "以此身份继续",
+        "CONTINUE": "继续",
+        "SIGN_IN": "登入",
+        "WITH": "通过",
+        "W_": "w/",
+        "WITH_EMAIL": "通过电子邮箱登入"
+    },
+    "BUTTON": {
+        "SIGN_IN_METHOD": "其他登录方式",
+        "CONTINUE_WITH": "使用……继续",
+        "OR_CONTINUE": "或者使用……继续",
+        "USE_DIFFERENT_IDP": "使用另一个身份验证提供方",
+        "SELECT_IDP_SIGN_UP": "选择一个身份验证提供方进行注册",
+        "MORE": "更多选项",
+        "LESS": "更少选项",
+        "BACK": "后退",
+        "EMAIL_INSTRUCTION": "将说明发送到我的电子邮件",
+        "CANCEL": "取消",
+        "CONTINUE": "继续",
+        "SET_PASSWORD": "重置密码",
+        "FORGOT_PASSWORD": "忘记密码？",
+        "NEW_USER": "新用户？",
+        "SWITCH_LOGIN": "不是你？使用一个不同的电子邮件地址登录",
+        "SWITCH_REGISTER": "不是你？使用一个不同的电子邮件地址注册。",
+        "SWITCH_TRY": "不是你？使用一个不同的电子邮件地址进行尝试。",
+        "NEXT": "下一步",
+        "REGISTER": "注册",
+        "SIGN_IN": "登录",
+        "CONFIRM": "确认电子邮件",
+        "OR_CONTINUE_WITH_EMAIL": "或者使用你的电子邮件地址继续",
+        "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或者使用你的电子邮件地址和密码进行注册",
+        "CONTINUE_WITH_EMAIL": "或者在下方输入你的电子邮件地址",
+        "MORE_INFO": "更多信息",
+        "START_WITH_EMAIL_ADDRESS": "在下方使用你的电子邮件地址开始"
+    },
+    "HOVER": {
+        "EMAIL_MATCH": "请确保你登录时使用的电子邮件地址是收到过注册邀请的。",
+        "NEW_USER": "如果要访问此网站，你必须首先收到加入的邀请。<br/><br/>如果你已经收到了加入邀请，请点击邀请邮件中的链接以完成注册。<br/><br/>如果你已经丢失那封邮件中的信息，请联系最初邀请你的人。",
+        "MORE_INFO": "我们尊重你的隐私。你将被定向前往使用你信任的提供方进行认证。"
+    },
+    "PASSWORD_HINT": {
+        "HAS_VALIDATION": "你的密码必须：",
+        "MINIMUM_ONE": "包含至少一个字符",
+        "MINIMUM_MORE": "包含至少 %COUNT% 个字符",
+        "LOWER_ONE": "包含至少一个小写字母 (a-z)",
+        "LOWER_MORE": "包含至少 %COUNT% 个小写字母 (a-z)",
+        "UPPER_ONE": "包含至少一个大写字母 (A-Z)",
+        "UPPER_MORE": "包含至少 %COUNT% 个大写字母 (A-Z)",
+        "SYMBOL_ONE": "包含至少一个符号",
+        "SYMBOL_MORE": "包含至少 %COUNT% 个符号",
+        "NUMBER_ONE": "包含至少一个数字 (0-9)",
+        "NUMBER_MORE": "包含至少 %COUNT% 个数字 (0-9)",
+        "NO_EMAIL": "不包含你的名字或者电子邮件地址",
+        "MATCH": "在两个字段中输入同样的内容",
+        "NO_OLD_PASSWORD": "你的新密码必须与之前的密码有所不同"
+    },
+    "ERROR": {
+        "INLINE": {
+            "TITLE": "抱歉",
+            "CONFIRM": "确认"
+        },
+        "EMPTY_TOKEN": {
+            "MESSAGE": "你需要输入一个 PIN 码"
+        },
+        "EMPTY_FIRST_NAME": {
+            "MESSAGE": "请确保你输入了名字"
+        },
+        "EMPTY_LAST_NAME": {
+            "MESSAGE": "请确保你输入了姓氏"
+        },
+        "VALID_EMAIL": {
+            "TITLE": "电子邮件格式",
+            "MESSAGE": "请确保你使用的是一个有效的电子邮件地址",
+            "CONFIRM": "确认"
+        },
+        "PASSWORD_EMPTY": {
+            "TITLE": "密码太短",
+            "MESSAGE": "请输入一个密码",
+            "CONFIRM": "确认"
+        },
+        "PASSWORD_LENGTH": {
+            "TITLE": "密码太短",
+            "MESSAGE": "请输入一个超过 %COUNT% 个字符的密码",
+            "CONFIRM": "确认"
+        },
+        "PASSWORD_NOT_MATCH": {
+            "TITLE": "密码不符合",
+            "MESSAGE": "你的密码不符合",
+            "CONFIRM": "确认"
+        },
+        "ACCOUNT_NOT_FOUND": {
+            "TITLE": "账户未找到",
+            "MESSAGE": "我们无法找到你的账户。如果你已经收到了邀请，请点击收到的邀请邮件中的链接以完成注册",
+            "CONFIRM": "我会查找我的邀请"
+        },
+        "NON_LOCAL_LOGIN": {
+            "TITLE": "",
+            "MESSAGE": "你之前已经使用 %PROVIDER% 登录过。请确认你想要设置一个账户密码。",
+            "CONFIRM": "设置密码",
+            "CONFIRM_2": "取消"
+        },
+        "NO_PROVIDERS": {
+            "TITLE": "出了点问题",
+            "MESSAGE": "没有来自提供方的结果。",
+            "CONFIRM": "再次尝试"
+        },
+        "API_ERROR": {
+            "TITLE": "出了点问题",
+            "CONFIRM": "再次尝试"
+        },
+        "NO_PROVIDER": {
+            "TITLE": "没有启用提供方",
+            "MESSAGE": "此网站没有启用任何身份验证提供方或者本地认证。请联系网站管理员了解更多信息。",
+            "CONFIRM": "确认"
+        }
+    },
+    "RES_MAPPING": {
+        "invalid_pin": "请检查你是否拥有正确的 PIN 码",
+        "invalid_email_or_password": "请确保你使用的是最新的密码"
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "如果浏览我们的网站，则代表你同意我们使用 cookies。",
+        "BUTTON_1": "确认",
+        "BUTTON_2": "阅读我们的政策"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服务条款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隐私政策</a>",
+        "CONTENT_TOC": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服务条款</a>",
+        "CONTENT_PRIVACY": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隐私政策</a>"
+    },
+    "UI": {
+        "LOGOUT": "退出",
+        "LOGIN": "登录",
+        "SIGNUP_IN": "注册/登入",
+        "HELLO": "您好，%FIRST_NAME%",
+        "SIGN_IN_TITLE": "您当前登入的身份为",
+        "SIGN_OUT": "登出"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "发送神奇链接",
+        "LEAVE_MAGIC_LINK": "选择 IDP 或使用您的电子邮箱和密码登入",
+        "CHECK_YOUR_EMAIL": "查看您的电子邮件",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%，请查看您的电子邮件",
+        "CONFIRMING": "确认验证",
+        "LOGGING_IN": "正在为您登录",
+        "CONFIRM_MESSAGE": "我们已向上述电子邮箱地址发送确认帐户的链接，请点击该链接完成登入。",
+        "FOCUS_MASK_TEXT": "通过您上方的电子邮箱地址开始"
+    }
+}

@@ -207,6 +207,7 @@
     "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, check your email",
     "CONFIRMING": "Confirming Authentication",
     "LOGGING_IN": "Logging you in",
-    "CONFIRM_MESSAGE": "We’ve sent a link to confirm your account to the email address above. Click the link to finish signing in."
+    "CONFIRM_MESSAGE": "We’ve sent a link to confirm your account to the email address above. Click the link to finish signing in.",
+    "FOCUS_MASK_TEXT": "Start with your email address above"
   }
 }

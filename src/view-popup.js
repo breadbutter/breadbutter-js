@@ -278,6 +278,7 @@ const createView = function (options) {
     document.body.append(popup);
     currentPopup = popup;
 
+    assignMask();
     return holder;
 };
 
@@ -320,7 +321,6 @@ const triggerLogin = function(advanced) {
 const triggerProvider = function(advanced) {
     if (advanced) {
         currentPopup.classList.add('advance');
-        assignMask();
         // setupScrollingTrigger();
     } else {
         let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);

@@ -177,6 +177,11 @@
     .breadbutter-buttons .enterprise:hover {
         opacity: 0.65;
     }
+    .bb-icon {
+        svg {
+            vertical-align: top;
+        }
+    }
 
     .breadbutter-buttons {
         .bb-item {
@@ -520,7 +525,7 @@
                     svg {
                         width: 12px;
                         height: 12px;
-                        margin-top: 5px;
+                        margin-top: 6px;
                         vertical-align: inherit;
                     }
                 }

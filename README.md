@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.5.2.0.398.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.5.3.0.421.min.js
     
 ## Configuration
 
@@ -27,7 +27,7 @@ The official BreadButter JavaScript client library.
             BreadButter.widgets.continueWith();
         };
     </script>
-    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.5.2.0.398.min.js"></script>
+    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.5.3.0.421.min.js"></script>
   </head>
  <body></body>
 </html>
@@ -43,7 +43,7 @@ Inject this on your existing page to get started using with Bread & Butter with 
     	BreadButter.configure({ app_id: APP_ID });
     	BreadButter.widgets.continueWith();
     };
-    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.5.2.0.398.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
+    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.5.3.0.421.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
 </script>
 ```
 
@@ -82,7 +82,7 @@ app_name | [STRING] Application name that you want  displayed in the JSL widgets
 client_data | [OBJECT] Client data is used to allow you to pass parameters from the client side to your backend which processes the authentication.
 force_reauthentication | [STRING] [off/attempt/force] Force reauthentication for the provider when your user logs in (ie, disregard the user's current session if the providers supports it).
 page_view_tracking | [BOOLEAN] [DEFAULT: true] By default, the JSL will create events for all your user's page views. This parameter allows you to disable this feature.
-button_theme| [STRING] [VALUES: round-icons/square-icons/tiles] [DEFAULT: 'tiles'] This paremeter allows you to change the theme the provider buttons are displayed in your widgets.
+button_theme| [STRING] [VALUES: round-icons/square-icons/tiles] [DEFAULT: 'tiles'] This parameter allows you to change the theme the provider buttons are displayed in your widgets.
 expand_email_address | [BOOLEAN] [DEFAULT: true] This parameter is used to expand the email address field on advanced discovery.
 show_login_focus | [BOOLEAN] [DEFAULT: false] Show the background blur for the continue with login on the advanced discovery.
 continue_with_position | [OBJECT] [Example: {'top': '10px', 'right': '10px'}] Used for positioning the continue with widget. Will accept only 1 parameter for top/bottom and 1 parameter for left/right. Accepts 10, '10px', and '10%' for positioning.

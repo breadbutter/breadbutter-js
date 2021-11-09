@@ -7,6 +7,8 @@ import viewUI from './view-ui';
 import constants from './constants';
 import lang from './locale.js';
 
+import './scss/client.scss';
+
 const providers = constants.providers;
 const providers_hash = constants.providers_hash;
 const providers_buttons = constants.providers_buttons;
@@ -63,7 +65,7 @@ let options = {
     client_data: false,
     page_view_tracking: true,
     force_reauthentication: null, //off/attempt/force/null
-    button_theme: 'tiles', //'square-icons', 'round-icons', 'tile'
+    button_theme: 'tiles', //'square-icons', 'round-icons', 'tiles'
     expand_email_address: true,
     show_login_focus: false,
     allow_sub_domain: false,
@@ -743,6 +745,59 @@ const ui = new (function() {
             };
         }
     };
+    this.gateSection = function(unauthorized, authorized, hidden_class) {
+        if (!isProfileInit({
+            call: 'gateSection',
+            params: [unauthorized, authorized, hidden_class]
+        }))
+            return;
+
+        hidden_class = hidden_class || 'bb-hidden-div';
+        const initial_class = 'bb-hidden-div';
+
+        if (typeof unauthorized == 'string') {
+            unauthorized = [unauthorized];
+        }
+        if (typeof authorized == 'string') {
+            authorized = [authorized];
+        }
+
+        const handleDivHidden = function(targets, remove) {
+            for(let i =0; targets && i < targets.length; i++) {
+                let query = targets[i];
+                let match = /[.#]{1}/.exec(query);
+                if (!match || match.index != 0) {
+                    query = '#' + query;
+                }
+                let divs = document.querySelectorAll(query);
+                for(let j = 0; divs && j < divs.length; j++) {
+                    let div = divs[j];
+                    if (remove) {
+                        div.classList.remove(hidden_class);
+                        if (div.classList.contains(initial_class)) {
+                            div.classList.remove(initial_class);
+                        }
+                    } else {
+                        div.classList.add(hidden_class);
+                        if (!div.classList.contains(initial_class)) {
+                            div.classList.add(initial_class);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (isVerifiedState()) {
+            handleDivHidden(unauthorized);
+            handleDivHidden(authorized, true);
+        } else {
+            handleDivHidden(unauthorized, true);
+            handleDivHidden(authorized);
+        }
+
+
+    };
     this.gateContent = function(urls, redirect) {
         if (!isProfileInit({
             call: 'gateContent',
@@ -785,8 +840,12 @@ const ui = new (function() {
         options = options ? options : {};
         const linkAssign = function(a, url) {
             a.onclick = function() {
+                let show_login_focus = true;
+                if (typeof options['show_login_focus'] != 'undefined') {
+                    show_login_focus = options['show_login_focus'];
+                }
                 widgets.continueWith({
-                    show_login_focus: true,
+                    show_login_focus: show_login_focus,
                     destination_url: url
                 });
                 return false;
@@ -843,14 +902,15 @@ const ui = new (function() {
         this.gateLink(urls, options);
     };
 
-    this.applyFormControl = function(form_info) {
+    this.applyFormControl = function(form_info, options) {
         if (!isProfileInit({
             call: 'applyFormControl',
-            params: [form_info]
+            params: [form_info, options]
         }))
             return;
 
         form_info = form_info ? form_info : {};
+        options = options ? options : {};
 
         const onBlurLogin = function(target) {
             target.onkeydown = function() {
@@ -858,8 +918,12 @@ const ui = new (function() {
             };
             target.onclick = function() {
                 this.blur();
+                let show_login_focus = true;
+                if (typeof options['show_login_focus'] != 'undefined') {
+                    show_login_focus = options['show_login_focus'];
+                }
                 widgets.continueWith({
-                    show_login_focus: true,
+                    show_login_focus: show_login_focus,
                     destination_url: document.location.href
                 });
             }
@@ -907,12 +971,17 @@ const ui = new (function() {
                    events.custom(event);
                 });
             } else {
-                const types = ['textarea', 'input'];
-                for (let i = 0; form && i < form.children.length; i++) {
-                    const other = form.children[i];
-                    if (types.indexOf(other.localName) != -1) {
-                        onBlurLogin(other);
+                const onBlurQueryUnderForm = function(type) {
+                    let list = form.querySelectorAll(type);
+                    for(let i = 0; i < list.length; i++) {
+                        let item = list[i];
+                        onBlurLogin(item);
                     }
+                }
+
+                const types = ['textarea', 'input'];
+                for (let i = 0; form && i < types.length; i++) {
+                    onBlurQueryUnderForm(types[i]);
                 }
                 submit.disabled = 'disabled';
             }
@@ -1047,7 +1116,14 @@ const ui = new (function() {
             let field = document.getElementById(field_id);
             field.innerHTML = viewUI.getLoginWidget();
             field.onclick = function(){
-                widgets.continueWith(options);
+                let show_login_focus = true;
+                if (typeof options['show_login_focus'] != 'undefined') {
+                    show_login_focus = options['show_login_focus'];
+                }
+                widgets.continueWith({
+                    show_login_focus: show_login_focus,
+                });
+                // widgets.continueWith(options);
             };
         }
     };
@@ -1061,6 +1137,31 @@ const ui = new (function() {
 
         options = options ? options : {};
 
+        if (options.show_only && options.show_only.length) {
+            let found = false;
+            let show_only = options.show_only;
+            
+            switch(typeof options.show_only) {
+                case 'string':
+                    if (document.location.pathname.endsWith(show_only)) {
+                        found = true;
+                    }
+                    break;
+                case 'object':
+                    for(let i = 0; !found && i < show_only.length; i++) {
+                        let show = show_only[i];
+                        if (document.location.pathname.endsWith(show)) {
+                            found = true;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (!found) {
+                return;
+            }
+        }
         if (!isVerifiedState()) {
             widgets.continueWith(options);
         }
@@ -1145,6 +1246,19 @@ const parseCookie = (str) => {
             return acc;
         }, {});
 };
+
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function(searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position)
+            || Math.floor(position) !== position || position > subjectString.length) {
+            position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.indexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+    };
+}
 
 export default {
     configure,

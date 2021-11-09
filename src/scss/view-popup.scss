@@ -160,7 +160,7 @@
     transition-duration: 0.125s;
     transition-timing-function: ease-out;
 
-    &.scrolling:not(.basic, .reset-form, .confirm-form, .email-form, .register-form, .local-login-form, .magic-link-form) {
+    &.scrolling:not(.reset-form, .confirm-form, .email-form, .register-form, .local-login-form, .magic-link-form) {
       height: 94px!important;
       .breadbutter-incognito {
         .more-content {
@@ -197,7 +197,7 @@
           display: flex;
           margin: 0 -13px 0px -14px;
         }
-        .breadbutter-magic-link-button-holder {
+        .breadbutter-module-magic-link {
           display: none;
         }
         .breadbutter-switch-login {
@@ -213,7 +213,7 @@
     }
 
     &.scrolling{
-      &.basic, &.reset-form, &.confirm-form, &.email-form, &.register-form, &.local-login-form, &.magic-link-form {
+      &.reset-form, &.confirm-form, &.email-form, &.register-form, &.local-login-form, &.magic-link-form {
         height: auto!important;
       }
     }
@@ -334,7 +334,8 @@
   height: auto;
   transition: height .55s ease;
   max-height: 100%;
-  overflow-y: auto;
+  //overflow-y: auto;
+  overflow-y: visible;
   &.advance {
     overflow-y: visible;
   }
@@ -460,7 +461,8 @@
 
   &.bb-mobile-collpase {
     height: 30px;
-    overflow-y: hidden;
+    //overflow-y: hidden;
+    overflow-y: visible;
     &.advance {
       overflow-y: visible;
     }

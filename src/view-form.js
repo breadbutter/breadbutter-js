@@ -30,9 +30,13 @@ const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
 const TERM_POLICY_ID = 'breadbutter-term-policy';
 
-const MAGIC_LINK_BUTTON_HOLDER_ID = 'breadbutter-magic-link-button-holder';
+const MODULE_MAGIC_LINK = 'breadbutter-module-magic-link';
 const MAGIC_LINK_BUTTON_ID = 'breadbutter-magic-link-button';
 const MAGIC_LINK_WAND_ID = 'breadbutter-magic-link-wand';
+
+const MAGIC_LINK_MASK_ID = 'breadbutter-magic-link-mask';
+const MAGIC_LINK_MASK_TEXT_ID = 'breadbutter-magic-link-mask-text';
+const MAGIC_LINK_MASK_ARROW_ID = 'breadbutter-magic-link-mask-arrow';
 
 const MAGIC_LINK_ID = 'breadbutter-magic-link';
 const MAGIC_LINK_VIEW_ID = 'breadbutter-magic-link-view';
@@ -381,6 +385,15 @@ const VIEWFORM = function() {
             target.classList.remove('error');
         }
     };
+
+    const cleanBlur = function(target) {
+        let top = target.parentElement;
+        let blurs = top.querySelectorAll('.bb-blur');
+        for(let i = 0; i < blurs.length;i++) {
+            let blur = blurs[i];
+            blur.classList.remove('bb-blur');
+        }
+    }
 
     const showAlert = function(top, alert, params, callbacks) {
         let title = lang.replace(params, alert.TITLE);
@@ -968,7 +981,7 @@ const VIEWFORM = function() {
 
     const insertMoreInformation = function(top, registering) {
         if (!registering || MAGIC_LINK_REGISTRATION_ENABLED) {
-            insertMagicLinkButton(top);
+            insertMagicLinkButton(top, false, registering);
         }
 
         removeChild(top, MODULE_MORE_INFO);
@@ -1052,37 +1065,57 @@ const VIEWFORM = function() {
         return b;
     };
 
-    const insertMagicLinkButton = function(top) {
-        //MAGIC_LINK_BUTTON_HOLDER_ID
-        removeChild(top, MAGIC_LINK_BUTTON_HOLDER_ID);
+    const insertMagicLinkButton = function(top, disabled, registering) {
+        //MODULE_MAGIC_LINK
+        removeChild(top, MODULE_MAGIC_LINK);
         if (MAGIC_LINK_ENABLED) {
-            let holder = view.addView(MAGIC_LINK_BUTTON_HOLDER_ID);
+            let holder = view.addView(MODULE_MAGIC_LINK);
             let content = getDiv(Locale.MAGIC_LINK.SEND_BUTTON_TEXT, MAGIC_LINK_BUTTON_ID);
             let icon = getMagicLinkIcon();
             content.appendChild(icon);
             holder.appendChild(content);
             top.appendChild(holder);
             top.classList.add('bb-magic-link');
-            holder.addEventListener('click', onClickMagicLink);
+            if (!disabled) {
+                if (!registering && !MAGIC_LINK_REGISTRATION_ENABLED) {
+                    holder.addEventListener('click', ()=> {
+                        highlightEmailFormMagicLink(top);
+                    });
+                } else {
+                    holder.addEventListener('click', onClickMagicLink);
+                }
+            } else {
+                holder.addEventListener('click', ()=> {
+                    highlightEmailFormMagicLink(top);
+                });
+            }
+
+            let mask = view.addView(MAGIC_LINK_MASK_ID);
+            let text = view.addView(MAGIC_LINK_MASK_TEXT_ID);
+            text.innerText = Locale.MAGIC_LINK.FOCUS_MASK_TEXT;
+            let arrow = view.addView(MAGIC_LINK_MASK_ARROW_ID)
+            mask.appendChild(text);
+            mask.appendChild(arrow);
+            holder.appendChild(mask);
         }
     };
 
     const onClickMagicLink = function(events) {
         let target = events.target;
-        if (!target.classList.contains(MAGIC_LINK_BUTTON_HOLDER_ID)) {
-            target = findParents(target, MAGIC_LINK_BUTTON_HOLDER_ID);
+        if (!target.classList.contains(MODULE_MAGIC_LINK)) {
+            target = findParents(target, MODULE_MAGIC_LINK);
             if (!target) {
                 return false;
             }
         }
+
 
         let top = target.parentElement;
         let email_holder = top.querySelector('.' + FORM.EMAIL);
         let email = email_holder.email ? email_holder.email : email_holder.value;
 
         if (!val.isEmail(email)) {
-            let alert = Locale.ERROR.VALID_EMAIL;
-            insertError(email_holder, alert.MESSAGE);
+            highlightEmailFormMagicLink(top);
             return;
         }
         cleanError(email_holder);
@@ -1424,7 +1457,7 @@ const VIEWFORM = function() {
         return module;
     };
 
-    const getDiscoveryNextModule = function(email_address, callback) {
+    const getDiscoveryNextModule = function(email_address, callback, advance) {
         let module = view.addView(MODULE_EMAIL_DISCOVERY);
         let email = getEmail(email_address, false, function(e) {
             const input = e.srcElement;
@@ -1432,6 +1465,9 @@ const VIEWFORM = function() {
             if (e.code != 'Tab' && e.code != 'Enter') {
                 cleanError(holder);
                 cleanError(input);
+                if (advance) {
+                    cleanBlur(holder);
+                }
             }
             if (e.code != 'Enter') {
                 return;
@@ -1558,9 +1594,13 @@ const VIEWFORM = function() {
 
     const magicLinkForm = function(email_address, authentication_token, magic_link_code) {
         formEntry(MAGIC_LINK_FORM);
+        let has_first_name = false;
         let verified = false;
         if (PROFILE_DATA && PROFILE_DATA.state == 'verified') {
             verified = true;
+        }
+        if (PROFILE_DATA && PROFILE_DATA.first_name) {
+            has_first_name = true;
         }
         let container = view.addView(MAGIC_LINK_ID);
         let form = view.addView(MAGIC_LINK_VIEW_ID);
@@ -1568,7 +1608,7 @@ const VIEWFORM = function() {
         container.appendChild(form);
 
         let title_message = Locale.MAGIC_LINK.CHECK_YOUR_EMAIL;
-        if (verified) {
+        if (has_first_name) {
             title_message = lang.replace({
                 FIRST_NAME: PROFILE_DATA.first_name
             }, Locale.MAGIC_LINK.CHECK_YOUR_EMAIL_2);
@@ -1773,11 +1813,24 @@ const VIEWFORM = function() {
         }
     };
 
+    const highlightEmailFormMagicLink = function(container) {
+        console.log(container);
+        let ml_module = findChild(container, MODULE_MAGIC_LINK);
+        if (ml_module) {
+            ml_module.classList.add('bb-blur');
+        }
+    };
+
     const highlightEmailForm = function(container, button_holder, on) {
-        // console.log(container);
+        console.log(container);
         // console.log(button_holder);
         let email_module = findChild(container, MODULE_EMAIL_DISCOVERY);
         let height = email_module.offsetHeight;
+        let magic_link_module = findChild(container, MODULE_MAGIC_LINK);
+        if (magic_link_module) {
+            height += magic_link_module.offsetHeight;
+        }
+
         if (on) {
             let onBlur = triggerOnBlur(container, height);
             if (!onBlur) {
@@ -1831,6 +1884,8 @@ const VIEWFORM = function() {
 
         container.appendChild(getDiscoveryNextModule(email_address, continueBasicEmailLookupModule));
         // insertPoweredByModule(container);
+
+        insertMagicLinkButton(container, true);
         return container;
     };
 
@@ -2002,7 +2057,7 @@ const VIEWFORM = function() {
     const incognitoEmailForm = function(email_address, pin) {
         let container = view.addView(INCOGNITO_HOLDER_ID);
         container.appendChild(
-            getDiscoveryNextModule(email_address, continueEmailLookupModule)
+            getDiscoveryNextModule(email_address, continueEmailLookupModule, true)
         );
 
         return container;
