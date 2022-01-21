@@ -1,13 +1,13 @@
 {
   "POPUP": {
-    "HEADER_1": "登錄以獲得最佳體驗",
-    "HEADER_2": "登錄以獲得最佳體驗",
-    "HEADER_BACK_1": "登錄以獲得最佳體驗",
-    "HEADER_BACK_2": "登錄以獲得最佳體驗",
-    "TEXT_1": "第一步",
-    "TEXT_2": "“繼續”您受信任的登錄方法。*<br/>我們會盡快讓您開始。",
-    "TEXT_3": "*您將被重定向以驗證您的帳戶；我們永遠不會看到您的身份驗證方法或密碼。",
-    "TEXT_3_2": "*您將被重定向以驗證您的帳戶；我們永遠不會看到您的身份驗證方法或密碼。一個簡單的是/否就是我們收到的全部信息。儘管某些身份提供商也會傳遞您的姓名。您可以隨時更改身份驗證方法。",
+    "HEADER_1": "登錄最佳體驗",
+    "HEADER_2": "登錄最佳體驗",
+    "HEADER_BACK_1": "登錄最佳體驗",
+    "HEADER_BACK_2": "登錄最佳體驗",
+    "TEXT_1": "初步",
+    "TEXT_2": "使用你最信任的登錄方式&#39;繼續&#39;。*<br/>你就可以開始了。",
+    "TEXT_3": "*你將被追查到你的身份；我們可以看到你的認證或密碼。",
+    "TEXT_3_2": "*你將被確定身份證明你的身份；我們可能會得到你的身份證明或密碼。 。你可以隨時更改認證方式。",
     "MORE": "更多&gt;&gt;"
   },
   "INCOGNITO": {
@@ -15,189 +15,199 @@
   },
   "REGISTER": {
     "TITLE": "歡迎",
-    "CONTENT": "您想如何註冊？",
-    "CONTENT_2": "使用您的電子郵件註冊",
-    "SSO": "或使用您的電子郵件地址和密碼創建一個帳戶",
-    "LOCAL": "使用您的電子郵件地址和密碼創建一個帳戶",
-    "OR_LOCAL": "或填寫下面的表格"
+    "CONTENT": "你想怎樣進行註冊？",
+    "CONTENT_2": "使用你的電子郵件進行註冊",
+    "SSO": "或者使用你的電子郵件地址和一個密碼創建一個賬戶",
+    "LOCAL": "使用你的電子郵件地址和一個密碼創建賬戶",
+    "OR_LOCAL": "或者新興國際的表格"
   },
   "CONFIRM_EMAIL": {
-    "TITLE": "郵件確認",
-    "CONTENT": "確認消息已發送到您的電子郵件地址。請從下面的電子郵件中輸入PIN碼"
+    "TITLE": "電子郵件確認",
+    "CONTENT": "一條確認信息已經發送到你的電子郵件地址。請在下方輸入那封電子郵件內的PIN碼"
   },
   "FORGOT_PASSWORD": {
     "TITLE": "忘記密碼",
-    "CONTENT": "輸入您向我們註冊的電子郵件"
+    "CONTENT": "輸入你註冊使用的電子郵件，我們將給你發送你的密碼的說明"
   },
   "EXPIRE_PASSWORD": {
     "TITLE": "更改密碼",
-    "CONTENT": "看來您的密碼需要重設。輸入您向我們註冊的電子郵件"
+    "CONTENT": "你的密碼偽裝需要發生。輸入你註冊使用的電子郵件，我們會給你發送自己的密碼的說明"
   },
   "NEW_CODE": {
-    "CONTENT_1": "沒有收到您的確認PIN嗎？",
-    "CONTENT_2": "請檢查您的垃圾郵件文件夾",
-    "CONTENT_OR": "要么",
-    "CONTENT_3": "為一個新的代碼",
+    "CONTENT_1": "沒有收到你的確認PIN碼？",
+    "CONTENT_2": "請查看垃圾郵件文件夾",
+    "CONTENT_OR": "或者",
+    "CONTENT_3": "請求一個新的驗證碼",
     "BUTTON": "點擊這裡"
   },
   "RESET_PASSWORD": {
     "TITLE": "你好",
-    "CONTENT": "在下面重置密碼"
+    "CONTENT": "請在下方重新設定你的密碼"
   },
   "LOGIN": {
     "TITLE": "你好",
-    "CONTENT": "請輸入您的電子郵件地址",
-    "CONTENT_2": "請輸入您的密碼"
+    "CONTENT": "請輸入你的電子郵件地址",
+    "CONTENT_2": "請輸入你的密碼"
   },
   "GREETING": "你好",
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "電子郵件地址",
     "PASSWD": "密碼",
-    "PASSWORD": "創建密碼",
+    "PASSWORD": "密碼",
     "CONFIRM_PASSWORD": "確認密碼",
-    "NEW_PASSWORD": "創建密碼",
+    "NEW_PASSWORD": "新密碼",
     "NEW_CONFIRM_PASSWORD": "確認密碼",
     "FIRST_NAME": "名字",
-    "LAST_NAME": "姓",
-    "PIN": "銷"
+    "LAST_NAME": "姓氏",
+    "PIN": "密碼"
   },
   "TILE": {
-    "CONTINUE_AS": "繼續作為",
+    "CONTINUE_AS": "一起身份繼續",
     "CONTINUE": "繼續",
     "SIGN_IN": "登入",
-    "WITH": "和",
+    "WITH": "通過",
     "W_": "帶",
-    "WITH_EMAIL": "使用電子郵件登錄"
+    "WITH_EMAIL": "通過電子郵箱登入"
   },
   "BUTTON": {
     "SIGN_IN_METHOD": "其他登錄方式",
-    "CONTINUE_WITH": "繼續",
-    "OR_CONTINUE": "或繼續",
-    "USE_DIFFERENT_IDP": "使用其他身份提供者",
-    "SELECT_IDP_SIGN_UP": "選擇一個身份提供者進行註冊",
-    "MORE": "更多的選擇",
-    "LESS": "更少的選擇",
-    "BACK": "背部",
-    "EMAIL_INSTRUCTION": "給我發電子郵件說明",
+    "CONTINUE_WITH": "使用……繼續",
+    "OR_CONTINUE": "或者使用……繼續",
+    "USE_DIFFERENT_IDP": "使用他人身份驗證提供方",
+    "SELECT_IDP_SIGN_UP": "選擇一個身份驗證提供方進行註冊",
+    "MORE": "更多選項",
+    "LESS": "開心選項",
+    "BACK": "後退",
+    "EMAIL_INSTRUCTION": "將說明發送給我的電子郵件",
     "CANCEL": "取消",
     "CONTINUE": "繼續",
-    "SET_PASSWORD": "重設密碼",
+    "SET_PASSWORD": "註冊密碼",
     "FORGOT_PASSWORD": "忘記密碼？",
-    "NEW_USER": "新的用戶？",
-    "SWITCH_LOGIN": "不是你？使用其他電子郵件地址登錄",
-    "SWITCH_REGISTER": "不是你？使用其他電子郵件地址註冊。",
-    "SWITCH_TRY": "不是你？嘗試使用其他電子郵件地址。",
-    "NEXT": "下一個",
+    "NEW_USER": "新用戶？",
+    "SWITCH_LOGIN": "不是你？使用一個不同的電子郵件地址登錄",
+    "SWITCH_REGISTER": "不是你？使用一個不同的電子郵件地址註冊。",
+    "SWITCH_TRY": "不是你？使用一個不同的電子郵件地址進行嘗試。",
+    "NEXT": "下一步",
     "REGISTER": "註冊",
-    "SIGN_IN": "登入",
-    "CONFIRM": "確認郵件",
-    "OR_CONTINUE_WITH_EMAIL": "或繼續輸入您的電子郵件地址",
-    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或使用您的電子郵件地址和密碼註冊",
-    "CONTINUE_WITH_EMAIL": "或在下面輸入您的電子郵件地址",
+    "SIGN_IN": "登錄",
+    "CONFIRM": "確認電子郵件",
+    "OR_CONTINUE_WITH_EMAIL": "或者使用你的電子郵件地址繼續",
+    "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或者使用你的電子郵件地址和密碼進行註冊",
+    "CONTINUE_WITH_EMAIL": "或者在世界輸入你的電子郵件地址",
     "MORE_INFO": "更多信息",
-    "START_WITH_EMAIL_ADDRESS": "從下面的電子郵件地址開始"
+    "START_WITH_EMAIL_ADDRESS": "在世界使用你的電子郵件地址開始"
   },
   "HOVER": {
-    "EMAIL_MATCH": "請確保登錄時使用的電子郵件地址已被邀請註冊。",
-    "NEW_USER": "要訪問該網站，您必須首先被邀請加入。<br/><br/>如果您收到了加入邀請，請單擊該電子郵件中的鏈接以完成註冊。<br/><br/>如果您丟失了該電子郵件，請與最初邀請您的人聯繫。",
-    "MORE_INFO": "我們尊重您的隱私。系統將指導您向您信任的提供者進行身份驗證。"
+    "EMAIL_MATCH": "請確保你登錄時使用的電子郵件地址是收到註冊邀請的。",
+    "NEW_USER": "如果要訪問這個網站，你必須首先受到邀請。<br/><br/>如果你已經收到了邀請，請點擊邀請郵件中的鏈接以完成註冊。<br/><br/>如果你已經丟失了那封郵件中的信息，請聯繫最初邀請你的人。",
+    "MORE_INFO": "我們會遵守你的隱私。你會被定向使用你的信仰的。"
   },
   "PASSWORD_HINT": {
-    "HAS_VALIDATION": "您的密碼必須：",
-    "MINIMUM_ONE": "至少包含一個字符",
-    "MINIMUM_MORE": "至少包含%COUNT%個字符",
-    "LOWER_ONE": "包含至少一個小寫字母（az）",
-    "LOWER_MORE": "至少包含%COUNT%小寫字母（az）",
-    "UPPER_ONE": "包含至少一個大寫字母（AZ）",
-    "UPPER_MORE": "包含至少%COUNT%大寫字母（AZ）",
+    "HAS_VALIDATION": "你的密碼必須：",
+    "MINIMUM_ONE": "包含至少一個字符",
+    "MINIMUM_MORE": "包含至少 %COUNT% 個字符",
+    "LOWER_ONE": "包含至少一個小寫字母 (az)",
+    "LOWER_MORE": "包含至少 %COUNT% 個小寫信 (az)",
+    "UPPER_ONE": "包含至少一個大寫字母 (AZ)",
+    "UPPER_MORE": "包含至少 %COUNT% 個大寫信 (AZ)",
     "SYMBOL_ONE": "包含至少一個符號",
-    "SYMBOL_MORE": "至少包含%COUNT%個符號",
-    "NUMBER_ONE": "至少包含一個數字（0-9）",
-    "NUMBER_MORE": "至少包含%COUNT%個數字（0-9）",
-    "NO_EMAIL": "不包含您的姓名或電子郵件地址",
-    "MATCH": "在兩個字段中以相同的方式輸入",
-    "NO_OLD_PASSWORD": "您的新密碼必須與以前的密碼不同"
+    "SYMBOL_MORE": "包含至少%COUNT%個符號",
+    "NUMBER_ONE": "包含至少一個數字(0-9)",
+    "NUMBER_MORE": "包含至少 %COUNT% 個數字 (0-9)",
+    "NO_EMAIL": "不包含你的名字的或者電子郵件地址",
+    "MATCH": "在兩個字段中輸入相同的內容",
+    "NO_OLD_PASSWORD": "你的新密碼必須與之前的密碼不同"
   },
   "ERROR": {
     "INLINE": {
       "TITLE": "抱歉",
-      "CONFIRM": "好"
+      "CONFIRM": "確認"
     },
     "EMPTY_TOKEN": {
-      "MESSAGE": "您需要輸入PIN碼"
+      "MESSAGE": "你需要輸入一個密碼"
     },
     "EMPTY_FIRST_NAME": {
-      "MESSAGE": "請確保您的名字"
+      "MESSAGE": "請確保你輸入了姓名"
     },
     "EMPTY_LAST_NAME": {
-      "MESSAGE": "請確保您的姓氏"
+      "MESSAGE": "請確保你輸入了姓氏"
     },
     "VALID_EMAIL": {
-      "TITLE": "電郵格式",
-      "MESSAGE": "請確保您使用的是有效的電子郵件地址",
-      "CONFIRM": "好"
+      "TITLE": "電子郵件格式",
+      "MESSAGE": "請確保你使用的是一個有效的電子郵件地址",
+      "CONFIRM": "確認"
     },
     "PASSWORD_EMPTY": {
       "TITLE": "密碼太短",
-      "MESSAGE": "請輸入密碼",
-      "CONFIRM": "好"
+      "MESSAGE": "請輸入一個密碼",
+      "CONFIRM": "確認"
     },
     "PASSWORD_LENGTH": {
       "TITLE": "密碼太短",
-      "MESSAGE": "請輸入超過%COUNT%個字符的密碼",
-      "CONFIRM": "好"
+      "MESSAGE": "請輸入一個超過%COUNT%個字符的密碼",
+      "CONFIRM": "確認"
     },
     "PASSWORD_NOT_MATCH": {
-      "TITLE": "密碼不匹配",
-      "MESSAGE": "您的密碼不匹配",
-      "CONFIRM": "好"
+      "TITLE": "密碼不符合",
+      "MESSAGE": "你的密碼不符合",
+      "CONFIRM": "確認"
     },
     "ACCOUNT_NOT_FOUND": {
-      "TITLE": "找不到帳戶",
-      "MESSAGE": "我們找不到您的帳戶。如果您被邀請，請單擊您收到的電子郵件中的鏈接以完成註冊",
-      "CONFIRM": "我去找我的邀請"
+      "TITLE": "表面未找到",
+      "MESSAGE": "我們無法找到你的賬戶。如果你已經收到了邀請，請點擊收到的邀請郵件中的鏈接以完成註冊",
+      "CONFIRM": "我會尋找我的邀請"
     },
     "NON_LOCAL_LOGIN": {
       "TITLE": "",
-      "MESSAGE": "您之前已使用%PROVIDER%登錄。請確認您要設置帳戶密碼。",
+      "MESSAGE": "你之前已經使用 %PROVIDER% 登錄過。請確認你想要設置一個賬戶密碼。",
       "CONFIRM": "設置密碼",
       "CONFIRM_2": "取消"
     },
     "NO_PROVIDERS": {
-      "TITLE": "出了點問題",
-      "MESSAGE": "沒有提供者的結果。",
-      "CONFIRM": "再試一次"
+      "TITLE": "住宿點問題",
+      "MESSAGE": "沒有來自提供方的結果。",
+      "CONFIRM": "再次嘗試"
     },
     "API_ERROR": {
-      "TITLE": "出了點問題",
-      "CONFIRM": "再試一次"
+      "TITLE": "住宿點問題",
+      "CONFIRM": "再次嘗試"
     },
     "NO_PROVIDER": {
-      "TITLE": "沒有啟用提供商",
-      "MESSAGE": "該網站尚未啟用任何身份提供商或本地身份驗證。請聯繫網站管理員以獲取更多信息。",
-      "CONFIRM": "好"
+      "TITLE": "沒有允許提供方",
+      "MESSAGE": "此網站沒有任何身份驗證提供方或本地認證。請聯繫網站管理員了解更多信息。",
+      "CONFIRM": "確認"
     }
   },
   "RES_MAPPING": {
-    "invalid_pin": "請檢查您的PIN碼是否正確",
-    "invalid_email_or_password": "請確保您使用的是最新密碼"
+    "invalid_pin": "請檢查您是否擁有正確的 PIN 碼",
+    "invalid_email_or_password": "請確保你使用的是最新的密碼"
   },
   "PRIVACY_POLICY": {
-    "CONTENT": "瀏覽我們的網站，即表示您同意我們使用cookie。",
-    "BUTTON_1": "好的",
+    "CONTENT": "如果瀏覽我們的網站，則代表你同意我們使用 cookie。",
+    "BUTTON_1": "確認",
     "BUTTON_2": "閱讀我們的政策"
   },
   "TOC_PRIVACY": {
-    "CONTENT_ALL": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>",
-    "CONTENT_TOC": "註冊、登錄或繼續，即表示我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>",
-    "CONTENT_PRIVACY": "通過註冊、登錄或繼續，我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>"
+    "CONTENT_ALL": "通過註冊、登入或繼續，即代表我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服務條款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>",
+    "CONTENT_TOC": "通過註冊、登入或繼續，即代表我同意%APP_NAME%的<a href='%TOC_LINK%' target='_blank'>服務條款</a>",
+    "CONTENT_PRIVACY": "通過註冊、登入或繼續，即代表我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隱私政策</a>"
   },
   "UI": {
-    "LOGOUT": "Logout",
-    "LOGIN": "Login",
-    "SIGNUP_IN": "Sign up / in",
-    "HELLO": "Hello, %FIRST_NAME%",
-    "SIGN_IN_TITLE": "You are currently signed in as",
-    "SIGN_OUT": "SIGN OUT"
+    "LOGOUT": "退出",
+    "LOGIN": "登錄",
+    "SIGNUP_IN": "註冊/登入",
+    "HELLO": "你好，%FIRST_NAME%",
+    "SIGN_IN_TITLE": "您當前登入的身份為",
+    "SIGN_OUT": "登出"
+  },
+  "MAGIC_LINK": {
+    "SEND_BUTTON_TEXT": "發送神奇鏈接",
+    "LEAVE_MAGIC_LINK": "選擇 IDP 或使用您的電子郵箱和密碼登入",
+    "CHECK_YOUR_EMAIL": "查看您的電子郵件",
+    "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%，請查看您的電子郵件",
+    "CONFIRMING": "確認驗證",
+    "LOGGING_IN": "正在為您登錄",
+    "CONFIRM_MESSAGE": "我們已向上述電子郵箱地址發送確認帳戶的鏈接，請點擊該鏈接完成登入。",
+    "FOCUS_MASK_TEXT": "通過您的本地電子郵箱地址開始"
   }
 }

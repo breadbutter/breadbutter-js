@@ -100,11 +100,9 @@ const loadApp = function (options) {
 };
 
 const loadLanguage = function (options) {
-    if (options.language) {
-        let locale = lang.getLocale(options.language, options.locale);
-        if (locale) {
-            Locale = locale;
-        }
+    let locale = lang.getLocale(options.language, options.locale);
+    if (locale) {
+        Locale = locale;
     }
 };
 
@@ -623,6 +621,7 @@ const getTitleText = function() {
 };
 
 const getTitle = function () {
+    console.log(APP_NAME);
     let text = getTitleText();
     let b = view.addBlock('div', FORM.TITLE);
     b.innerHTML = text;

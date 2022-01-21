@@ -70,9 +70,9 @@ const handleResponse = (e, callback) => {
 };
 
 export function request(url, params, method, callback) {
-    if (params) {
-        params['ErrorDetails'] = 'true';
-    }
+    // if (params) {
+    //     params['ErrorDetails'] = 'true';
+    // }
     return new Promise((resolve, reject) => {
 
         method = method ? method : 'POST';

@@ -2,8 +2,9 @@
   "POPUP": {
     "HEADER_1": "Sign in for your best experience",
     "HEADER_2": "Sign in for your best experience",
+
     "HEADER_BACK_1": "Sign in for your best experience",
-    "HEADER_BACK_2": "Sign in for your best experience",
+    "HEADER_BACK_2": "Welcome back to %APP_NAME%",
     "TEXT_1": "First step",
     "TEXT_2": "`Continue with’ your trusted login method.*<br/>We'll have you started in no time.",
     "TEXT_3": "*You will be redirected to authenticate your account; we never see your authentication method or password. ",
@@ -38,7 +39,8 @@
     "CONTENT_2": "Please check your spam folder",
     "CONTENT_OR": "or ",
     "CONTENT_3": " for a new code",
-    "BUTTON": "click here"
+    "BUTTON": "click here",
+    "CONTENT": "Didn't receive your confirmation PIN?<br/>Please check your spam folder<br/> or %BUTTON% for a new code"
   },
   "RESET_PASSWORD": {
     "TITLE": "Hello",
@@ -49,7 +51,7 @@
     "CONTENT": "Please enter your email address",
     "CONTENT_2": "Please enter your password"
   },
-  "GREETING": "Hello",
+  "GREETING": "Hello %NAME%",
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "Email address",
     "PASSWD": "Password",
@@ -62,12 +64,33 @@
     "PIN": "PIN"
   },
   "TILE": {
-    "CONTINUE_AS": "Continue as",
-    "CONTINUE": "Continue",
-    "SIGN_IN": "Sign in",
+    "CONTINUE_AS": "Continue as %NAME%",
+    "CONTINUE": "Continue %WITH% %BRAND%",
+    "SIGN_IN": "Sign in %WITH% %BRAND%",
     "WITH": "with",
     "W_": "w/",
-    "WITH_EMAIL": "Sign in with email"
+    "WITH_EMAIL": "Sign in with email",
+    "BRAND": {
+      "GOOGLE": "Google",
+      "FACEBOOK": "Facebook",
+      "MICROSOFT": "Microsoft",
+      "LINKEDIN": "LinkedIn",
+      "TWITTER": "Twitter",
+      "QUICKBOOKS": "QuickBooks",
+      "GITHUB": "GitHub",
+      "SLACK": "Slack",
+      "BASECAMP": "Basecamp",
+      "DROPBOX": "Dropbox",
+      "SHOPIFY": "Shopify",
+      "EVERNOTE": "Evernote",
+      "PLANNINGCENTER": "planning center",
+      "FITBIT": "fitbit",
+      "APPLE": "Apple",
+      "TWITCH": "twitch",
+      "SALESFORCE": "Salesforce",
+      "OKTA": "Okta",
+      "ONELOGIN": "OneLogin"
+    }
   },
   "BUTTON": {
     "SIGN_IN_METHOD": "Other sign in methods",
@@ -120,6 +143,7 @@
   },
   "ERROR": {
     "INLINE": {
+      "TITLE_": "Sorry %NAME%",
       "TITLE": "Sorry",
       "CONFIRM": "ok"
     },

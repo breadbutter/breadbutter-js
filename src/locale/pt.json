@@ -38,6 +38,7 @@
     "CONTENT_2": "Verifique a pasta do spam",
     "CONTENT_OR": "ou ",
     "CONTENT_3": " para um código novo",
+	"CONTENT": "Não recebeu o seu PIN de confirmação?<br/>Verifique a sua pasta de spam<br/> ou clique em %BUTTON% para obter um novo código",
     "BUTTON": "clique aqui"
   },
   "RESET_PASSWORD": {
@@ -49,7 +50,7 @@
     "CONTENT": "Introduza o seu endereço de e-mail",
     "CONTENT_2": "Introduza a sua palavra-passe"
   },
-  "GREETING": "Olá",
+  "GREETING": "Olá, %NAME%",
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "Endereço de e-mail",
     "PASSWD": "Palavra-passe",
@@ -62,12 +63,33 @@
     "PIN": "PIN"
   },
     "TILE": {
-        "CONTINUE_AS": "Continuar como",
-        "CONTINUE": "Continuar",
-        "SIGN_IN": "Iniciar sessão",
+        "CONTINUE_AS": "Continuar como %NAME%",
+        "CONTINUE": "Continuar %WITH% o(a) %BRAND%",
+        "SIGN_IN": "Iniciar sessão %WITH% o(a) %BRAND%",
         "WITH": "com",
         "W_": "c/",
-        "WITH_EMAIL": "Iniciar sessão com endereço de correio eletrónico"
+        "WITH_EMAIL": "Iniciar sessão com endereço de correio eletrónico",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "planning center",
+            "FITBIT": "fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
     },
   "BUTTON": {
     "SIGN_IN_METHOD": "Outros métodos de início de sessão",
@@ -121,6 +143,7 @@
   "ERROR": {
     "INLINE": {
       "TITLE": "Lamentamos",
+	  "TITLE_": "Pedimos desculpa, %NAME%",
       "CONFIRM": "ok"
     },
     "EMPTY_TOKEN": {

@@ -1,0 +1,236 @@
+{
+    "POPUP": {
+        "HEADER_1": "サインインして最上のエクスペリエンスを体感しましょう",
+        "HEADER_2": "サインインして最上のエクスペリエンスを体感しましょう",
+        "HEADER_BACK_1": "サインインして最上のエクスペリエンスを体感しましょう",
+        "HEADER_BACK_2": "サインインして最上のエクスペリエンスを体感しましょう",
+        "TEXT_1": "最初のステップ",
+        "TEXT_2": "信頼するログイン方法で続けてください。*\n<br/>すぐに開始されます。",
+        "TEXT_3": "*アカウントを認証するためにリダイレクトされます。こちらで認証方法やパスワードを見ることはありません。",
+        "TEXT_3_2": "*アカウントを認証するためにリダイレクトされます。こちらで認証方法やパスワードを見ることはありません。こちらが受け取るのは、はい/いいえの選択のみですが、IDプロバイダからお名前の提供を受けることもあります。認証方法はいつでも変更可能です。",
+        "MORE": "続き>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "ようこそ"
+    },
+    "REGISTER": {
+        "TITLE": "ようこそ",
+        "CONTENT": "サインアップ方法はどうなさいますか？",
+        "CONTENT_2": "お使いのメールアドレスでサインアップしてください",
+        "SSO": "または、お使いのメールアドレスとパスワードでアカウントを作成してください",
+        "LOCAL": "お使いのメールアドレスとパスワードでアカウントを作成してください",
+        "OR_LOCAL": "または、以下のフォームに入力してください"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "メールによる確認",
+        "CONTENT": "確認のメッセージをお使いのメールアドレス宛に送信しました。そのメールに記載のPINを下の欄に入力してください"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "パスワードを忘れた",
+        "CONTENT": "登録済みのメールアドレスを入力してください。パスワードのリセット方法についてのご案内をお送りします。"
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "パスワードを変更",
+        "CONTENT": "お使いのパスワードはリセットが必要なようです。登録済みのメールアドレスを入力してください。パスワードのリセット方法についてのご案内をお送りします。"
+    },
+    "NEW_CODE": {
+        "CONTENT_1": "確認用PINは届いていませんか？",
+        "CONTENT_2": "迷惑メールフォルダーをご確認ください",
+        "CONTENT_OR": "または",
+        "CONTENT_3": "新しいコードを受け取るには",
+		"CONTENT": "確認用のPINが届きませんでしたか？<br/>迷惑メールフォルダを確認するか<br/>、%BUTTON%で新しいコードを取得してください。",
+        "BUTTON": "こちらをクリックしてください"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "こんにちは",
+        "CONTENT": "下記のパスワードをリセット"
+    },
+    "LOGIN": {
+        "TITLE": "こんにちは",
+        "CONTENT": "メールアドレスを入力してください",
+        "CONTENT_2": "パスワードを入力してください"
+    },
+    "GREETING": "こんにちは、%NAME%",
+    "PLACEHOLDER": {
+        "EMAIL_ADDRESS": "メールアドレス",
+        "PASSWD": "パスワード",
+        "PASSWORD": "パスワードを作成",
+        "CONFIRM_PASSWORD": "パスワードを確認",
+        "NEW_PASSWORD": "パスワードを作成",
+        "NEW_CONFIRM_PASSWORD": "パスワードを確認",
+        "FIRST_NAME": "名",
+        "LAST_NAME": "姓",
+        "PIN": "PIN"
+    },
+    "TILE": {
+        "CONTINUE_AS": "%NAME%として続ける",
+        "CONTINUE": "%WITH% %BRAND% で続ける",
+        "SIGN_IN": "%WITH% %BRAND% でサインイン",
+        "WITH": "方法",
+        "W_": "で",
+        "WITH_EMAIL": "メールアドレスでサインイン",
+		"BRAND": {
+            "GOOGLE": "グーグル",
+            "FACEBOOK": "フェイスブック",
+            "MICROSOFT": "マイクロソフト",
+            "LINKEDIN": "リンクトイン",
+            "TWITTER": "ツイッター",
+            "QUICKBOOKS": "クイックブックス",
+            "GITHUB": "ギットハブ",
+            "SLACK": "スラック",
+            "BASECAMP": "ベースキャンプ",
+            "DROPBOX": "ドロップボックス",
+            "SHOPIFY": "ショッピファイ",
+            "EVERNOTE": "エバーノート",
+            "PLANNINGCENTER": "プランニングセンター",
+            "FITBIT": "フィットビット",
+            "APPLE": "アップル",
+            "TWITCH": "ツイッチ",
+            "SALESFORCE": "セールスフォース",
+            "OKTA": "オクタ",
+            "ONELOGIN": "ワンログイン"
+        }
+    },
+    "BUTTON": {
+        "SIGN_IN_METHOD": "他のサインイン方法",
+        "CONTINUE_WITH": "次の方法で続ける",
+        "OR_CONTINUE": "または、次の方法で続ける",
+        "USE_DIFFERENT_IDP": "別のIDプロバイダを使用",
+        "SELECT_IDP_SIGN_UP": "サインアップに使用するIDプロバイダを選択",
+        "MORE": "オプションの表示を増やす",
+        "LESS": "オプションの表示を減らす",
+        "BACK": "戻る",
+        "EMAIL_INSTRUCTION": "案内をメールで受け取る",
+        "CANCEL": "キャンセル",
+        "CONTINUE": "続ける",
+        "SET_PASSWORD": "パスワードをリセット",
+        "FORGOT_PASSWORD": "パスワードをお忘れですか？",
+        "NEW_USER": "新規ユーザーですか？",
+        "SWITCH_LOGIN": "ご本人でない場合は、別のメールアドレスでサインインしてください",
+        "SWITCH_REGISTER": "ご本人でない場合は、別のメールアドレスでサインインしてください。",
+        "SWITCH_TRY": "ご本人でない場合は、別のメールアドレスで試してください。",
+        "NEXT": "次へ",
+        "REGISTER": "サインアップ",
+        "SIGN_IN": "サインイン",
+        "CONFIRM": "メールアドレスを確認",
+        "OR_CONTINUE_WITH_EMAIL": "または、お使いのメールアドレスで続けてください",
+        "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "または、お使いのメールアドレスとパスワードでサインアップしてください",
+        "CONTINUE_WITH_EMAIL": "または、お使いのメールアドレスを下の欄に入力してください",
+        "MORE_INFO": "詳細情報",
+        "START_WITH_EMAIL_ADDRESS": "以下のメールアドレスで開始してください"
+    },
+    "HOVER": {
+        "EMAIL_MATCH": "サインイン時にお使いになるメールアドレスは、登録の招待を受けたものであることをご確認ください。",
+        "NEW_USER": "このウェブサイトにアクセスするには、まず参加の招待を受けている必要があります。<br/><br/>参加の招待を受け取っている場合は、そのメールに記載のリンクをクリックして登録を完了させてください。<br/><br/>そのメールのメッセージが見当たらない場合は、最初に招待をもらった方にご連絡ください。",
+        "MORE_INFO": "当社はお客様のプライバシーを尊重しています。信頼されているプロバイダで認証を行うようご案内があります。"
+    },
+    "PASSWORD_HINT": {
+        "HAS_VALIDATION": "パスワードは：",
+        "MINIMUM_ONE": "1文字以上にする必要があります",
+        "MINIMUM_MORE": "%COUNT%文字以上にする必要があります",
+        "LOWER_ONE": "小文字（a～z）を1個以上含める必要があります",
+        "LOWER_MORE": "小文字（a～z）を%COUNT%個以上含める必要があります",
+        "UPPER_ONE": "大文字（A～Z）を1個以上含める必要があります",
+        "UPPER_MORE": "大文字（A～Z）を%COUNT%個以上含める必要があります",
+        "SYMBOL_ONE": "記号を1個以上含める必要があります",
+        "SYMBOL_MORE": "記号を%COUNT%個以上含める必要があります",
+        "NUMBER_ONE": "数字（0～9）を1個以上含める必要があります",
+        "NUMBER_MORE": "数字（0～9）を%COUNT%個以上含める必要があります",
+        "NO_EMAIL": "お名前やお使いのメールアドレスを含めてはいけません",
+        "MATCH": "両方の欄に同じように入力する必要があります",
+        "NO_OLD_PASSWORD": "新しいパスワードは以前のパスワードとは違うものにする必要があります"
+    },
+    "ERROR": {
+        "INLINE": {
+            "TITLE": "申し訳ありません",
+			"TITLE_": "申し訳ありません、%NAME%",
+            "CONFIRM": "OK"
+        },
+        "EMPTY_TOKEN": {
+            "MESSAGE": "PINを入力する必要があります"
+        },
+        "EMPTY_FIRST_NAME": {
+            "MESSAGE": "下のお名前を必ず入力してください"
+        },
+        "EMPTY_LAST_NAME": {
+            "MESSAGE": "姓を必ず入力してください"
+        },
+        "VALID_EMAIL": {
+            "TITLE": "メールアドレスの形式",
+            "MESSAGE": "有効なメールアドレスを使用するようにしてください",
+            "CONFIRM": "OK"
+        },
+        "PASSWORD_EMPTY": {
+            "TITLE": "パスワードが短すぎます",
+            "MESSAGE": "パスワードを入力してください",
+            "CONFIRM": "OK"
+        },
+        "PASSWORD_LENGTH": {
+            "TITLE": "パスワードが短すぎます",
+            "MESSAGE": "%COUNT%文字以上のパスワードを入力してください",
+            "CONFIRM": "OK"
+        },
+        "PASSWORD_NOT_MATCH": {
+            "TITLE": "パスワードが一致しません",
+            "MESSAGE": "パスワードが一致しません",
+            "CONFIRM": "OK"
+        },
+        "ACCOUNT_NOT_FOUND": {
+            "TITLE": "アカウントが見つかりません",
+            "MESSAGE": "アカウントが見つかりませんでした。招待を受けている場合は、受け取ったメールに記載されているリンクをクリックして登録を完了してください",
+            "CONFIRM": "招待を探してみる"
+        },
+        "NON_LOCAL_LOGIN": {
+            "TITLE": "",
+            "MESSAGE": "以前に%PROVIDER%を使用してサインインをされたことがあります。それを使用せずにアカウントのパスワードを設定することをご希望であるのかご確認ください。",
+            "CONFIRM": "パスワードを設定",
+            "CONFIRM_2": "キャンセル"
+        },
+        "NO_PROVIDERS": {
+            "TITLE": "問題が発生しました",
+            "MESSAGE": "プロバイダからの結果がありません。",
+            "CONFIRM": "再試行"
+        },
+        "API_ERROR": {
+            "TITLE": "問題が発生しました",
+            "CONFIRM": "再試行"
+        },
+        "NO_PROVIDER": {
+            "TITLE": "有効なプロバイダがありません",
+            "MESSAGE": "このウェブサイトは、IDプロバイダやローカル認証を有効にしていません。詳細については、ウェブサイトの管理者にお問い合わせください。",
+            "CONFIRM": "OK"
+        }
+    },
+    "RES_MAPPING": {
+        "invalid_pin": "PINが正しいものかご確認ください",
+        "invalid_email_or_password": "最新のパスワードを使用するようにしてください"
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "当ウェブサイトを閲覧することにより、クッキーの利用に同意するものとします。",
+        "BUTTON_1": "OK",
+        "BUTTON_2": "規約をお読みください"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%TOC_LINK%' target='_blank'>利用規約</a>と<a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します",
+        "CONTENT_TOC": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%TOC_LINK%' target='_blank'>利用規約</a>に同意します",
+        "CONTENT_PRIVACY": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します"
+    },
+    "UI": {
+        "LOGOUT": "ログアウト",
+        "LOGIN": "ログイン",
+        "SIGNUP_IN": "サインアップ/サインイン",
+        "HELLO": "こんにちは、%FIRST_NAME%さん",
+        "SIGN_IN_TITLE": "現在、次のアカウントでサインインしています",
+        "SIGN_OUT": "サインアウト"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "マジックリンクを送信",
+        "LEAVE_MAGIC_LINK": "IDプロバイダを選択、またはメールアドレスとパスワードを使用してサインインしてください",
+        "CHECK_YOUR_EMAIL": "メールアドレスをご確認ください",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%さん、メールアドレスをご確認ください",
+        "CONFIRMING": "認証を確認しています",
+        "LOGGING_IN": "ログインしています",
+        "CONFIRM_MESSAGE": "上記のメールアドレス宛にアカウント確認用のリンクをお送りしました。リンクをクリックしてサインインを完了してください。",
+        "FOCUS_MASK_TEXT": "上記のメールアドレスで開始してください"
+    }
+}

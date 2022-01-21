@@ -1,0 +1,236 @@
+{
+    "POPUP": {
+        "HEADER_1": "Esegui l'accesso per un'esperienza migliore",
+        "HEADER_2": "Esegui l'accesso per un'esperienza migliore",
+        "HEADER_BACK_1": "Esegui l'accesso per un'esperienza migliore",
+        "HEADER_BACK_2": "Esegui l'accesso per un'esperienza migliore",
+        "TEXT_1": "Primo passaggio",
+        "TEXT_2": "`Continua con’ il tuo metodo di accesso preferito.*<br/>Ci vorrà pochissimo tempo.",
+        "TEXT_3": "*Verrai reindirizzato per autenticare il tuo account; da parte nostra, non verremo mai a conoscenza del tuo metodo di autenticazione o la tua password.",
+        "TEXT_3_2": "*Verrai reindirizzato per autenticare il tuo account; da parte nostra, non verremo mai a conoscenza del tuo metodo di autenticazione o la tua password. Non riceveremo altro che un semplice sì o no, per quanto alcuni provider di identità trasmetteranno anche il tuo nome. Puoi cambiare il tuo metodo di autenticazione in qualsiasi momento.",
+        "MORE": "altro>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "Benvenuto"
+    },
+    "REGISTER": {
+        "TITLE": "Benvenuto",
+        "CONTENT": "In che modo desideri iscriverti?",
+        "CONTENT_2": "Iscriviti con il tuo indirizzo email",
+        "SSO": "Altrimenti, crea un account con la tua email e una password",
+        "LOCAL": "Crea un account con la tua email e una password",
+        "OR_LOCAL": "Oppure compila il seguente modulo"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "Conferma email",
+        "CONTENT": "È stato inviato un messaggio di conferma al tuo indirizzo email. Inserisci qui di seguito il PIN contenuto nel messaggio"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "Password dimenticata",
+        "CONTENT": "Inserisci l'indirizzo email con il quale hai effettuato la registrazione al nostro servizio; ti invieremo istruzioni su come reimpostare la password"
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "Cambia password",
+        "CONTENT": "Sembra che sia necessario reimpostare la tua password. Inserisci l'indirizzo email con il quale hai effettuato la registrazione al nostro servizio; ti invieremo istruzioni su come reimpostare la password"
+    },
+    "NEW_CODE": {
+        "CONTENT_1": "Non hai ricevuto il tuo PIN di conferma?",
+        "CONTENT_2": "Controlla nella cartella spam o posta indesiderata",
+        "CONTENT_OR": "oppure",
+        "CONTENT_3": "per un nuovo codice",
+        "BUTTON": "fai clic qui",
+		"CONTENT": "Non hai ricevuto il tuo PIN di conferma?<br/>Controlla la cartella spam<br/> o %BUTTON% per un nuovo codice"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "Salve",
+        "CONTENT": "Reimposta la tua password qui di seguito"
+    },
+    "LOGIN": {
+        "TITLE": "Salve",
+        "CONTENT": "Inserisci il tuo indirizzo email",
+        "CONTENT_2": "Inserisci la tua password"
+    },
+    "GREETING": "Ciao, %NAME%",
+    "PLACEHOLDER": {
+        "EMAIL_ADDRESS": "Indirizzo email",
+        "PASSWD": "Password",
+        "PASSWORD": "Crea password",
+        "CONFIRM_PASSWORD": "Conferma password",
+        "NEW_PASSWORD": "Crea password",
+        "NEW_CONFIRM_PASSWORD": "Conferma password",
+        "FIRST_NAME": "Nome",
+        "LAST_NAME": "Cognome",
+        "PIN": "PIN"
+    },
+    "TILE": {
+        "CONTINUE_AS": "Continua come %NAME%",
+        "CONTINUE": "Continua %WITH% %BRAND%",
+        "SIGN_IN": "Accedi %WITH% %BRAND%",
+        "WITH": "con",
+        "W_": "con",
+        "WITH_EMAIL": "Accedi con l'email",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "planning center",
+            "FITBIT": "fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
+    },
+    "BUTTON": {
+        "SIGN_IN_METHOD": "Altri metodi di accesso",
+        "CONTINUE_WITH": "Continua con",
+        "OR_CONTINUE": "Oppure continua con",
+        "USE_DIFFERENT_IDP": "Utilizza un altro provider di identità",
+        "SELECT_IDP_SIGN_UP": "Seleziona un provider di identità con cui iscriverti",
+        "MORE": "Più opzioni",
+        "LESS": "Meno opzioni",
+        "BACK": "Indietro",
+        "EMAIL_INSTRUCTION": "Inviami le istruzioni tramite email",
+        "CANCEL": "Annulla",
+        "CONTINUE": "Continua",
+        "SET_PASSWORD": "Reimposta la password",
+        "FORGOT_PASSWORD": "Password dimenticata?",
+        "NEW_USER": "Nuovo utente?",
+        "SWITCH_LOGIN": "Non sei tu? Accedi con un altro indirizzo email",
+        "SWITCH_REGISTER": "Non sei tu? Iscriviti con un altro indirizzo email",
+        "SWITCH_TRY": "Non sei tu? Prova con un altro indirizzo email.",
+        "NEXT": "Avanti",
+        "REGISTER": "Iscriviti",
+        "SIGN_IN": "Accedi",
+        "CONFIRM": "Conferma email",
+        "OR_CONTINUE_WITH_EMAIL": "oppure continua con il tuo indirizzo email",
+        "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Oppure iscriviti con il tuo indirizzo email e una password",
+        "CONTINUE_WITH_EMAIL": "oppure inserisci il tuo indirizzo email qui di seguito",
+        "MORE_INFO": "altre informazioni",
+        "START_WITH_EMAIL_ADDRESS": "Inizia con il tuo indirizzo email qui in fondo"
+    },
+    "HOVER": {
+        "EMAIL_MATCH": "Assicurati che l'indirizzo email utilizzato per l'iscrizione abbia ricevuto l'invito alla registrazione.",
+        "NEW_USER": "Per accedere a questo sito Web devi essere stato invitato all'iscrizione.<br/><br/>Se hai ricevuto un invito a iscriverti, fai clic sul link contenuto in tale messaggio email per completare la registrazione. <br/><br/>Se hai perso l'email di invito, contatta la persona che ti aveva inizialmente invitato.",
+        "MORE_INFO": "Rispettiamo la tua privacy. Verrai reindirizzato per autenticarti con il provider di tua fiducia."
+    },
+    "PASSWORD_HINT": {
+        "HAS_VALIDATION": "La tua password deve:",
+        "MINIMUM_ONE": "contenere almeno un carattere",
+        "MINIMUM_MORE": "contenere almeno %COUNT% caratteri",
+        "LOWER_ONE": "contenere almeno una lettera in minuscolo (a-z)",
+        "LOWER_MORE": "contenere almeno %COUNT% lettere in minuscolo (a-z)",
+        "UPPER_ONE": "contenere almeno una lettera in maiuscolo (a-z)",
+        "UPPER_MORE": "contenere almeno %COUNT% lettere in maiuscolo (a-z)",
+        "SYMBOL_ONE": "contenere almeno un simbolo",
+        "SYMBOL_MORE": "contenere almeno %COUNT% simboli",
+        "NUMBER_ONE": "contenere almeno una cifra (0-9)",
+        "NUMBER_MORE": "contenere almeno %COUNT% cifre (0-9)",
+        "NO_EMAIL": "non includere il tuo nome o indirizzo email",
+        "MATCH": "essere inserita in maniera identica in entrambi i campi",
+        "NO_OLD_PASSWORD": "La tua nuova password deve essere diversa da quella precedente"
+    },
+    "ERROR": {
+        "INLINE": {
+            "TITLE": "Spiacenti",
+			"TITLE_": "Siamo spiacenti, %NAME%",
+            "CONFIRM": "ok"
+        },
+        "EMPTY_TOKEN": {
+            "MESSAGE": "È necessario inserire il PIN"
+        },
+        "EMPTY_FIRST_NAME": {
+            "MESSAGE": "Verifica di avere inserito il nome"
+        },
+        "EMPTY_LAST_NAME": {
+            "MESSAGE": "Verifica di avere inserito il cognome"
+        },
+        "VALID_EMAIL": {
+            "TITLE": "Formato email",
+            "MESSAGE": "Verifica di avere inserito un indirizzo email valido",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_EMPTY": {
+            "TITLE": "Password troppo breve",
+            "MESSAGE": "Inserisci una Password",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_LENGTH": {
+            "TITLE": "Password troppo breve",
+            "MESSAGE": "Inserisci una password con un numero di caratteri superiore a %COUNT%",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_NOT_MATCH": {
+            "TITLE": "La password non corrisponde",
+            "MESSAGE": "Le tue password non corrispondono",
+            "CONFIRM": "ok"
+        },
+        "ACCOUNT_NOT_FOUND": {
+            "TITLE": "Account non trovato",
+            "MESSAGE": "Non siamo in gradi di trovare il tuo account. Se sei stato invitato, completa la registrazione facendo clic sul link contenuto nell'email ricevuta",
+            "CONFIRM": "Cercherò il mio invito"
+        },
+        "NON_LOCAL_LOGIN": {
+            "TITLE": "",
+            "MESSAGE": "In precedenza, hai effettuato l'accesso tramite %PROVIDER%. Gentilmente, conferma di voler invece impostare una password di account.",
+            "CONFIRM": "Imposta password",
+            "CONFIRM_2": "Annulla"
+        },
+        "NO_PROVIDERS": {
+            "TITLE": "Qualcosa non ha funzionato",
+            "MESSAGE": "Nessun risultato da parte di questi provider.",
+            "CONFIRM": "Riprova"
+        },
+        "API_ERROR": {
+            "TITLE": "Qualcosa non ha funzionato",
+            "CONFIRM": "Riprova"
+        },
+        "NO_PROVIDER": {
+            "TITLE": "Nessun provider abilitato",
+            "MESSAGE": "Questo sito Web non ha abilitato alcun provider di identità o metodo di autenticazione locale. Per ulteriori dettagli, contatta l'amministratore del sito.",
+            "CONFIRM": "ok"
+        }
+    },
+    "RES_MAPPING": {
+        "invalid_pin": "Verifica di aver inserito il PIN corretto",
+        "invalid_email_or_password": "Verifica di aver utilizzato la tua password più recente"
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "Navigando sul nostro sito, accetti il nostro utilizzo dei cookie.",
+        "BUTTON_1": "OK",
+        "BUTTON_2": "Leggi il nostro regolamento"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "Eseguendo l'iscrizione, l'accesso o continuando, accetto le <a href='%TOC_LINK%' target='_blank'>Condizioni di servizio</a> e l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla Privacy</a> di %APP_NAME%",
+        "CONTENT_TOC": "Eseguendo l'iscrizione, l'accesso o continuando, accetto le <a href='%TOC_LINK%' target='_blank'>Condizioni di servizio</a> di %APP_NAME%",
+        "CONTENT_PRIVACY": "Eseguendo l'iscrizione, l'accesso o continuando, accetto l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla Privacy</a> di %APP_NAME%"
+    },
+    "UI": {
+        "LOGOUT": "Esci",
+        "LOGIN": "Accedi",
+        "SIGNUP_IN": "Iscriviti / Accedi",
+        "HELLO": "Salve, %FIRST_NAME%",
+        "SIGN_IN_TITLE": "Sei attualmente connesso come",
+        "SIGN_OUT": "ESCI"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "Invia il Magic Link",
+        "LEAVE_MAGIC_LINK": "Accedi selezionando un IDP oppure utilizzando la tua email e una password",
+        "CHECK_YOUR_EMAIL": "Controlla la tua posta elettronica",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, controlla la tua posta elettronica",
+        "CONFIRMING": "Conferma di autenticazione in corso",
+        "LOGGING_IN": "Stiamo effettuando il tuo accesso",
+        "CONFIRM_MESSAGE": "Abbiamo inviato un link all'indirizzo email qui in alto per confermare il tuo account. Per completare l'accesso, fai clic sul link.",
+        "FOCUS_MASK_TEXT": "Inizia con il tuo indirizzo email qui in alto"
+    }
+}

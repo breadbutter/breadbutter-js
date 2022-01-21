@@ -39,9 +39,12 @@ const resolveDevice = function(device_id) {
     }
 };
 
-const cleanDeviceId = function() {
+const cleanDeviceId = async function() {
   if (localStorage) {
       localStorage.removeItem(CACHE_STORAGE.DEVICE_ID);
+  }
+  if (ALLOW_SUB_DOMAIN) {
+      await cleanCookie();
   }
 };
 
@@ -61,8 +64,31 @@ const getDeviceIdFromCookie = function() {
 
 const setDeviceIdToCookie = function(device_id) {
     let domains = document.location.host.split('.');
-    let domain = "." + domains.slice(-2).join('.');
-    document.cookie = APP_ID + "=" + device_id + ";path=/;domain=" + domain;
+    let domain = ("." + domains.slice(-2).join('.')).split(':')[0];
+    let cookie = APP_ID + "=" + device_id + ";path=/;domain=" + domain;
+    document.cookie = cookie;
+};
+
+const wait = function(ms) {
+    ms = ms || 1000;
+    return new Promise(function(resolve) {
+        setTimeout(function(){
+            resolve();
+        }, ms)
+    });
+};
+
+const cleanCookie = async function() {
+    let device_id = getDeviceIdFromCookie();
+    if (device_id) {
+        let domains = document.location.host.split('.');
+        let domain = ("." + domains.slice(-2).join('.')).split(':')[0];
+        let cookie = APP_ID + "=" + device_id + ";path=/;domain=" + domain;
+        cookie += ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
+        document.cookie = cookie;
+        await wait(100);
+    }
+
 };
 
 const getDeviceId = function() {
@@ -70,12 +96,12 @@ const getDeviceId = function() {
         let device_id = localStorage.getItem(CACHE_STORAGE.DEVICE_ID);
 
         if (ALLOW_SUB_DOMAIN) {
-            if (!device_id) {
-                let cookie = getDeviceIdFromCookie();
-                if (cookie) {
-                    device_id = cookie;
-                    localStorage.setItem(CACHE_STORAGE.DEVICE_ID, device_id);
-                }
+            let cookie = getDeviceIdFromCookie();
+            if (cookie) {
+                device_id = cookie;
+                localStorage.setItem(CACHE_STORAGE.DEVICE_ID, device_id);
+            } else if (device_id) {
+                setDeviceIdToCookie(device_id);
             }
         }
         if (!device_id || device_id == 'undefined') {
@@ -141,7 +167,7 @@ const OptionData = function(data) {
     if (data.callback_url) {
         request_data['callback_url'] = data.callback_url;
     } else if (CALLBACK_URL) {
-        request_data['callback_ur'] = CALLBACK_URL;
+        request_data['callback_url'] = CALLBACK_URL;
     }
 
     if (data.destination_url) {
@@ -338,6 +364,21 @@ const isEmailInDomain = function(email_address) {
     return found;
 }
 
+let CLIENT_SETTINGS_QUEUE = [];
+let INITIAL_CLIENT_SETTINGS_RUNNING = false;
+let INITIAL_CLIENT_SETTINGS_CALLS = false;
+
+const handleClientSettings = function(res) {
+    // console.log('process queue');
+    INITIAL_CLIENT_SETTINGS_RUNNING = false;
+    while(CLIENT_SETTINGS_QUEUE.length) {
+        let resolve = CLIENT_SETTINGS_QUEUE.pop();
+        if (typeof resolve == 'function') {
+            resolve(res);
+        }
+    }
+};
+
 const getClientSettings = async function(email_address, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/client_settings';
 
@@ -355,7 +396,21 @@ const getClientSettings = async function(email_address, callback) {
         request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
+    if (!email_address) {
+        if (INITIAL_CLIENT_SETTINGS_CALLS && INITIAL_CLIENT_SETTINGS_RUNNING) {
+            CLIENT_SETTINGS_QUEUE.push(callback);
+            return;
+        }
+        if (!INITIAL_CLIENT_SETTINGS_CALLS) {
+            INITIAL_CLIENT_SETTINGS_RUNNING = true;
+            INITIAL_CLIENT_SETTINGS_CALLS = true;
+        }
+    }
+
     const handlingCallback = function(res) {
+        // for(let i = 0; i < 1; i++) {
+        //     res.providers = res.providers.concat(res.providers);
+        // }
         if (res.settings) {
             if (res.settings.discovery_required || res.settings.invite_required) {
                 if (res.settings.password_settings && res.settings.password_settings.enabled) {
@@ -371,11 +426,12 @@ const getClientSettings = async function(email_address, callback) {
         if (typeof callback == 'function') {
             callback(res);
         }
+        handleClientSettings(res);
     }
 
-    const deviceCheckCallback = function(res) {
+    const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
-            cleanDeviceId();
+            await cleanDeviceId();
             getClientSettings(email_address, callback);
         } else {
             handlingCallback(res);
@@ -384,6 +440,32 @@ const getClientSettings = async function(email_address, callback) {
 
     return request(url, request_data, 'GET', deviceCheckCallback);
 };
+
+const incrementPageEngagement = async function(content, callback) {
+    let url = API_PATH + 'apps/' + APP_ID + '/prerelease/page_engagement';
+
+    let request_data = {
+        ...content
+    };
+
+    let device_id = await getDeviceId();
+    request_data['device_id'] = device_id;
+
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
+    }
+
+    const deviceCheckCallback = async function(res) {
+        if (checkDeviceId(res)) {
+            await cleanDeviceId();
+            incrementPageEngagement(data, callback);
+        } else if (typeof callback == 'function') {
+            callback(res);
+        }
+    };
+    return request(url, request_data, 'POST', deviceCheckCallback);
+
+}
 
 const ping = function (callback) {
     let url = API_PATH + 'ping';
@@ -519,9 +601,9 @@ const confirmUser = async function (data, callback) {
     }
 
 
-    const deviceCheckCallback = function(res) {
+    const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
-            cleanDeviceId();
+            await cleanDeviceId();
             confirmUser(data, callback);
         } else if (typeof callback == 'function') {
             callback(res);
@@ -546,10 +628,9 @@ const resendConfirmationEmail = function (email_address, callback) {
 };
 
 const registerDevice = function(callback) {
-    let url = API_PATH + 'devices';
+    let url = API_PATH + 'apps/' + APP_ID + '/devices';
 
     let request_data = {
-        app_id: APP_ID,
     };
 
     return request(url, request_data, 'POST', callback);
@@ -579,9 +660,9 @@ const createEvent = async function (code, data, referrer, callback) {
         }
     }
 
-    const deviceCheckCallback = function(res) {
+    const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
-            cleanDeviceId();
+            await cleanDeviceId();
             createEvent(code, data, referrer, callback);
         } else if (typeof callback == 'function') {
             callback(res);
@@ -627,9 +708,9 @@ const startAuthentication = async function({
         request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
-    const deviceCheckCallback = function(res) {
+    const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
-            cleanDeviceId();
+            await cleanDeviceId();
             startAuthentication({
                 email_address, auth_type, provider, user, options, callback
             });
@@ -687,5 +768,6 @@ export default {
     startMagicLink,
     confirmMagicLinkCode,
     getMagicLinkAuthenticated,
-    resetDeviceVerification
+    resetDeviceVerification,
+    incrementPageEngagement
 };

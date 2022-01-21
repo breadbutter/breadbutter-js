@@ -18,11 +18,9 @@ const loadAppId = function(options) {
 };
 
 const loadLanguage = function (options) {
-    if (options.language) {
-        let locale = lang.getLocale(options.language, options.locale);
-        if (locale) {
-            Locale = locale;
-        }
+    let locale = lang.getLocale(options.language, options.locale);
+    if (locale) {
+        Locale = locale;
     }
 };
 

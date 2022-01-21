@@ -6,6 +6,7 @@ import viewPolicy from './view-policy';
 import viewUI from './view-ui';
 import constants from './constants';
 import lang from './locale.js';
+import engagement from './engagement'
 
 import './scss/client.scss';
 
@@ -21,11 +22,9 @@ const encoded_hash = constants.encoded_hash;
 let Locale = {};
 
 const loadLanguage = function(options) {
-    if (options.language) {
-        let locale = lang.getLocale(options.language, options.locale);
-        if (locale) {
-            Locale = locale;
-        }
+    let locale = lang.getLocale(options.language, options.locale);
+    if (locale) {
+        Locale = locale;
     }
 };
 
@@ -57,7 +56,7 @@ let options = {
     app_id: false,
     app_secret: false,
     api_path: false,
-    language: 'en',
+    language: false,
     locale: false,
     app_name: false,
     destination_url: false,
@@ -234,6 +233,12 @@ let PAGE_VIEW_EVENT_READY = false;
 let CUSTOM_EVENT_QUEUE = [];
 
 const processEvent = function() {
+    while(QUEUE_ACTIONS.length > 0) {
+        let call = QUEUE_ACTIONS.shift();
+        if (typeof call.fn == 'function') {
+            call.fn.apply(this, call.params);
+        }
+    }
     while (CUSTOM_EVENT_QUEUE.length > 0) {
         let event = CUSTOM_EVENT_QUEUE.splice(0, 1)[0];
         API.createEvent(event.custom, event.data, false, event.callback);
@@ -248,7 +253,19 @@ const queueEvent = function(custom, data, callback) {
     });
 };
 
+let QUEUE_ACTIONS = [];
+
+const queueAction = function(fn, params) {
+    QUEUE_ACTIONS.push({
+        fn,
+        params
+    })
+}
+
 const events = new (function() {
+    this.engagement = function(content, callback) {
+        API.incrementPageEngagement(content, callback);
+    };
     this.custom = function(custom, callback) {
         if (PAGE_VIEW_EVENT_READY) {
             API.createEvent(custom, false, false, callback);
@@ -294,8 +311,11 @@ const events = new (function() {
     };
 })();
 
+let DELAY_FOR_GA = false;
+
 const tracking = function() {
     if (options.page_view_tracking) {
+
         let referrer = document.referrer;
         if (document.referrer.indexOf(document.location.origin) == 0) {
             referrer = false;
@@ -324,16 +344,26 @@ const tracking = function() {
         } else {
             let cookie = parseCookie(document.cookie);
             if (typeof ga == 'function') {
-                ga.getAll().forEach((tracker) => {
-                    let cid = tracker.get('clientId');
-                    let uid = tracker.get('userId');
-                    events.pageview(false, referrer, {
-                        'ga_data': {
-                            "cid": cid,
-                            "uid": uid
-                        }
-                    });
-                })
+                if (typeof ga.getAll == 'function') {
+                    ga.getAll().forEach((tracker) => {
+                        let cid = tracker.get('clientId');
+                        let uid = tracker.get('userId');
+                        events.pageview(false, referrer, {
+                            'ga_data': {
+                                "cid": cid,
+                                "uid": uid
+                            }
+                        });
+                    })
+                } else if (!DELAY_FOR_GA){
+                    DELAY_FOR_GA = true;
+                    setTimeout(function() {
+                       tracking();
+                    }, 150);
+                    return;
+                } else {
+                    events.pageview(false, referrer);
+                }
             } else if (cookie['_ga']) {
                 let client_id = cookie['_ga'].split('.').slice(2).join('.');
                 events.pageview(false, referrer, {
@@ -349,6 +379,12 @@ const tracking = function() {
         window.addEventListener('hashchange', function() {
             events.pageview();
         });
+
+        if(PAGE_VIEW_EVENT_READY) {
+            engagement.initialize(events);
+        } else {
+            queueAction(engagement.initialize, [events]);
+        }
     }
 }
 
@@ -1109,7 +1145,13 @@ const ui = new (function() {
             if (logout_button) {
                 logout_button.onclick = async function() {
                     await API.resetDeviceVerification();
-                    window.location.reload();
+                    let reload = true;
+                    if (typeof options.onLogout == 'function') {
+                        reload = options.onLogout();
+                    }
+                    if (reload) {
+                        window.location.reload();
+                    }
                 };
             }
         } else {
@@ -1122,12 +1164,33 @@ const ui = new (function() {
                 }
                 widgets.continueWith({
                     show_login_focus: show_login_focus,
+                    ...options
                 });
                 // widgets.continueWith(options);
             };
         }
     };
 
+    this.applyContinueWithTrigger = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'applyContinueWithTrigger',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        field.addEventListener('click', ()=> {
+            widgets.continueWith({
+                destination_url: document.location.href,
+                ...options
+            });
+        });
+    };
     this.continueWith = function(options) {
         if (!isProfileInit({
             call: 'continueWith',

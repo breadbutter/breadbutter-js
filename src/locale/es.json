@@ -38,6 +38,7 @@
         "CONTENT_2": "Compruebe su carpeta de correo no deseado",
         "CONTENT_OR": "o",
         "CONTENT_3": "para obtener un nuevo código",
+		"CONTENT": "¿No has recibido el PIN de confirmación?<br/>Comprueba la carpeta de correo no deseado<br/> o %BUTTON% para obtener un código nuevo",
         "BUTTON": "haga clic aquí"
     },
     "RESET_PASSWORD": {
@@ -49,7 +50,7 @@
         "CONTENT": "Introduzca su dirección de correo electrónico",
         "CONTENT_2": "Introduzca su contraseña"
     },
-    "GREETING": "Hola",
+    "GREETING": "Hola, %NAME%",
     "PLACEHOLDER": {
         "EMAIL_ADDRESS": "Dirección de correo electrónico",
         "PASSWD": "Contraseña",
@@ -62,12 +63,33 @@
         "PIN": "PIN"
     },
     "TILE": {
-        "CONTINUE_AS": "Continuar como",
-        "CONTINUE": "Continuar",
-        "SIGN_IN": "Iniciar sesión",
+        "CONTINUE_AS": "Continuar como %NAME%",
+        "CONTINUE": "Continuar %WITH% %BRAND%",
+        "SIGN_IN": "Iniciar sesión %WITH% %BRAND%",
         "WITH": "con",
         "W_": "w/",
-        "WITH_EMAIL": "Iniciar sesión con el correo electrónico"
+        "WITH_EMAIL": "Iniciar sesión con el correo electrónico",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "Planning Center",
+            "FITBIT": "Fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "Twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
     },
     "BUTTON": {
         "SIGN_IN_METHOD": "Otras formas de inicio de sesión",
@@ -121,6 +143,7 @@
     "ERROR": {
         "INLINE": {
             "TITLE": "Lo siento",
+			"TITLE_": "Lo sentimos, %NAME%",
             "CONFIRM": "de acuerdo"
         },
         "EMPTY_TOKEN": {

@@ -1,17 +1,21 @@
 import * as en from './locale/en.json';
 import * as fr from './locale/fr.json';
 import * as zhcn from './locale/zh-CN.json';
+import * as zhtw from './locale/zh-TW.json';
 import * as es from './locale/es.json';
 import * as pt from './locale/pt.json';
 import * as bg from './locale/bg.json';
+import * as ja from './locale/ja.json';
 
 const Locale = {
     en,
     fr,
     'zh-CN': zhcn,
+    'zh-TW': zhtw,
     es,
     pt,
-    bg
+    bg,
+    ja
 };
 
 const assignString = function (locale, local) {
@@ -26,6 +30,12 @@ const assignString = function (locale, local) {
 };
 
 const getLocale = function (lang, local) {
+    if (!lang && navigator && navigator.language) {
+        lang = navigator.language;
+        if (!Locale[lang]) {
+            lang = navigator.language.split('-')[0];
+        }
+    }
     if (!Locale[lang]) {
         lang = 'en';
     }

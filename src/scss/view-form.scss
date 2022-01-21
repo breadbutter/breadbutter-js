@@ -399,6 +399,33 @@
         }
     }
 
+    .breadbutter-buttons-holder.bb-limit-providers {
+        .breadbutter-buttons {
+            & > div {
+                display: none;
+            }
+            & > div:nth-child(-n+5) {
+                display: block;
+            }
+        }
+        .breadbutter-provider-limit {
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            .drop-down-icon {
+                //width: 30px;
+                margin: auto;
+                //border-right: solid 3px #878787;
+                //border-bottom: solid 3px #878787;
+                //width: 15px;
+                //height: 15px;
+                //transform: rotate(45deg) skew(-30deg, -30deg);
+                margin-top: 7px;
+                margin-bottom: 9px;
+            }
+        }
+    }
+
     input {
         &.error {
             border-color: #ec1c24;
@@ -773,11 +800,13 @@
             justify-content: center;
             cursor: pointer;
             .form-expand-icon {
-                border-right: solid 3px #878787;
-                border-bottom: solid 3px #878787;
-                width: 15px;
-                height: 15px;
-                transform: rotate(45deg) skew(-30deg, -30deg);
+                //border-right: solid 3px #878787;
+                //border-bottom: solid 3px #878787;
+                //width: 15px;
+                //height: 15px;
+                //transform: rotate(45deg) skew(-30deg, -30deg);
+                margin-top: 7px;
+                margin-bottom: 9px;
             }
         }
         &-incognito, &-email {

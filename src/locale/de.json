@@ -1,0 +1,236 @@
+{
+    "POPUP": {
+        "HEADER_1": "Melden Sie sich an für ein optimales Erlebnis",
+        "HEADER_2": "Melden Sie sich an für ein optimales Erlebnis",
+        "HEADER_BACK_1": "Melden Sie sich an für ein optimales Erlebnis",
+        "HEADER_BACK_2": "Melden Sie sich an für ein optimales Erlebnis",
+        "TEXT_1": "Erster Schritt",
+        "TEXT_2": "Fahren Sie mit Ihrer vertrauten Anmeldemethode fort.*<br/>Sie können in kürzester Zeit loslegen.",
+        "TEXT_3": "*Sie werden weitergeleitet, um Ihr Konto zu authentifizieren. Wir sehen zu keinem Zeitpunkt Ihre Authentifizierungsmethode oder Ihr Passwort.",
+        "TEXT_3_2": "*Sie werden weitergeleitet, um Ihr Konto zu authentifizieren. Wir sehen zu keinem Zeitpunkt Ihre Authentifizierungsmethode oder Ihr Passwort. Wir erhalten lediglich ein einfaches Ja oder Nein, einige Identitätsanbieter geben jedoch auch Ihren Namen weiter. Sie können Ihre Authentifizierungsmethode jederzeit ändern.",
+        "MORE": "mehr>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "Willkommen"
+    },
+    "REGISTER": {
+        "TITLE": "Willkommen",
+        "CONTENT": "Wie möchten Sie sich registrieren?",
+        "CONTENT_2": "Mit E-Mail-Adresse registrieren",
+        "SSO": "Oder erstellen Sie ein Konto mit Ihrer E-Mail-Adresse und einem Passwort",
+        "LOCAL": "Erstellen Sie ein Konto mit Ihrer E-Mail-Adresse und einem Passwort",
+        "OR_LOCAL": "Oder füllen Sie das nachstehende Formular aus"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "E-Mail-Bestätigung",
+        "CONTENT": "Es wurde eine Bestätigungsnachricht an Ihre E-Mail-Adresse gesendet. Bitte geben Sie die PIN aus dieser E-Mail unten ein."
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "Passwort vergessen",
+        "CONTENT": "Geben Sie die E-Mail-Adresse ein, mit der Sie sich bei uns registriert haben. Wir senden Ihnen dann Anweisungen zum Zurücksetzen Ihres Passworts."
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "Passwort ändern",
+        "CONTENT": "Es sieht so aus, als müsste Ihr Passwort zurückgesetzt werden. Geben Sie die E-Mail-Adresse ein, mit der Sie sich bei uns registriert haben. Wir senden Ihnen dann Anweisungen zum Zurücksetzen Ihres Passworts."
+    },
+    "NEW_CODE": {
+        "CONTENT_1": "Sie haben Ihre Bestätigungs-PIN nicht erhalten?",
+        "CONTENT_2": "Bitte überprüfen Sie Ihren Spam-Ordner",
+        "CONTENT_OR": "oder",
+        "CONTENT_3": "für einen neuen Code",
+		"CONTENT": "Haben Sie Ihre Bestätigungs-PIN nicht erhalten?<br/>Bitte prüfen Sie Ihren Spam-Ordner<br/> oder %BUTTON% für einen neuen Code",
+        "BUTTON": "hier klicken"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "Hallo",
+        "CONTENT": "Setzen Sie Ihr Passwort unten zurück"
+    },
+    "LOGIN": {
+        "TITLE": "Hallo",
+        "CONTENT": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+        "CONTENT_2": "Bitte geben Sie Ihr Passwort ein"
+    },
+    "GREETING": "Hallo %NAME%",
+    "PLACEHOLDER": {
+        "EMAIL_ADDRESS": "E-Mail-Adresse",
+        "PASSWD": "Passwort",
+        "PASSWORD": "Passwort erstellen",
+        "CONFIRM_PASSWORD": "Passwort bestätigen",
+        "NEW_PASSWORD": "Passwort erstellen",
+        "NEW_CONFIRM_PASSWORD": "Passwort bestätigen",
+        "FIRST_NAME": "Vorname",
+        "LAST_NAME": "Nachname",
+        "PIN": "PIN"
+    },
+    "TILE": {
+        "CONTINUE_AS": "Fortfahren als %NAME%",
+        "CONTINUE": "Fortfahren %WITH% %BRAND%",
+        "SIGN_IN": "Anmelden %WITH% %BRAND%",
+        "WITH": "mit",
+        "W_": "w/",
+        "WITH_EMAIL": "Mit E-Mail-Adresse anmelden",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "planning center",
+            "FITBIT": "fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
+    },
+    "BUTTON": {
+        "SIGN_IN_METHOD": "Andere Anmeldemethoden",
+        "CONTINUE_WITH": "Weiter mit",
+        "OR_CONTINUE": "Oder weiter mit",
+        "USE_DIFFERENT_IDP": "Einen anderen Identitätsanbieter verwenden",
+        "SELECT_IDP_SIGN_UP": "Wählen Sie einen Identitätsanbieter für die Registrierung aus",
+        "MORE": "Weitere Optionen",
+        "LESS": "Weniger Optionen",
+        "BACK": "Zurück",
+        "EMAIL_INSTRUCTION": "Schicken Sie mir die Anweisungen per E-Mail",
+        "CANCEL": "Abbrechen",
+        "CONTINUE": "Weiter",
+        "SET_PASSWORD": "Passwort zurücksetzen",
+        "FORGOT_PASSWORD": "Passwort vergessen?",
+        "NEW_USER": "Neuer Benutzer?",
+        "SWITCH_LOGIN": "Das sind Sie nicht? Melden Sie sich mit einer anderen E-Mail-Adresse an.",
+        "SWITCH_REGISTER": "Das sind Sie nicht? Registrieren Sie sich mit einer anderen E-Mail-Adresse.",
+        "SWITCH_TRY": "Das sind Sie nicht? Versuchen Sie es mit einer anderen E-Mail-Adresse.",
+        "NEXT": "Weiter",
+        "REGISTER": "Registrieren",
+        "SIGN_IN": "Anmelden",
+        "CONFIRM": "E-Mail-Adresse bestätigen",
+        "OR_CONTINUE_WITH_EMAIL": "oder mit E-Mail-Adresse fortfahren",
+        "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Oder mit E-Mail-Adresse und Passwort registrieren",
+        "CONTINUE_WITH_EMAIL": "oder E-Mail-Adresse unten eingeben",
+        "MORE_INFO": "weitere Informationen",
+        "START_WITH_EMAIL_ADDRESS": "Beginnen Sie mit Ihrer E-Mail-Adresse unten"
+    },
+    "HOVER": {
+        "EMAIL_MATCH": "Bitte vergewissern Sie sich, dass die E-Mail-Adresse, die Sie bei der Anmeldung verwenden, diejenige ist, die zur Registrierung eingeladen wurde.",
+        "NEW_USER": "Um Zugang zu dieser Website zu erhalten, müssen Sie zunächst eingeladen werden.<br/><br/>Wenn Sie eine Einladung erhalten haben, klicken Sie bitte auf den Link in dieser E-Mail, um Ihre Registrierung abzuschließen.<br/><br/>Wenn Sie diese E-Mail verloren haben, wenden Sie sich bitte an die Person, die Sie ursprünglich eingeladen hat.",
+        "MORE_INFO": "Wir respektieren Ihre Privatsphäre. Sie werden aufgefordert, sich bei dem Anbieter Ihres Vertrauens zu authentifizieren."
+    },
+    "PASSWORD_HINT": {
+        "HAS_VALIDATION": "Ihr Passwort:",
+        "MINIMUM_ONE": "muss mindestens ein Zeichen enthalten",
+        "MINIMUM_MORE": "muss mindestens %COUNT% Zeichen enthalten",
+        "LOWER_ONE": "muss mindestens einen Kleinbuchstaben enthalten (a–z)",
+        "LOWER_MORE": "muss mindestens %COUNT% Kleinbuchstaben enthalten (a–z)",
+        "UPPER_ONE": "muss mindestens einen Großbuchstaben enthalten (A–Z)",
+        "UPPER_MORE": "muss mindestens %COUNT% Großbuchstaben enthalten (A–Z)",
+        "SYMBOL_ONE": "muss mindestens ein Symbol enthalten",
+        "SYMBOL_MORE": "muss mindestens %COUNT% Symbole enthalten",
+        "NUMBER_ONE": "muss mindestens eine Zahl enthalten (0–9)",
+        "NUMBER_MORE": "muss mindestens %COUNT% Zahlen enthalten (0–9)",
+        "NO_EMAIL": "darf nicht Ihren Namen oder Ihre E-Mail-Adresse enthalten",
+        "MATCH": "muss in beiden Feldern auf die gleiche Weise eingegeben werden",
+        "NO_OLD_PASSWORD": "Ihr neues Passwort muss sich von Ihrem vorherigen Passwort unterscheiden"
+    },
+    "ERROR": {
+        "INLINE": {
+            "TITLE": "Entschuldigung",
+			"TITLE_": "Entschuldigung %NAME%",
+            "CONFIRM": "okay"
+        },
+        "EMPTY_TOKEN": {
+            "MESSAGE": "Sie müssen eine PIN eingeben"
+        },
+        "EMPTY_FIRST_NAME": {
+            "MESSAGE": "Bitte vergewissern Sie sich, dass Sie einen Vornamen haben"
+        },
+        "EMPTY_LAST_NAME": {
+            "MESSAGE": "Bitte vergewissern Sie sich, dass Sie einen Nachnamen haben"
+        },
+        "VALID_EMAIL": {
+            "TITLE": "E-Mail-Adressformat",
+            "MESSAGE": "Bitte vergewissern Sie sich, dass Sie gültige E-Mail-Adresse verwenden",
+            "CONFIRM": "okay"
+        },
+        "PASSWORD_EMPTY": {
+            "TITLE": "Passwort zu kurz",
+            "MESSAGE": "Bitte geben Sie ein Passwort ein",
+            "CONFIRM": "okay"
+        },
+        "PASSWORD_LENGTH": {
+            "TITLE": "Passwort zu kurz",
+            "MESSAGE": "Bitte geben Sie ein Passwort ein, das länger als %COUNT% Zeichen ist",
+            "CONFIRM": "okay"
+        },
+        "PASSWORD_NOT_MATCH": {
+            "TITLE": "Passwort stimmt nicht überein",
+            "MESSAGE": "Ihre Passwörter stimmen nicht überein",
+            "CONFIRM": "okay"
+        },
+        "ACCOUNT_NOT_FOUND": {
+            "TITLE": "Konto nicht gefunden",
+            "MESSAGE": "Wir konnten Ihr Konto nicht finden. Wenn Sie eingeladen wurden, klicken Sie auf den Link in der E-Mail, die Sie erhalten haben, um die Registrierung abzuschließen.",
+            "CONFIRM": "Ich suche nach meiner Einladung"
+        },
+        "NON_LOCAL_LOGIN": {
+            "TITLE": "",
+            "MESSAGE": "Sie haben sich zuvor mit %PROVIDER% angemeldet. Bitte bestätigen Sie, dass Sie stattdessen ein Kontopasswort festlegen möchten.",
+            "CONFIRM": "Passwort festlegen",
+            "CONFIRM_2": "Abbrechen"
+        },
+        "NO_PROVIDERS": {
+            "TITLE": "Etwas stimmt nicht",
+            "MESSAGE": "Keine Ergebnisse von den Anbietern.",
+            "CONFIRM": "Erneut versuchen"
+        },
+        "API_ERROR": {
+            "TITLE": "Etwas stimmt nicht",
+            "CONFIRM": "Erneut versuchen"
+        },
+        "NO_PROVIDER": {
+            "TITLE": "Keine Anbieter aktiviert",
+            "MESSAGE": "Diese Website hat keine Identitätsanbieter oder lokale Authentifizierung aktiviert. Bitte kontaktieren Sie den Administrator der Website, um weitere Informationen zu erhalten.",
+            "CONFIRM": "okay"
+        }
+    },
+    "RES_MAPPING": {
+        "invalid_pin": "Bitte prüfen Sie, ob Sie die richtige PIN haben.",
+        "invalid_email_or_password": "Bitte vergewissern Sie sich, dass Sie Ihr aktuelles Passwort verwenden."
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "Wenn Sie auf unserer Website surfen, stimmen Sie unserer Verwendung von Cookies zu.",
+        "BUTTON_1": "Okay",
+        "BUTTON_2": "Lesen Sie unsere Richtlinie"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> und der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzrichtlinie</a> von %APP_NAME% zu.",
+        "CONTENT_TOC": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> von %APP_NAME% zu.",
+        "CONTENT_PRIVACY": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzrichtlinie</a> von %APP_NAME% zu."
+    },
+    "UI": {
+        "LOGOUT": "Abmelden",
+        "LOGIN": "Anmelden",
+        "SIGNUP_IN": "Registrieren/anmelden",
+        "HELLO": "Hallo, %FIRST_NAME%",
+        "SIGN_IN_TITLE": "Sie sind derzeit angemeldet als",
+        "SIGN_OUT": "ABMELDEN"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "Magischen Link senden",
+        "LEAVE_MAGIC_LINK": "Melden Sie sich an, indem Sie einen Identitätsanbieter auswählen oder Ihre E-Mail-Adresse und Ihr Passwort verwenden.",
+        "CHECK_YOUR_EMAIL": "Überprüfen Sie Ihre E-Mail",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, überprüfen Sie Ihre E-Mail",
+        "CONFIRMING": "Bestätigung der Authentifizierung",
+        "LOGGING_IN": "Sie werden angemeldet",
+        "CONFIRM_MESSAGE": "Wir haben einen Link zur Bestätigung Ihres Kontos an die oben angegebene E-Mail-Adresse geschickt. Klicken Sie auf den Link, um sich anzumelden.",
+        "FOCUS_MASK_TEXT": "Beginnen Sie mit Ihrer E-Mail-Adresse oben"
+    }
+}

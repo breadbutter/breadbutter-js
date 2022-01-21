@@ -1,0 +1,236 @@
+{
+    "POPUP": {
+        "HEADER_1": "Log in voor de beste ervaring",
+        "HEADER_2": "Log in voor de beste ervaring",
+        "HEADER_BACK_1": "Log in voor de beste ervaring",
+        "HEADER_BACK_2": "Log in voor de beste ervaring",
+        "TEXT_1": "Eerste stap",
+        "TEXT_2": "'Ga door met' uw vertrouwde inlogmethode.*<br/>We helpen u meteen op weg.",
+        "TEXT_3": "*U wordt doorgestuurd om uw account te verifiëren; uw authenticatiemethode of wachtwoord zien wij nooit.",
+        "TEXT_3_2": "*U wordt doorgestuurd om uw account te verifiëren; uw authenticatiemethode of wachtwoord zien wij nooit. Een simpel ja/nee is alles wat we ontvangen, hoewel sommige identiteitsproviders ook uw naam doorgeven. U kunt uw authenticatiemethode op elk moment wijzigen.",
+        "MORE": "meer>>"
+    },
+    "INCOGNITO": {
+        "TITLE": "Welkom"
+    },
+    "REGISTER": {
+        "TITLE": "Welkom",
+        "CONTENT": "Hoe wilt u zich aanmelden?",
+        "CONTENT_2": "Meld u aan met uw e-mailadres",
+        "SSO": "Of maak een account aan met uw e-mailadres en een wachtwoord",
+        "LOCAL": "Maak een account aan met uw e-mailadres en een wachtwoord",
+        "OR_LOCAL": "Of vul onderstaand formulier in"
+    },
+    "CONFIRM_EMAIL": {
+        "TITLE": "E-mailbevestiging",
+        "CONTENT": "Er is een bevestigingsbericht naar uw e-mailadres gestuurd. Voer de pincode uit die e-mail hieronder in"
+    },
+    "FORGOT_PASSWORD": {
+        "TITLE": "Wachtwoord vergeten",
+        "CONTENT": "Voer het e-mailadres in waarmee u zich bij ons geregistreerd hebt & we sturen u instructies om uw  wachtwoord opnieuw in te stellen"
+    },
+    "EXPIRE_PASSWORD": {
+        "TITLE": "Wachtwoord veranderen",
+        "CONTENT": "Het lijkt erop dat uw wachtwoord gereset moet worden. Voer het e-mailadres in waarmee u zich bij ons geregistreerd heeft & we sturen u instructies om uw  wachtwoord opnieuw in te stellen"
+    },
+    "NEW_CODE": {
+        "CONTENT_1": "Hebt u uw bevestigingspincode niet ontvangen?",
+        "CONTENT_2": "Controleer uw ongewenste e-mail  a.u.b.",
+        "CONTENT_OR": "of",
+        "CONTENT_3": "voor een nieuwe code",
+		"CONTENT": "Heeft u uw bevestigings PIN niet ontvangen?<br/> Alstublieft kijk in uw spam folder <br/> of %BUTTON% voor een nieuwe code",
+        "BUTTON": "klik hier"
+    },
+    "RESET_PASSWORD": {
+        "TITLE": "Hallo",
+        "CONTENT": "Reset uw wachtwoord hieronder"
+    },
+    "LOGIN": {
+        "TITLE": "Hallo",
+        "CONTENT": "Vul alstublieft uw e-mailadres in",
+        "CONTENT_2": "Vul alstublieft uw wachtwoord in"
+    },
+    "GREETING": "Hallo %NAME%",
+    "PLACEHOLDER": {
+        "EMAIL_ADDRESS": "E-mailadres",
+        "PASSWD": "Wachtwoord",
+        "PASSWORD": "Bedenk een wachtwoord",
+        "CONFIRM_PASSWORD": "Bevestig wachtwoord",
+        "NEW_PASSWORD": "Bedenk een wachtwoord",
+        "NEW_CONFIRM_PASSWORD": "Bevestig wachtwoord",
+        "FIRST_NAME": "Voornaam",
+        "LAST_NAME": "Achternaam",
+        "PIN": "Pincode"
+    },
+    "TILE": {
+        "CONTINUE_AS": "Ga verder als %NAME%",
+        "CONTINUE": "Ga door\n%WITH% %BRAND%",
+        "SIGN_IN": "Meld je aan %WITH% %BRAND%",
+        "WITH": "met",
+        "W_": "w/",
+        "WITH_EMAIL": "Inloggen met e-mail",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "planningscentrum",
+            "FITBIT": "fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "EenLogin"
+        }
+    },
+    "BUTTON": {
+        "SIGN_IN_METHOD": "Andere manieren om in te loggen",
+        "CONTINUE_WITH": "Doorgaan met",
+        "OR_CONTINUE": "Of doorgaan met",
+        "USE_DIFFERENT_IDP": "Een andere identiteitsprovider gebruiken",
+        "SELECT_IDP_SIGN_UP": "Selecteer een identiteitsprovider om u bij aan te melden",
+        "MORE": "Meer opties",
+        "LESS": "Minder opties",
+        "BACK": "Terug",
+        "EMAIL_INSTRUCTION": "E-mail me de instructies",
+        "CANCEL": "Annuleren",
+        "CONTINUE": "Doorgaan",
+        "SET_PASSWORD": "Wachtwoord resetten",
+        "FORGOT_PASSWORD": "Wachtwoord vergeten?",
+        "NEW_USER": "Nieuwe gebruiker?",
+        "SWITCH_LOGIN": "Bent u dit niet? Log in met een ander e-mailadres",
+        "SWITCH_REGISTER": "Bent u dit niet? Log in met een ander e-mailadres.",
+        "SWITCH_TRY": "Bent u dit niet? Probeer het met een ander e-mailadres.",
+        "NEXT": "Volgende",
+        "REGISTER": "Aanmelden",
+        "SIGN_IN": "Inloggen",
+        "CONFIRM": "Bevestig e-mail",
+        "OR_CONTINUE_WITH_EMAIL": "of ga verder met uw e-mailadres",
+        "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Of meld u aan met uw e-mailadres en wachtwoord",
+        "CONTINUE_WITH_EMAIL": "of vul hieronder uw e-mailadres in",
+        "MORE_INFO": "meer informatie",
+        "START_WITH_EMAIL_ADDRESS": "Begin met uw e-mailadres hieronder"
+    },
+    "HOVER": {
+        "EMAIL_MATCH": "Zorg ervoor dat het e-mailadres wat u bij het inloggen gebruikt het adres is waarop u uitgenodigd bent om te registreren.",
+        "NEW_USER": "Om toegang te krijgen tot deze website hebt u een uitnodiging nodig.<br/><br/>Als u een uitnodiging ontvangen heeft, klik dan op de link in die e-mail om uw registratie te voltooien.<br/><br/>Als u die e-mail  kwijtgeraakt bent, neem dan contact op met de persoon die u oorspronkelijk uitnodigde.",
+        "MORE_INFO": "Wij respecteren uw privacy. U wordt doorverwezen om u te verifiëren bij de provider die u vertrouwt."
+    },
+    "PASSWORD_HINT": {
+        "HAS_VALIDATION": "Uw wachtwoord moet:",
+        "MINIMUM_ONE": "tenminste één teken bevatten",
+        "MINIMUM_MORE": "tenminste %COUNT% tekens bevatten",
+        "LOWER_ONE": "tenminste één kleine letter (a-z)  bevatten",
+        "LOWER_MORE": "tenminste %COUNT% kleine letters (a-z) bevatten",
+        "UPPER_ONE": "tenminste één hoofdletter (A-Z)  bevatten",
+        "UPPER_MORE": "tenminste %COUNT% hoofdletters (A-Z) bevatten",
+        "SYMBOL_ONE": "tenminste één symbool bevatten",
+        "SYMBOL_MORE": "ten minste %COUNT% symbolen bevatten",
+        "NUMBER_ONE": "tenminste één cijfer bevatten (0-9)",
+        "NUMBER_MORE": "tenminste %COUNT% cijfers bevatten (0-9)",
+        "NO_EMAIL": "mag niet uw naam of e-mailadres zijn",
+        "MATCH": "moet in beide velden op dezelfde manier ingevoerd worden",
+        "NO_OLD_PASSWORD": "Uw nieuwe wachtwoord moet anders zijn dan uw vorige wachtwoord"
+    },
+    "ERROR": {
+        "INLINE": {
+            "TITLE": "Sorry",
+			"TITLE_": "Sorry %NAME%",
+            "CONFIRM": "ok"
+        },
+        "EMPTY_TOKEN": {
+            "MESSAGE": "U moet een pincode invoeren"
+        },
+        "EMPTY_FIRST_NAME": {
+            "MESSAGE": "Zorg er a.u.b. voor dat u een voornaam ingevuld hebt"
+        },
+        "EMPTY_LAST_NAME": {
+            "MESSAGE": "Zorg er a.u.b. voor dat u een achternaam ingevuld hebt"
+        },
+        "VALID_EMAIL": {
+            "TITLE": "E-mailformaat",
+            "MESSAGE": "Zorg er a.u.b. voor dat u een geldig e-mailadres gebruikt",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_EMPTY": {
+            "TITLE": "Wachtwoord is te kort",
+            "MESSAGE": "Vul a.u.b. een wachtwoord in",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_LENGTH": {
+            "TITLE": "Wachtwoord is te kort",
+            "MESSAGE": "Vul a.u.b. een wachtwoord in dat langer is dan %COUNT% tekens",
+            "CONFIRM": "ok"
+        },
+        "PASSWORD_NOT_MATCH": {
+            "TITLE": "Wachtwoorden komen niet overeen",
+            "MESSAGE": "Uw wachtwoorden komen niet overeen",
+            "CONFIRM": "ok"
+        },
+        "ACCOUNT_NOT_FOUND": {
+            "TITLE": "Account niet gevonden",
+            "MESSAGE": "We konden uw account niet vinden. Als u een uitnodiging ontvangen hebt, klik dan op de link in de e-mail om de registratie te voltooien",
+            "CONFIRM": "Ik zal mijn uitnodiging zoeken"
+        },
+        "NON_LOCAL_LOGIN": {
+            "TITLE": "",
+            "MESSAGE": "U heeft zich eerder aangemeld met %PROVIDER%. Bevestig dat u in plaats daarvan een accountwachtwoord wilt instellen.",
+            "CONFIRM": "Maak een wachtwoord aan",
+            "CONFIRM_2": "Annuleren"
+        },
+        "NO_PROVIDERS": {
+            "TITLE": "Er is iets mis",
+            "MESSAGE": "Geen resultaten van de providers.",
+            "CONFIRM": "Probeer het opnieuw"
+        },
+        "API_ERROR": {
+            "TITLE": "Er is iets mis",
+            "CONFIRM": "Probeer het opnieuw"
+        },
+        "NO_PROVIDER": {
+            "TITLE": "Geen providers ingeschakeld",
+            "MESSAGE": "Deze website heeft geen identiteitsproviders of lokale authenticatie ingeschakeld. Neem a.u.b. contact op met de websitebeheerder voor meer informatie.",
+            "CONFIRM": "ok"
+        }
+    },
+    "RES_MAPPING": {
+        "invalid_pin": "Controleer a.u.b. of u de juiste pincode hebt",
+        "invalid_email_or_password": "Zorg er a.u.b. voor dat u uw laatste wachtwoord gebruikt"
+    },
+    "PRIVACY_POLICY": {
+        "CONTENT": "Door onze website te bezoeken, gaat u akkoord met ons gebruik van cookies.",
+        "BUTTON_1": "OK",
+        "BUTTON_2": "Lees ons beleid"
+    },
+    "TOC_PRIVACY": {
+        "CONTENT_ALL": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a> en het <a href='%PRIVACY_LINK%' target='_blank'>Privacybeleid</a> van %APP_NAME%",
+        "CONTENT_TOC": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a> van %APP_NAME%",
+        "CONTENT_PRIVACY": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met het <a href='%PRIVACY_LINK%' target='_blank'>Privacybeleid</a> van %APP_NAME%"
+    },
+    "UI": {
+        "LOGOUT": "Uitloggen",
+        "LOGIN": "Inloggen",
+        "SIGNUP_IN": "Inschrijven / aanmelden",
+        "HELLO": "Hallo, %FIRST_NAME%",
+        "SIGN_IN_TITLE": "U bent momenteel aangemeld als",
+        "SIGN_OUT": "UITLOGGEN"
+    },
+    "MAGIC_LINK": {
+        "SEND_BUTTON_TEXT": "Magische link versturen",
+        "LEAVE_MAGIC_LINK": "Meld u aan door een IDP te selecteren of met uw e-mailadres &  wachtwoord",
+        "CHECK_YOUR_EMAIL": "Check uw e-mail",
+        "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, check uw e-mail",
+        "CONFIRMING": "Verificatie bevestigen",
+        "LOGGING_IN": "Bezig om u in te loggen",
+        "CONFIRM_MESSAGE": "We hebben een link om uw account te bevestigen naar het bovenstaande e-mailadres gestuurd. Klik op de link om het inloggen te voltooien.",
+        "FOCUS_MASK_TEXT": "Begin met uw e-mailadres hierboven"
+    }
+}

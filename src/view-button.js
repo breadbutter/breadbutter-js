@@ -1,10 +1,14 @@
 const ID = 'breadbutter-buttons';
 const HOLDER_ID = 'breadbutter-buttons-ui';
 const CONTAINER_ID = 'breadbutter-buttons-containers';
+const BUTTON_HOLDER_ID = 'breadbutter-buttons-holder';
+import loader from './utils/loader.js';
+
 import './scss/view-button.scss';
 import VIEW from './view.js';
 import viewAlert from './view-alert';
 import api from './api.js';
+
 
 import lang from './locale.js';
 let Locale = {};
@@ -21,11 +25,9 @@ const loadOptions = function (options) {
 };
 
 const loadLanguage = function (options) {
-    if (options.language) {
-        let locale = lang.getLocale(options.language, options.locale);
-        if (locale) {
-            Locale = locale;
-        }
+    let locale = lang.getLocale(options.language, options.locale);
+    if (locale) {
+        Locale = locale;
     }
 };
 
@@ -194,11 +196,16 @@ const triggerMore = function (e) {
 
 const triggerIdentityProvider = function (func, data, button) {
     let top = button.parentElement.parentElement.parentElement;
+    let button_holder = top.parentElement.querySelector('.' + BUTTON_HOLDER_ID);
     if (func) {
+        if (button_holder) {
+            loader.start(button_holder, true);
+        }
         func(data, function (res) {
             if (res && res.authentication_token) {
                 api.redirectAuthentication(res.authentication_token, true);
             } else if (res && res.error) {
+                loader.remove();
                 let alert = Object.assign(
                     {
                         MESSAGE: res.error.message,

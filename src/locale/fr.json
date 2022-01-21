@@ -38,7 +38,8 @@
         "CONTENT_2": "Veuillez vérifier votre dossier de courrier indésirable",
         "CONTENT_OR": "ou",
         "CONTENT_3": "pour obtenir un nouveau code",
-        "BUTTON": "cliquez ici"
+        "BUTTON": "cliquez ici",
+		"CONTENT": "Vous n'avez pas reçu votre PIN de confirmation ?<br/>Veuillez consulter votre courrier indésirable<br/> ou %BUTTON% pour un nouveau code"
     },
     "RESET_PASSWORD": {
         "TITLE": "Bonjour",
@@ -49,7 +50,7 @@
         "CONTENT": "Veuillez entrer votre adresse e-mail",
         "CONTENT_2": "Veuillez entrer votre mot de passe"
     },
-    "GREETING": "Bonjour",
+    "GREETING": "Bonjour %NAME%",
     "PLACEHOLDER": {
         "EMAIL_ADDRESS": "Adresse e-mail",
         "PASSWD": "Mot de passe",
@@ -62,12 +63,33 @@
         "PIN": "PIN"
     },
     "TILE": {
-        "CONTINUE_AS": "Continuer en tant que",
-        "CONTINUE": "Continuer",
-        "SIGN_IN": "Connexion",
+        "CONTINUE_AS": "Continuer en tant que %NAME%",
+        "CONTINUE": "Continuer %WITH% %BRAND%",
+        "SIGN_IN": "Se connecter %WITH% %BRAND%",
         "WITH": "avec",
         "W_": "avec",
-        "WITH_EMAIL": "Se connecter avec une adresse e-mail"
+        "WITH_EMAIL": "Se connecter avec une adresse e-mail",
+		        "BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "Microsoft",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "planning center",
+            "FITBIT": "fitbit",
+            "APPLE": "Apple",
+            "TWITCH": "twitch",
+            "SALESFORCE": "Salesforce",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
     },
     "BUTTON": {
         "SIGN_IN_METHOD": "Autres modes de connexion",
@@ -121,6 +143,7 @@
     "ERROR": {
         "INLINE": {
             "TITLE": "Désolé",
+			"TITLE_": "Désolé %NAME%",
             "CONFIRM": "OK"
         },
         "EMPTY_TOKEN": {

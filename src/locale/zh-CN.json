@@ -38,7 +38,8 @@
         "CONTENT_2": "请查看垃圾邮件文件夹",
         "CONTENT_OR": "或者",
         "CONTENT_3": "请求一个新的验证码",
-        "BUTTON": "点击此处"
+        "BUTTON": "点击此处",
+		"CONTENT": "没有收到您的确认 PIN 码？<br/>请检查您的垃圾邮件文件夹<br/>或 %BUTTON% 获取新的 PIN 码"
     },
     "RESET_PASSWORD": {
         "TITLE": "你好",
@@ -49,7 +50,7 @@
         "CONTENT": "请输入你的电子邮件地址",
         "CONTENT_2": "请输入你的密码"
     },
-    "GREETING": "你好",
+    "GREETING": "%NAME%，您好！",
     "PLACEHOLDER": {
         "EMAIL_ADDRESS": "电子邮件地址",
         "PASSWD": "密码",
@@ -62,12 +63,33 @@
         "PIN": "PIN 码"
     },
     "TILE": {
-        "CONTINUE_AS": "以此身份继续",
-        "CONTINUE": "继续",
-        "SIGN_IN": "登入",
+        "CONTINUE_AS": "以 %NAME% 的身份继续",
+        "CONTINUE": "使用%WITH% %BRAND% 继续",
+        "SIGN_IN": "使用%WITH% %BRAND% 登录",
         "WITH": "通过",
         "W_": "w/",
-        "WITH_EMAIL": "通过电子邮箱登入"
+        "WITH_EMAIL": "通过电子邮箱登入",
+		"BRAND": {
+            "GOOGLE": "Google",
+            "FACEBOOK": "Facebook",
+            "MICROSOFT": "微软 (Microsoft)",
+            "LINKEDIN": "LinkedIn",
+            "TWITTER": "Twitter",
+            "QUICKBOOKS": "QuickBooks",
+            "GITHUB": "GitHub",
+            "SLACK": "Slack",
+            "BASECAMP": "Basecamp",
+            "DROPBOX": "Dropbox",
+            "SHOPIFY": "Shopify",
+            "EVERNOTE": "Evernote",
+            "PLANNINGCENTER": "Planning Center",
+            "FITBIT": "Fitbit",
+            "APPLE": "苹果 (Apple)",
+            "TWITCH": "Twitch",
+            "SALESFORCE": "赛富时 (Salesforce)",
+            "OKTA": "Okta",
+            "ONELOGIN": "OneLogin"
+        }
     },
     "BUTTON": {
         "SIGN_IN_METHOD": "其他登录方式",
@@ -121,6 +143,7 @@
     "ERROR": {
         "INLINE": {
             "TITLE": "抱歉",
+			"TITLE_": "很抱歉，%NAME%",
             "CONFIRM": "确认"
         },
         "EMPTY_TOKEN": {

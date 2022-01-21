@@ -29,11 +29,9 @@ let policy_view = false;
 let privacy_policy_link = false;
 
 const loadLanguage = function (options) {
-    if (options.language) {
-        let locale = lang.getLocale(options.language, options.locale);
-        if (locale) {
-            Locale = locale;
-        }
+    let locale = lang.getLocale(options.language, options.locale);
+    if (locale) {
+        Locale = locale;
     }
 };
 
