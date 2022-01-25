@@ -35,7 +35,7 @@ The official BreadButter JavaScript client library.
 
 ### Continue with script tag
 
-Inject this on your existing page to get started using with Bread & Butter with the Continue With widget.
+Inject this on your home page to get started using with Bread & Butter with the Continue With widget.
 
 ```javascript
 <script>
@@ -76,7 +76,7 @@ BreadButter.configure({
 Property | Description
 --- | ---
 app_id | [STRING] Unique identifier for your application. Find your app_id here: https://app.breadbutter.io/app/#/app-settings.
-callback_url | [STRING] The Callback URL is the url that the user will be redirected to after they have authenticated with the provider. A default is set in your App Settings, this parameter is used if this instance of the widget needs to be redirected to a different location (ie, your test environment).
+callback_url | [STRING] The Callback URL is the URL that the user will be redirected to after they have authenticated with the provider. Please add your Callback URL by going to "Settings" in the left menu of your Bread & Butter app, and expand "Advanced Settings. Note that "Enable Callback URL" will need to be set to ON.
 destination_url | [STRING] The Destination URL is the final destination for the user to be redirected. This is only required if your client side needs to tell your backend where to redirect the user.
 app_name | [STRING] Application name that you want  displayed in the JSL widgets.
 client_data | [OBJECT] Client data is used to allow you to pass parameters from the client side to your backend which processes the authentication.
