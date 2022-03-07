@@ -47,7 +47,7 @@ const loadFonts = function() {
         js = d.createElement(s);
         js.id = id;
         js.rel = 'stylesheet';
-        js.href = 'https://cdn.logonlabs.com/dist/fonts/fonts.css';
+        js.href = 'https://cdn.breadbutter.io/dist/fonts/fonts.css';
         fjs.append(js);
     })(document, 'link', 'logon-fonts');
 };
@@ -74,7 +74,9 @@ let options = {
     continue_with_hover: true,
     continue_with_hover_distance: 5,
     hide_local_auth_domains: [],
-    landing_redirect_url: false
+    landing_redirect_url: false,
+    window_open: false,
+    onMagicLinkConfirm: false
 };
 
 let profile_init = false;
@@ -167,6 +169,14 @@ const configure = function(opt) {
         options.ga_measurement_id = opt.ga_measurement_id;
     }
 
+    if (typeof opt.window_open != 'undefined') {
+        options.window_open = opt.window_open;
+    }
+
+    if (typeof opt.onMagicLinkConfirm == 'function') {
+        options.onMagicLinkConfirm = opt.onMagicLinkConfirm;
+    }
+
     api.configure({
         app_id: options.app_id,
         app_secret: options.app_secret,
@@ -178,7 +188,8 @@ const configure = function(opt) {
         allow_sub_domain: options.allow_sub_domain,
         success_event_code: options.success_event_code,
         hide_local_auth_domains: options.hide_local_auth_domains,
-        landing_redirect_url: options.landing_redirect_url
+        landing_redirect_url: options.landing_redirect_url,
+        window_open: options.window_open
     });
 
     tracking();
@@ -188,9 +199,6 @@ const configure = function(opt) {
     return new Promise(function(resolve) {
         api.getProfile(function(up, suggested, dv) {
             profile_init = true;
-            device_verified = dv;
-            suggested_provider = suggested;
-            profile = up;
             processProfileQueue();
             resolve(up, dv);
         })
@@ -200,30 +208,31 @@ const configure = function(opt) {
 const api = new (function() {
     this.configure = function(opt) {
         API.configure({
-            app_id: opt.app_id,
-            app_secret: opt.app_secret,
-            api_path: opt.api_path,
-            auto_redirect: opt.auto_redirect,
-            destination_url: opt.destination_url,
-            callback_url: opt.callback_url,
-            force_reauthentication: opt.force_reauthentication,
-            client_data: opt.client_data,
-            allow_sub_domain: opt.allow_sub_domain,
-            success_event_code: opt.success_event_code,
-            hide_local_auth_domains: opt.hide_local_auth_domains,
-            landing_redirect_url: options.landing_redirect_url
+            ...opt
         });
     };
 
     this.getProfile = function(callback) {
         API.getClientSettings(false, function(response) {
             if (response) {
+                let up = response.user_profile, suggested = response.suggested_provider, dv = response.device_verified;
+                device_verified = dv;
+                suggested_provider = suggested;
+                profile = up;
                 if (callback) {
-                    callback(response.user_profile, response.suggested_provider, response.device_verified);
+                    callback(up, suggested, dv);
                 }
             }
         })
     };
+
+    this.resetDeviceVerification = function(callback) {
+        API.resetDeviceVerification(function(){
+            if (typeof callback == 'function') {
+                callback();
+            }
+        });
+    }
 
     this.getProviders = API.getProviders;
     this.ping = API.ping;
@@ -453,6 +462,10 @@ const loadOptions = function(opt) {
 
     if (options.app_id) {
         opt['app_id'] = options.app_id;
+    }
+
+    if (options.onMagicLinkConfirm) {
+        opt['onMagicLinkConfirm'] = options.onMagicLinkConfirm;
     }
 
     applyOptions(opt, 'destination_url');

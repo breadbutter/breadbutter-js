@@ -1,3 +1,5 @@
+import { version } from './version.json';
+
 const getPostData = function (params) {
     // let data = new FormData();
     // for (let key in params) {
@@ -99,6 +101,7 @@ export function request(url, params, method, callback) {
         xhr.open(method, url, true);
         xhr.withCredentials = true;
         xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('bb-jsl-version', version);
         switch(method) {
             case 'PUT':
             case 'PATCH':
@@ -156,11 +159,17 @@ export function request(url, params, method, callback) {
 //     form.submit();
 // }
 
-export function redirect(url, data, redirect) {
+export function redirect(url, data, redirect, WINDOW_OPEN) {
     url = getGetData(url, data);
 
     if (redirect) {
-        document.location.assign(url);
+        if (typeof WINDOW_OPEN == 'function') {
+            WINDOW_OPEN(url);
+        } else if (WINDOW_OPEN) {
+            window.open(url);
+        } else {
+            document.location.assign(url);
+        }
     }
 
     return url;

@@ -14,6 +14,8 @@ let HIDE_LOCAL_AUTH_DOMAINS;
 
 let LANDING_REDIRECT_URL;
 
+let WINDOW_OPEN = false;
+
 let DEVICE_ID;
 const CACHE_STORAGE = {
     DEVICE_ID: 'breadbutter-sdk-device-id'
@@ -253,6 +255,10 @@ const configure = async function (data) {
     if (typeof data.landing_redirect_url != 'undefined') {
         LANDING_REDIRECT_URL = data.landing_redirect_url;
     }
+
+    if (typeof data.window_open != 'undefined') {
+        WINDOW_OPEN = data.window_open;
+    }
 };
 
 const parseCookie = (str) => {
@@ -289,7 +295,7 @@ const redirectLogin = function (pin, auto_redirect) {
         url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
     }
 
-    return redirect(url, request_data, auto_redirect);
+    return redirect(url, request_data, auto_redirect, WINDOW_OPEN);
 };
 
 const redirectAuthentication = function(pin, auto_redirect) {
@@ -305,7 +311,7 @@ const redirectAuthentication = function(pin, auto_redirect) {
         url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
     }
 
-    return redirect(url, false, auto_redirect);
+    return redirect(url, false, auto_redirect, WINDOW_OPEN);
 };
 
 const validateLogin = function (pin, callback) {
@@ -444,7 +450,14 @@ const getClientSettings = async function(email_address, callback) {
 const incrementPageEngagement = async function(content, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/prerelease/page_engagement';
 
+    const _default = {
+        c: 0,
+        s: 0,
+        m: 0
+    };
+
     let request_data = {
+        ..._default,
         ...content
     };
 

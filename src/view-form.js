@@ -437,6 +437,7 @@ const VIEWFORM = function() {
 
     let onProvider = false;
     let onFormEntry = false;
+    let onMagicLinkConfirm = false;
 
     const loadOptions = function(options) {
         loadLanguage(options);
@@ -448,7 +449,7 @@ const VIEWFORM = function() {
             OPTS.expand_email_address = options['expand_email_address'];
         }
 
-
+        onMagicLinkConfirm = options.onMagicLinkConfirm;
         onProvider = options.onProvider;
         onFormEntry = options.onFormEntry;
 
@@ -883,11 +884,19 @@ const VIEWFORM = function() {
                         PASSWORD_STORAGE.MINIMUM,
                         user_password.min_length
                     );
+                } else {
+                    localStorage.removeItem(
+                        PASSWORD_STORAGE.MINIMUM
+                    );
                 }
                 if (user_password.min_lowercase_chars) {
                     localStorage.setItem(
                         PASSWORD_STORAGE.LOWER,
                         user_password.min_lowercase_chars
+                    );
+                } else {
+                    localStorage.removeItem(
+                        PASSWORD_STORAGE.LOWER
                     );
                 }
                 if (user_password.min_uppercase_chars) {
@@ -895,17 +904,29 @@ const VIEWFORM = function() {
                         PASSWORD_STORAGE.UPPER,
                         user_password.min_uppercase_chars
                     );
+                } else {
+                    localStorage.removeItem(
+                        PASSWORD_STORAGE.UPPER
+                    );
                 }
                 if (user_password.min_numeric_chars) {
                     localStorage.setItem(
                         PASSWORD_STORAGE.NUMBER,
                         user_password.min_numeric_chars
                     );
+                } else {
+                    localStorage.removeItem(
+                        PASSWORD_STORAGE.NUMBER
+                    );
                 }
                 if (user_password.min_symbol_chars) {
                     localStorage.setItem(
                         PASSWORD_STORAGE.SYMBOL,
                         user_password.min_symbol_chars
+                    );
+                } else {
+                    localStorage.removeItem(
+                        PASSWORD_STORAGE.SYMBOL
                     );
                 }
             }
@@ -1727,6 +1748,9 @@ const VIEWFORM = function() {
                 container.classList.remove('bb-confirming');
                 await loader.success_hold();
                 api.redirectAuthentication(res.authentication_token, true);
+                if (typeof onMagicLinkConfirm == 'function') {
+                    onMagicLinkConfirm();
+                }
             } else {
                 await loader.failure_hold();
                 switchLogin(container);
@@ -1885,7 +1909,6 @@ const VIEWFORM = function() {
     };
 
     const highlightEmailFormMagicLink = function(container) {
-        // console.log('highlightEmailFormMagicLink');
         // console.log(container);
         let ml_module = findChild(container, MODULE_MAGIC_LINK);
         if (ml_module) {
