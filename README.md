@@ -95,7 +95,7 @@ success_event_code | [STRING] When authentication is a success, an event will be
 
 ### Continue With Widget
 
-![LL icon](continuewith.png) 
+![ContinueWith](continuewith.gif)
 
 #### Global Overrides 
 Accepted global options (defined above) when using the Continue With widget:
@@ -162,7 +162,7 @@ BreadButter.widgets.continueWith({
 
 ### Sign in Widget
 
-![LL icon](signin.png) 
+![Signin](signin.gif) 
 
 #### Global Overrides 
 Accepted global options (defined above) when using the Continue With Widget:
@@ -214,23 +214,29 @@ BreadButter.widgets.signIn(TARGET_DOM_ID, {
 ### Buttons Widget
 
 #### Buttons
-![LL icon](bb_buttons.png) 
+![LL icon](bb_buttons.png)
 
 ```
 BreadButter.widgets.buttons(TARGET_DOM_ID);
 ```
 
 #### Icons
-![LL icon](bb_icons.png) 
+![LL icon](bb_icons.png)
 ```
 BreadButter.widgets.buttons(TARGET_DOM_ID, {
     button_theme: ‘round-icons’
 });
 ```
 
+### De-identification
+```
+BreadButter.widgets.deidentification();
+```
+
 ## Methods
 
 ### Custom API Events
+![CustomAPI](APIevents.png) 
 
 Use this method to track specific events performed by your users.
 
@@ -239,3 +245,20 @@ BreadButter.events.custom(CUSTOM_API_EVENT_NAME, function() {
     console.log(‘EVENT CALL COMPLETE’);
 });
 ```
+
+### Get Profile API
+
+Use this method to retrieve user profile information about your users.
+
+```
+BreadButter.getProfile(function(user_profile, suggested_provider, device_verified) {
+    console.log(‘GET PROFILE CALL COMPLETE’);
+});
+```
+
+#### Response
+Property | Description
+--- | ---
+user_profile | [OBJECT] Contains information identifying the users including: email_address, first_name, last_name, profile_image_url.
+suggested_provider | [STRING] Type of account the user had logged in with (eg, Google, Linkedin, Microsoft, etc.)
+device_verified | [BOOL] Whether the user is verified or not.
