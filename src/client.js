@@ -18,6 +18,7 @@ const gateway_emails = constants.gateway_emails;
 const gateway_hash = constants.gateway_hash;
 const encoded_action = constants.encoded_action;
 const encoded_hash = constants.encoded_hash;
+const html_attributes = constants.html_attributes;
 
 let Locale = {};
 
@@ -192,6 +193,9 @@ const configure = function(opt) {
         window_open: options.window_open
     });
 
+
+
+    startup.beforeProfile();
     tracking();
     loadLanguage(options);
     viewUI.init(options);
@@ -201,9 +205,11 @@ const configure = function(opt) {
             profile_init = true;
             processProfileQueue();
             resolve(up, dv);
+            startup.completeProfile(opt);
         })
     });
 };
+
 
 const api = new (function() {
     this.configure = function(opt) {
@@ -492,6 +498,24 @@ const initUI = function(options) {
 };
 
 const UI = new (function() {
+    (this.deIdentification = function(options) {
+        options.hide_focus_text = true;
+        options.show_login_focus = true;
+        options.hide_on_focus = false;
+        options.continue_with_position = 'center';
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        if (options['email_address']) {
+            if (localStorage) {
+                localStorage.setItem(
+                    'breadbutter-sdk-email-address',
+                    options['email_address']
+                );
+            }
+        }
+        viewPopup.deIdentification(options, form);
+    }),
     (this.confirmEmail = function(id, options) {
         if (typeof id != 'string') {
             options = id;
@@ -734,14 +758,29 @@ const parsingUrl = function(opt) {
         let pin = querystring[gateway_emails.PIN];
         let email = querystring[gateway_emails.EMAIL];
 
-        if (typeof gateway_hash[type] != 'undefined' &&
-            email && pin && app_id == options.app_id) {
-            if (!opt) {
-                opt = {};
-            }
-            opt.mode = gateway_hash[type];
-            opt.email_address = email;
-            opt.pin = pin;
+        switch(gateway_hash[type]) {
+            case 'deidentification':
+                if (!opt) {
+                    opt = {};
+                }
+                opt.mode = gateway_hash[type];
+                if (email) {
+                    opt.email_address = email;
+                }
+                if (pin) {
+                    opt.pin = pin;
+                }
+                break;
+            default:
+                if (email && pin && app_id == options.app_id) {
+                    if (!opt) {
+                        opt = {};
+                    }
+                    opt.mode = gateway_hash[type];
+                    opt.email_address = email;
+                    opt.pin = pin;
+                }
+                break;
         }
     } else if (querystring[constants.magic_link_code]) {
         if (!opt) {
@@ -782,6 +821,235 @@ let isProfileInit = function(queue) {
 let isFieldExist = function(field) {
     return field;
 }
+
+const onBlurLogin = function(target) {
+    target.onkeydown = function() {
+        return false;
+    };
+    target.onclick = function() {
+        this.blur();
+        let show_login_focus = true;
+        // if (typeof options['show_login_focus'] != 'undefined') {
+        //     show_login_focus = options['show_login_focus'];
+        // }
+        widgets.continueWith({
+            show_login_focus: show_login_focus,
+            destination_url: document.location.href
+        });
+    }
+};
+
+const onBlurQueryUnderForm = function(form, type) {
+    let list = form.querySelectorAll(type);
+    for(let i = 0; i < list.length; i++) {
+        let item = list[i];
+        onBlurLogin(item);
+    }
+}
+
+const CACHE_STORAGE = {
+    DEVICE_ID: 'breadbutter-sdk-device-id',
+    SUCCESS_EVENT_CODE: 'breadbutter-sdk-success-event-code',
+    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code'
+};
+
+const checkEventStorage = function(custom_event_code) {
+    let event = false;
+    if (localStorage) {
+        let EVENT = CACHE_STORAGE.LAST_SUCCESS_EVENT_CODE + '-' + btoa(custom_event_code);
+        event = localStorage.getItem(EVENT);
+    }
+    return event;
+};
+
+const getViewedCode = function(data) {
+    return data + '_VIEWED';
+}
+
+const startup = new (function(){
+    this.beforeProfile = function() {
+        startup.hideAllControlContent();
+    };
+    this.hideAllControlContent = function() {
+        let contents = document.querySelectorAll('[' + html_attributes.VISIBLE_CONTROL + ']');
+        for(let i = 0; i < contents.length; i++) {
+            let c = contents[i];
+            c.classList.add(html_attributes.HIDDEN_DIV);
+        }
+    };
+    this.completeProfile = function(opt){
+        startup.handleGateContent();
+        startup.handleControlContent();
+        startup.handleFormControl();
+        startup.handleProfileWidget();
+        startup.handleContinueWith();
+        if (opt && opt.newsletter && opt.newsletter.custom_event_code) {
+            if (localStorage) {
+                let cached = checkEventStorage(opt.newsletter.custom_event_code);
+                if (cached != getViewedCode(opt.newsletter.custom_event_code)) {
+                    if (opt.newsletter.delay_seconds && typeof opt.newsletter.delay_seconds == 'number') {
+                        setTimeout(()=> {
+                            BreadButter.ui.addNewsletterWidget(opt.newsletter);
+                        }, opt.newsletter.delay_seconds * 1000);
+                    } else {
+                        BreadButter.ui.addNewsletterWidget(opt.newsletter);
+                    }
+                }
+            }
+        }
+    };
+    this.handleFormControl = function() {
+        let contents = document.querySelectorAll('[' + html_attributes.FORM_CONTROL + ']');
+        let form_event = document.querySelector('['+ html_attributes.FORM_EVENT + ']')
+        let event = (form_event && form_event.attributes[html_attributes.FORM_EVENT].value) ? form_event.attributes[html_attributes.FORM_EVENT].value : "form_submission";
+        let form_info = {};
+        for(let i = 0; i < contents.length; i++) {
+            let c = contents[i];
+            let value = c.attributes[html_attributes.FORM_CONTROL].value.toUpperCase();
+            if(html_attributes.control[value]) {
+                form_info[html_attributes.control[value]] = c;
+            }
+        }
+        if (form_info.form && form_info.submit) {
+            if (isVerifiedState()) {
+                if (form_info.name) {
+                    const name = form_info.name;
+                    if (name) {
+                        name.value = (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+
+                if (form_info.first_name) {
+                    const name = form_info.first_name;
+                    if (name) {
+                        name.value = (profile.first_name).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+
+                if (form_info.last_name) {
+                    const name = form_info.last_name;
+                    if (name) {
+                        name.value = (profile.last_name).trim();
+                        name.disabled = 'disabled';
+                    }
+                }
+                if (form_info.email) {
+                    const email = form_info.email;
+                    if (email) {
+                        email.value = profile.email_address;
+                        email.disabled = 'disabled';
+                    }
+                }
+
+                form_info.form.addEventListener('submit', function(){
+                    events.custom(event);
+                });
+            } else {
+                const types = ['textarea', 'input'];
+                for (let i = 0; form_info.form && i < types.length; i++) {
+                    onBlurQueryUnderForm(form_info.form, types[i]);
+                }
+                form_info.submit.disabled = 'disabled';
+            }
+        }
+    };
+    this.handleControlContent = function() {
+        let contents = document.querySelectorAll('[' + html_attributes.VISIBLE_CONTROL + ']');
+        let verified = isVerifiedState();
+        for(let i = 0; i < contents.length; i++) {
+            let c = contents[i];
+            let value = c.attributes[html_attributes.VISIBLE_CONTROL].value;
+            if ((verified && value == html_attributes.control.VERIFIED) || (!verified && value == html_attributes.control.NOT_VERIFIED)) {
+                c.classList.remove(html_attributes.HIDDEN_DIV);
+            } else {
+                c.classList.add(html_attributes.HIDDEN_DIV);
+            }
+        }
+    };
+    this.handleGateContent = function() {
+        let content = document.querySelector('[' + html_attributes.PAGE_CONTROL + ']');
+        let redirect = document.querySelector('[' + html_attributes.PAGE_REDIRECT + ']');
+        let verified = isVerifiedState();
+        if (content && redirect) {
+            let url = redirect.attributes[html_attributes.PAGE_REDIRECT].value;
+            let value = content.attributes[html_attributes.PAGE_CONTROL].value;
+            if ((value == html_attributes.control.VERIFIED && !verified) || (value == html_attributes.control.NOT_VERIFIED && verified)) {
+                document.location.assign(url);
+            }
+
+        }
+    };
+
+    this.handleProfileWidget = function() {
+        let field = document.querySelector('[' + html_attributes.PROFILE_WIDGET + ']');
+        let verified = isVerifiedState();
+        if (field && verified) {
+            field.innerHTML = viewUI.getProfileWidget(profile, suggested_provider);
+            let content = field.querySelector('.breadbutter-ui-profile-widget-container');
+            if (content && content.getBoundingClientRect().x < 375) {
+                content.classList.add('breadbutter-ui-left-aligned-container');
+            }
+            const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
+            if (logout_button) {
+                logout_button.onclick = async function() {
+                    await API.resetDeviceVerification();
+                    window.location.reload();
+                };
+            }
+        } else if (field) {
+            field.innerHTML = viewUI.getLoginWidget();
+            field.onclick = function(){
+                let show_login_focus = true;
+                if (typeof options['show_login_focus'] != 'undefined') {
+                    show_login_focus = options['show_login_focus'];
+                }
+                widgets.continueWith({
+                    show_login_focus: show_login_focus,
+                    ...options
+                });
+            };
+        }
+    };
+    this.handleContinueWith = function() {
+        let field = document.querySelector('[' + html_attributes.CONTINUE_WITH_SHOW + ']');
+        let verified = isVerifiedState();
+        if (field && !verified) {
+            let value = field.attributes[html_attributes.CONTINUE_WITH_SHOW].value;
+            let options = false;
+            if (value) {
+                try {
+                    options = JSON.parse(value);
+                    if (typeof options != 'object') {
+                        options = false;
+                    }
+                } catch(e) {
+                    options = false;
+                }
+            }
+            widgets.continueWith(options);
+        }
+    };
+})();
+
+const NotifyHubspot = function(holder) {
+    function doEvent(obj, name) {
+        try {
+            let event = new Event(name, {target: obj, bubbles: true});
+            return obj ? obj.dispatchEvent(event) : false;
+        } catch (e) {
+            let event = document.createEvent('Event');
+            event.initEvent(name, true, true);
+            obj.dispatchEvent(event);
+        }
+    }
+    doEvent(holder, 'change');
+    doEvent(holder, 'input');
+    doEvent(holder, 'blur');
+};
+
+let jotFormRetry = 0;
 
 const ui = new (function() {
     this.addEventToLink = function(link_id, event) {
@@ -951,6 +1219,143 @@ const ui = new (function() {
         this.gateLink(urls, options);
     };
 
+    this.applyHubspotForm = function() {
+        if (!isProfileInit({
+            call: 'applyHubspotForm',
+            params: []
+        }))
+            return;
+
+        // window.jQuery = window.jQuery || (() => ({change: () => {}, trigger: () => {},}));
+
+        let content = false;
+
+        if (document.querySelector('.hs-form-iframe')) {
+            content = document.querySelector('.hs-form-iframe').contentDocument;
+        } else if (document.querySelector('.hs-custom-form')) {
+            content = document.querySelector('.hs-custom-form');
+        } else if (document.querySelector('.hs-form-private')) {
+            content = document.querySelector('.hs-form-private');
+        }
+
+
+        const prefillContent = function(name, detail) {
+            let d = content.querySelector(`input[name=${name}]`);
+            if (d) {
+                d.value = detail;
+                NotifyHubspot(d);
+            }
+        }
+
+        if (content) {
+            if (isVerifiedState()) {
+                prefillContent('firstname', profile.first_name);
+                prefillContent('lastname', profile.last_name);
+                prefillContent('email', profile.email_address);
+                content.querySelectorAll('input[name=firstname],input[name=lastname],input[name=email]').forEach(function(c) {
+                    c.addEventListener('click', function(e){
+                        e.target.blur();
+                    });
+                });
+            } else {
+                content.querySelectorAll('input:not([type=submit],[type=hidden]),textarea')
+                    .forEach(function(c) {
+                    c.addEventListener('click', function(e){
+                        e.target.blur();
+                        widgets.continueWith({
+                            show_login_focus: true,
+                            destination_url: window.location.href
+                        });
+                    });
+                });
+                content.querySelector('input[type=submit]').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                });
+            }
+        }
+    };
+
+    this.applyJotForm = function(event) {
+        if (!isProfileInit({
+            call: 'applyJotForm',
+            params: [event]
+        }))
+            return;
+
+        let content = false;
+
+        if (document.querySelector('form.jotform-form')) {
+            content = document.querySelector('form.jotform-form');
+        } else {
+            let iframes = document.querySelectorAll('iframe');
+            for(let i = 0; i < iframes.length; i++) {
+                let iframe = iframes[i];
+                if (iframe.contentDocument) {
+                    let c = iframe.contentDocument;
+                    let form = c.querySelector('form');
+                    let id = c.querySelector('input[name=formID]');
+                    if (form && id && id.value == iframe.id) {
+                        content = form;
+                    }
+                }
+            }
+        }
+
+        const prefillContent = function(name, detail) {
+            let d = content.querySelector(`input[data-component=${name}]`);
+            if (d) {
+                d.value = detail;
+                // d.disabled = ' disabled';
+                // NotifyHubspot(d);
+                d.addEventListener('click', function(e){
+                    e.target.blur();
+                });
+            }
+        }
+
+        if (content) {
+            jotFormRetry = 0;
+            if (isVerifiedState()) {
+                prefillContent('first', profile.first_name);
+                prefillContent('last', profile.last_name);
+                prefillContent('email', profile.email_address);
+                prefillContent('emailConfirmation', profile.email_address);
+                content.querySelector('button[type=submit]').addEventListener('click', function(e) {
+                    if (event) {
+                        BreadButter.events.custom(event);
+                    }
+                });
+            } else {
+                content.querySelectorAll('input,textarea')
+                    .forEach(function(c) {
+                        c.addEventListener('click', function(e){
+                            e.target.blur();
+                            widgets.continueWith({
+                                show_login_focus: true,
+                                destination_url: window.location.href
+                            });
+                        });
+                    });
+                content.querySelector('button[type=submit]').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    widgets.continueWith({
+                        show_login_focus: true,
+                        destination_url: window.location.href
+                    });
+                });
+            }
+        } else if (jotFormRetry < 3) {
+            jotFormRetry++;
+            setTimeout(()=> {
+                ui.applyJotForm(event);
+            }, 500);
+        }
+    };
+
     this.applyFormControl = function(form_info, options) {
         if (!isProfileInit({
             call: 'applyFormControl',
@@ -960,23 +1365,6 @@ const ui = new (function() {
 
         form_info = form_info ? form_info : {};
         options = options ? options : {};
-
-        const onBlurLogin = function(target) {
-            target.onkeydown = function() {
-                return false;
-            };
-            target.onclick = function() {
-                this.blur();
-                let show_login_focus = true;
-                if (typeof options['show_login_focus'] != 'undefined') {
-                    show_login_focus = options['show_login_focus'];
-                }
-                widgets.continueWith({
-                    show_login_focus: show_login_focus,
-                    destination_url: document.location.href
-                });
-            }
-        };
 
         const form = document.getElementById(form_info.form);
 
@@ -1014,23 +1402,22 @@ const ui = new (function() {
                         email.disabled = 'disabled';
                     }
                 }
+                if (form_info.email_confirm) {
+                    const email = document.getElementById(form_info.email_confirm);
+                    if (email) {
+                        email.value = profile.email_address;
+                        email.disabled = 'disabled';
+                    }
+                }
 
                 let event = form_info.event ? form_info.event : "form_submission";
                 form.addEventListener('submit', function(){
                    events.custom(event);
                 });
             } else {
-                const onBlurQueryUnderForm = function(type) {
-                    let list = form.querySelectorAll(type);
-                    for(let i = 0; i < list.length; i++) {
-                        let item = list[i];
-                        onBlurLogin(item);
-                    }
-                }
-
                 const types = ['textarea', 'input'];
                 for (let i = 0; form && i < types.length; i++) {
-                    onBlurQueryUnderForm(types[i]);
+                    onBlurQueryUnderForm(form, types[i]);
                 }
                 submit.disabled = 'disabled';
             }
@@ -1047,8 +1434,9 @@ const ui = new (function() {
         if (!isFieldExist(field))
             return;
 
-        field.addEventListener("click", event => {
-            window.localStorage.clear();
+        field.addEventListener("click", async (event) => {
+            // window.localStorage.clear();
+            await API.resetDeviceVerification();
             window.location.reload();
         });
         if (!isVerifiedState()) {
@@ -1067,7 +1455,8 @@ const ui = new (function() {
         if (!isFieldExist(field))
             return;
 
-        field.addEventListener("click", event => {
+        field.addEventListener("click", async (event) => {
+            await API.resetDeviceVerification();
             widgets.continueWith(options);
         });
         if (isVerifiedState()) {
@@ -1091,7 +1480,7 @@ const ui = new (function() {
 
         if (isVerifiedState()) {
             field.addEventListener("click", event => {
-                window.localStorage.clear();
+                // window.localStorage.clear();
                 window.location.reload();
             });
             field.innerText = ui_options.logout_text || Locale.UI.LOGOUT || 'Sign out';
@@ -1154,6 +1543,10 @@ const ui = new (function() {
 
         if (isVerifiedState()) {
             field.innerHTML = viewUI.getProfileWidget(profile, suggested_provider);
+            let content = field.querySelector('.breadbutter-ui-profile-widget-container');
+            if (content && content.getBoundingClientRect().x < 375) {
+                content.classList.add('breadbutter-ui-left-aligned-container');
+            }
             const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
             if (logout_button) {
                 logout_button.onclick = async function() {
@@ -1242,10 +1635,125 @@ const ui = new (function() {
             widgets.continueWith(options);
         }
     };
+
+    this.addNewsletterWidget = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'addNewsletterWidget',
+            params: [field_id, options]
+        }))
+            return;
+
+        let on_page = true;
+        if (typeof field_id == 'object') {
+
+            on_page = false;
+            options = field_id;
+            if (options.delay_seconds && typeof options.delay_seconds == 'number') {
+                let time = options.delay_seconds;
+                delete options.delay_seconds;
+                setTimeout(() => {
+                    ui.addNewsletterWidget(options);
+                }, time * 1000);
+                return;
+            }
+        }
+
+        options = options ? options : {};
+
+        if (!options.custom_event_code) {
+            return;
+        }
+
+        if (typeof options.show_focus == 'undefined') {
+            options.show_focus = true;
+        }
+
+        let field, result, mask;
+        if (on_page) {
+            field = document.getElementById(field_id);
+            if (!field)
+                return;
+
+            options.verified = isVerifiedState();
+            options.profile = profile;
+            result = viewUI.getNewsletterWidget(options);
+            if (!result) {
+                return;
+            }
+            field.innerHTML = result.html;
+        } else {
+            options.verified = isVerifiedState();
+            options.profile = profile;
+            result = viewUI.getNewsletterPopupWidget(options);
+            if (!result) {
+                return;
+            }
+
+            field = document.createElement('div');
+            field.classList.add('breadbutter-ui-newsletter-popup');
+            field.innerHTML = result.html;
+            document.body.appendChild(field);
+
+            // if (options.show_focus) {
+            //     mask = document.createElement('div');
+            //     mask.classList.add('breadbutter-newsletter-mask');
+            //     document.body.appendChild(mask);
+            // }
+            // field = document.body.querySelector('.breadbutter-ui-newsletter-popup');
+            let exit_button = field.querySelector('.breadbutter-ui-newsletter-widget-close');
+            if (exit_button) {
+                exit_button.addEventListener('click', () => {
+                    field.remove();
+                    if (mask)
+                        mask.remove();
+                });
+            }
+        }
+
+        if (!isVerifiedState()) {
+            let opt = {};
+            opt.button_theme = 'round-icons';
+            opt.success_event_code = options.custom_event_code;
+            opt.destination_url = document.location.href.split('?')[0];
+            widgets.signIn(result.index, opt);
+        } else {
+            let button = field.querySelector('.breadbutter-ui-newsletter-subscribe');
+            if (button) {
+                button.addEventListener('click', (event) => {
+                    console.log(event.target);
+                    let parent = event.target.parentElement;
+                    event.target.remove();
+                    let loader = document.createElement('div');
+                    loader.classList.add('breadbutter-ui-newsletter-loader');
+                    parent.appendChild(loader);
+                    events.custom(options.custom_event_code, () => {
+                        if (typeof field_id != 'string') {
+                            field.remove();
+                            if (mask)
+                                mask.remove();
+                        }
+                        API.assignEventStorage(options.custom_event_code);
+                        BreadButter.ui.addNewsletterWidget(field_id, options);
+                    });
+                });
+            }
+        }
+    };
 })();
 
 let triggerBlurScreen = false;
 const widgets = new (function() {
+    this.deIdentification = function(opt) {
+        opt = parsingUrl(opt);
+        // console.log(opt);
+        let mode = (opt && opt.mode) ? opt.mode : false;
+        opt = loadOptions(opt);
+        // if (!triggerBlurScreen) {
+        //     triggerBlurScreen = true;
+        //     events.custom('blur_screen');
+        // }
+        UI.deIdentification(opt);
+    };
     this.continueWith = function(opt) {
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
@@ -1261,6 +1769,9 @@ const widgets = new (function() {
             }
         } else {
             switch (mode) {
+                case constants.mode.DEIDENTIFICATION:
+                    UI.deIdentification(opt);
+                    break;
                 case constants.mode.CONFIRM_EMAIL:
                     UI.confirmEmail(opt);
                     break;
@@ -1272,6 +1783,9 @@ const widgets = new (function() {
                     break;
                 case constants.mode.MAGIC_LINK:
                     UI.magicLink(opt);
+                    break;
+                default:
+                    UI.form(id, opt);
                     break;
             }
         }
@@ -1296,6 +1810,9 @@ const widgets = new (function() {
                     break;
                 case constants.mode.MAGIC_LINK:
                     UI.magicLink(opt);
+                    break;
+                default:
+                    UI.form(id, opt);
                     break;
             }
         }

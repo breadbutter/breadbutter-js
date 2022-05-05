@@ -26,6 +26,8 @@ const INCOGNITO_TITLE_ID = 'breadbutter-incognito-title';
 const INCOGNITO_HOLDER_ID = 'breadbutter-incognito-holder';
 const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
+const DEIDENTIFY_FORM_ID = 'breadbutter-deidentify-form';
+const DEIDENTIFY_ID = 'breadbutter-deidentify';
 
 const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
 const TERM_POLICY_ID = 'breadbutter-term-policy';
@@ -64,6 +66,11 @@ const MODULE_FORM_INPUT = 'breadbutter-module-form-input';
 const MODULE_MORE_INFO = 'breadbutter-module-more-information';
 const MODULE_DROPDOWN = 'breadbutter-module-dropdown';
 
+const AUTH_TYPE = {
+    SSO: 'sso',
+    AUTH: 'password',
+    MAGIC_LINK: 'magic_link'
+};
 
 import lang from './locale.js';
 import logger from './logger.js';
@@ -115,7 +122,9 @@ const FORM = {
     INCOGNITO_NEXT: 'form-incognito-next',
     NEXT_ICON: 'form-next-icon',
     MORE_INFO: 'form-more-information',
-    EXPAND_ICON: 'form-expand-icon'
+    EXPAND_ICON: 'form-expand-icon',
+    DE_IDENTIFICATION: 'form-deidentify-me',
+    CONFIRM_PIN: 'form-confirm-pin'
 };
 
 const PASSWORD_STORAGE = {
@@ -172,6 +181,8 @@ const EMAIL_FORM = 'email-form';
 const LOGIN_FORM = 'login-form';
 const LOCAL_LOGIN_FORM = 'local-login-form';
 const REGISTER_FORM = 'register-form';
+const DEIDENTIFY_FORM = 'deidentify-form';
+
 
 import api from './api.js';
 import constants from './constants';
@@ -858,6 +869,36 @@ const VIEWFORM = function() {
         });
     };
 
+    const deIdentification = function(id, options) {
+        options.adjustHeader(false);
+
+        loadOptions(options);
+        let email_address = getLocalEmail(options.email_address);
+
+        const addInView = function(id, options, container, form) {
+            container.appendChild(form);
+
+            showPopupTitle(container, false);
+            view.initView(id, options, container);
+        }
+        let container = addUI(options);
+        options.adjustHeader(false);
+        if (options.pin  && options.mode) {
+            let form = deIdentifyPinForm(options);
+            addInView(id, options, container, form);
+            if (options.pin) {
+                continueDeIdentifyPin(form);
+            }
+        } else {
+            getProviders(email_address, (res) => {
+                options.email_address = getClientEmail(options.email_address, res);
+                let form = deIdentifyForm(res, options);
+                addInView(id, options, container, form);
+            });
+        }
+    };
+
+
     const addConfirm = function(id, options) {
         loadOptions(options);
         let email_address = getLocalEmail(options.email_address);
@@ -873,7 +914,7 @@ const VIEWFORM = function() {
         if (pin) {
             continueConfirmUser(form);
         }
-    };
+    }
 
     const loadPasswordRegulation = function(res) {
         if (res && res.settings && res.settings.password_settings) {
@@ -1208,11 +1249,11 @@ const VIEWFORM = function() {
         if (TOC_LINK || PRIVACY_LINK) {
             let text;
             if (TOC_LINK && PRIVACY_LINK) {
-                text = lang.replace({ APP_NAME, TOC_LINK, PRIVACY_LINK  }, Locale.TOC_PRIVACY.CONTENT_ALL);
+                text = lang.replace({ APP_NAME, TOC_LINK, PRIVACY_LINK  }, APP_NAME ? Locale.TOC_PRIVACY.CONTENT_ALL : Locale.TOC_PRIVACY.NAMELESS_CONTENT_ALL);
             } else if (TOC_LINK) {
-                text = lang.replace({ APP_NAME, TOC_LINK  }, Locale.TOC_PRIVACY.CONTENT_TOC);
+                text = lang.replace({ APP_NAME, TOC_LINK  }, APP_NAME ? Locale.TOC_PRIVACY.CONTENT_TOC : Locale.TOC_PRIVACY.NAMELESS_CONTENT_TOC);
             } else if (PRIVACY_LINK) {
-                text = lang.replace({ APP_NAME, PRIVACY_LINK  }, Locale.TOC_PRIVACY.CONTENT_PRIVACY);
+                text = lang.replace({ APP_NAME, PRIVACY_LINK  }, APP_NAME ? Locale.TOC_PRIVACY.CONTENT_PRIVACY : Locale.TOC_PRIVACY.NAMELESS_CONTENT_PRIVACY);
             }
             let holder = view.addView(TERM_POLICY_HOLDER_ID);
             let content = getDiv(text, TERM_POLICY_ID);
@@ -1395,7 +1436,7 @@ const VIEWFORM = function() {
         return b;
     };
 
-    const getPin = function(cls, pin) {
+    const getPin = function(cls, pin, trigger) {
         let b = view.addBlock('input', FORM.PIN);
         b.type = 'text';
         b.pattern = '[0-9]*';
@@ -1410,12 +1451,16 @@ const VIEWFORM = function() {
             b.classList.add(cls);
         }
 
-        b.addEventListener('keyup', triggerPin);
-        b.addEventListener('paste', pastePin);
+        b.addEventListener('keyup', (e)=> {
+            triggerPin(e, trigger);
+        });
+        b.addEventListener('paste', (e)=> {
+            pastePin(e, trigger);
+        });
         return b;
     };
 
-    const getPinTokenSet = function(length, pin, cb) {
+    const getPinTokenSet = function(length, pin, trigger, cb) {
         let b = view.addBlock('div', FORM.TOKEN_PIN);
 
         if (pin) {
@@ -1424,7 +1469,7 @@ const VIEWFORM = function() {
         for (let i = 0; i < length; i++) {
             let cls = FORM.PIN + '-' + i;
             let p = pin ? pin[i] : false;
-            let a = getPin(cls, p);
+            let a = getPin(cls, p, trigger);
             b.appendChild(a);
         }
 
@@ -1601,13 +1646,28 @@ const VIEWFORM = function() {
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_OR));
         div.appendChild(getText(Locale.NEW_CODE.CONTENT));
         let button = getText(Locale.NEW_CODE.BUTTON, 'link');
-        console.log(div.innerHTML);
+        // console.log(div.innerHTML);
         div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
         // div.appendChild(button);
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
 
         let link = div.querySelector('.link');
         link.onclick = triggerNewCode;
+        return div;
+    };
+
+    const getNewPinDeIdentify = function() {
+        let div = getParagraph('');
+        // div.classList.add('new_code');
+        div.appendChild(getText(Locale.DE_IDENTIFICATION.GET_NEW_PIN));
+        let button = getText(Locale.DE_IDENTIFICATION.NEW_PIN_BUTTON, 'link');
+        // console.log(div.innerHTML);
+        div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
+        // div.appendChild(button);
+        // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
+
+        let link = div.querySelector('.link');
+        link.onclick = triggerNewDeIdentify;
         return div;
     };
 
@@ -1625,6 +1685,10 @@ const VIEWFORM = function() {
 
     const getSwitchLogin = function(cb) {
         return getButton(Locale.BUTTON.SWITCH_LOGIN, FORM.SWITCH_LOGIN, cb);
+    };
+
+    const getSwitchDeIdentify = function(cb) {
+        return getButton(Locale.BUTTON.SWITCH_DE_IDENTIFY, FORM.SWITCH_LOGIN, cb);
     };
 
     const getRegisterButton = function(cb) {
@@ -1693,7 +1757,7 @@ const VIEWFORM = function() {
         }
         let title = getTitle(title_message);
         title.classList.add(MAGIC_LINK_TITLE_ID);
-        let email = getSubtitle(email_address);
+        let email = getEmail(email_address, true);
         email.classList.add(MAGIC_LINK_EMAIL_ID);
         let message = getDiv(Locale.MAGIC_LINK.CONFIRM_MESSAGE, MAGIC_LINK_MESSAGE_ID)
         container.appendChild(title);
@@ -1762,7 +1826,7 @@ const VIEWFORM = function() {
         setTimeout(function(){
             let view = findChild(container, MAGIC_LINK_VIEW_ID);
             api.getMagicLinkAuthenticated(authentication_token, async function(res) {
-                if (res && !res.error) { 
+                if (res && !res.error) {
                     if (res.magic_link_authenticated){
                         container.classList.add('bb-logging');
                         loader.start(view, false, true, false);
@@ -1781,6 +1845,339 @@ const VIEWFORM = function() {
         }, 5000);
     }
 
+    const startDeIdentification = function(holder, {
+        email_address, auth_type, provider, user, options
+    }) {
+        const top = holder.parentElement;
+        const callback = function(res) {
+            if (res && res.authentication_token) {
+                api.redirectAuthentication(res.authentication_token, true);
+            } else if (res && !res.error) {
+                //change page with pin;
+                let form = deIdentifyPinForm({email_address});
+                let top_parent = top.parentElement;
+                top.remove();
+                top_parent.appendChild(form);
+            } else if (res && res.error) {
+                let target = findChild(holder, FORM.DE_IDENTIFICATION);
+                insertError(target, res.error.message);
+            }
+        };
+
+        api.startDeIdentification({
+            email_address, auth_type, provider, user, options, callback
+        });
+    }
+
+    const continueDeIdentificationEmail = function(holder) {
+        const email_input = findChild(holder, FORM.EMAIL);
+        const top = holder.parentElement;
+        let email = email_input.email ? email_input.email : email_input.value;
+        // console.log(email_address);
+
+        let alert = false;
+
+        if (!val.isEmail(email)) {
+            alert = Locale.ERROR.VALID_EMAIL;
+            insertError(email_input, alert.MESSAGE);
+        } else {
+            const callback = function(response) {
+                if (response.user_profile && response.user_profile.state != 'verified') {
+                    startDeIdentification(holder, {
+                        email_address: response.user_profile.email_address
+                    });
+                } else {
+                    const container = holder.parentElement;
+                    container.querySelector('.' + FORM.SUBTITLE).innerHTML = Locale.DE_IDENTIFICATION.CONTENT_VERIFIED;
+                    deIdentificationEmailProvider(holder, response);
+                }
+            };
+
+            getProviders(email, callback);
+        }
+    }
+
+    const triggerNewDeIdentify = function(event) {
+        let span = event.target.parentElement;
+        let message = span.parentElement;
+        let holder = message.parentElement;
+        let top = holder.parentElement;
+        let form = deIdentifyForm(false, {});
+
+        holder.remove();
+        top.appendChild(form);
+    }
+
+    const continueDeIdentifyPin = function(holder) {
+        // console.log(holder);
+        let top = holder.parentElement;
+        const form = findChild(holder, DEIDENTIFY_FORM_ID);
+        const pin = findChild(form, FORM.TOKEN_PIN);
+        const email_input = findChild(form, FORM.EMAIL);
+        let email = email_input.email ? email_input.email : email_input.value;
+        let value = '';
+        for (let i = 0; pin.children && i < pin.children.length; i++) {
+            value += pin.children[i].value;
+        }
+
+        let values = {
+            email_address: email,
+            pin: value,
+        };
+        // console.log(values);
+
+        let pass = true;
+        let alert = false;
+
+        if (!values.pin) {
+            pass = false;
+            alert = Locale.ERROR.EMPTY_TOKEN;
+        }
+
+        if (pass) {
+            loader.start(form);
+            loading = true;
+            pin.classList.add('hide');
+            values = view.applyData(top, values);
+            document.activeElement.blur();
+            api.confirmDeIdentification(values, async function(res) {
+                if (res && !res.error) {
+                    await loader.success_hold();
+                    view.getData(top, 'forceQuit')();
+                } else if (res && res.error) {
+                    view.unsetData(top, 'pin');
+                    await loader.failure();
+                    pin.classList.remove('hide');
+                    let message = res.error.message;
+                    if (Locale.RES_MAPPING[res.error.code]) {
+                        message = Locale.RES_MAPPING[res.error.code];
+                    }
+                    insertError(pin, message);
+                }
+                loading = false;
+            });
+        } else if (alert) {
+            insertError(pin, alert.MESSAGE);
+        }
+    }
+
+    const triggerDeIdentifyPin = function(event) {
+        const button = event.currentTarget;
+        const holder = button.parentElement;
+        continueDeIdentifyPin(holder.parentElement);
+    }
+
+    const triggerCheckDeIdentificationLocal = function(event) {
+        let holder = event.target.parentElement;
+        deIdentificationLocal(holder);
+    };
+
+    const triggerCheckDeIdentificationSSOButton = function(event) {
+        let holder = event.target.parentElement;
+        let name = event.currentTarget.getAttribute('name');
+        let provider_id = event.currentTarget.getAttribute(
+            'provider_id'
+        );
+        let email_address = event.currentTarget.email_address;
+        deIdentificationSSO(holder, name, provider_id, email_address);
+    };
+    const triggerCheckDeIdentificationSSO = function(event) {
+        let holder = event.target.parentElement;
+        let buttons = findChild(holder, BUTTON_ID);
+        let button = buttons.children[0];
+        let name = button.getAttribute('name');
+        let provider_id = button.getAttribute(
+            'provider_id'
+        );
+        let email_address = button.email_address;
+        deIdentificationSSO(holder, name, provider_id, email_address);
+    };
+
+    const deIdentificationSSO = function(holder, name, provider_id, email_address) {
+        let provider = {};
+        if (provider_id) {
+            provider.id = provider_id;
+        } else if (name) {
+            provider.idp = name;
+        }
+
+        startDeIdentification(holder, {
+            email_address,
+            auth_type: AUTH_TYPE.SSO,
+            provider
+        });
+    }
+
+    const triggerCheckDeIdentificationEmail = function(event) {
+        let holder = event.target.parentElement;
+        continueDeIdentificationEmail(holder);
+    }
+
+    const triggerDeIdentificationPasswordKeyup = function(event) {
+        const input = event.srcElement;
+        const holder = input.parentElement.parentElement;
+        cleanError(input);
+        if (event.code != 'Enter') {
+            return;
+        }
+        deIdentificationLocal(holder);
+
+    }
+
+    const deIdentificationLocal = function(holder) {
+        const email_input = findChild(holder, FORM.EMAIL);
+
+        const password_module = findChild(holder, MODULE_PASSWORD);
+        const password_input = findChild(password_module, FORM.PASSWORD);
+
+        let email = email_input.email ? email_input.email : email_input.value;
+        startDeIdentification(holder, {
+            email_address: email,
+            auth_type: AUTH_TYPE.AUTH,
+            user: {
+                password: password_input.value
+            }
+        });
+    };
+
+    const deIdentificationEmailProvider = function(holder, response) {
+        holder.innerHTML = ""; //clean out existing, proceed to process emaill and handling;
+        let {
+            list,
+            suggested_list,
+            suggested,
+            local
+        } = processProviders(response);
+        let email_address = response.user_profile.email_address;
+        if (suggested == 'local') {
+            // console.log('local');
+            holder.appendChild(getEmail(email_address, true));
+            holder.appendChild(
+                getPasswordModule(triggerDeIdentificationPasswordKeyup, Locale.PLACEHOLDER.PASSWD)
+            );
+            holder.appendChild(
+                getButton(
+                    Locale.BUTTON.DE_IDENTIFY_ME,
+                    FORM.DE_IDENTIFICATION,
+                    triggerCheckDeIdentificationLocal
+                )
+            );
+        } else {
+            // console.log('sso');
+            if (response.user_profile && suggested_list.length) {
+                if (response.user_profile.profile_image_url) {
+                    suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
+                }
+                if (response.user_profile.first_name) {
+                    suggested_list[0].alias = response.user_profile.first_name;
+                }
+            }
+            let opt = {
+                button_theme: false,
+                suggested: suggested,
+                email_address: email_address,
+                deidentify: true,
+                pass: triggerCheckDeIdentificationSSOButton
+            };
+            let buttons = viewButton.getButtonLists(
+                suggested_list,
+                opt
+            );
+
+            holder.appendChild(buttons.container);
+            holder.appendChild(
+                getButton(
+                    Locale.BUTTON.DE_IDENTIFY_ME,
+                    FORM.DE_IDENTIFICATION,
+                    triggerCheckDeIdentificationSSO
+                )
+            );
+        }
+        holder.appendChild(getSwitchDeIdentify(triggerSwitchDeIdentify));
+    }
+
+    const triggerSwitchDeIdentify = function(e) {
+        const button = e.currentTarget;
+        const holder = button.parentElement;
+        holder.innerHTML = "";
+        const container = holder.parentElement;
+        container.querySelector('.' + FORM.SUBTITLE).innerHTML = Locale.DE_IDENTIFICATION.CONTENT;
+        deIdentificationEmailRequest(holder, false);
+    }
+
+    const deIdentificationEmailRequest = function(holder, email, container) {
+        holder.appendChild(getEmail(email, false, triggerDeIdentificationKeyup));
+        holder.appendChild(
+            getButton(
+                Locale.BUTTON.DE_IDENTIFY_ME,
+                FORM.DE_IDENTIFICATION,
+                triggerCheckDeIdentificationEmail
+            )
+        );
+    }
+
+    const triggerDeIdentificationKeyup = function(e) {
+        if (loading) return;
+        const input = e.srcElement;
+        const holder = input.parentElement;
+        cleanError(input);
+        if (e.code != 'Enter') {
+            return;
+        }
+        continueDeIdentificationEmail(holder);
+    };
+
+    const deIdentifyForm = function(res, options) {
+        let is_verified = res && res.user_profile && res.user_profile.state == 'verified' ? true : false;
+        // has_email = false;
+
+        formEntry(DEIDENTIFY_FORM);
+        let container = view.addView(DEIDENTIFY_ID);
+        container.options = options;
+        let form = view.addView(DEIDENTIFY_FORM_ID);
+
+        if (is_verified) {
+
+            container.appendChild(getHeaderModule(Locale.DE_IDENTIFICATION.DE_IDENTIFY_ME, Locale.DE_IDENTIFICATION.CONTENT_VERIFIED));
+            deIdentificationEmailProvider(form, res);
+        } else {
+            container.appendChild(getHeaderModule(Locale.DE_IDENTIFICATION.DE_IDENTIFY_ME, Locale.DE_IDENTIFICATION.CONTENT));
+            deIdentificationEmailRequest(form, options.email_address);
+        }
+        container.appendChild(form);
+        insertPoweredByModule(container);
+        return container;
+    }
+
+    const deIdentifyPinForm = function(options) {
+        let email_address = options.email_address;
+        let pin = options.pin;
+
+        formEntry(DEIDENTIFY_FORM);
+        let container = view.addView(DEIDENTIFY_ID);
+        container.options = options;
+        let form = view.addView(DEIDENTIFY_FORM_ID);
+        container.appendChild(getHeaderModule(Locale.DE_IDENTIFICATION.DE_IDENTIFY_PIN, Locale.DE_IDENTIFICATION.CONTENT_PIN));
+
+        form.appendChild(getEmail(email_address, true));
+        form.appendChild(getPinTokenSet(4, pin, continueDeIdentifyPin));
+        form.appendChild(
+            getButton(
+                Locale.BUTTON.CONFIRM_PIN,
+                FORM.CONFIRM_PIN,
+                triggerDeIdentifyPin
+            )
+        );
+
+        container.appendChild(form);
+        let paragraph = getParagraph('');
+        paragraph.appendChild(getText(Locale.DE_IDENTIFICATION.CONFIRM_PIN));
+        container.appendChild(paragraph);
+        container.appendChild(getNewPinDeIdentify());
+        insertPoweredByModule(container);
+        return container;
+    };
+
     const confirmForm = function(email_address, pin) {
         formEntry(CONFIRM_FORM);
         let container = view.addView(CONFIRM_ID);
@@ -1788,7 +2185,7 @@ const VIEWFORM = function() {
         container.appendChild(getHeaderModule(Locale.CONFIRM_EMAIL.TITLE, Locale.CONFIRM_EMAIL.CONTENT));
 
         form.appendChild(getEmail(email_address, true));
-        form.appendChild(getPinTokenSet(4, pin));
+        form.appendChild(getPinTokenSet(4, pin, continueConfirmUser));
         form.appendChild(
             getButton(
                 Locale.BUTTON.CONFIRM,
@@ -1909,6 +2306,7 @@ const VIEWFORM = function() {
     };
 
     const highlightEmailFormMagicLink = function(container) {
+        // console.log('highlightEmailFormMagicLink');
         // console.log(container);
         let ml_module = findChild(container, MODULE_MAGIC_LINK);
         if (ml_module) {
@@ -2025,14 +2423,35 @@ const VIEWFORM = function() {
         return container;
     };
 
+    const showMoreIDP = function(holder) {
+        let idpfield = holder.querySelector('.bb-limit-providers');
+        if (idpfield) {
+            let dropdown = idpfield.querySelector('.breadbutter-provider-limit');
+            if (dropdown) {
+                dropdown.remove();
+            }
+            idpfield.classList.remove('bb-limit-providers');
+        }
+    };
+
+    const showContinueWithEmail = function(holder) {
+        let emailfield = holder.querySelector('.less-content');
+        if (emailfield && emailfield.classList.contains('less-content')) {
+            emailfield.classList.remove('less-content');
+        }
+        showMoreIDP(holder);
+    };
+
     const expandingIcons = function(e) {
         let icon = e.target;
         let holder = findParents(icon, UI_ID);
         if (holder && holder.parentElement) {
+            console.log('expandingIcons');
             holder.parentElement.classList.remove('scrolling');
+            showMoreIDP(holder);
             setTimeout(function() {
                 holder.parentElement.style.height = null;
-            }, 250);
+            }, 200);
         }
     };
 
@@ -2104,6 +2523,7 @@ const VIEWFORM = function() {
                 button_holder.append(d);
                 button_holder.classList.add('bb-limit-providers');
                 d.onclick = function() {
+                    console.log('getArrowDown');
                     this.parentElement.classList.remove('bb-limit-providers');
                     this.remove();
                 };
@@ -2176,7 +2596,7 @@ const VIEWFORM = function() {
         top.classList.add('expire');
     };
 
-    const pastePin = function(e) {
+    const pastePin = function(e, trigger) {
         let clipboardData = e.clipboardData || window.clipboardData;
         let pastedData = clipboardData.getData('Text');
         if (!isNaN(pastedData)) {
@@ -2195,12 +2615,12 @@ const VIEWFORM = function() {
             }
             if (holder.children && holder.children.length && pastedData.length) {
                 holder.children[holder.children.length - 1].focus();
-                continueConfirmUser(holder.parentElement.parentElement);
+                trigger(holder.parentElement.parentElement);
             }
         }
     };
 
-    const triggerPin = function(e) {
+    const triggerPin = function(e, trigger) {
         if (loading) return;
         const input = e.srcElement;
         const pin = input.parentElement;
@@ -2211,7 +2631,7 @@ const VIEWFORM = function() {
             if (input.nextSibling) {
                 input.nextSibling.focus();
             } else {
-                continueConfirmUser(pin.parentElement.parentElement);
+                trigger(pin.parentElement.parentElement);
             }
         } else {
             if (input.previousSibling) {
@@ -2361,6 +2781,7 @@ const VIEWFORM = function() {
             values = view.applyData(top, values);
 
             document.activeElement.blur();
+            // console.log('loading...');
             api.loginWithPassword(values, async function(res) {
                 if (res && res.authentication_token) {
                     await loader.success_hold();
@@ -3084,8 +3505,10 @@ const VIEWFORM = function() {
     };
 
     const triggerIncognitoMoreOptions = function(button, holder) {
+        console.log('triggerIncognitoMoreOptions');
         if (holder.classList.contains('less-content')) {
             holder.classList.remove('less-content');
+            showMoreIDP(holder.parentElement);
         } else {
             holder.classList.add('less-content');
         }
@@ -3549,11 +3972,19 @@ const VIEWFORM = function() {
             }
         }
 
+        if (res && res.settings &&
+            res.settings.password_settings &&
+            res.settings.password_settings.enabled) {
+            local = providers_hash[providers.LOCAL];
+        }
+
         if (!register && !suggested) {
             if (res && res.user_profile && res.user_profile.has_password) {
                 suggested = providers.LOCAL;
-                if (providers_hash[suggested]) {
-                    suggested_list.push(providers_hash[suggested]);
+                if (local) {
+                    suggested_list.push(local);
+                } else {
+                    suggested = false;
                 }
             }
 
@@ -3565,11 +3996,6 @@ const VIEWFORM = function() {
             }
         }
 
-        if (res && res.settings &&
-            res.settings.password_settings &&
-            res.settings.password_settings.enabled) {
-            local = providers_hash[providers.LOCAL];
-        }
 
         if (list.length === 0) {
             list = false;
@@ -3638,6 +4064,7 @@ const VIEWFORM = function() {
     this.addReset = addReset;
     this.addMagicLink = addMagicLink;
     this.addConfirm = addConfirm;
+    this.deIdentification = deIdentification;
 
     this.showAlert = showAlert;
     this.checkProviders = checkProviders;

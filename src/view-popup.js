@@ -90,7 +90,10 @@ const EVENT = {
 };
 
 const DATA = {
-    show_login_focus: true
+    show_login_focus: true,
+    hide_on_focus: true,
+    hide_focus_text: false
+
 };
 
 const loadApp = function (options) {
@@ -152,6 +155,13 @@ const addConfirm = function (options, form) {
     form.addConfirm(view, options);
 };
 
+const deIdentification = function (options, form) {
+    let view = createView(options);
+    options.popup = true;
+
+    form.deIdentification(view, options);
+};
+
 const addView = function (id) {
     let container = false;
     if (id) {
@@ -203,6 +213,7 @@ const createView = function (options) {
     options.onBlur = triggerBlur;
     options.adjustHeader = triggerAdjustHeader;
     options.addEvent = addEvent;
+    options.forceQuit = triggerClosePopup;
     options.isContinueWith = true;
     TRIGGER_EVENT = {};
 
@@ -218,6 +229,18 @@ const createView = function (options) {
         DATA.show_login_focus = true;
     }
 
+    if (typeof options.hide_focus_text != 'undefined') {
+        DATA.hide_focus_text = options.hide_focus_text;
+    } else {
+        DATA.hide_focus_text = false;
+    }
+
+    if (typeof options.hide_on_focus != 'undefined') {
+        DATA.hide_on_focus = options.hide_on_focus;
+    } else {
+        DATA.hide_on_focus = true;
+    }
+
     // if (isMobile) {
     // DATA.show_login_focus = false;
     // }
@@ -229,21 +252,27 @@ const createView = function (options) {
 
     if (!isMobile) {
         if (options.continue_with_position) {
-            if (options.continue_with_position.top) {
-                popup.style.top = parsePosition(options.continue_with_position.top);
-                CONTINUE_WITH_HOVER.original = options.continue_with_position.top;
-            } else if (options.continue_with_position.bottom) {
-                popup.style.bottom = parsePosition(options.continue_with_position.bottom);
-                CONTINUE_WITH_HOVER.enabled = false;
+            if (options.continue_with_position == 'center') {
+                popup.style.top = '50%';
+                popup.style.left = '50%';
+                popup.style.transform = 'translate(-50%, -50%)';
             } else {
-                popup.style.top = '30px';
-            }
-            if (options.continue_with_position.left) {
-                popup.style.left = parsePosition(options.continue_with_position.left);
-            } else if (options.continue_with_position.right) {
-                popup.style.right = parsePosition(options.continue_with_position.right);
-            } else {
-                popup.style.right = '30px';
+                if (options.continue_with_position.top) {
+                    popup.style.top = parsePosition(options.continue_with_position.top);
+                    CONTINUE_WITH_HOVER.original = options.continue_with_position.top;
+                } else if (options.continue_with_position.bottom) {
+                    popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+                    CONTINUE_WITH_HOVER.enabled = false;
+                } else {
+                    popup.style.top = '30px';
+                }
+                if (options.continue_with_position.left) {
+                    popup.style.left = parsePosition(options.continue_with_position.left);
+                } else if (options.continue_with_position.right) {
+                    popup.style.right = parsePosition(options.continue_with_position.right);
+                } else {
+                    popup.style.right = '30px';
+                }
             }
         } else {
             popup.style.top = '30px';
@@ -451,7 +480,9 @@ const assignMask = function() {
         currentMask = getMask();
         document.body.append(currentMask);
 
-        assignTextLocation();
+        if (!DATA.hide_focus_text) {
+            assignTextLocation();
+        }
     }
 };
 
@@ -733,7 +764,9 @@ const triggerToggleMobile = function(e) {
 const getMask = function () {
     let m = addView(MASK_HOLDER_ID);
     // m.onclick = triggerCloseMask;
-    m.onclick = triggerClosePopup;
+    if (DATA.hide_on_focus) {
+        m.onclick = triggerClosePopup;
+    }
     return m;
 }
 
@@ -819,5 +852,6 @@ export default {
     addReset,
     addConfirm,
     addMagicLink,
+    deIdentification,
     init,
 };

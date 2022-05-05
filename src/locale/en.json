@@ -26,6 +26,16 @@
     "TITLE": "Email confirmation",
     "CONTENT": "A confirmation message has been sent to your email address. Please enter the PIN from that email below"
   },
+  "DE_IDENTIFICATION": {
+    "DE_IDENTIFY_ME": "De-identify me",
+    "DE_IDENTIFY_PIN": "De-identify PIN",
+    "CONTENT": "We believe in your right to control the data gathered on our website. Therefore, to de-identify the record of your interactions with our website, please enter your email address below. Next, we will send you a PIN to verify your account. Once you have entered that PIN, our system will start the process of anonymizing your interactions.",
+    "CONTENT_VERIFIED": "We believe in your right to control the data gathered on our website. Therefore, to de-identify the record of your interactions with our website, please authenticate below. Once you have authenticated, our system will start the process of anonymizing your interactions.",
+    "CONTENT_PIN": "A confirmation message has been sent to your email address. Please enter the PIN from that email below",
+    "CONFIRM_PIN": "Once your PIN is confirmed we will start the de-identification process. ",
+    "GET_NEW_PIN": "Didn't received your confirmation PIN? Please check your spam folder or %BUTTON% for a new code",
+    "NEW_PIN_BUTTON": "click here"
+  },
   "FORGOT_PASSWORD": {
     "TITLE": "Forgot password",
     "CONTENT": "Enter the email you registered with us & we’ll send you instructions on how to reset your password"
@@ -67,6 +77,7 @@
     "CONTINUE_AS": "Continue as %NAME%",
     "CONTINUE": "Continue %WITH% %BRAND%",
     "SIGN_IN": "Sign in %WITH% %BRAND%",
+    "DEIDENTIFY": "De-identify %NAME%",
     "WITH": "with",
     "W_": "w/",
     "WITH_EMAIL": "Sign in with email",
@@ -114,11 +125,14 @@
     "REGISTER": "Sign up",
     "SIGN_IN": "Sign in",
     "CONFIRM": "Confirm email",
+    "CONFIRM_PIN": "Confirm PIN",
     "OR_CONTINUE_WITH_EMAIL": "or continue with your email address",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Or sign up with your email address and password",
     "CONTINUE_WITH_EMAIL": "or enter your email address below",
     "MORE_INFO": "more information",
-    "START_WITH_EMAIL_ADDRESS": "Start with your email address below"
+    "START_WITH_EMAIL_ADDRESS": "Start with your email address below",
+    "DE_IDENTIFY_ME": "De-Identify me",
+    "SWITCH_DE_IDENTIFY": "De-identify a different email address?"
   },
   "HOVER": {
     "EMAIL_MATCH": "Please ensure that the email address you use when signing in is one that has been invited to register.",
@@ -214,7 +228,10 @@
   "TOC_PRIVACY": {
     "CONTENT_ALL": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
     "CONTENT_TOC": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
-    "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>"
+    "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
+    "NAMELESS_CONTENT_ALL": "By signing up, signing in or continuing, I agree to the <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
+    "NAMELESS_CONTENT_TOC": "By signing up, signing in or continuing, I agree to the <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
+    "NAMELESS_CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to the <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>"
   },
   "UI": {
     "LOGOUT": "Logout",
@@ -222,7 +239,11 @@
     "SIGNUP_IN": "Sign up / in",
     "HELLO": "Hello, %FIRST_NAME%",
     "SIGN_IN_TITLE": "You are currently signed in as",
-    "SIGN_OUT": "SIGN OUT"
+    "SIGN_OUT": "SIGN OUT",
+    "NEWSLETTER_TITLE": "The BreadButter Newsletter",
+    "NEWSLETTER_SUBTITLE": "Keep up with the fastest-growing soft, creamy, and rich, with just a hint of sweetness butter with soft, even rich brown colour bread.",
+    "NEWSLETTER_THANK": "Thank you %NAME%, you are now subscribed",
+    "NEWSLETTER_SUBSCRIBE": "Subscribe"
   },
   "MAGIC_LINK": {
     "SEND_BUTTON_TEXT": "Send Magic Link",

@@ -83,7 +83,8 @@ const setData = function(holder, options) {
         onBlur: options.onBlur,
         onProvider: options.onProvider,
         addEvent: options.addEvent,
-        isContinueWith: options.isContinueWith
+        isContinueWith: options.isContinueWith,
+        forceQuit: options.forceQuit
     };
 };
 
@@ -295,12 +296,14 @@ const enterpriseStyle = function (provider) {
     return str;
 };
 
-const svgButtons_e = function (provider, register) {
+const svgButtons_e = function (provider, register, deidentify) {
     var html = '';
     let type = provider.idp;
     let name = provider.name;
 
     let sign_in = register ? Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
+    sign_in = deidentify ? Locale.TILE.DEIDENTIFY: sign_in;
+
     let icon = enterpriseIcon(type, provider);
     if (icon) {
         icon =
@@ -318,9 +321,15 @@ const svgButtons_e = function (provider, register) {
         BRAND: name
     }, sign_in);
     if (provider.alias) {
-        sign_in = lang.replace({
-            NAME: provider.alias
-        }, Locale.TILE.CONTINUE_AS);
+        if (deidentify) {
+            sign_in = lang.replace({
+                NAME: provider.alias
+            }, Locale.TILE.DEIDENTIFY);
+        } else {
+            sign_in = lang.replace({
+                NAME: provider.alias
+            }, Locale.TILE.CONTINUE_AS);
+        }
     }
     html =
         '<div data-name="' +
@@ -369,11 +378,12 @@ const svgIcons_e = function (provider) {
     return html;
 };
 
-const svgButtons = function (type, opt, register) {
+const svgButtons = function (type, opt, register, deidentify) {
     let html = '';
     let TYPE = type;
     let svg = loadSVG(type);
     let sign_in = register ?  Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
+    sign_in = deidentify ? Locale.TILE.DEIDENTIFY : sign_in;
     let brand = Locale.TILE.BRAND[TYPE.toUpperCase()];
     if (brand) {
         let prep = Locale.TILE.WITH;
@@ -505,9 +515,15 @@ const svgButtons = function (type, opt, register) {
     }
     if (TYPE != 'local') {
         if (opt.alias) {
-            sign_in = lang.replace({
-                NAME: opt.alias
-            }, Locale.TILE.CONTINUE_AS);
+            if (deidentify) {
+                sign_in = lang.replace({
+                    NAME: opt.alias
+                }, Locale.TILE.DEIDENTIFY);
+            } else {
+                sign_in = lang.replace({
+                    NAME: opt.alias
+                }, Locale.TILE.CONTINUE_AS);
+            }
         }
         html += '</div><span>'+ sign_in + '</span></div></div>';
     }

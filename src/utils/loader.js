@@ -107,13 +107,15 @@ const loadIcon = function (icon, stay) {
         if (loading) {
             let loader = findChild(loading, LOADER_ID);
             loader.classList.add('bb-complete');
+            // setTimeout(()=> {
             loader.classList.add(icon);
-            setTimeout(function () {
+            setTimeout( ()=> {
                 if (!stay) {
                     remove();
                 }
                 resolve();
             }, 1000);
+            // }, 10);
         } else {
             resolve();
         }

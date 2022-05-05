@@ -10,6 +10,16 @@
         "TEXT_3_2": "*Sie werden weitergeleitet, um Ihr Konto zu authentifizieren. Wir sehen zu keinem Zeitpunkt Ihre Authentifizierungsmethode oder Ihr Passwort. Wir erhalten lediglich ein einfaches Ja oder Nein, einige Identitätsanbieter geben jedoch auch Ihren Namen weiter. Sie können Ihre Authentifizierungsmethode jederzeit ändern.",
         "MORE": "mehr>>"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "Mich de-identifizieren",
+        "DE_IDENTIFY_PIN": "PIN de-identifizieren",
+        "CONTENT": "Wir sind davon überzeugt, dass Sie das Recht haben, die auf unserer Website gesammelten Daten zu kontrollieren. Um die Aufzeichnung Ihrer Interaktionen mit unserer Website zu de-identifizieren, geben Sie bitte Ihre E-Mail-Adresse unten ein. Anschließend senden wir Ihnen eine PIN, um Ihr Konto zu verifizieren. Sobald Sie diese PIN eingegeben haben, beginnt unser System mit dem Prozess der Anonymisierung Ihrer Interaktionen.",
+        "CONTENT_VERIFIED": "Wir sind davon überzeugt, dass Sie das Recht haben, die auf unserer Website gesammelten Daten zu kontrollieren. Um die Aufzeichnung Ihrer Interaktionen mit unserer Website zu de-identifizieren, authentifizieren Sie sich bitte unten. Sobald Sie sich authentifiziert haben, beginnt unser System mit dem Prozess der Anonymisierung Ihrer Interaktionen.",
+        "CONTENT_PIN": "Eine Bestätigungsnachricht wurde an Ihre E-Mail-Adresse gesendet. Bitte geben Sie die PIN aus dieser E-Mail unten ein.",
+        "CONFIRM_PIN": "Sobald Ihre PIN bestätigt ist, beginnen wir mit dem De-Identifizierungsprozess.",
+        "GET_NEW_PIN": "Sie haben Ihre Bestätigungs-PIN nicht erhalten? Bitte prüfen Sie Ihren Spam-Ordner oder %BUTTON%,um einen neuen Code zu erhalten.",
+        "NEW_PIN_BUTTON": "Klicken Sie hier"
+    },
     "INCOGNITO": {
         "TITLE": "Willkommen"
     },
@@ -68,6 +78,7 @@
         "SIGN_IN": "Anmelden %WITH% %BRAND%",
         "WITH": "mit",
         "W_": "w/",
+		"DEIDENTIFY": "%NAME% de-identifizieren",
         "WITH_EMAIL": "Mit E-Mail-Adresse anmelden",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -117,7 +128,10 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Oder mit E-Mail-Adresse und Passwort registrieren",
         "CONTINUE_WITH_EMAIL": "oder E-Mail-Adresse unten eingeben",
         "MORE_INFO": "weitere Informationen",
-        "START_WITH_EMAIL_ADDRESS": "Beginnen Sie mit Ihrer E-Mail-Adresse unten"
+        "START_WITH_EMAIL_ADDRESS": "Beginnen Sie mit Ihrer E-Mail-Adresse unten",
+		"CONFIRM_PIN": "PIN bestätigen",
+        "DE_IDENTIFY_ME": "Mich de-identifizieren",
+        "SWITCH_DE_IDENTIFY": "Eine andere E-Mail-Adresse de-identifizieren?"
     },
     "HOVER": {
         "EMAIL_MATCH": "Bitte vergewissern Sie sich, dass die E-Mail-Adresse, die Sie bei der Anmeldung verwenden, diejenige ist, die zur Registrierung eingeladen wurde.",
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> und der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzrichtlinie</a> von %APP_NAME% zu.",
         "CONTENT_TOC": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> von %APP_NAME% zu.",
-        "CONTENT_PRIVACY": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzrichtlinie</a> von %APP_NAME% zu."
+        "CONTENT_PRIVACY": "Indem ich mich registriere, anmelde oder fortfahre, stimme ich der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzrichtlinie</a> von %APP_NAME% zu.",
+        "NAMELESS_CONTENT_ALL": "Mit der Anmeldung, dem Einloggen oder dem Fortfahren stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> und der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzerklärung</a> zu.",
+        "NAMELESS_CONTENT_TOC": "Mit der Anmeldung, dem Einloggen oder dem Fortfahren stimme ich den <a href='%TOC_LINK%' target='_blank'>Nutzungsbedingungen</a> zu.",
+        "NAMELESS_CONTENT_PRIVACY": "Mit der Anmeldung, dem Einloggen oder dem Fortfahren stimme ich der <a href='%PRIVACY_LINK%' target='_blank'>Datenschutzerklärung</a> zu."
     },
     "UI": {
         "LOGOUT": "Abmelden",
@@ -221,7 +238,9 @@
         "SIGNUP_IN": "Registrieren/anmelden",
         "HELLO": "Hallo, %FIRST_NAME%",
         "SIGN_IN_TITLE": "Sie sind derzeit angemeldet als",
-        "SIGN_OUT": "ABMELDEN"
+        "SIGN_OUT": "ABMELDEN",
+        "NEWSLETTER_THANK": "Vielen Dank %NAME%, Ihr Abonnement ist jetzt aktiv",
+        "NEWSLETTER_SUBSCRIBE": "Abonnieren"
     },
     "MAGIC_LINK": {
         "SEND_BUTTON_TEXT": "Magischen Link senden",

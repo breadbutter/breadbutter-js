@@ -25,6 +25,16 @@
         "TITLE": "メールによる確認",
         "CONTENT": "確認のメッセージをお使いのメールアドレス宛に送信しました。そのメールに記載のPINを下の欄に入力してください"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "私を特定できないようにする",
+        "DE_IDENTIFY_PIN": "PINを特定できないようにする",
+        "CONTENT": "当社は、当社のウェブサイト上で収集されたデータを管理するお客様の権利を尊重しています。\nそのため、当社ウェブサイトでのお客様のやり取りの記録を特定できないようにするため、以下にお客様の電子メールアドレスを入力してください。\n次に、お客様のアカウントを確認するためのPINをお送りします。お客様がそのPINを入力されると、当社のシステムはお客様のやりとりを匿名化するプロセスを開始します。",
+        "CONTENT_VERIFIED": "当社は、当社のウェブサイト上で収集されたデータを管理するお客様の権利を尊重しています。\nしたがって、当社ウェブサイトとのやり取りの記録を特定できないようにするため、以下で認証してください。認証が完了すると、当社のシステムにより、お客様のやりとりを匿名化する処理が開始されます。",
+        "CONTENT_PIN": "お客様のメールアドレスに確認メールが送信されました。そのメールに記載されているPINを以下に入力してください。",
+        "CONFIRM_PIN": "PINが確認され次第、匿名化処理を開始します。",
+        "GET_NEW_PIN": "確認用PINが届いていませんか？迷惑メールフォルダを確認するか、%BUTTON%で新しいコードを取得してください",
+        "NEW_PIN_BUTTON": "ここをクリック"
+    },
     "FORGOT_PASSWORD": {
         "TITLE": "パスワードを忘れた",
         "CONTENT": "登録済みのメールアドレスを入力してください。パスワードのリセット方法についてのご案内をお送りします。"
@@ -69,6 +79,7 @@
         "WITH": "方法",
         "W_": "で",
         "WITH_EMAIL": "メールアドレスでサインイン",
+		"DEIDENTIFY": "%NAME%を匿名化する",
 		"BRAND": {
             "GOOGLE": "グーグル",
             "FACEBOOK": "フェイスブック",
@@ -117,7 +128,10 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "または、お使いのメールアドレスとパスワードでサインアップしてください",
         "CONTINUE_WITH_EMAIL": "または、お使いのメールアドレスを下の欄に入力してください",
         "MORE_INFO": "詳細情報",
-        "START_WITH_EMAIL_ADDRESS": "以下のメールアドレスで開始してください"
+        "START_WITH_EMAIL_ADDRESS": "以下のメールアドレスで開始してください",
+        "CONFIRM_PIN": "PINを確認する",
+        "DE_IDENTIFY_ME": "私を匿名化する",
+        "SWITCH_DE_IDENTIFY": "異なるメールアドレスを特定できないようにしますか？"
     },
     "HOVER": {
         "EMAIL_MATCH": "サインイン時にお使いになるメールアドレスは、登録の招待を受けたものであることをご確認ください。",
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%TOC_LINK%' target='_blank'>利用規約</a>と<a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します",
         "CONTENT_TOC": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%TOC_LINK%' target='_blank'>利用規約</a>に同意します",
-        "CONTENT_PRIVACY": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します"
+        "CONTENT_PRIVACY": "サインアップ、サインインする、または続けることにより、私は%APP_NAME%の <a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します",
+        "NAMELESS_CONTENT_ALL": "サインアップ、サインイン、または継続することにより、私は<a href='%TOC_LINK%' target='_blank'>利用規約</a>と<a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します",
+        "NAMELESS_CONTENT_TOC": "サインアップ、サインイン、または継続することにより、私は<a href='%TOC_LINK%' target='_blank'>利用規約</a>に同意します",
+        "NAMELESS_CONTENT_PRIVACY": "サインアップ、サインイン、または継続することにより、私は<a href='%PRIVACY_LINK%' target='_blank'>プライバシーポリシー</a>に同意します"
     },
     "UI": {
         "LOGOUT": "ログアウト",
@@ -221,7 +238,9 @@
         "SIGNUP_IN": "サインアップ/サインイン",
         "HELLO": "こんにちは、%FIRST_NAME%さん",
         "SIGN_IN_TITLE": "現在、次のアカウントでサインインしています",
-        "SIGN_OUT": "サインアウト"
+        "SIGN_OUT": "サインアウト",
+        "NEWSLETTER_THANK": "%NAME%さん、ありがとうございます。お申し込み手続きが完了しました",
+        "NEWSLETTER_SUBSCRIBE": "申し込む"
     },
     "MAGIC_LINK": {
         "SEND_BUTTON_TEXT": "マジックリンクを送信",

@@ -25,6 +25,16 @@
         "TITLE": "﻿Confirmação de e-mail",
         "CONTENT": "﻿Foi enviada uma mensagem de confirmação para o seu endereço de e-mail. Introduza o PIN contido no e-mail abaixo"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "Desidentificar-me",
+        "DE_IDENTIFY_PIN": "Desidentificar PIN",
+        "CONTENT": "Acreditamos no seu direito de controlar os dados colhidos no nosso site. Como tal, para desidentificar o registo das suas interações com o nosso site, insira abaixo o seu endereço de e-mail. A seguir, vamos enviar-lhe um código PIN para verificar a sua conta. Depois de inserir esse PIN, o nosso sistema iniciará o processo de anonimização das suas interações.",
+        "CONTENT_VERIFIED": "Acreditamos no seu direito de controlar os dados colhidos no nosso site. Como tal, para desidentificar o registo das suas interações com o nosso site, autentique abaixo. Depois de autenticar, o nosso sistema iniciará o processo de anonimização das suas interações.",
+        "CONTENT_PIN": "Foi enviada uma mensagem de confirmação para o seu endereço de e-mail. Insira abaixo o PIN contido nesse e-mail.",
+        "CONFIRM_PIN": "Quando o seu PIN for confirmado, iniciaremos o processo de desidentificação.",
+        "GET_NEW_PIN": "Não recebeu o seu PIN de confirmação? Verifique a sua pasta de spam ou %BUTTON% para obter um novo código",
+        "NEW_PIN_BUTTON": "clique aqui"
+    },
     "FORGOT_PASSWORD": {
         "TITLE": "﻿Esqueci-me da palavra-passe",
         "CONTENT": "﻿Introduza o e-mail com que se registou connosco e iremos enviar-lhe instruções sobre como redefinir a sua palavra-passe."
@@ -68,6 +78,7 @@
         "SIGN_IN": "Iniciar sessão %WITH% o(a) %BRAND%",
         "WITH": "com",
         "W_": "c/",
+		"DEIDENTIFY": "Desidentificar %NAME%",
         "WITH_EMAIL": "Iniciar sessão com endereço de correio eletrónico",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -117,6 +128,9 @@
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscreva-se com o seu endereço de e-mail e palavra-passe",
     "CONTINUE_WITH_EMAIL": "ou introduza o seu endereço de e-mail abaixo",
     "MORE_INFO": "mais informações",
+    "CONFIRM_PIN": "Confirmar PIN",
+    "DE_IDENTIFY_ME": "Desidentificar-me",
+    "SWITCH_DE_IDENTIFY": "Desidentificar um endereço de e-mail diferente?",
     "START_WITH_EMAIL_ADDRESS": "Comece com o seu endereço de e-mail abaixo"
   },
   "HOVER": {
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar os <a href='%TOC_LINK%' target='_blank'>termos de serviço</a> e a <a href='%PRIVACY_LINK%' target='_blank'>política de privacidade</a> de %APP_NAME%.",
         "CONTENT_TOC": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar os <a href='%TOC_LINK%' target='_blank'>termos de serviço</a> de %APP_NAME%.",
-        "CONTENT_PRIVACY": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar a <a href='%PRIVACY_LINK%' target='_blank'>política de privacidade</a> de %APP_NAME%."
+        "CONTENT_PRIVACY": "Ao registar-me, iniciar sessão ou prosseguir, estou a concordar com e aceitar a <a href='%PRIVACY_LINK%' target='_blank'>política de privacidade</a> de %APP_NAME%.",
+        "NAMELESS_CONTENT_ALL": "Ao registar-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a> e <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a>.",
+        "NAMELESS_CONTENT_TOC": "Ao registar-me, iniciar sessão ou continuar, concordo com os <a href='%TOC_LINK%' target='_blank'>Termos de Serviço</a>",
+        "NAMELESS_CONTENT_PRIVACY": "Ao registar-me, iniciar sessão ou continuar, concordo com a <a href='%PRIVACY_LINK%' target='_blank'>Política de Privacidade</a>"
     },
     "UI": {
         "LOGOUT": "Terminar sessão",
@@ -221,7 +238,9 @@
         "SIGNUP_IN": "Registar-se/Iniciar sessão",
         "HELLO": "Olá, %FIRST_NAME%",
         "SIGN_IN_TITLE": "Tem sessão iniciada como",
-        "SIGN_OUT": "TERMINAR SESSÃO"
+        "SIGN_OUT": "TERMINAR SESSÃO",
+        "NEWSLETTER_THANK": "Obrigado, %NAME%, já está inscrito(a)",
+        "NEWSLETTER_SUBSCRIBE": "Inscrever-se"
     },
     "MAGIC_LINK": {
         "SEND_BUTTON_TEXT": "Enviar ligação mágica",

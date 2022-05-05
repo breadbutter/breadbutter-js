@@ -160,7 +160,8 @@ const mode = {
     RESET_PASSWORD: 'resetpassword',
     CONFIRM_EMAIL: 'confirmemail',
     INVITATION: 'invitation',
-    MAGIC_LINK: 'magiclink'
+    MAGIC_LINK: 'magiclink',
+    DEIDENTIFICATION: 'deidentification'
 };
 
 const encoded_action = {
@@ -175,6 +176,7 @@ const encoded_hash = {
     'reset_password': 'resetpassword',
     'confirm_email': 'confirmemail',
     'invitation': 'invitation',
+    'deidentification': 'deidentification'
 }
 
 const gateway_emails = {
@@ -188,11 +190,34 @@ const gateway_hash = {
     'reset_password': 'resetpassword',
     'confirm_email': 'confirmemail',
     'invitation': 'invitation',
+    'deidentification': 'deidentification'
 }
 
 const magic_link_code = 'magic_link_code';
 
+const html_attributes = {
+    control: {
+        VERIFIED: 'verified',
+        NOT_VERIFIED: '!verified',
+        FORM: 'form',
+        SUBMIT: 'submit',
+        NAME: 'name',
+        FIRST_NAME: 'first_name',
+        LAST_NAME: 'last_name',
+        EMAIL: 'email',
+    },
+    VISIBLE_CONTROL: 'bb-visible-control',
+    CONTINUE_WITH_SHOW: 'bb-continue-widget-show',
+    PAGE_CONTROL: 'bb-page-control',
+    PAGE_REDIRECT: 'bb-page-redirect',
+    FORM_CONTROL: 'bb-form-control',
+    FORM_EVENT: 'bb-form-event-submission',
+    PROFILE_WIDGET: 'bb-profile-widget',
+    HIDDEN_DIV: 'bb-hidden-div'
+};
+
 export default {
+    html_attributes,
     encoded_hash,
     encoded_action,
     gateway_hash,

@@ -13,6 +13,16 @@
     "INCOGNITO": {
         "TITLE": "欢迎"
     },
+	"DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "将我去识别化",
+        "DE_IDENTIFY_PIN": "去识别密码",
+        "CONTENT": "我们相信您对在我们网站上收集的数据有控制权。因此，如需去识别您与我们网站互动的记录，请在下方输入您的电子邮件地址。接下来，我们将向您发送密码以验证您的帐户。在您输入该密码后，我们的系统将开始匿名化您的互动。",
+        "CONTENT_VERIFIED": "我们相信您对在我们网站上收集的数据有控制权。因此，如需去识别您与我们网站互动的记录，请在下方进行身份验证。在您通过身份验证后，我们的系统将开始匿名化您的互动。",
+        "CONTENT_PIN": "确认信息已发送到您的电子邮件地址。请在下面输入该电子邮件中的密码",
+        "CONFIRM_PIN": "确认您的密码后，我们将开始去识别过程。",
+        "GET_NEW_PIN": "没有收到您的确认密码？请检查您的垃圾邮件箱或 %BUTTON% 以获取新的密码",
+        "NEW_PIN_BUTTON": "点击这里"
+    },
     "REGISTER": {
         "TITLE": "欢迎",
         "CONTENT": "你想怎样进行注册？",
@@ -67,6 +77,7 @@
         "CONTINUE": "使用%WITH% %BRAND% 继续",
         "SIGN_IN": "使用%WITH% %BRAND% 登录",
         "WITH": "通过",
+		"DEIDENTIFY": "去识别%NAME%",
         "W_": "w/",
         "WITH_EMAIL": "通过电子邮箱登入",
 		"BRAND": {
@@ -113,6 +124,9 @@
         "REGISTER": "注册",
         "SIGN_IN": "登录",
         "CONFIRM": "确认电子邮件",
+		"CONFIRM_PIN": "确认密码",
+        "DE_IDENTIFY_ME": "将我去识别化",
+        "SWITCH_DE_IDENTIFY": "将其他电子邮件地址去识别化？",
         "OR_CONTINUE_WITH_EMAIL": "或者使用你的电子邮件地址继续",
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "或者使用你的电子邮件地址和密码进行注册",
         "CONTINUE_WITH_EMAIL": "或者在下方输入你的电子邮件地址",
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服务条款</a>和<a href='%PRIVACY_LINK%' target='_blank'>隐私政策</a>",
         "CONTENT_TOC": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%TOC_LINK%' target='_blank'>服务条款</a>",
-        "CONTENT_PRIVACY": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隐私政策</a>"
+        "CONTENT_PRIVACY": "通过注册、登入或继续，即代表我同意 %APP_NAME% 的<a href='%PRIVACY_LINK%' target='_blank'>隐私政策</a>",
+		"NAMELESS_CONTENT_ALL": "如注册、登录或继续，即表示我同意<a href='%TOC_LINK%' target='_blank'>《服务条款》</a>和<a href='%PRIVACY_LINK%' target='_blank'>《隐私政策》</a>",
+        "NAMELESS_CONTENT_TOC": "如注册、登录或继续，即表示我同意<a href='%TOC_LINK%' target='_blank'>《服务条款》</a>",
+        "NAMELESS_CONTENT_PRIVACY": "如注册、登录或继续，即表示我同意<a href='%PRIVACY_LINK%' target='_blank'>《隐私政策》</a>"
     },
     "UI": {
         "LOGOUT": "退出",
@@ -221,7 +238,9 @@
         "SIGNUP_IN": "注册/登入",
         "HELLO": "您好，%FIRST_NAME%",
         "SIGN_IN_TITLE": "您当前登入的身份为",
-        "SIGN_OUT": "登出"
+        "SIGN_OUT": "登出",
+        "NEWSLETTER_THANK": "谢谢您，%NAME%，您现在已订阅",
+        "NEWSLETTER_SUBSCRIBE": "订阅"
     },
     "MAGIC_LINK": {
         "SEND_BUTTON_TEXT": "发送神奇链接",

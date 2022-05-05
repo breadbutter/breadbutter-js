@@ -13,6 +13,16 @@
     "INCOGNITO": {
         "TITLE": "Benvenuto"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "Deidentificami",
+        "DE_IDENTIFY_PIN": "Deidentifica PIN",
+        "CONTENT": "Noi crediamo nel tuo diritto di controllare i dati raccolti sul nostro sito web. Pertanto, se desideri deidentificare il registro delle tue interazioni con il nostro sito, ti preghiamo di inserire il tuo indirizzo email qui di seguito. Fatto ciò, ti invieremo un PIN con cui verificare il tuo account. Una volta inserito il PIN, il nostro sistema avvierà il processo per anonimizzare le tue interazioni.",
+        "CONTENT_VERIFIED": "Noi crediamo nel tuo diritto di controllare i dati raccolti sul nostro sito web. Pertanto, se desideri deidentificare il registro delle tue interazioni con il nostro sito, ti preghiamo di autenticarti qui di seguito. Una volta eseguita l'autenticazione, il nostro sistema avvierà il processo per anonimizzare le tue interazioni.",
+        "CONTENT_PIN": "Abbiamo inviato un messaggio di conferma al tuo indirizzo email. Inserisci qui di seguito il PIN ricevuto nell'email",
+        "CONFIRM_PIN": "Una volta confermato il PIN, avvieremo il processo di deidentificazione.",
+        "GET_NEW_PIN": "Se non hai ricevuto il PIN di conferma, prova a controllare nella cartella dello spam, oppure %BUTTON% per un nuovo codice",
+        "NEW_PIN_BUTTON": "fai clic qui"
+    },
     "REGISTER": {
         "TITLE": "Benvenuto",
         "CONTENT": "In che modo desideri iscriverti?",
@@ -68,6 +78,7 @@
         "SIGN_IN": "Accedi %WITH% %BRAND%",
         "WITH": "con",
         "W_": "con",
+		"DEIDENTIFY": "Deidentifica %NAME%"
         "WITH_EMAIL": "Accedi con l'email",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -117,6 +128,9 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Oppure iscriviti con il tuo indirizzo email e una password",
         "CONTINUE_WITH_EMAIL": "oppure inserisci il tuo indirizzo email qui di seguito",
         "MORE_INFO": "altre informazioni",
+		"CONFIRM_PIN": "Conferma il PIN",
+        "DE_IDENTIFY_ME": "Deidentificami",
+        "SWITCH_DE_IDENTIFY": "Deidentificare un indirizzo email differente?",
         "START_WITH_EMAIL_ADDRESS": "Inizia con il tuo indirizzo email qui in fondo"
     },
     "HOVER": {
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "Eseguendo l'iscrizione, l'accesso o continuando, accetto le <a href='%TOC_LINK%' target='_blank'>Condizioni di servizio</a> e l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla Privacy</a> di %APP_NAME%",
         "CONTENT_TOC": "Eseguendo l'iscrizione, l'accesso o continuando, accetto le <a href='%TOC_LINK%' target='_blank'>Condizioni di servizio</a> di %APP_NAME%",
-        "CONTENT_PRIVACY": "Eseguendo l'iscrizione, l'accesso o continuando, accetto l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla Privacy</a> di %APP_NAME%"
+        "CONTENT_PRIVACY": "Eseguendo l'iscrizione, l'accesso o continuando, accetto l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla Privacy</a> di %APP_NAME%",
+        "NAMELESS_CONTENT_ALL": "Se mi iscrivo, accedo o proseguo l'utilizzo, sto confermando implicitamente di accettare i <a href='%TOC_LINK%' target='_blank'>Termini di servizio</a> e l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla privacy</a>",
+        "NAMELESS_CONTENT_TOC": "Se mi iscrivo, accedo o proseguo, sto confermando implicitamente di accettare i <a href='%TOC_LINK%' target='_blank'>Termini di servizio</a>",
+        "NAMELESS_CONTENT_PRIVACY": "Se mi iscrivo, accedo o proseguo, sto confermando implicitamente di accettare l'<a href='%PRIVACY_LINK%' target='_blank'>Informativa sulla privacy</a>"
     },
     "UI": {
         "LOGOUT": "Esci",
@@ -221,6 +238,8 @@
         "SIGNUP_IN": "Iscriviti / Accedi",
         "HELLO": "Salve, %FIRST_NAME%",
         "SIGN_IN_TITLE": "Sei attualmente connesso come",
+        "NEWSLETTER_THANK": "Grazie, %NAME%. Ora sei iscritto",
+        "NEWSLETTER_SUBSCRIBE": "Iscriviti",
         "SIGN_OUT": "ESCI"
     },
     "MAGIC_LINK": {

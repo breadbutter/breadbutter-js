@@ -25,6 +25,16 @@
         "TITLE": "E-mailbevestiging",
         "CONTENT": "Er is een bevestigingsbericht naar uw e-mailadres gestuurd. Voer de pincode uit die e-mail hieronder in"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "De-identificeer mij",
+        "DE_IDENTIFY_PIN": "De-identificeer PIN",
+        "CONTENT": "Wij geloven in uw recht om de op onze website verzamelde gegevens zelf te kunnen controleren. Vul daarom hieronder uw e-mailadres in om op die manier de registratie van enige interacties tussen u en onze website te de-identificeren. Hierna sturen we u een PIN om uw account te verifiëren. Nadat u deze PIN heeft ingevoerd, zal ons systeem beginnen met het anonimiseren van uw interacties op de website.",
+        "CONTENT_VERIFIED": "Wij geloven in uw recht om de op onze website verzamelde gegevens zelf te kunnen controleren. Om uw geregistreerde gegevens op basis van interacties met onze website te kunnen de-identificeren moet u zichzelf eerst authenticeren. Wanneer dit gebeurd is zal ons systeem beginnen met het anonimiseren van uw interacties op de website.",
+        "CONTENT_PIN": "Een bevestigingsmail is naar uw e-mailadres gestuurd. Voer de PIN, verstrekt in die e-mail, hieronder in.",
+        "CONFIRM_PIN": "Wanneer uw PIN is bevestigd zullen wij het proces van de-identificatie beginnen.",
+        "GET_NEW_PIN": "Heeft u uw PIN bevestiging niet ontvangen? Controleer uw spam folder of klik op de %BUTTON% voor een nieuwe code.",
+        "NEW_PIN_BUTTON": "Klik hier"
+    },
     "FORGOT_PASSWORD": {
         "TITLE": "Wachtwoord vergeten",
         "CONTENT": "Voer het e-mailadres in waarmee u zich bij ons geregistreerd hebt & we sturen u instructies om uw  wachtwoord opnieuw in te stellen"
@@ -68,6 +78,7 @@
         "SIGN_IN": "Meld je aan %WITH% %BRAND%",
         "WITH": "met",
         "W_": "w/",
+		"DEIDENTIFY": "De-identificeer %NAME%",
         "WITH_EMAIL": "Inloggen met e-mail",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -117,7 +128,10 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Of meld u aan met uw e-mailadres en wachtwoord",
         "CONTINUE_WITH_EMAIL": "of vul hieronder uw e-mailadres in",
         "MORE_INFO": "meer informatie",
-        "START_WITH_EMAIL_ADDRESS": "Begin met uw e-mailadres hieronder"
+        "START_WITH_EMAIL_ADDRESS": "Begin met uw e-mailadres hieronder",
+		"CONFIRM_PIN": "Bevestig PIN",
+        "DE_IDENTIFY_ME": "De-identificeer mij",
+        "SWITCH_DE_IDENTIFY": "Wilt u een ander e-mailadres de-identificeren?"
     },
     "HOVER": {
         "EMAIL_MATCH": "Zorg ervoor dat het e-mailadres wat u bij het inloggen gebruikt het adres is waarop u uitgenodigd bent om te registreren.",
@@ -213,7 +227,10 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a> en het <a href='%PRIVACY_LINK%' target='_blank'>Privacybeleid</a> van %APP_NAME%",
         "CONTENT_TOC": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a> van %APP_NAME%",
-        "CONTENT_PRIVACY": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met het <a href='%PRIVACY_LINK%' target='_blank'>Privacybeleid</a> van %APP_NAME%"
+        "CONTENT_PRIVACY": "Door me aan te melden, in te loggen of door te gaan, ga ik akkoord met het <a href='%PRIVACY_LINK%' target='_blank'>Privacybeleid</a> van %APP_NAME%",
+        "NAMELESS_CONTENT_ALL": "Door mijzelf aan te melden, in te loggen of verder te gaan ben ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a> en het <a href='%PRIVACY_LINK%' target='_blank'>Privacy beleid</a>",
+        "NAMELESS_CONTENT_TOC": "Door mijzelf aan te melden, in te loggen of verder te gaan ben ik akkoord met de <a href='%TOC_LINK%' target='_blank'>Servicevoorwaarden</a>",
+        "NAMELESS_CONTENT_PRIVACY": "Door mijzelf aan te melden, in te loggen of verder te gaan ben ik akkoord met het <a href='%PRIVACY_LINK%' target='_blank'>Privacy beleid</a>"
     },
     "UI": {
         "LOGOUT": "Uitloggen",
@@ -221,7 +238,9 @@
         "SIGNUP_IN": "Inschrijven / aanmelden",
         "HELLO": "Hallo, %FIRST_NAME%",
         "SIGN_IN_TITLE": "U bent momenteel aangemeld als",
-        "SIGN_OUT": "UITLOGGEN"
+        "SIGN_OUT": "UITLOGGEN",
+        "NEWSLETTER_THANK": "Bedankt %NAME%, u bent nu geabonneerd",
+        "NEWSLETTER_SUBSCRIBE": "Abonneer"
     },
     "MAGIC_LINK": {
         "SEND_BUTTON_TEXT": "Magische link versturen",

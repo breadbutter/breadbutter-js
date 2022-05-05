@@ -25,6 +25,16 @@
         "TITLE": "Confirmación por correo electrónico",
         "CONTENT": "Se ha enviado un mensaje de confirmación a su dirección de correo electrónico. Introduzca el PIN de ese correo electrónico a continuación"
     },
+    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "Desidentificarme",
+        "DE_IDENTIFY_PIN": "Desidentificar PIN",
+        "CONTENT": "Creemos en el derecho a que controles los datos recopilados en nuestra página web. Por tanto, para desidentificar el registro de tus interacciones en nuestra página web, introduce tu correo electrónico a continuación. Una vez hecho, te enviaremos un PIN para verificar tu cuenta. Una vez introducido dicho PIN, nuestro sistema comenzará el proceso de anonimización de tus interacciones.",
+        "CONTENT_VERIFIED": "Creemos en el derecho a que controles los datos recopilados en nuestra página web. Por ello, para desidentificar el registro de tus interacciones en nuestra página web, autentícate a continuación. Una vez autenticado, nuestro sistema comenzará el proceso de anonimización de tus interacciones.",
+        "CONTENT_PIN": "Se ha enviado un mensaje de confirmación a tu dirección de correo electrónico. Introduce el PIN recibido en el correo a continuación",
+        "CONFIRM_PIN": "Una vez el PIN esté confirmado comenzaremos el proceso de desidentificación.",
+        "GET_NEW_PIN": "¿No has recibido el PIN de confirmación? Mira en la carpeta de spam o %BUTTON% para un nuevo código",
+        "NEW_PIN_BUTTON": "clica aquí"
+    },
     "FORGOT_PASSWORD": {
         "TITLE": "Contraseña olvidada",
         "CONTENT": "Introduzca el correo electrónico con el que se registró y le enviaremos las instrucciones para restablecer su contraseña"
@@ -68,6 +78,7 @@
         "SIGN_IN": "Iniciar sesión %WITH% %BRAND%",
         "WITH": "con",
         "W_": "w/",
+		"DEIDENTIFY": "Desidentificar %NAME%",
         "WITH_EMAIL": "Iniciar sesión con el correo electrónico",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -117,6 +128,9 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "O regístrese con su dirección de correo electrónico y su contraseña",
         "CONTINUE_WITH_EMAIL": "o introduzca su dirección de correo electrónico a continuación",
         "MORE_INFO": "más información",
+        "CONFIRM_PIN": "Confirmar PIN",
+        "DE_IDENTIFY_ME": "Desidentificarme",
+        "SWITCH_DE_IDENTIFY": "¿Desidentificar una dirección de correo electrónico diferente?",
         "START_WITH_EMAIL_ADDRESS": "Comience con su dirección de correo electrónico"
     },
     "HOVER": {
@@ -216,6 +230,8 @@
         "SIGNUP_IN": "Registrarse",
         "HELLO": "Hola, %FIRST_NAME%",
         "SIGN_IN_TITLE": "Actualmente, estás registrado como",
+        "NEWSLETTER_THANK": "Gracias %NAME%, ya estás suscrito",
+        "NEWSLETTER_SUBSCRIBE": "Suscribirse",
         "SIGN_OUT": "CERRAR SESIÓN"
     },
 	"MAGIC_LINK": {
@@ -231,6 +247,9 @@
     "TOC_PRIVACY": {
         "CONTENT_ALL": "Al registrarme, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a> y la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a> de %APP_NAME%",
         "CONTENT_TOC": "Al registrarme, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a> de %APP_NAME%",
-        "CONTENT_PRIVACY": "Al registrarme, iniciar sesión o continuar, acepto la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a> de %APP_NAME%"
+        "CONTENT_PRIVACY": "Al registrarme, iniciar sesión o continuar, acepto la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a> de %APP_NAME%",
+        "NAMELESS_CONTENT_ALL": "Al darme de alta, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a> y la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a>",
+        "NAMELESS_CONTENT_TOC": "Al darme de alta, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a>",
+        "NAMELESS_CONTENT_PRIVACY": "Al darme de alta, iniciar sesión o continuar, acepto la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a>"
     }
 }

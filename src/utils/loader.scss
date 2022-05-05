@@ -96,7 +96,7 @@ $error-color: $brand-failure;
       -webkit-animation: none;
       animation: none;
       border-color: rgba(0,0,0,0);
-      transition: border 100ms ease-out;
+      //transition: border 10ms ease-out;
       &:before {
         display: none;
       }

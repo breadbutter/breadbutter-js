@@ -936,6 +936,88 @@
         }
     }
 
+    .breadbutter-deidentify {
+        .breadbutter-module-header-discovery {
+            padding: 52px 37px 20px;
+        }
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.17;
+            letter-spacing: normal;
+            color: #2c2c2c;
+        }
+        .form-subtitle {
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: left;
+            color: #4e5051;
+            margin-left: 10px;
+        }
+        .breadbutter-deidentify-form {
+            .form-password, .form-email {
+                margin: 0 10%;
+                width: 80%;
+            }
+            .bb-icon-wrapper {
+                border: 1px solid #414042 !important;
+            }
+            .breadbutter-buttons {
+                padding: 5px 15px;
+            }
+            .form-token-pin {
+                margin-left: 105px;
+                margin-top: 0;
+            }
+        }
+        .form-message {
+            margin: 15px 60px;
+            span {
+                margin-bottom: 20px;
+            }
+        }
+        .bb-button {
+            &.form-deidentify-me, &.form-confirm-pin {
+                box-sizing: border-box;
+                width: 160px;
+                height: 40px;
+                padding: 0;
+                line-height: 40px;
+                border-radius: 4px;
+                text-align: center;
+                background-color: #50aff5;
+
+                font-size: 12px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                letter-spacing: normal;
+                color: #fff;
+                text-transform: uppercase;
+                margin: auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            &.form-switch-login {
+                margin: auto;
+                margin: 0 0 15px;
+                text-align: center;
+            }
+        }
+        .breadbutter-module-password {
+            .form-password-toggle {
+                margin-right: 10%;
+                top: 10px;
+            }
+        }
+    }
+
     .error {
         //.form-title {
         //  display: none;

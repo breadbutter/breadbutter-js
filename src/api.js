@@ -18,8 +18,31 @@ let WINDOW_OPEN = false;
 
 let DEVICE_ID;
 const CACHE_STORAGE = {
-    DEVICE_ID: 'breadbutter-sdk-device-id'
+    DEVICE_ID: 'breadbutter-sdk-device-id',
+    SUCCESS_EVENT_CODE: 'breadbutter-sdk-success-event-code',
+    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code'
 };
+
+const cleanEventStorage = function() {
+    // if (localStorage) {
+    //     let LAST_EVENTS = [];
+    //     for(let i = 0; i < localStorage.length; i++) {
+    //         if (localStorage.key(i).indexOf(CACHE_STORAGE.LAST_SUCCESS_EVENT_CODE) != -1) {
+    //             LAST_EVENTS.push(localStorage.key(i));
+    //         }
+    //     }
+    //     for(let i = 0; i < LAST_EVENTS.length; i++) {
+    //         localStorage.removeItem(LAST_EVENTS[i]);
+    //     }
+    // }
+}
+
+const assignEventStorage = function(data) {
+    if (localStorage) {
+        let EVENT = CACHE_STORAGE.LAST_SUCCESS_EVENT_CODE + '-' + btoa(data);
+        localStorage.setItem(EVENT, data);
+    }
+}
 
 const AUTH_TYPE = {
     SSO: 'sso',
@@ -147,6 +170,8 @@ const LoginOptionData = function(data) {
     } else if (SUCCESS_EVENT_CODE) {
         request_data['success_event_code'] = SUCCESS_EVENT_CODE;
     }
+
+
 
     return request_data;
 };
@@ -685,6 +710,18 @@ const createEvent = async function (code, data, referrer, callback) {
     return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
+const startDeIdentification= async function({
+    email_address, auth_type, provider, user, options, callback
+}) {
+    let url = API_PATH +
+        'apps/' +
+        APP_ID +
+        '/users/start_deidentification';
+    return startProcess(url, startDeIdentification, {
+        email_address, auth_type, provider, user, options, callback
+    });
+};
+
 const startAuthentication = async function({
    email_address, auth_type, provider, user, options, callback
 }) {
@@ -692,6 +729,27 @@ const startAuthentication = async function({
         'apps/' +
         APP_ID +
         '/authentications';
+
+    cleanEventStorage();
+
+    const cb = function(response) {
+        if (response && !response.error) {
+            if (options.success_event_code) {
+                assignEventStorage(options.success_event_code);
+            }
+        }
+        if (typeof callback == 'function') {
+            callback(response);
+        }
+    }
+    return startProcess(url, startAuthentication, {
+        email_address, auth_type, provider, user, options, callback: cb
+    });
+};
+
+const startProcess = async function(url, retry, {
+    email_address, auth_type, provider, user, options, callback
+}) {
     let request_data = {
         options: options
     };
@@ -724,7 +782,7 @@ const startAuthentication = async function({
     const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
             await cleanDeviceId();
-            startAuthentication({
+            retry({
                 email_address, auth_type, provider, user, options, callback
             });
         } else if (typeof callback == 'function') {
@@ -750,10 +808,32 @@ const getMagicLinkAuthenticated = function(authentication_token, callback) {
 };
 
 const resetDeviceVerification = async function(callback) {
+    cleanEventStorage();
     let device_id = await getDeviceId();
     let url = API_PATH + 'apps/' + APP_ID + '/devices/' + device_id + '/reset_verification';
     let request_data = {
     };
+    return request(url, request_data, 'POST', callback);
+};
+
+const confirmDeIdentification = async function({
+    email_address, pin }, callback) {
+    let url = API_PATH + 'apps/' + APP_ID + '/users/confirm_deidentification';
+
+    let device_id = await getDeviceId();
+    let request_data = {
+        pin,
+        device_id
+    };
+
+    if (email_address) {
+        request_data['email_address'] = email_address;
+    }
+
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
+    }
+
     return request(url, request_data, 'POST', callback);
 };
 
@@ -782,5 +862,9 @@ export default {
     confirmMagicLinkCode,
     getMagicLinkAuthenticated,
     resetDeviceVerification,
-    incrementPageEngagement
+    incrementPageEngagement,
+    startDeIdentification,
+    confirmDeIdentification,
+    assignEventStorage,
+    cleanEventStorage
 };

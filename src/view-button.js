@@ -47,6 +47,7 @@ const getButtonLists = function (providers, options) {
     const pass = options.pass ? options.pass : false;
     const pin = options.pin ? options.pin : false;
     const register = options.register ? options.register : false;
+    const deidentify = options.deidentify ? options.deidentify : false;
     const suggested = options.suggested ? options.suggested : false;
     const email_address = options.email_address ? options.email_address : false;
     const collapsible = options.collapsible ? options.collapsible : false;
@@ -75,6 +76,7 @@ const getButtonLists = function (providers, options) {
                                 button_theme,
                                 pass,
                                 register,
+                                deidentify,
                                 pin,
                                 email_address
                             },
@@ -89,7 +91,8 @@ const getButtonLists = function (providers, options) {
             error = 'Need to enable at least 1 identity provider.';
         }
     } else {
-        // container.appendChild(messages('Need to add ' + window.location.origin + ' to CORS whitelist.'));
+        // container.appendChild(messages('Need
+        // to add ' + window.location.origin + ' to CORS whitelist.'));
         // container.className += 'error';
         error = 'Need to add ' + window.location.origin + ' to CORS whitelist.';
     }
@@ -109,7 +112,7 @@ const getButtonLists = function (providers, options) {
 
 const buttons = function (
     provider,
-    { button_theme, pass, register, pin, email_address },
+    { button_theme, pass, register, deidentify, pin, email_address },
     first
 ) {
     let div = document.createElement('div');
@@ -117,13 +120,13 @@ const buttons = function (
         if (button_theme == 'icon') {
             div.innerHTML = VIEW.svgIcons_e(provider);
         } else {
-            div.innerHTML = VIEW.svgButtons_e(provider, register);
+            div.innerHTML = VIEW.svgButtons_e(provider, register, deidentify);
         }
     } else {
         if (button_theme == 'icon') {
             div.innerHTML = VIEW.svgIcons(provider.idp);
         } else {
-            div.innerHTML = VIEW.svgButtons(provider.idp, provider, register);
+            div.innerHTML = VIEW.svgButtons(provider.idp, provider, register, deidentify);
         }
     }
     var name = document.createAttribute('name');
@@ -141,7 +144,16 @@ const buttons = function (
         let image = document.createElement('div');
         image.classList.add('bb-profile-image');
         image.style['background-image'] = `url(${provider.profile_image_url})`;
-        div.appendChild(image);
+        // let wrapper = div.querySelector('.bb-icon');
+        let span = div.querySelector('span');
+        if (span.innerText.length < 35) {
+            div.appendChild(image);
+        }
+        // if (wrapper) {
+        //     wrapper.appendChild(image);
+        // } else {
+
+        // }
     }
 
     if (first && button_theme != 'icon') {
@@ -162,6 +174,8 @@ const buttons = function (
         } else {
             div.onclick = triggerRegister;
         }
+    } else if (typeof pass == 'function') {
+        div.onclick = pass;
     }
     // var node = document.createTextNode(provider.name);
     // div.appendChild(node);

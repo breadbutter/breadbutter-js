@@ -25,6 +25,16 @@
         "TITLE": "Confirmation de l'e-mail",
         "CONTENT": "Un message de confirmation a été envoyé à votre adresse e-mail. Veuillez saisir le code PIN de cet e-mail ci-dessous"
     },
+	    "DE_IDENTIFICATION": {
+        "DE_IDENTIFY_ME": "Anonymisez-moi",
+        "DE_IDENTIFY_PIN": "Anonymiser le code PIN",
+        "CONTENT": "Nous croyons en votre droit de contrôler les données recueillies sur notre site web. Par conséquent, pour anonymiser les enregistrements de vos interactions avec notre site web, veuillez entrer votre adresse e-mail ci-dessous. Nous vous enverrons ensuite un code PIN afin de vérifier votre compte. Dès que vous aurez entré ce code PIN, notre système procédera à l'anonymisation de vos interactions.",
+        "CONTENT_VERIFIED": "Nous croyons en votre droit de contrôler les données recueillies sur notre site web. Par conséquent, pour anonymiser les enregistrements de vos interactions avec notre site web, veuillez vous authentifier ci-dessous. Dès que vous vous serez authentifié, notre système procédera à l'anonymisation de vos interactions.",
+        "CONTENT_PIN": "Un message de confirmation a été envoyé à votre adresse e-mail. Veuillez entrer ci-dessous le code PIN contenu dans ce message.",
+        "CONFIRM_PIN": "Dès que votre code PIN aura été confirmé, nous procéderons à l'anonymisation.",
+        "GET_NEW_PIN": "Vous n'avez pas reçu votre code PIN de confirmation ? Veuillez vérifier dans votre dossier de courriers indésirables ou %BUTTON% pour recevoir un nouveau code.",
+        "NEW_PIN_BUTTON": "Cliquez ici"
+    },
     "FORGOT_PASSWORD": {
         "TITLE": "Mot de passe oublié",
         "CONTENT": "Saisissez l'adresse e-mail que vous avez enregistrée avec nous et nous vous enverrons des instructions pour réinitialiser votre mot de passe."
@@ -66,6 +76,7 @@
         "CONTINUE_AS": "Continuer en tant que %NAME%",
         "CONTINUE": "Continuer %WITH% %BRAND%",
         "SIGN_IN": "Se connecter %WITH% %BRAND%",
+		"DEIDENTIFY": "Anonymiser %NAME%",
         "WITH": "avec",
         "W_": "avec",
         "WITH_EMAIL": "Se connecter avec une adresse e-mail",
@@ -117,7 +128,10 @@
         "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Ou inscrivez-vous avec votre adresse e-mail et votre mot de passe",
         "CONTINUE_WITH_EMAIL": "ou saisissez votre adresse e-mail ci-dessous",
         "MORE_INFO": "plus d'informations",
-        "START_WITH_EMAIL_ADDRESS": "Commencez par saisir votre adresse e-mail ci-dessous"
+        "START_WITH_EMAIL_ADDRESS": "Commencez par saisir votre adresse e-mail ci-dessous",
+		"CONFIRM_PIN": "Confirmer le code PIN",
+        "DE_IDENTIFY_ME": "Anonymisez-moi",
+        "SWITCH_DE_IDENTIFY": "Anonymiser une adresse e-mail différente ?"
     },
     "HOVER": {
         "EMAIL_MATCH": "Veuillez vous assurer que l'adresse e-mail que vous utilisez pour vous connecter est celle qui a été invitée à s'inscrire.",
@@ -226,11 +240,16 @@
         "SIGNUP_IN": "S'inscrire/se connecter",
         "HELLO": "Bonjour, %FIRST_NAME%",
         "SIGN_IN_TITLE": "Vous êtes actuellement connecté en tant que",
-        "SIGN_OUT": "DÉCONNEXION"
+        "SIGN_OUT": "DÉCONNEXION",
+		"NEWSLETTER_THANK": "Merci %NAME%, vous êtes maintenant inscrit",
+        "NEWSLETTER_SUBSCRIBE": "S'inscrire"
     },
     "TOC_PRIVACY": {
         "CONTENT_ALL": "En m'inscrivant, en me connectant ou en continuant, j'accepte les <a href='%TOC_LINK%' target='_blank'>conditions d'utilisation</a> et la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité</a> de %APP_NAME%",
         "CONTENT_TOC": "En m'inscrivant, en me connectant ou en continuant, j'accepte les <a href='%TOC_LINK%' target='_blank'>conditions d'utilisation</a> de %APP_NAME%",
-        "CONTENT_PRIVACY": "En m'inscrivant, en me connectant ou en continuant, j'accepte la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité</a> de %APP_NAME%"
+        "CONTENT_PRIVACY": "En m'inscrivant, en me connectant ou en continuant, j'accepte la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité</a> de %APP_NAME%",
+        "NAMELESS_CONTENT_ALL": "En m'inscrivant, en me connectant, ou en poursuivant, j'adhère aux <a href='%TOC_LINK%' target='_blank'>Conditions d'utilisation</a> et à la <a href='%PRIVACY_LINK%' target='_blank'>Politique de confidentialité</a>",
+        "NAMELESS_CONTENT_TOC": "En m'inscrivant, en me connectant, ou en poursuivant, j'adhère aux <a href='%TOC_LINK%' target='_blank'>Conditions d'utilisation</a>",
+        "NAMELESS_CONTENT_PRIVACY": "En m'inscrivant, en me connectant, ou en poursuivant, j'adhère à la <a href='%PRIVACY_LINK%' target='_blank'>Politique de confidentialité</a>"
     }
 }
