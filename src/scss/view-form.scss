@@ -603,6 +603,32 @@
             .form-message {
                 padding: 0px 25px;
             }
+            &.breadbutter-error {
+                padding-bottom: 48px;
+                .form-title {
+                    padding: 42px 0 42px;
+                }
+                .form-message {
+                    padding: 0;
+                    margin: 0;
+                }
+                .bb-button.form-alert-confirm {
+                    width: auto;
+                    height: 20px;
+                    min-width: 180px;
+                    font-size: 12px;
+                    line-height: 1.7;
+                    text-align: center;
+                    padding: 8px 20px;
+                    cursor: pointer;
+                    outline: none;
+                    margin-top: 29px;
+                    box-sizing: content-box;
+                }
+                &+.breadbutter-module-poweredby {
+                    display: block;
+                }
+            }
         }
 
         &-buttons-holder,

@@ -213,7 +213,12 @@
             "TITLE": "No hay proveedores habilitados",
             "MESSAGE": "Este sitio web no ha habilitado ningún proveedor de identidad o autenticación local. Póngase en contacto con el administrador del sitio web para obtener más información.",
             "CONFIRM": "de acuerdo"
-        }
+        },
+		"NULL_EMAIL_ERROR": {
+			"TITLE": "El correo electrónico es obligatorio",
+			"MESSAGE": "El proveedor con el que se ha autenticado no ha proporcionado su dirección de correo electrónico. Inicie sesión con otro proveedor.",
+			"CONFIRM": "Volver al inicio de sesión"
+		}
     },
     "RES_MAPPING": {
         "invalid_pin": "Compruebe si tiene el PIN correcto",

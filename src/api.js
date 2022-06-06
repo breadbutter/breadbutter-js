@@ -118,7 +118,7 @@ const cleanCookie = async function() {
 
 const getDeviceId = function() {
     return new Promise(function(resolve){
-        let device_id = localStorage.getItem(CACHE_STORAGE.DEVICE_ID);
+        let device_id = DEVICE_ID ? DEVICE_ID : localStorage.getItem(CACHE_STORAGE.DEVICE_ID);
 
         if (ALLOW_SUB_DOMAIN) {
             let cookie = getDeviceIdFromCookie();
@@ -134,6 +134,8 @@ const getDeviceId = function() {
                 DEVICE_PROCESS = true;
                 DEVICE_QUEUE.push(resolve);
                 registerDevice(function(res){
+                    PAGE_VIEW_ID = false;
+                    DEVICE_ID = false;
                     device_id = false;
                     if (res && !res.error) {
                         device_id = res.device_id;
@@ -144,13 +146,18 @@ const getDeviceId = function() {
                             }
                         }
                     }
+                    DEVICE_ID = device_id;
                     resolveDevice(device_id);
+                    if (device_id) {
+                        window.dispatchEvent(new Event('bb-new-device-id'));
+                    }
                     DEVICE_PROCESS = false
                 })
             } else {
                 DEVICE_QUEUE.push(resolve);
             }
         }  else {
+            DEVICE_ID = device_id;
             resolve(device_id);
         }
     });

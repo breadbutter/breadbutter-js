@@ -161,7 +161,8 @@ const mode = {
     CONFIRM_EMAIL: 'confirmemail',
     INVITATION: 'invitation',
     MAGIC_LINK: 'magiclink',
-    DEIDENTIFICATION: 'deidentification'
+    DEIDENTIFICATION: 'deidentification',
+    NULL_EMAIL_ERROR: 'null_email_error',
 };
 
 const encoded_action = {
@@ -194,6 +195,11 @@ const gateway_hash = {
 }
 
 const magic_link_code = 'magic_link_code';
+
+const errors = {
+    ERROR: 'error',
+    NULL_EMAIL: 'null_email_error'
+}
 
 const html_attributes = {
     control: {
@@ -228,5 +234,6 @@ export default {
     providers_list,
     event_type,
     mode,
-    magic_link_code
+    magic_link_code,
+    errors
 };

@@ -213,7 +213,12 @@
             "TITLE": "Geen providers ingeschakeld",
             "MESSAGE": "Deze website heeft geen identiteitsproviders of lokale authenticatie ingeschakeld. Neem a.u.b. contact op met de websitebeheerder voor meer informatie.",
             "CONFIRM": "ok"
-        }
+        },
+		"NULL_EMAIL_ERROR": {
+			"TITLE": "E-mailadres vereist",
+			"MESSAGE": "De Provider waarmee u zich heeft geauthenticeerd heeft uw e-mailadres niet opgegeven. Gelieve in te loggen met een andere provider.",
+			"CONFIRM": "Terug naar inlogscherm"
+		}
     },
     "RES_MAPPING": {
         "invalid_pin": "Controleer a.u.b. of u de juiste pincode hebt",

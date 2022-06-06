@@ -213,6 +213,11 @@
       "TITLE": "Nenhum fornecedor ativo",
       "MESSAGE": "Este site não ativou nenhum fornecedor de identidade ou autenticação local. Para mais informações, contacte o administrador do site.",
       "CONFIRM": "ok"
+    },
+    "NULL_EMAIL_ERROR": {
+        "TITLE": "Endereço de Email Obrigatório",
+        "MESSAGE": "O Fornecedor com que se autenticou não forneceu o seu endereço de email. Inicie sessão com outro fornecedor.",
+        "CONFIRM": "Voltar ao Início de Sessão"
     }
   },
     "RES_MAPPING": {

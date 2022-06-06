@@ -209,6 +209,11 @@
             "TITLE": "Un problème est survenu",
             "CONFIRM": "Essayez à nouveau"
         },
+		"NULL_EMAIL_ERROR": {
+        "TITLE": "Adresse e-mail requise",
+        "MESSAGE": "Le fournisseur avec lequel vous vous êtes authentifié(e) n'a pas fourni votre adresse e-mail. Veuillez en utiliser un autre pour vous connecter.",
+        "CONFIRM": "Retour à la page de connexion"
+		},
         "NO_PROVIDER": {
             "TITLE": "Aucun fournisseur n'est activé",
             "MESSAGE": "Ce site Web n'a pas activé de fournisseurs d'identité ou d'authentification locale. Veuillez contacter l'administrateur du site Web pour plus d'informations.",

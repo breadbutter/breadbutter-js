@@ -14,6 +14,7 @@ const RESET_FORM_ID = 'breadbutter-reset-form';
 const CONFIRM_FORM_ID = 'breadbutter-confirm-form';
 const CONFIRM_ID = 'breadbutter-confirm';
 const ALERT_ID = 'breadbutter-alert';
+const ERROR_ID = 'breadbutter-error';
 const FORGOT_FORM_ID = 'breadbutter-forgot-form';
 const FORGOT_BUTTON_ID = 'breadbutter-forgot-buttons';
 const SWITCH_HOLDER_ID = 'breadbutter-switch-login';
@@ -194,6 +195,7 @@ const providers = constants.providers;
 const providers_hash = constants.providers_hash;
 const providers_buttons = constants.providers_buttons;
 const providers_list = constants.providers_list;
+const errors = constants.errors;
 
 import {
     DEV_LOCAL, DEV_NO_LOCAL, DEV_HV_LOCAL,
@@ -420,6 +422,9 @@ const VIEWFORM = function() {
         ui.classList.add('alert');
 
         const container = view.addView(ALERT_ID);
+        if (params && params.cls) {
+            container.classList.add(params.cls);
+        }
         container.appendChild(getTitle(title));
         container.appendChild(getParagraph(message));
         if (callbacks) {
@@ -648,6 +653,8 @@ const VIEWFORM = function() {
         container.popup = popup;
         //options here.
 
+
+
         return container;
     };
 
@@ -660,19 +667,35 @@ const VIEWFORM = function() {
 
         view.initView(id, options, container);
 
-        let local_login = res.settings.password_settings && res.settings.password_settings.enabled;
-        let magic_enabled = res.settings.magic_link_settings && res.settings.magic_link_settings.enabled;
-        let providers = res.providers && res.providers.length;
+        const enteringDiscovery = () => {
+            let local_login = res.settings.password_settings && res.settings.password_settings.enabled;
+            let magic_enabled = res.settings.magic_link_settings && res.settings.magic_link_settings.enabled;
+            let providers = res.providers && res.providers.length;
 
-        if (!local_login && !providers && magic_enabled) {
-            return;
-        }
-        if (email_address) {
-            loader.start(container, true);
-            enterDiscovery(email_address, form).then(() => {
-                loader.remove();
+            if (!local_login && !providers && magic_enabled) {
+                return;
+            }
+            if (email_address) {
+                loader.start(container, true);
+                enterDiscovery(email_address, form).then(() => {
+                    loader.remove();
+                });
+            }
+        };
+
+        if (options.mode == errors.NULL_EMAIL) {
+            showAlert(form, Locale.ERROR.NULL_EMAIL_ERROR, {
+                cls: ERROR_ID
+            }, (e)=> {
+                triggerAlertConfirm(e);
+                removeChild(container, MODULE_POWEREDBY)
+                enteringDiscovery();
             });
+            insertPoweredByModule(container);
+        } else {
+            enteringDiscovery();
         }
+
     };
 
     const discoveryForm = function(res, email_address, options) {

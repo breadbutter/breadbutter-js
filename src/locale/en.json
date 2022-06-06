@@ -214,6 +214,11 @@
       "TITLE": "No Providers Enabled",
       "MESSAGE": "This website has not enabled any Identity Providers or local authentication. Please contact the website administrator for more information.",
       "CONFIRM": "ok"
+    },
+    "NULL_EMAIL_ERROR": {
+      "TITLE": "Email Address Required",
+      "MESSAGE": "The Provider that you authenticated with did not provide your email address. Please log in with a different provider.",
+      "CONFIRM": "Return to Login"
     }
   },
   "RES_MAPPING": {

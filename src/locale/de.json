@@ -213,7 +213,12 @@
             "TITLE": "Keine Anbieter aktiviert",
             "MESSAGE": "Diese Website hat keine Identitätsanbieter oder lokale Authentifizierung aktiviert. Bitte kontaktieren Sie den Administrator der Website, um weitere Informationen zu erhalten.",
             "CONFIRM": "okay"
-        }
+        },
+		"NULL_EMAIL_ERROR": {
+			"TITLE": "E-Mail-Adresse erforderlich",
+			"MESSAGE": "Der Anbieter, mit dem Sie sich authentifiziert haben, hat Ihre E-Mail-Adresse nicht bereitgestellt. Bitte loggen Sie sich mit einem anderen Anbieter ein.",
+			"CONFIRM": "Zurück zum Login"
+		}
     },
     "RES_MAPPING": {
         "invalid_pin": "Bitte prüfen Sie, ob Sie die richtige PIN haben.",

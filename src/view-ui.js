@@ -53,7 +53,7 @@ const getProfileWidget = function(profile, suggested) {
     let avatar = profile.profile_image_url ? profile.profile_image_url : false;
     let full_name = profile.first_name ? ((profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim()) : false;
 
-    if (!full_name) {
+    if (!full_name && profile.email_address) {
         full_name = profile.email_address.split('@')[0];
     }
     let avatar_style = "";
@@ -63,6 +63,7 @@ const getProfileWidget = function(profile, suggested) {
     } else {
         default_avatar = getDefaultAvatar();
     }
+    let email_address = profile.email_address ? profile.email_address : "";
 
     let provider = view.svgIcons((suggested && suggested.idp) ? suggested.idp : 'local');
     let font = 'font16';
@@ -114,7 +115,7 @@ const getProfileWidget = function(profile, suggested) {
                             ${full_name}
                             </div>
                             <div class="breadbutter-ui-profile-dashboard-email">
-                            ${profile.email_address}
+                            ${email_address}
                             </div>
                         </div>
                     </div>

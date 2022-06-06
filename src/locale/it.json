@@ -213,7 +213,12 @@
             "TITLE": "Nessun provider abilitato",
             "MESSAGE": "Questo sito Web non ha abilitato alcun provider di identità o metodo di autenticazione locale. Per ulteriori dettagli, contatta l'amministratore del sito.",
             "CONFIRM": "ok"
-        }
+        },
+		"NULL_EMAIL_ERROR": {
+			"TITLE": "Indirizzo email richiesto",
+			"MESSAGE": "Il provider con cui ti sei autenticato non ha fornito il tuo indirizzo email. Per favore, accedi con un altro provider.",
+			"CONFIRM": "Torna al login"
+		}
     },
     "RES_MAPPING": {
         "invalid_pin": "Verifica di aver inserito il PIN corretto",

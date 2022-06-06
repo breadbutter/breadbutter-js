@@ -19,6 +19,7 @@ const gateway_hash = constants.gateway_hash;
 const encoded_action = constants.encoded_action;
 const encoded_hash = constants.encoded_hash;
 const html_attributes = constants.html_attributes;
+const errors = constants.errors;
 
 let Locale = {};
 
@@ -395,6 +396,10 @@ const tracking = function() {
             events.pageview();
         });
 
+        window.addEventListener('bb-new-device-id', function() {
+            events.pageview();
+        });
+
         if(PAGE_VIEW_EVENT_READY) {
             engagement.initialize(events);
         } else {
@@ -728,7 +733,14 @@ const parsingUrl = function(opt) {
         return opt;
     }
     // console.log(querystring);
-    if (querystring[encoded_action.TARGET]) {
+    if (querystring[errors.ERROR]) {
+        let error = querystring[errors.ERROR];
+        switch(error) {
+            case errors.NULL_EMAIL:
+                opt.mode = error;
+                break;
+        }
+    } else if (querystring[encoded_action.TARGET]) {
         let data = false;
         try {
             let action_code = querystring[encoded_action.TARGET];
@@ -800,6 +812,10 @@ let profile_queue = [];
 
 let isVerifiedState = function() {
     return device_verified && profile && profile.state == 'verified';
+}
+
+let isProfileVerifiedState = function() {
+    return profile && profile.state == 'verified';
 }
 
 let processProfileQueue = function() {
@@ -887,13 +903,7 @@ const startup = new (function(){
             if (localStorage) {
                 let cached = checkEventStorage(opt.newsletter.custom_event_code);
                 if (cached != getViewedCode(opt.newsletter.custom_event_code)) {
-                    if (opt.newsletter.delay_seconds && typeof opt.newsletter.delay_seconds == 'number') {
-                        setTimeout(()=> {
-                            BreadButter.ui.addNewsletterWidget(opt.newsletter);
-                        }, opt.newsletter.delay_seconds * 1000);
-                    } else {
-                        BreadButter.ui.addNewsletterWidget(opt.newsletter);
-                    }
+                    BreadButter.ui.addNewsletterWidget(opt.newsletter);
                 }
             }
         }
@@ -1604,7 +1614,16 @@ const ui = new (function() {
         }))
             return;
 
+
         options = options ? options : {};
+
+        options = {
+            hide_verified: true,
+            ...options
+        };
+
+        options = parsingUrl(options);
+        let mode = (options && options.mode) ? options.mode : false;
 
         if (options.show_only && options.show_only.length) {
             let found = false;
@@ -1631,7 +1650,7 @@ const ui = new (function() {
                 return;
             }
         }
-        if (!isVerifiedState()) {
+        if ((!options.hide_verified && !isVerifiedState()) || (options.hide_verified && !isProfileVerifiedState()) || mode) {
             widgets.continueWith(options);
         }
     };
@@ -1645,11 +1664,10 @@ const ui = new (function() {
 
         let on_page = true;
         if (typeof field_id == 'object') {
-
             on_page = false;
             options = field_id;
-            if (options.delay_seconds && typeof options.delay_seconds == 'number') {
-                let time = options.delay_seconds;
+            if (options.delay_seconds && !isNaN(options.delay_seconds)) {
+                let time = Number(options.delay_seconds);
                 delete options.delay_seconds;
                 setTimeout(() => {
                     ui.addNewsletterWidget(options);
@@ -1769,6 +1787,9 @@ const widgets = new (function() {
             }
         } else {
             switch (mode) {
+                case constants.mode.NULL_EMAIL_ERROR:
+                    UI.form(opt);
+                    break;
                 case constants.mode.DEIDENTIFICATION:
                     UI.deIdentification(opt);
                     break;
@@ -1785,20 +1806,23 @@ const widgets = new (function() {
                     UI.magicLink(opt);
                     break;
                 default:
-                    UI.form(id, opt);
+                    UI.form(opt);
                     break;
             }
         }
     };
     this.signIn = function(id, opt) {
         opt = parsingUrl(opt);
-        let mode = (opt && opt.mode) ? opt.mode : parsingUrl();
+        let mode = (opt && opt.mode) ? opt.mode : false;
 
         opt = loadOptions(opt);
         if (!mode) {
             UI.form(id, opt);
         } else {
             switch (mode) {
+                case constants.mode.NULL_EMAIL_ERROR:
+                    UI.form(id, opt);
+                    break;
                 case constants.mode.CONFIRM_EMAIL:
                     UI.confirmEmail(id, opt);
                     break;
@@ -1809,7 +1833,7 @@ const widgets = new (function() {
                     UI.invitation(id, opt);
                     break;
                 case constants.mode.MAGIC_LINK:
-                    UI.magicLink(opt);
+                    UI.magicLink(id, opt);
                     break;
                 default:
                     UI.form(id, opt);
