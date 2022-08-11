@@ -95,7 +95,9 @@
     position: absolute;
     transform: rotate(45deg) skew(10deg, 10deg);
   }
+
 }
+
 .bb-signout .breadbutter-ui-profile-widget{
   .breadbutter-ui-profile-avatar {
     margin-top: 4px;
@@ -207,6 +209,11 @@
   }
 }
 
+.breadbutter-ui-continue-with-logged-in {
+  position: fixed;
+  z-index: 999;
+}
+
 .breadbutter-ui-newsletter-popup {
   position: fixed;
   top: 50%;
@@ -253,6 +260,90 @@
       display: flex;
     }
   }
+  .breadbutter-ui-newsletter-widget-mask {
+    display: none;
+  }
+  &.bb-mobile {
+    width: auto;
+    position: fixed;
+    transform: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    .breadbutter-ui-newsletter-widget-mask {
+
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.85);
+      @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        backdrop-filter: blur(9.4px);
+        -webkit-backdrop-filter: blur(9.4px);
+        background-color: rgba(0,0,0,0.35);
+      }
+    }
+    .breadbutter-ui-newsletter-holder {
+      width: auto;
+      left: 20px;
+      right: 20px;
+      position: absolute;
+      transform: translate(0%, -50%);
+      top: 50%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 32px 64px 0 #00000033;
+      overflow: hidden;
+      z-index: 999;
+      flex-direction: column;
+      max-height: 90vh;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      .breadbutter-ui-newsletter-background {
+        height: 50vw;
+        min-height: 50vw;
+        min-width: 50vw;
+        background-size: contain;
+        background-position: center;
+      }
+      .breadbutter-ui-newsletter-dashboard {
+        width: auto;
+        padding: 0 26px 25px;
+        min-width: 0;
+        .breadbutter-ui-newsletter-title {
+          width: auto;
+        }
+        .breadbutter-ui-newsletter-subtitle {
+          width: auto;
+        }
+        .breadbutter-ui-newsletter-content {
+          .breadbutter-ui {
+            width: auto !important;
+            margin-left: -26px;
+            margin-right: -26px;
+            .breadbutter-module-poweredby {
+              a {
+                svg {
+                  width: 100%;
+                }
+              }
+            }
+            .breadbutter-password-validation {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .breadbutter-newsletter-mask {
   position: fixed;
@@ -261,200 +352,137 @@
   right: 0;
   bottom: 0;
   z-index: 998;
-  backdrop-filter: blur(16.6px);
-  -webkit-backdrop-filter: blur(16.6px);
-  background-color: rgba(80,92,109,0.5);
+  background-color: rgba(73, 83, 100, 0.86);
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    backdrop-filter: blur(16.6px);
+    -webkit-backdrop-filter: blur(16.6px);
+    background-color: rgba(80, 92, 109, .5);
+  }
 }
 
-.breadbutter-ui-profile-widget-container {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-  position: relative;
-  z-index: 998;
-  display: block;
-  padding-bottom: 30px;
-  padding-top: 10px;
-  margin-top: -10px;
-  margin-bottom: -30px;
-  margin-left: 20px;
-  box-sizing: border-box;
-  width: 160px;
-  height: 80px;
+.breadbutter-ui-profile-dashboard {
+  position: absolute;
+  width: auto;
+  margin: .5rem;
+  right: -7px;
+  top: 60px;
+  width: 375px;
+  background: white;
+  box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  display: none;
 
-  &.bb-wider {
-    width: 170px;
-    .breadbutter-ui-profile-name {
-      span {
-        width: 110px;
-      }
-    }
-  }
-
-  &.bb-wider-1 {
-    width: 180px;
-    .breadbutter-ui-profile-name {
-      span {
-        width: 120px;
-      }
-    }
-  }
-
-  &.bb-wider-2 {
-    width: 190px;
-    .breadbutter-ui-profile-name {
-      span {
-        width: 130px;
-      }
-    }
-  }
-
-  .breadbutter-ui-profile-dashboard {
-    position: absolute;
-    width: auto;
-    margin: .5rem;
-    right: -7px;
-    top: 60px;
-    width: 375px;
+  .breadbutter-ui-profile-arrow {
     background: white;
-    box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-    display: none;
+    top: -7px;
+    right: 75px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    transform: rotate(45deg) ;
+  }
 
-    .breadbutter-ui-profile-arrow {
-      background: white;
-      top: -7px;
-      right: 75px;
-      width: 30px;
-      height: 30px;
-      position: absolute;
-      transform: rotate(45deg) ;
-    }
-
-    .breadbutter-ui-profile-dashboard-content {
-      .breadbutter-ui-profile-dashboard-header {
-        padding: 30px;
-        .breadbutter-ui-profile-dashboard-title {
-          font-size: 13px;
-          font-weight: normal;
-          font-stretch: normal;
-          font-style: normal;
-          line-height: normal;
-          letter-spacing: normal;
-          text-align: left;
-          color: #707070;
-          margin-bottom: 10px;
-        }
-        .breadbutter-ui-profile-dashboard-detail {
-          margin-top: 20px;
-          margin-bottom: 10px;
-          .breadbutter-ui-profile-dashboard-provider {
-            display: block;
-            box-sizing: border-box;
-            text-align: center;
-            width: 40px;
-            height: 40px;
-            float: left;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 14px;
-            background-size: contain;
-            margin-right: 6px;
-          }
-
-          .breadbutter-ui-profile-dashboard-avatar {
-            display: block;
-            box-sizing: border-box;
-            text-align: center;
-            width: 40px;
-            height: 40px;
-            float: left;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 14px;
-            background-size: contain;
-            margin-right: 16px;
-            background-color: #f8f8f8;
-          }
-
-          .breadbutter-ui-profile-dashboard-profile {
-            .breadbutter-ui-profile-dashboard-name {
-              font-size: 14px;
-              font-weight: bold;
-              font-stretch: normal;
-              font-style: normal;
-              letter-spacing: normal;
-              text-align: left;
-              color: #4e5051;
-              line-height: 20px;
-            }
-
-            .breadbutter-ui-profile-dashboard-email {
-              font-size: 12px;
-              font-weight: normal;
-              font-stretch: normal;
-              font-style: normal;
-              letter-spacing: normal;
-              text-align: left;
-              color: #4e5051;
-              line-height: 20px;
-            }
-          }
-        }
+  .breadbutter-ui-profile-dashboard-content {
+    .breadbutter-ui-profile-dashboard-header {
+      padding: 30px;
+      .breadbutter-ui-profile-dashboard-title {
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #707070;
+        margin-bottom: 10px;
       }
-
-      .breadbutter-ui-profile-dashboard-footer {
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 53px 30px 45px 30px;
-        background-color: #eeeeee;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-
-        .breadbutter-ui-profile-dashboard-logout-button {
-          box-sizing: content-box;
-          font-weight: bold;
-          width: 180px;
-          height: 18px;
+      .breadbutter-ui-profile-dashboard-detail {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        .breadbutter-ui-profile-dashboard-provider {
+          display: block;
+          box-sizing: border-box;
           text-align: center;
-          border-radius: 4px;
-          background-color: #2c2c2c;
-          color: white;
+          width: 40px;
+          height: 40px;
+          float: left;
+          border-radius: 100px;
+          font-weight: 700;
           font-size: 14px;
-          line-height: 18px;
-          padding: 11px;
-          cursor: pointer;
+          background-size: contain;
+          margin-right: 6px;
+        }
+
+        .breadbutter-ui-profile-dashboard-avatar {
+          display: block;
+          box-sizing: border-box;
+          text-align: center;
+          width: 40px;
+          height: 40px;
+          float: left;
+          border-radius: 100px;
+          font-weight: 700;
+          font-size: 14px;
+          background-size: contain;
+          margin-right: 16px;
+          background-color: #f8f8f8;
+        }
+
+        .breadbutter-ui-profile-dashboard-profile {
+          .breadbutter-ui-profile-dashboard-name {
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            letter-spacing: normal;
+            text-align: left;
+            color: #4e5051;
+            line-height: 20px;
+          }
+
+          .breadbutter-ui-profile-dashboard-email {
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            letter-spacing: normal;
+            text-align: left;
+            color: #4e5051;
+            line-height: 20px;
+          }
         }
       }
     }
-  }
 
-  &:not(.bb-signout) {
-    &:hover {
-      .breadbutter-ui-profile-name {
-        background-color: #f1f5fb;
-      }
+    .breadbutter-ui-profile-dashboard-footer {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 53px 30px 45px 30px;
+      background-color: #eeeeee;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
 
-      .breadbutter-ui-profile-dashboard {
-        display: block;
-      }
-    }
-  }
-
-  .breadbutter-ui-profile-dashboard:hover {
-    display: block;
-  }
-
-  &.breadbutter-ui-left-aligned-container {
-    .breadbutter-ui-profile-dashboard {
-      left: -30px;
-      .breadbutter-ui-profile-arrow {
-        left: 75px;
+      .breadbutter-ui-profile-dashboard-logout-button {
+        box-sizing: content-box;
+        font-weight: bold;
+        width: 180px;
+        height: 18px;
+        text-align: center;
+        border-radius: 4px;
+        background-color: #2c2c2c;
+        color: white;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 11px;
+        cursor: pointer;
+        outline: inherit;
+        border: none;
       }
     }
   }
 }
-
 
 .breadbutter-ui-profile-dashboard-provider {
   .bb-item {
@@ -614,6 +642,183 @@
     &[data-name='local'] {
       background-color: #555555;
       border: 1px solid #555555;
+    }
+  }
+}
+
+.breadbutter-ui-profile-widget-container {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  z-index: 998;
+  display: block;
+  padding-bottom: 30px;
+  padding-top: 10px;
+  margin-top: -10px;
+  margin-bottom: -30px;
+  margin-left: 20px;
+  box-sizing: border-box;
+  width: 160px;
+  height: 80px;
+
+  &.bb-wider {
+    width: 170px;
+    .breadbutter-ui-profile-name {
+      span {
+        width: 110px;
+      }
+    }
+  }
+
+  &.bb-wider-1 {
+    width: 180px;
+    .breadbutter-ui-profile-name {
+      span {
+        width: 120px;
+      }
+    }
+  }
+
+  &.bb-wider-2 {
+    width: 190px;
+    .breadbutter-ui-profile-name {
+      span {
+        width: 130px;
+      }
+    }
+  }
+  &:not(.bb-signout) {
+    &:hover {
+      .breadbutter-ui-profile-name {
+        background-color: #f1f5fb;
+      }
+
+      .breadbutter-ui-profile-dashboard {
+        display: block;
+      }
+    }
+  }
+
+  .breadbutter-ui-profile-dashboard:hover {
+    display: block;
+  }
+
+  &.breadbutter-ui-left-aligned-container {
+    .breadbutter-ui-profile-dashboard {
+      left: -30px;
+      .breadbutter-ui-profile-arrow {
+        left: 75px;
+      }
+    }
+  }
+
+
+  &.bb-mobile {
+    .breadbutter-ui-profile-arrow {
+      display: none;
+    }
+    .breadbutter-ui-profile-dashboard {
+      position: fixed;
+      top: 25%;
+      left: 5% !important;
+      right: 5% !important;
+      width: auto;
+      box-shadow: 0 32px 64px 32px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+
+.breadbutter-ui-continue-with-container {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  z-index: 998;
+  display: block;
+  box-sizing: border-box;
+  background-color: #eef2f8;
+  border: 1px solid #ffffff;
+  width: 52px;
+  height: 52px;
+  padding: 6px;
+  border-radius: 50%;
+
+  .breadbutter-ui-profile-widget {
+    width: 40px;
+    height: 40px;
+    margin-left: -1px;
+    margin-top: -1px;
+    z-index: 1;
+    .breadbutter-ui-profile-avatar {
+      margin-left: 0;
+    }
+    .breadbutter-ui-profile-avatar-x{
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      fill: #a0a8b1;
+      display: none;
+    }
+  }
+  .breadbutter-ui-profile-dashboard {
+    right: -8px;
+    .breadbutter-ui-profile-arrow {
+      background: white;
+      top: -7px;
+      right: 9px;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      transform: rotate(45deg);
+    }
+  }
+  &.clicked {
+    .breadbutter-ui-profile-avatar{
+      display: none;
+    }
+    .breadbutter-ui-profile-avatar-x{
+      display: block;
+    }
+
+
+    .breadbutter-ui-profile-dashboard {
+      display: block;
+    }
+  }
+
+  &.bb-top-left {
+    .breadbutter-ui-profile-dashboard {
+      left: -8px;
+      .breadbutter-ui-profile-arrow {
+        left: 9px;
+      }
+    }
+  }
+
+  &.bb-bottom-right {
+    .breadbutter-ui-profile-dashboard {
+      top: auto;
+      bottom: 60px;
+      //left: -8px;
+      .breadbutter-ui-profile-arrow {
+        top: auto;
+        bottom: -7px;
+        background: #eeeeee;
+        //left: 9px;
+      }
+    }
+  }
+
+  &.bb-bottom-left {
+    .breadbutter-ui-profile-dashboard {
+      top: auto;
+      bottom: 60px;
+      left: -8px;
+      .breadbutter-ui-profile-arrow {
+        top: auto;
+        bottom: -7px;
+        background: #eeeeee;
+        left: 9px;
+      }
     }
   }
 }

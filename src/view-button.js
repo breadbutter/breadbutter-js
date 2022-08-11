@@ -115,6 +115,7 @@ const buttons = function (
     { button_theme, pass, register, deidentify, pin, email_address },
     first
 ) {
+    // console.log(button_theme);
     let div = document.createElement('div');
     if (provider.type == 'enterprise') {
         if (button_theme == 'icon') {
@@ -212,8 +213,12 @@ const triggerIdentityProvider = function (func, data, button) {
     let top = button.parentElement.parentElement.parentElement;
     let button_holder = top.parentElement.querySelector('.' + BUTTON_HOLDER_ID);
     if (func) {
+        const pageShow = function() {
+            loader.remove();
+        };
         if (button_holder) {
             loader.start(button_holder, true);
+            window.addEventListener('pageshow', pageShow);
         }
         func(data, function (res) {
             if (res && res.authentication_token) {

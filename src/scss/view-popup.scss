@@ -36,7 +36,9 @@
   }
   .breadbutter-floating-more {
     cursor: pointer;
-  }
+    margin-left: 5px;
+    text-decoration: underline;
+}
   .breadbutter-floating-text {
     font-size: 22px;
     line-height: 2;
@@ -60,9 +62,12 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
-  backdrop-filter: blur(16.6px);
-  -webkit-backdrop-filter: blur(16.6px);
-  background-color: rgba(80, 92, 109, .5);
+  background-color: rgba(28, 28, 28, 0.86);
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    backdrop-filter: blur(16.6px);
+    -webkit-backdrop-filter: blur(16.6px);
+    background-color: rgba(80, 92, 109, .5);
+  }
 }
 
 .breadbutter-popup {
@@ -74,6 +79,7 @@
   }
 
   .breadbutter-popup-wrapper {
+    z-index: 1;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.2);
@@ -124,15 +130,31 @@
     right: 0;
     bottom: 0;
     z-index: 10000;
-    -webkit-backdrop-filter: blur(7.8px);
-    backdrop-filter: blur(7.8px);
-    background-color: rgba(80, 92, 109, .5);
+    background-color: rgba(73, 83, 100, 0.86);
+    @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+      backdrop-filter: blur(7.8px);
+      -webkit-backdrop-filter: blur(7.8px);
+      background-color: rgba(80, 92, 109, .5);
+    }
   }
   .breadbutter-popup-holder {
     min-height: 50px;
     background-color: #eeeeee;
+    position: relative;
     .breadbutter-ui {
+      max-height: 90vh;
+      overflow-y: auto;
+      overflow-x: hidden;
       width: 375px!important;
+
+      .breadbutter-forms {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 90vh;
+        width: 100%;
+        padding-right: 15px;
+        box-sizing: content-box;
+      }
     }
     .breadbutter {
       &-forgot-form,
@@ -279,6 +301,10 @@
     &.mobile {
       top: auto !important;
       bottom: 275px !important;
+      display: none;
+      &.incognito-form, .email-form {
+        display: flex;
+      }
       .breadbutter-floating-arrow-holder {
         display: block;
       }
@@ -348,27 +374,34 @@
     border-bottom-right-radius: 0;
     background-color: #fff;
     .breadbutter-popup-header {
-      padding-top: 30px;
+      padding-top: 25px;
       position: relative;
       .popup-title {
         line-height: 32px;
+        padding-bottom: 5px;
       }
       .bb-mobile-handler {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        height: 30px;
+        height: 25px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         .bb-mobile-dropdown {
-          border-right: solid 3px #878787;
-          border-bottom: solid 3px #878787;
-          width: 15px;
-          height: 15px;
-          transform: rotate(45deg) skew(-30deg, -30deg);
+          //border-right: solid 3px #878787;
+          //border-bottom: solid 3px #878787;
+          //width: 15px;
+          //height: 15px;
+          //transform: rotate(45deg) skew(-30deg, -30deg);
+          border-top: solid 2px #d6d6d6;
+          border-bottom: solid 2px #d6d6d6;
+          margin-top: 7px;
+          width: 100px;
+          border-radius: 5px;
+          height: 0px;
         }
       }
     }
@@ -382,6 +415,9 @@
           padding: 21px 0;
         }
         .breadbutter-forms {
+          & > div {
+            width: auto;
+          }
           .breadbutter-confirm {
             .breadbutter-module-header-discovery {
               padding-top: 0;
@@ -481,7 +517,7 @@
 
         .bb-mobile-handler {
           .bb-mobile-dropdown {
-            transform: rotate(225deg) skew(-30deg, -30deg);
+            //transform: rotate(225deg) skew(-30deg, -30deg);
           }
         }
       }

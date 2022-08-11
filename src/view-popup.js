@@ -18,6 +18,7 @@ const TEXT_TITLE_ID = 'breadbutter-floating-text-title';
 
 const BLUR_HEADER_ID = 'breadbutter-blur-header';
 
+import loader from './utils/loader.js';
 import lang from './locale.js';
 import './scss/view-popup.scss';
 
@@ -120,14 +121,16 @@ const init = function (options) {
 };
 
 const addForm = function (options, form) {
+    isDeIdentification = false;
     let view = createView(options);
     options.popup = true;
-
+    loader.start(view, true, true);
     // console.log(options);
     form.addForm(view, options);
 };
 
 const addRegister = function (options, form) {
+    isDeIdentification = false;
     let view = createView(options);
     options.popup = true;
 
@@ -135,6 +138,7 @@ const addRegister = function (options, form) {
 };
 
 const addReset = function (options, form) {
+    isDeIdentification = false;
     let view = createView(options);
     options.popup = true;
 
@@ -142,6 +146,7 @@ const addReset = function (options, form) {
 };
 
 const addMagicLink = function (options, form) {
+    isDeIdentification = false;
     let view = createView(options);
     options.popup = true;
 
@@ -149,6 +154,7 @@ const addMagicLink = function (options, form) {
 };
 
 const addConfirm = function (options, form) {
+    isDeIdentification = false;
     let view = createView(options);
     options.popup = true;
 
@@ -156,6 +162,7 @@ const addConfirm = function (options, form) {
 };
 
 const deIdentification = function (options, form) {
+    isDeIdentification = true;
     let view = createView(options);
     options.popup = true;
 
@@ -188,6 +195,7 @@ const parsePosition = function(position) {
     return pos;
 }
 
+let isDeIdentification = false;
 let isMobile = false;
 const detectMobile = function() {
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -294,22 +302,24 @@ const createView = function (options) {
         header.appendChild(getMobileHandler())
     }
     header.appendChild(getTitle());
-    if (!isMobile) {
+    if (!isMobile && !options.locked) {
         header.appendChild(getCloseIcon());
-        setupScrollingMoveTrigger();
     }
 
-    if (!isMobile) {
+    if (!isMobile && !isDeIdentification && !options.locked) {
+        setupScrollingMoveTrigger();
         setupScrollingTrigger();
     }
     document.body.append(popup);
     currentPopup = popup;
 
-    assignMask();
+    assignMask(options.locked);
+    popup.style.zIndex = view.getIndex();
     return holder;
 };
 
 const triggerBlur = function(height) {
+    // console.log('triggerBlur');
     let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
     if (height) {
         let b = findChild(wrapper, BLUR_HEADER_ID);
@@ -359,6 +369,7 @@ const triggerProvider = function(advanced) {
 const triggerFormEntry = function(form) {
     let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
     let holder = findChild(wrapper, POPUP_HOLDER_ID);
+    let text_wrapper = findChild(currentPopup, TEXT_HOLDER_ID);
     const formMatch = new RegExp('-form');
     let clean_list = [];
     for(let i = 0; i < holder.classList.length; i++) {
@@ -369,8 +380,14 @@ const triggerFormEntry = function(form) {
     }
     for(let i = 0; i < clean_list.length; i++) {
         holder.classList.remove(clean_list[i]);
+        if (text_wrapper) {
+            text_wrapper.classList.remove(clean_list[i]);
+        }
     }
     holder.classList.add(form);
+    if (isMobile && text_wrapper) {
+        text_wrapper.classList.add(form);
+    }
     holder.style.height = null;
 };
 
@@ -401,12 +418,12 @@ let scrollTimer = false;
 const setupScrollingTrigger = function() {
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
-            // console.log('scrolling...');
-            // if (!event.target.classList.contains('breadbutter-buttons')) {
-                //height: 80vh;
-                //overflow-y: scroll;
-            scrollingTrigger(event);
-            // }
+            if (!event.target.classList || (
+                !event.target.classList.contains('breadbutter-ui') &&
+                !event.target.classList.contains('breadbutter-forms')
+            )) {
+                scrollingTrigger(event);
+            }
         }
     }, true);
 };
@@ -414,7 +431,12 @@ const setupScrollingTrigger = function() {
 const setupScrollingMoveTrigger = function() {
     window.addEventListener('scroll', function(event){
         if (currentPopup) {
-            scrollingMoveTrigger(event);
+            if (!event.target.classList || (
+                    !event.target.classList.contains('breadbutter-ui') &&
+                    !event.target.classList.contains('breadbutter-forms')
+            )) {
+                scrollingMoveTrigger(event);
+            }
         }
     }, true);
 
@@ -462,8 +484,7 @@ const addScrolling = function() {
 
 
 const scrollingMoveTrigger = function(event) {
-    let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : 0);
-
+    let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : (event.target == document ? window.scrollY : 0));
     if (CONTINUE_WITH_HOVER.enabled) {
         let top = CONTINUE_WITH_HOVER.original;
         top -= scrollNow;
@@ -474,10 +495,11 @@ const scrollingMoveTrigger = function(event) {
     }
 };
 
-const assignMask = function() {
+const assignMask = function(locked) {
     if (DATA.show_login_focus) {
         closeMask();
-        currentMask = getMask();
+        currentMask = getMask(locked);
+        currentMask.style.zIndex = view.getIndex();
         document.body.append(currentMask);
 
         if (!DATA.hide_focus_text) {
@@ -652,7 +674,7 @@ const getTitleText = function() {
 };
 
 const getTitle = function () {
-    console.log(APP_NAME);
+    // console.log(APP_NAME);
     let text = getTitleText();
     let b = view.addBlock('div', FORM.TITLE);
     b.innerHTML = text;
@@ -761,10 +783,10 @@ const triggerToggleMobile = function(e) {
     // }
 };
 
-const getMask = function () {
+const getMask = function (locked) {
     let m = addView(MASK_HOLDER_ID);
     // m.onclick = triggerCloseMask;
-    if (DATA.hide_on_focus) {
+    if (DATA.hide_on_focus && !locked) {
         m.onclick = triggerClosePopup;
     }
     return m;

@@ -4,6 +4,7 @@ import viewForm from './view-form';
 import viewPopup from './view-popup';
 import viewPolicy from './view-policy';
 import viewUI from './view-ui';
+import view from './view';
 import constants from './constants';
 import lang from './locale.js';
 import engagement from './engagement'
@@ -62,6 +63,7 @@ let options = {
     locale: false,
     app_name: false,
     destination_url: false,
+    registration_destination_url: false,
     callback_url: false,
     client_data: false,
     page_view_tracking: true,
@@ -78,7 +80,8 @@ let options = {
     hide_local_auth_domains: [],
     landing_redirect_url: false,
     window_open: false,
-    onMagicLinkConfirm: false
+    onMagicLinkConfirm: false,
+
 };
 
 let profile_init = false;
@@ -87,6 +90,9 @@ let suggested_provider = false;
 let device_verified = false;
 
 const configure = function(opt) {
+    if (typeof opt.limit_content != 'undefined') {
+        limit_content = opt.limit_content;
+    }
     if (typeof opt.app_name != 'undefined') {
         options.app_name = opt.app_name;
     }
@@ -110,6 +116,10 @@ const configure = function(opt) {
 
     if (typeof opt.api_path != 'undefined') {
         options.api_path = opt.api_path;
+    }
+
+    if (typeof opt.registration_destination_url != 'undefined') {
+        options.registration_destination_url = opt.registration_destination_url
     }
 
     if (typeof opt.destination_url != 'undefined') {
@@ -179,6 +189,7 @@ const configure = function(opt) {
         options.onMagicLinkConfirm = opt.onMagicLinkConfirm;
     }
 
+
     api.configure({
         app_id: options.app_id,
         app_secret: options.app_secret,
@@ -191,26 +202,137 @@ const configure = function(opt) {
         success_event_code: options.success_event_code,
         hide_local_auth_domains: options.hide_local_auth_domains,
         landing_redirect_url: options.landing_redirect_url,
-        window_open: options.window_open
+        window_open: options.window_open,
+        registration_destination_url: options.registration_destination_url
     });
 
 
 
     startup.beforeProfile();
-    tracking();
     loadLanguage(options);
     viewUI.init(options);
 
     return new Promise(function(resolve) {
         api.getProfile(function(up, suggested, dv) {
+            resumePage();
             profile_init = true;
             processProfileQueue();
             resolve(up, dv);
             startup.completeProfile(opt);
+            handleUrl();
+            handleLimitPreview();
+            if (!GATED_PAGE_NOW) {
+                tracking();
+            }
         })
     });
 };
 
+let limit_content = false;
+let limit_content_timer = false;
+
+const checkLimitPreviewLinks = () => {
+    let limited_page = true;
+    if (limit_content.restricted_links instanceof Array) {
+        limited_page = false;
+        let urls = limit_content.restricted_links;
+        for (let i = 0; i < urls.length; i++) {
+            let url = urls[i];
+            let wildgate = false;
+            if (url.indexOf('*') != -1) {
+                wildgate = true;
+                url = url.replace('/*', '');
+            }
+            let pathname = document.location.pathname;
+            if (wildgate) {
+                if (pathname.indexOf(url) == 0 && pathname.replace(url, '').indexOf('/') == 0) {
+                    limited_page = true;
+                }
+            } else {
+                if (pathname == url) {
+                    limited_page = true;
+                }
+            }
+        }
+    }
+    return limited_page;
+};
+
+const handleLimitPreview = () => {
+    if (!device_verified && limit_content) {
+        if (checkLimitPreviewLinks()) {
+            waitLimitPreview();
+        }
+    }
+};
+
+const waitLimitPreview = ()=> {
+    if (!isNaN(limit_content.scroll_limit)) {
+        window.addEventListener('scroll', calculateScrollLimit, true);
+    }
+    if (!isNaN(limit_content.time_limit)) {
+        limit_content_timer = setTimeout(()=> {
+            triggerLimitContent();
+        }, Number(limit_content.time_limit) * 1000);
+    }
+};
+
+const stopLimitCheck = ()=> {
+    window.removeEventListener('scroll', calculateScrollLimit, true);
+    if (limit_content_timer) {
+        clearTimeout(limit_content_timer);
+    }
+};
+
+const calculateScrollLimit = (event) => {
+    let windowHeight = window.innerHeight;
+    let scrollMax = (event.target == document) ? document.body.scrollHeight : event.target.scrollHeight;
+    let scrollArea = scrollMax - windowHeight;
+    let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : (event.target == document ? window.scrollY : 0));
+    if (scrollNow >= scrollArea * Number(limit_content.scroll_limit)) {
+        triggerLimitContent();
+    }
+};
+
+const triggerLimitContent = ()=> {
+    stopLimitCheck();
+    widgets.continueWith({
+        ...limit_content,
+        locked: true,
+        show_login_focus: true,
+    });
+    document.body.classList.add('breadbutter-locked-limit-content');
+};
+
+const handleUrl = function() {
+  // isParsingUrl = true;
+  let opt = parsingUrl({});
+  // console.log(opt);
+  if (opt && opt.mode) {
+      switch(opt.mode) {
+          case constants.mode.DEIDENTIFICATION:
+              if (!isParsingDeIdentification) {
+                  widgets.deIdentification(opt);
+              }
+              break;
+      }
+  }
+};
+
+const resumePage = function() {
+    window.addEventListener('pageshow', function() {
+        console.log('Page resume from history.')
+        let o_up = Object.assign({}, profile);
+        let o_dv = device_verified;
+        setTimeout(()=> {
+            api.getProfile(function(up, suggested, dv) {
+                if (o_dv != dv) {
+                    window.location.reload();
+                }
+            })
+        }, 10);
+    });
+};
 
 const api = new (function() {
     this.configure = function(opt) {
@@ -327,6 +449,7 @@ const events = new (function() {
     };
 })();
 
+let GATED_PAGE_NOW = false;
 let DELAY_FOR_GA = false;
 
 const tracking = function() {
@@ -480,6 +603,7 @@ const loadOptions = function(opt) {
     }
 
     applyOptions(opt, 'destination_url');
+    applyOptions(opt, 'registration_destination_url');
     applyOptions(opt, 'callback_url');
     applyOptions(opt, 'client_data');
     applyOptions(opt, 'force_reauthentication');
@@ -504,6 +628,7 @@ const initUI = function(options) {
 
 const UI = new (function() {
     (this.deIdentification = function(options) {
+        isParsingDeIdentification = true;
         options.hide_focus_text = true;
         options.show_login_focus = true;
         options.hide_on_focus = false;
@@ -727,11 +852,15 @@ const querystring = function() {
     return params;
 }();
 
+let isParsingUrl = false;
+let isParsingDeIdentification = false;
+
 const parsingUrl = function(opt) {
     // console.log(opt);
     if (opt && opt.mode) {
         return opt;
     }
+    isParsingUrl = true;
     // console.log(querystring);
     if (querystring[errors.ERROR]) {
         let error = querystring[errors.ERROR];
@@ -924,7 +1053,7 @@ const startup = new (function(){
             if (isVerifiedState()) {
                 if (form_info.name) {
                     const name = form_info.name;
-                    if (name) {
+                    if (name && profile.first_name) {
                         name.value = (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim();
                         name.disabled = 'disabled';
                     }
@@ -932,7 +1061,7 @@ const startup = new (function(){
 
                 if (form_info.first_name) {
                     const name = form_info.first_name;
-                    if (name) {
+                    if (name && profile.first_name) {
                         name.value = (profile.first_name).trim();
                         name.disabled = 'disabled';
                     }
@@ -940,7 +1069,7 @@ const startup = new (function(){
 
                 if (form_info.last_name) {
                     const name = form_info.last_name;
-                    if (name) {
+                    if (name && profile.last_name) {
                         name.value = (profile.last_name).trim();
                         name.disabled = 'disabled';
                     }
@@ -986,6 +1115,7 @@ const startup = new (function(){
             let url = redirect.attributes[html_attributes.PAGE_REDIRECT].value;
             let value = content.attributes[html_attributes.PAGE_CONTROL].value;
             if ((value == html_attributes.control.VERIFIED && !verified) || (value == html_attributes.control.NOT_VERIFIED && verified)) {
+                GATED_PAGE_NOW = true;
                 document.location.assign(url);
             }
 
@@ -1060,6 +1190,15 @@ const NotifyHubspot = function(holder) {
 };
 
 let jotFormRetry = 0;
+
+const detectMobile = function() {
+    let isMobile = false;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // true for mobile device
+        isMobile = true;
+    }
+    return isMobile;
+}
 
 const ui = new (function() {
     this.addEventToLink = function(link_id, event) {
@@ -1146,10 +1285,12 @@ const ui = new (function() {
             }
             if (wildgate) {
                 if (pathname.indexOf(url) == 0 && pathname.replace(url, '').indexOf('/') == 0) {
+                    GATED_PAGE_NOW = true;
                     document.location.assign(redirect);
                 }
             } else {
                 if (pathname == url) {
+                    GATED_PAGE_NOW = true;
                     document.location.assign(redirect);
                 }
             }
@@ -1259,8 +1400,12 @@ const ui = new (function() {
 
         if (content) {
             if (isVerifiedState()) {
-                prefillContent('firstname', profile.first_name);
-                prefillContent('lastname', profile.last_name);
+                if (profile.first_name) {
+                    prefillContent('firstname', profile.first_name);
+                }
+                if (profile.last_name) {
+                    prefillContent('lastname', profile.last_name);
+                }
                 prefillContent('email', profile.email_address);
                 content.querySelectorAll('input[name=firstname],input[name=lastname],input[name=email]').forEach(function(c) {
                     c.addEventListener('click', function(e){
@@ -1385,12 +1530,14 @@ const ui = new (function() {
                 if (form_info.name) {
                     const name = document.getElementById(form_info.name);
                     if (name) {
-                        name.value = (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim();
-                        name.disabled = 'disabled';
+                        name.value = ((profile.first_name ? profile.first_name : "") + " " + (profile.last_name ? profile.last_name : "")).trim();
+                        if (name.value.length) {
+                            name.disabled = 'disabled';
+                        }
                     }
                 }
 
-                if (form_info.first_name) {
+                if (form_info.first_name && profile.first_name) {
                     const name = document.getElementById(form_info.first_name);
                     if (name) {
                         name.value = (profile.first_name).trim();
@@ -1398,7 +1545,7 @@ const ui = new (function() {
                     }
                 }
 
-                if (form_info.last_name) {
+                if (form_info.last_name && profile.last_name) {
                     const name = document.getElementById(form_info.last_name);
                     if (name) {
                         name.value = (profile.last_name).trim();
@@ -1517,9 +1664,9 @@ const ui = new (function() {
 
         if (isVerifiedState()) {
             let new_string = lang.replace({
-                'FIRST_NAME': profile.first_name,
-                'LAST_NAME': profile.last_name,
-                'NAME': (profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim(),
+                'FIRST_NAME': profile.first_name ? profile.first_name : "",
+                'LAST_NAME': profile.last_name ? profile.last_name : "",
+                'NAME': ((profile.first_name ? profile.first_name : "") + " " + (profile.last_name ? profile.last_name : "")).trim(),
                 'EMAIL': profile.email_address
             }, template);
             switch(ui_options.type) {
@@ -1552,7 +1699,8 @@ const ui = new (function() {
             return;
 
         if (isVerifiedState()) {
-            field.innerHTML = viewUI.getProfileWidget(profile, suggested_provider);
+            let isMobile = detectMobile();
+            field.innerHTML = viewUI.getProfileWidget(profile, suggested_provider, isMobile);
             let content = field.querySelector('.breadbutter-ui-profile-widget-container');
             if (content && content.getBoundingClientRect().x < 375) {
                 content.classList.add('breadbutter-ui-left-aligned-container');
@@ -1619,6 +1767,7 @@ const ui = new (function() {
 
         options = {
             hide_verified: true,
+            show_logged_in_profile: true,
             ...options
         };
 
@@ -1652,6 +1801,41 @@ const ui = new (function() {
         }
         if ((!options.hide_verified && !isVerifiedState()) || (options.hide_verified && !isProfileVerifiedState()) || mode) {
             widgets.continueWith(options);
+        } else if (isVerifiedState() && options.show_logged_in_profile) {
+            let field = viewUI.getContinueWithSignInHolder(options);
+            document.body.appendChild(field);
+            field.appendChild(viewUI.getContinueWithSignInWidget(profile, suggested_provider));
+            let content = field.querySelector('.breadbutter-ui-profile-widget-container');
+            if (content && content.getBoundingClientRect().x < 375) {
+                content.classList.add('breadbutter-ui-left-aligned-container');
+            }
+            const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
+            if (logout_button) {
+                logout_button.onclick = async function() {
+                    await API.resetDeviceVerification();
+                    let reload = true;
+                    if (typeof options.onLogout == 'function') {
+                        reload = options.onLogout();
+                    }
+                    if (reload) {
+                        window.location.reload();
+                    }
+                };
+            }
+        }
+    };
+
+    this.signIn = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'signIn',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+
+        if (!isVerifiedState()) {
+            widgets.signIn(field_id, options);
         }
     };
 
@@ -1666,6 +1850,13 @@ const ui = new (function() {
         if (typeof field_id == 'object') {
             on_page = false;
             options = field_id;
+        }
+        if (!options.custom_event_code) {
+            return;
+        }
+        let verified = isVerifiedState();
+        let cached = viewUI.checkEventStorage(options.custom_event_code);
+        if (!on_page && cached != options.custom_event_code) {
             if (options.delay_seconds && !isNaN(options.delay_seconds)) {
                 let time = Number(options.delay_seconds);
                 delete options.delay_seconds;
@@ -1678,9 +1869,6 @@ const ui = new (function() {
 
         options = options ? options : {};
 
-        if (!options.custom_event_code) {
-            return;
-        }
 
         if (typeof options.show_focus == 'undefined') {
             options.show_focus = true;
@@ -1692,7 +1880,7 @@ const ui = new (function() {
             if (!field)
                 return;
 
-            options.verified = isVerifiedState();
+            options.verified = verified;
             options.profile = profile;
             result = viewUI.getNewsletterWidget(options);
             if (!result) {
@@ -1700,9 +1888,13 @@ const ui = new (function() {
             }
             field.innerHTML = result.html;
         } else {
-            options.verified = isVerifiedState();
+            let isMobile = detectMobile();
+            if (cached == viewUI.getViewedCode(options.custom_event_code)) {
+                return;
+            }
+            options.verified = verified;
             options.profile = profile;
-            result = viewUI.getNewsletterPopupWidget(options);
+            result = viewUI.getNewsletterPopupWidget(options, isMobile);
             if (!result) {
                 return;
             }
@@ -1710,7 +1902,14 @@ const ui = new (function() {
             field = document.createElement('div');
             field.classList.add('breadbutter-ui-newsletter-popup');
             field.innerHTML = result.html;
+            if (isMobile) {
+                field.classList.add('bb-mobile');
+                let mask = document.createElement('div');
+                mask.classList.add('breadbutter-ui-newsletter-widget-mask');
+                field.appendChild(mask)
+            }
             document.body.appendChild(field);
+            field.style.zIndex = view.getIndex();
 
             // if (options.show_focus) {
             //     mask = document.createElement('div');
@@ -1729,7 +1928,9 @@ const ui = new (function() {
         }
 
         if (!isVerifiedState()) {
-            let opt = {};
+            let opt = {
+                ...options
+            };
             opt.button_theme = 'round-icons';
             opt.success_event_code = options.custom_event_code;
             opt.destination_url = document.location.href.split('?')[0];
@@ -1738,7 +1939,7 @@ const ui = new (function() {
             let button = field.querySelector('.breadbutter-ui-newsletter-subscribe');
             if (button) {
                 button.addEventListener('click', (event) => {
-                    console.log(event.target);
+                    // console.log(event.target);
                     let parent = event.target.parentElement;
                     event.target.remove();
                     let loader = document.createElement('div');
@@ -1781,6 +1982,7 @@ const widgets = new (function() {
             triggerBlurScreen = true;
             events.custom('blur_screen');
         }
+        // console.log(opt);
         if (!mode) {
             if (!checkRememberClose(opt)) {
                 UI.form(opt);

@@ -5,6 +5,13 @@ import lang from './locale.js';
 let Locale = {};
 let DOM_DATA = {};
 let APP_ID = false
+
+let zindex = 10001;
+
+const getIndex = function(){
+    return zindex++;
+}
+
 const init = function (options) {
     loadAppId(options);
     loadLanguage(options);
@@ -74,6 +81,7 @@ const setData = function(holder, options) {
     DOM_DATA[holder.uuid] = {
         client_data: options.client_data,
         destination_url: options.destination_url,
+        registration_destination_url: options.registration_destination_url,
         callback_url: options.callback_url,
         force_reauthentication: options.force_reauthentication,
         success_event_code: options.success_event_code,
@@ -302,7 +310,7 @@ const svgButtons_e = function (provider, register, deidentify) {
     let name = provider.name;
 
     let sign_in = register ? Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
-    sign_in = deidentify ? Locale.TILE.DEIDENTIFY: sign_in;
+    sign_in = deidentify ? Locale.TILE.DEIDENTIFY_WITH: sign_in;
 
     let icon = enterpriseIcon(type, provider);
     if (icon) {
@@ -383,7 +391,8 @@ const svgButtons = function (type, opt, register, deidentify) {
     let TYPE = type;
     let svg = loadSVG(type);
     let sign_in = register ?  Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
-    sign_in = deidentify ? Locale.TILE.DEIDENTIFY : sign_in;
+    sign_in = deidentify ? Locale.TILE.DEIDENTIFY_WITH: sign_in;
+
     let brand = Locale.TILE.BRAND[TYPE.toUpperCase()];
     if (brand) {
         let prep = Locale.TILE.WITH;
@@ -701,6 +710,7 @@ const uuidv4 = function() {
 
 
 export default {
+    getIndex,
     findElement,
     addView,
     initView,

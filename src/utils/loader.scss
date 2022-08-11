@@ -7,7 +7,7 @@ $check-width: $check-height/2;
 $check-left: ($loader-size/6 + $loader-size/12);
 $check-thickness: 3px;
 $check-color: $brand-success;
-
+$small-loader-size: 36px;
 
 $error-height: $loader-size/3;
 $error-width: $loader-size/3;
@@ -102,6 +102,27 @@ $error-color: $brand-failure;
       }
       &:after {
         display: none;
+      }
+    }
+  }
+}
+.breadbutter-popup-holder {
+  & > .breadbutter-ui-loader-holder {
+    &.bb-small {
+      .util-loader {
+        width: $small-loader-size;
+        height: $small-loader-size;
+      }
+    }
+  }
+}
+
+.form-register-button-holder {
+  .breadbutter-ui-loader-holder {
+    &.bb-small {
+      .util-loader {
+        width: $small-loader-size;
+        height: $small-loader-size;
       }
     }
   }

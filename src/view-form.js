@@ -29,6 +29,7 @@ const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 const DEIDENTIFY_FORM_ID = 'breadbutter-deidentify-form';
 const DEIDENTIFY_ID = 'breadbutter-deidentify';
+const POPUP_ID = 'breadbutter-popup';
 
 const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
 const TERM_POLICY_ID = 'breadbutter-term-policy';
@@ -104,6 +105,7 @@ const FORM = {
     FIRST_NAME: 'form-first-name',
     LAST_NAME: 'form-last-name',
     REGISTER: 'form-register',
+    REGISTER_BUTTON_HOLDER: 'form-register-button-holder',
     LOGIN: 'form-login',
     LOGIN_HOLDER: 'form-login-holder',
     TOKEN: 'form-token',
@@ -446,6 +448,7 @@ const VIEWFORM = function() {
 //----------------------------------------------------------------------------------------
 
     const init = function(options) {
+
         detectMobile();
         loadOptions(options);
         loadApp(options);
@@ -463,6 +466,9 @@ const VIEWFORM = function() {
         }
         if (typeof options.expand_email_address != 'undefined') {
             OPTS.expand_email_address = options['expand_email_address'];
+        }
+        if (isMobile) {
+            OPTS.expand_email_address = true;
         }
 
         onMagicLinkConfirm = options.onMagicLinkConfirm;
@@ -893,6 +899,7 @@ const VIEWFORM = function() {
     };
 
     const deIdentification = function(id, options) {
+        // console.log('deIdentification');
         options.adjustHeader(false);
 
         loadOptions(options);
@@ -1040,7 +1047,7 @@ const VIEWFORM = function() {
             loader.remove();
             cleanChild(top);
             if (!invite_required && !discovery_required && hasProviders(res)) {
-                let form = incognitoForm(res, email_address);
+                let form = incognitoForm(res, email_address, false, top);
                 top.appendChild(form);
                 if (email_address) {
                     continueEmailLookup(findChild(form, INCOGNITO_HOLDER_ID));
@@ -1224,6 +1231,41 @@ const VIEWFORM = function() {
             holder.appendChild(mask);
         }
     };
+
+    const insertMagicLinkButtonDeIdentification = function(top) {
+        //MODULE_MAGIC_LINK
+        // console.log('insertMagicLinkButtonDeIdentification');
+        removeChild(top, MODULE_MAGIC_LINK);
+        if (MAGIC_LINK_ENABLED) {
+            let holder = view.addView(MODULE_MAGIC_LINK);
+            let content = getDiv(Locale.MAGIC_LINK.SEND_BUTTON_TEXT, MAGIC_LINK_BUTTON_ID);
+            let icon = getMagicLinkIcon();
+            content.appendChild(icon);
+            holder.appendChild(content);
+            top.appendChild(holder);
+            top.classList.add('bb-magic-link');
+            holder.onclick = onClickMagicLinkDeIdentification;
+
+            let mask = view.addView(MAGIC_LINK_MASK_ID);
+            let text = view.addView(MAGIC_LINK_MASK_TEXT_ID);
+            text.innerText = Locale.MAGIC_LINK.FOCUS_MASK_TEXT;
+            let arrow = view.addView(MAGIC_LINK_MASK_ARROW_ID)
+            mask.appendChild(text);
+            mask.appendChild(arrow);
+            holder.appendChild(mask);
+        }
+    };
+
+    const onClickMagicLinkDeIdentification = function(events) {
+        let target = events.target ? events.target : events;
+        if (!target.classList.contains(MODULE_MAGIC_LINK)) {
+            target = findParents(target, MODULE_MAGIC_LINK);
+            if (!target) {
+                return false;
+            }
+        }
+        deIdentificationMagicLink(target.parentElement);
+    }
 
     const onClickMagicLink = function(events) {
         let target = events.target ? events.target : events;
@@ -1461,7 +1503,7 @@ const VIEWFORM = function() {
 
     const getPin = function(cls, pin, trigger) {
         let b = view.addBlock('input', FORM.PIN);
-        b.type = 'text';
+        b.type = 'number';
         b.pattern = '[0-9]*';
         b.inputmode = 'numberic';
         b.setAttribute('maxlength', 1);
@@ -1599,6 +1641,12 @@ const VIEWFORM = function() {
                 cleanError(input);
                 if (advance) {
                     cleanBlur(holder);
+                } else if(highlightOn) {
+                    let holderParent = holder.parentElement;
+                    if (findChild(holderParent, BUTTON_HOLDER_ID)) {
+                        const button_holder = findChild(holderParent, BUTTON_HOLDER_ID);
+                        highlightEmailForm(holderParent, button_holder, true);
+                    }
                 }
             }
             if (e.code != 'Enter') {
@@ -1717,7 +1765,10 @@ const VIEWFORM = function() {
     const getRegisterButton = function(cb) {
         let button = getButton(Locale.BUTTON.REGISTER, FORM.REGISTER, cb);
         button.classList.add('disabled');
-        return button;
+
+        let holder = view.addBlock('div', FORM.REGISTER_BUTTON_HOLDER);
+        holder.appendChild(button);
+        return holder;
     };
 
     const getDropdownButton = function(cb) {
@@ -1872,9 +1923,16 @@ const VIEWFORM = function() {
         email_address, auth_type, provider, user, options
     }) {
         const top = holder.parentElement;
-        const callback = function(res) {
+        const callback = async function(res) {
+            removeLocalEmail();
+            // console.log(res);
             if (res && res.authentication_token) {
-                api.redirectAuthentication(res.authentication_token, true);
+                if (auth_type == AUTH_TYPE.MAGIC_LINK) {
+                    await loader.success_hold();
+                    view.getData(top, 'forceQuit')();
+                } else {
+                    api.redirectAuthentication(res.authentication_token, true);
+                }
             } else if (res && !res.error) {
                 //change page with pin;
                 let form = deIdentifyPinForm({email_address});
@@ -1886,7 +1944,10 @@ const VIEWFORM = function() {
                 insertError(target, res.error.message);
             }
         };
-
+        if (auth_type == AUTH_TYPE.MAGIC_LINK) {
+            loader.start(holder);
+            // console.log(auth_type);
+        }
         api.startDeIdentification({
             email_address, auth_type, provider, user, options, callback
         });
@@ -2016,6 +2077,21 @@ const VIEWFORM = function() {
         deIdentificationSSO(holder, name, provider_id, email_address);
     };
 
+    const triggerCheckDeIdentificationMagicLink = function(event) {
+        let holder = event.target.parentElement;
+        deIdentificationMagicLink(holder);
+    }
+
+    const deIdentificationMagicLink = function(holder) {
+        const email_input = findChild(holder, FORM.EMAIL);
+        let email = email_input.email ? email_input.email : email_input.value;
+        // console.log(email);
+        startDeIdentification(holder, {
+            email_address: email,
+            auth_type: AUTH_TYPE.MAGIC_LINK
+        });
+    }
+
     const deIdentificationSSO = function(holder, name, provider_id, email_address) {
         let provider = {};
         if (provider_id) {
@@ -2064,11 +2140,14 @@ const VIEWFORM = function() {
     };
 
     const deIdentificationEmailProvider = function(holder, response) {
+        // console.log('deIdentificationEmailProvider');
         holder.innerHTML = ""; //clean out existing, proceed to process emaill and handling;
         let {
             list,
             suggested_list,
             suggested,
+            api_suggested_list,
+            api_suggested,
             local
         } = processProviders(response);
         let email_address = response.user_profile.email_address;
@@ -2087,7 +2166,7 @@ const VIEWFORM = function() {
             );
         } else {
             // console.log('sso');
-            if (response.user_profile && suggested_list.length) {
+            if (response.user_profile && api_suggested_list.length) {
                 if (response.user_profile.profile_image_url) {
                     suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
                 }
@@ -2097,24 +2176,34 @@ const VIEWFORM = function() {
             }
             let opt = {
                 button_theme: false,
-                suggested: suggested,
+                suggested: api_suggested,
                 email_address: email_address,
                 deidentify: true,
                 pass: triggerCheckDeIdentificationSSOButton
             };
             let buttons = viewButton.getButtonLists(
-                suggested_list,
+                api_suggested_list,
                 opt
             );
 
-            holder.appendChild(buttons.container);
-            holder.appendChild(
-                getButton(
-                    Locale.BUTTON.DE_IDENTIFY_ME,
-                    FORM.DE_IDENTIFICATION,
-                    triggerCheckDeIdentificationSSO
-                )
-            );
+            if (api_suggested_list.length) {
+                holder.appendChild(buttons.container);
+                holder.appendChild(
+                    getButton(
+                        Locale.BUTTON.DE_IDENTIFY_ME,
+                        FORM.DE_IDENTIFICATION,
+                        triggerCheckDeIdentificationSSO
+                    ));
+            } else {
+                holder.appendChild(getEmail(email_address, true));
+                insertMagicLinkButtonDeIdentification(holder, email_address);
+                holder.appendChild(
+                    getButton(
+                        Locale.BUTTON.DE_IDENTIFY_ME,
+                        FORM.DE_IDENTIFICATION,
+                        triggerCheckDeIdentificationMagicLink
+                    ));
+            }
         }
         holder.appendChild(getSwitchDeIdentify(triggerSwitchDeIdentify));
     }
@@ -2337,6 +2426,7 @@ const VIEWFORM = function() {
         }
     };
 
+    let highlightOn = false;
     const highlightEmailForm = function(container, button_holder, on) {
         // console.log('highlightEmailForm');
         // console.log(container);
@@ -2349,6 +2439,7 @@ const VIEWFORM = function() {
         }
 
         if (on) {
+            highlightOn = true;
             let onBlur = triggerOnBlur(container, height);
             if (!onBlur) {
                 let mask = findChild(container, BLUR_HOLDER_ID);
@@ -2362,6 +2453,7 @@ const VIEWFORM = function() {
                 button_holder.classList.add(BLUR_CLASS);
             }
         } else {
+            highlightOn = false;
             let onBlur = triggerOnBlur(container, false);
             if (!onBlur) {
                 let mask = findChild(container, BLUR_HOLDER_ID);
@@ -2469,7 +2561,7 @@ const VIEWFORM = function() {
         let icon = e.target;
         let holder = findParents(icon, UI_ID);
         if (holder && holder.parentElement) {
-            console.log('expandingIcons');
+            // console.log('expandingIcons');
             holder.parentElement.classList.remove('scrolling');
             showMoreIDP(holder);
             setTimeout(function() {
@@ -2497,13 +2589,15 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        // console.log(top);
-        let bounding = top.getBoundingClientRect();
-        let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
-        // console.log(gap);
-        if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= 0) {
-            theme = 'round-icons';
+        let popup = document.querySelector('.' + POPUP_ID);
+        if (popup) {
+            let bounding = popup.getBoundingClientRect();
+            let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
+            if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
+                theme = 'round-icons';
+            }
         }
+        // debugger;
 
         if (isMobile && list.length == 1) {
             theme = 'tiles';
@@ -2546,7 +2640,6 @@ const VIEWFORM = function() {
                 button_holder.append(d);
                 button_holder.classList.add('bb-limit-providers');
                 d.onclick = function() {
-                    console.log('getArrowDown');
                     this.parentElement.classList.remove('bb-limit-providers');
                     this.remove();
                 };
@@ -2566,10 +2659,16 @@ const VIEWFORM = function() {
         return {list, button_holder};
     };
 
-    const incognitoForm = function(res, email_address) {
+    const incognitoForm = function(res, email_address, options, holder) {
         formEntry(INCOGNITO_FORM);
         let top = view.addView(INCOGNITO_ID);
-        top.appendChild(getHeaderModule(Locale.REGISTER.TITLE));
+
+        if ((options && !options.isContinueWith) || (!options && holder && !isContinueWith(holder))) {
+            top.appendChild(getHeaderModule(Locale.INCOGNITO.TITLE));
+        } else {
+            top.appendChild(getHeaderModule(Locale.REGISTER.TITLE));
+        }
+
         let local = false;
 
 
@@ -2588,18 +2687,37 @@ const VIEWFORM = function() {
                 triggerIncognitoMoreOptions(button, form_holder)
             });
             button_holder.appendChild(more);
-            if (list) {
-                let incognito_holder = findChild(top, INCOGNITO_HOLDER_ID);
-                incognito_holder.classList.add('more-content');
-                insertMoreInformation(incognito_holder);
-                // insertPoweredByModule(incognito_holder);
-                if (OPTS.expand_email_address) {
-                    convertMoreOptions(more);
-                } else if (!email_address) {
-                    triggerIncognitoMoreOptions(more, form_holder);
+            // if (list) {
+            let incognito_holder = findChild(top, INCOGNITO_HOLDER_ID);
+            incognito_holder.classList.add('more-content');
+            insertMoreInformation(incognito_holder);
+            // insertPoweredByModule(incognito_holder);
+            if (OPTS.expand_email_address) {
+                convertMoreOptions(more);
+            } else if (!email_address) {
+                triggerIncognitoMoreOptions(more, form_holder);
+            }
+            // }
+        }
+
+        if (isMobile) {
+            if (list.length > 5 || (list && local)) {
+                let d = button_holder.querySelector('.breadbutter-provider-limit');
+                if (!d) {
+                    d = getArrowDown();
+                    button_holder.append(d);
+                }
+                top.classList.add('bb-mobile-collapse');
+                button_holder.classList.add('bb-limit-providers');
+                d.onclick = function() {
+                    top.classList.remove('bb-mobile-collapse');
+                    this.parentElement.classList.remove('bb-limit-providers');
+                    this.remove();
                 }
             }
         }
+
+
         return top;
     };
 
@@ -2740,6 +2858,7 @@ const VIEWFORM = function() {
     const continueForgotEmail = function(holder) {
         const email_input = findChild(holder, FORM.EMAIL);
         const top = holder.parentElement;
+        const button_holder = findChild(top, FORGOT_BUTTON_ID);
         let email = email_input.email ? email_input.email : email_input.value;
         // console.log(email_address);
 
@@ -2751,7 +2870,8 @@ const VIEWFORM = function() {
             alert = Locale.ERROR.VALID_EMAIL;
             insertError(email_input, alert.MESSAGE);
         }
-        const callback = function() {
+        const callback = async function() {
+            await loader.success_hold();
             loading = false;
             const top = holder.parentElement.parentElement;
             top.classList.remove('forgot');
@@ -2763,6 +2883,7 @@ const VIEWFORM = function() {
         if (pass) {
             loading = true;
             document.activeElement.blur();
+            loader.start(button_holder, false);
             api.resetPassword(email, callback);
         }
     };
@@ -2834,6 +2955,8 @@ const VIEWFORM = function() {
         const repasswd_input = findChild(findChild(holder, FORM.RE_PASSWORD), FORM.PASSWORD);
         const token_input = findChild(holder, FORM.TOKEN);
 
+        const button_holder = findChild(holder, FORM.REGISTER_BUTTON_HOLDER);
+
         let email = email_input.email ? email_input.email : email_input.value;
         let values = {
             email_address: email,
@@ -2884,8 +3007,10 @@ const VIEWFORM = function() {
             loading = true;
             values = view.applyData(top, values);
             document.activeElement.blur();
-            api.registerWithPassword(values, function(res) {
+            loader.start(button_holder, false, true, false);
+            api.registerWithPassword(values, async function(res) {
                 if (res && !res.error) {
+                    await loader.success();
                     if (res.pending_pin_confirmation) {
                         switchConfirmation(holder.parentElement);
                     } else if (res.authentication_token) {
@@ -2894,6 +3019,7 @@ const VIEWFORM = function() {
                             true);
                     }
                 } else if (res && res.error) {
+                    await loader.failure();
                     insertError(passwd_input, res.error.message);
                 }
 
@@ -2952,7 +3078,7 @@ const VIEWFORM = function() {
             values = view.applyData(top, values);
             document.activeElement.blur();
             api.confirmUser(values, async function(res) {
-                if (res && !res.error) {
+                if (res && !res.error) {``
                     await loader.success_hold();
                     if (res.authentication_token) {
                         api.redirectAuthentication(res.authentication_token, true);
@@ -3390,7 +3516,7 @@ const VIEWFORM = function() {
             pass = false;
         }
 
-        let button = findChild(holder, FORM.REGISTER);
+        let button = findChild(findChild(holder, FORM.REGISTER_BUTTON_HOLDER), FORM.REGISTER);
         if (pass) {
             button.classList.remove('disabled');
         } else {
@@ -3405,7 +3531,7 @@ const VIEWFORM = function() {
         const button = e.currentTarget;
         const holder = button.parentElement;
         if (!button.classList.contains('disabled')) {
-            continueRegister(holder);
+            continueRegister(holder.parentElement);
         }
     };
 
@@ -3528,7 +3654,7 @@ const VIEWFORM = function() {
     };
 
     const triggerIncognitoMoreOptions = function(button, holder) {
-        console.log('triggerIncognitoMoreOptions');
+        // console.log('triggerIncognitoMoreOptions');
         if (holder.classList.contains('less-content')) {
             holder.classList.remove('less-content');
             showMoreIDP(holder.parentElement);
@@ -3606,6 +3732,17 @@ const VIEWFORM = function() {
                 button_holder2.append(container);
                 register_container.append(button_holder2);
             } else {
+
+                let continue_with_count = list.length;
+                let popup = document.querySelector('.' + POPUP_ID);
+                if (popup) {
+                    let bounding = popup.getBoundingClientRect();
+                    let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
+                    if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
+                        opt.button_theme = 'round-icons';
+                    }
+                }
+
                 let buttons = viewButton.getButtonLists(list, opt);
                 const container_main = buttons.container;
                 if (list.length > 1) {
@@ -3654,6 +3791,14 @@ const VIEWFORM = function() {
         // console.log(gap);
         if ((window.innerHeight - (continue_with_count * 46) - 500) <= 0) {
             theme = 'round-icons';
+        }
+        let popup = document.querySelector('.' + POPUP_ID);
+        if (popup) {
+            let bounding = popup.getBoundingClientRect();
+            let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
+            if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
+                theme = 'round-icons';
+            }
         }
 
         let opt = {
@@ -3938,6 +4083,7 @@ const VIEWFORM = function() {
     };
 
     const switchLocalLogin = function(holder) {
+        formEntry(LOCAL_LOGIN_FORM);
         showPopupTitle(holder, false);
         if (loading) return;
         const top = holder.parentElement.parentElement;
@@ -3976,14 +4122,21 @@ const VIEWFORM = function() {
         let suggested_list = [];
         let suggested = false;
         let local = false;
+        let api_suggested_list = [];
+        let api_suggested = false;
+
 
         if (res && res.suggested_provider) {
             if (providers_hash[res.suggested_provider.idp]) {
                 suggested_list.push(
                     res.suggested_provider
                 );
+                api_suggested_list.push(
+                    res.suggested_provider
+                );
             }
             suggested = res.suggested_provider.idp;
+            api_suggested = res.suggested_provider.idp
         }
 
         if (res && res.providers) {
@@ -4034,6 +4187,8 @@ const VIEWFORM = function() {
             list,
             suggested_list,
             suggested,
+            api_suggested_list,
+            api_suggested,
             local
         }
     };

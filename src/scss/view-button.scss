@@ -1214,3 +1214,11 @@
         border-radius: 50%;
     }
 }
+
+.breadbutter-popup.bb-mobile-device {
+    .breadbutter-ui  {
+        .breadbutter-buttons.bb-icon {
+            margin: 10px auto 0;
+        }
+    }
+}

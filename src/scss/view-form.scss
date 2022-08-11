@@ -296,7 +296,7 @@
         .form-pin {
             height: 40px;
             width: 30px;
-            font-size: 16px;
+            font-size: 16px !important;
             text-align: center;
             border-radius: 2px;
             padding: 5px;
@@ -487,6 +487,20 @@
     .breadbutter-forms {
         background: #fff;
         position: relative;
+        .breadbutter-module-poweredby {
+            overflow: hidden;
+            height: 49px;
+            a {
+                position: relative;
+                margin-left: -14px;
+                display: block;
+                svg {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                }
+            }
+        }
     }
 
     //.more .form-options::before {
@@ -502,6 +516,11 @@
     .breadbutter {
         &-forms > div {
             position: relative;
+            width: 375px;
+            box-sizing: border-box;
+            &.local-login {
+                //width: 348px;
+            }
         }
         &-forms * {
             position: relative;
@@ -734,6 +753,7 @@
                     //top: -2px;
                     //right: -36px;
                     //bottom: 0;
+                    //bottom: 0;
                 }
 
                 //> div:not(.more-block) {
@@ -766,6 +786,7 @@
 
         &-login {
             padding: 0 13px 0px 14px;
+            box-sizing: border-box;
             .breadbutter-module {
                 &-password {
                     margin-bottom: 20px;
@@ -948,9 +969,13 @@
                 right: 0;
                 bottom: 0;
                 z-index: 10002;
-                -webkit-backdrop-filter: blur(7.8px);
-                backdrop-filter: blur(7.8px);
-                background-color: rgba(80, 92, 109, .5);
+                background-color: rgba(73, 83, 100, 0.86);
+                @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                    backdrop-filter: blur(7.8px);
+                    -webkit-backdrop-filter: blur(7.8px);
+                    background-color: rgba(80, 92, 109, .5);
+                }
+
             }
 
         }
@@ -1000,6 +1025,9 @@
             .form-token-pin {
                 margin-left: 105px;
                 margin-top: 0;
+            }
+            .breadbutter-module-magic-link {
+                padding: 5px 15px;
             }
         }
         .form-message {
@@ -1138,7 +1166,7 @@
     .breadbutter-module-header-discovery {
         padding: 36px 0 36px;
         .form-title {
-            margin-bottom: 16px;
+            //margin-bottom: 16px;
         }
     }
 
@@ -1276,6 +1304,11 @@
                 height: 0 !important;
             }
         }
+        &.bb-mobile-collapse {
+            .breadbutter-incognito-holder {
+                display: none;
+            }
+        }
     }
 }
 
@@ -1305,8 +1338,12 @@
         bottom: -36px;
         left: 0;
         right: 0;
-        backdrop-filter: blur(7.8px);
-        background-color: rgba(80,92,109,0.5);
+        background-color: rgba(73, 83, 100, 0.86);
+        @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            -webkit-backdrop-filter: blur(7.8px);
+            backdrop-filter: blur(7.8px);
+            background-color: rgba(80, 92, 109, .5);
+        }
         .breadbutter-magic-link-mask-text {
             font-size: 13px;
             line-height: 1.455;
@@ -1388,4 +1425,14 @@
             padding-bottom: 20px;
         }
     }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }

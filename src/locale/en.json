@@ -12,7 +12,7 @@
     "MORE": "more>>"
   },
   "INCOGNITO": {
-    "TITLE": "Welcome"
+    "TITLE": "Sign up / Sign in"
   },
   "REGISTER" : {
     "TITLE": "Welcome",
@@ -77,6 +77,7 @@
     "CONTINUE_AS": "Continue as %NAME%",
     "CONTINUE": "Continue %WITH% %BRAND%",
     "SIGN_IN": "Sign in %WITH% %BRAND%",
+    "DEIDENTIFY_WITH": "De-identify %WITH% %BRAND%",
     "DEIDENTIFY": "De-identify %NAME%",
     "WITH": "with",
     "W_": "w/",

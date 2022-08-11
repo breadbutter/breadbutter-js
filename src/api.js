@@ -4,6 +4,7 @@ let API_PATH = 'https://api.breadbutter.io/';
 let APP_ID;
 let APP_SECRET;
 let DESTINATION_URL;
+let REGISTRATION_DESTINATION_URL;
 let CALLBACK_URL;
 let CLIENT_DATA;
 let FORCE_REAUTHENTICATION;
@@ -20,8 +21,51 @@ let DEVICE_ID;
 const CACHE_STORAGE = {
     DEVICE_ID: 'breadbutter-sdk-device-id',
     SUCCESS_EVENT_CODE: 'breadbutter-sdk-success-event-code',
-    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code'
+    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code',
+    EMAIL: 'breadbutter-sdk-email-address',
+    FIRST_NAME: 'breadbutter-sdk-first-name',
+    INVITE_REQUIRED: 'breadbutter-sdk-invite-required'
 };
+
+const querystring = function() {
+    var name, value
+    var params = {};
+    var hash = window.location.hash;
+    var search = window.location.search;
+    var target = search;
+    if (search.length == 0) {
+        target = hash
+    }
+    var p = target.split('?');
+    if (p.length > 1) {
+        var param_array = target.split('?')[1].split('&'), x;
+        // console.log(param_array);
+        // for(var i in param_array) {
+        for (let i = 0; i < param_array.length; i++) {
+            x = param_array[i].split('=');
+            name = x[0];
+            value = x[1];
+            if (typeof value == 'undefined') {
+                value = null;
+            }
+
+            value = decodeURIComponent(value);
+
+            if (name.length > 0) {
+                // params[name[0].toUpperCase() + name.substring(1)] = value;
+                // params[name[0].toLowerCase() + name.substring(1)] = value;
+                params[name.toLowerCase()] = value;
+                params[name] = value;
+
+                // me.keys[name[0].toUpperCase() + name.substring(1)] = name;
+                // me.keys[name[0].toLowerCase() + name.substring(1)] = name;
+                // me.keys[name.toLowerCase()] = name;
+                // me.keys[name] = name;
+            }
+        }
+    }
+    return params;
+}();
 
 const cleanEventStorage = function() {
     // if (localStorage) {
@@ -73,6 +117,14 @@ const cleanDeviceId = async function() {
   }
 };
 
+const cleanUser = async function() {
+    await cleanCookie();
+    if (localStorage) {
+        localStorage.removeItem(CACHE_STORAGE.DEVICE_ID);
+        localStorage.removeItem(CACHE_STORAGE.EMAIL);
+    }
+}
+
 const checkDeviceId = function(res) {
     return res && res.error && res.error.message && res.error.message.indexOf(ERROR_MESSAGE.DEVICE_ID) != -1;
 }
@@ -108,7 +160,7 @@ const cleanCookie = async function() {
     if (device_id) {
         let domains = document.location.host.split('.');
         let domain = ("." + domains.slice(-2).join('.')).split(':')[0];
-        let cookie = APP_ID + "=" + device_id + ";path=/;domain=" + domain;
+        let cookie = APP_ID + "=;path=/;domain=" + domain;
         cookie += ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
         document.cookie = cookie;
         await wait(100);
@@ -210,6 +262,12 @@ const OptionData = function(data) {
         request_data['destination_url'] = DESTINATION_URL;
     }
 
+    if (data.registration_destination_url) {
+        request_data['registration_destination_url'] = data.registration_destination_url;
+    } else if (REGISTRATION_DESTINATION_URL) {
+        request_data['registration_destination_url'] = data.REGISTRATION_DESTINATION_URL;
+    }
+
     return request_data;
 };
 
@@ -239,7 +297,25 @@ const ProviderData = function (data) {
 
 const setPageViewId = function(id) {
     PAGE_VIEW_ID = id;
+    processPageViewQueue();
 };
+
+let page_view_queue = [];
+const processPageViewQueue = function() {
+    if (page_view_queue.length) {
+        let x = page_view_queue.shift();
+        API[x.call].apply(API, x.params);
+        processPageViewQueue();
+    }
+}
+
+const isPageViewInit = function(queue) {
+    if (!PAGE_VIEW_ID) {
+        page_view_queue.push(queue);
+        return false;
+    }
+    return true;
+}
 
 const configure = async function (data) {
     if (typeof data.api_path != 'undefined' && data.api_path) {
@@ -260,6 +336,9 @@ const configure = async function (data) {
 
     if (typeof data.destination_url != 'undefined' && data.destination_url) {
         DESTINATION_URL = data.destination_url;
+    }
+    if (typeof data.registration_destination_url != 'undefined' && data.registration_destination_url) {
+        REGISTRATION_DESTINATION_URL = data.registration_destination_url;
     }
     if (typeof data.callback_url != 'undefined' && data.callback_url) {
         CALLBACK_URL = data.callback_url;
@@ -825,6 +904,13 @@ const resetDeviceVerification = async function(callback) {
 
 const confirmDeIdentification = async function({
     email_address, pin }, callback) {
+
+    if (!isPageViewInit({
+        call: 'confirmDeIdentification',
+        params: [{email_address, pin }, callback]
+    }))
+        return;
+
     let url = API_PATH + 'apps/' + APP_ID + '/users/confirm_deidentification';
 
     let device_id = await getDeviceId();
@@ -841,10 +927,47 @@ const confirmDeIdentification = async function({
         request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
-    return request(url, request_data, 'POST', callback);
+    const cb = function(res) {
+        return new Promise((resolve, reject) => {
+            if (res && res.error) {
+                callback(res);
+                resolve();
+            } else {
+                return resetDeviceVerification().then(() => {
+                    return cleanUser().then(() => {
+                        callback(res);
+                        resolve();
+                        let search = '';
+                        let something = false;
+                        for (let key in querystring) {
+                            if (key != 'action_code' &&
+                                key != 'action' &&
+                                key != 'email' &&
+                                key != 'app_id' &&
+                                key != 'pin') {
+                                search += (search.length == 0) ? '' : '&';
+                                search += key + '=' + encodeURIComponent(querystring[key]);
+                            }
+                            something = true;
+                        }
+                        if (search.length > 0) {
+                            search = '?' + search;
+                        }
+                        if (something) {
+                            window.location.search = search;
+                        } else {
+                            window.location.reload()
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    return request(url, request_data, 'POST', cb);
 };
 
-export default {
+let API = {
     configure,
     setPageViewId,
     getProviders,
@@ -874,4 +997,7 @@ export default {
     confirmDeIdentification,
     assignEventStorage,
     cleanEventStorage
+};
+export default {
+    ...API
 };
