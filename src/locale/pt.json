@@ -11,7 +11,7 @@
         "MORE": "﻿mais>>"
     },
     "INCOGNITO": {
-        "TITLE": "﻿Seja bem-vindo"
+        "TITLE": "Inscrever-se / Iniciar sessão"
     },
     "REGISTER": {
         "TITLE": "﻿Seja bem-vindo",
@@ -79,6 +79,7 @@
         "WITH": "com",
         "W_": "c/",
 		"DEIDENTIFY": "Desidentificar %NAME%",
+		"DEIDENTIFY_WITH": "Desidentificar %WITH% %BRAND%",
         "WITH_EMAIL": "Iniciar sessão com endereço de correio eletrónico",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "A iniciar a sua sessão em",
         "CONFIRM_MESSAGE": "Enviámos uma ligação para confirmar a sua conta para o endereço de correio eletrónico indicado acima. Clique na ligação para prosseguir com o início de sessão.",
         "FOCUS_MASK_TEXT": "Comece com o seu endereço de correio eletrónico acima"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Bem-vindo à %NAME%",
+        "TITLE": "Bem-vindo",
+        "SUBTITLE": "Inicie sessão ou crie a sua conta gratuita para continuar a ler."
     }
 }

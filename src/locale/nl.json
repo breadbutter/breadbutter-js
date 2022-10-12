@@ -11,7 +11,7 @@
         "MORE": "meer>>"
     },
     "INCOGNITO": {
-        "TITLE": "Welkom"
+        "TITLE": "Aanmelden / Inloggen"
     },
     "REGISTER": {
         "TITLE": "Welkom",
@@ -79,6 +79,7 @@
         "WITH": "met",
         "W_": "w/",
 		"DEIDENTIFY": "De-identificeer %NAME%",
+		"DEIDENTIFY_WITH": "De-identificeer %WITH% %BRAND%",
         "WITH_EMAIL": "Inloggen met e-mail",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "Bezig om u in te loggen",
         "CONFIRM_MESSAGE": "We hebben een link om uw account te bevestigen naar het bovenstaande e-mailadres gestuurd. Klik op de link om het inloggen te voltooien.",
         "FOCUS_MASK_TEXT": "Begin met uw e-mailadres hierboven"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Welkom bij %NAME%",
+        "TITLE": "Welkom",
+        "SUBTITLE": "Meld je aan of maak je gratis account aan om verder te lezen."
     }
 }

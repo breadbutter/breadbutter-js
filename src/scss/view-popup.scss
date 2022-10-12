@@ -87,7 +87,7 @@
   }
 
   .breadbutter-popup-header {
-    min-width: 346px;
+    min-width: 241px;
     background: #fff;
     color: #414042;
     display: flex;
@@ -96,12 +96,16 @@
     position: relative;
     //height: 50px;
     .popup-title {
+      height: 50px;
       font-size: 14px;
       flex: 1;
       margin-block-start: 0;
       margin-block-end: 0;
       line-height: 50px;
       padding-right: 50px;
+      &.bb-hide {
+        display: none;
+      }
     }
     .popup-close {
       cursor: pointer;
@@ -377,8 +381,11 @@
       padding-top: 25px;
       position: relative;
       .popup-title {
+        height: 32px;
         line-height: 32px;
         padding-bottom: 5px;
+        padding-right: 0;
+        font-size: 16px;
       }
       .bb-mobile-handler {
         position: absolute;
@@ -410,7 +417,22 @@
         width: 100% !important;
         input {
           font-size: 16px !important;
+          //line-height: 16px !important;
         }
+        //.breadbutter-module-email-discovery {
+        //  margin: 0 20px 20px;
+        //  .form-next-icon {
+        //    //top: 20px;
+        //    top: 16px;
+        //    width: 28px;
+        //    height: 28px;
+        //    right: 16px;
+        //    svg {
+        //      width: 16px;
+        //      height: 16px;
+        //    }
+        //  }
+        //}
         .breadbutter-module-header-discovery {
           padding: 21px 0;
         }
@@ -498,6 +520,10 @@
     }
   }
 
+  &.bb-provider-collapse {
+    height: 136px;
+  }
+
   &.bb-mobile-collpase {
     height: 30px;
     //overflow-y: hidden;
@@ -523,4 +549,30 @@
       }
     }
   }
+  .breadbutter-provider-limit {
+    display: none;
+  }
+  .breadbutter-ui .breadbutter-buttons.bb-icon>div {
+    //margin: 0 9px 10px 9px;
+  };
+  .breadbutter-ui .breadbutter-buttons.bb-icon {
+    //justify-content: space-around;
+    //margin: 10px 0 0;
+    //& > div {
+    //  flex: 1 0 19%;
+    //  margin: 0 0 10px;
+    //  & > div {
+    //    margin: 0 auto;
+    //  }
+    //}
+  }
 }
+
+@media (max-width:280px) {
+  .breadbutter-popup.bb-mobile-device {
+    .breadbutter-ui .breadbutter-buttons.bb-icon>div {
+      margin: 0 5px 10px 5px;
+    }
+  }
+}
+

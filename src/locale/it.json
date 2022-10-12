@@ -11,7 +11,7 @@
         "MORE": "altro>>"
     },
     "INCOGNITO": {
-        "TITLE": "Benvenuto"
+        "TITLE": "Iscriviti / Accedi"
     },
     "DE_IDENTIFICATION": {
         "DE_IDENTIFY_ME": "Deidentificami",
@@ -79,6 +79,7 @@
         "WITH": "con",
         "W_": "con",
 		"DEIDENTIFY": "Deidentifica %NAME%"
+		"DEIDENTIFY_WITH": "Deidentifica %WITH% %BRAND%",
         "WITH_EMAIL": "Accedi con l'email",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "Stiamo effettuando il tuo accesso",
         "CONFIRM_MESSAGE": "Abbiamo inviato un link all'indirizzo email qui in alto per confermare il tuo account. Per completare l'accesso, fai clic sul link.",
         "FOCUS_MASK_TEXT": "Inizia con il tuo indirizzo email qui in alto"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Benvenuti a %NAME%",
+        "TITLE": "Benvenuti",
+        "SUBTITLE": "Accedi o crea il tuo account gratuito per continuare a leggere."
     }
 }

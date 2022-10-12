@@ -14,8 +14,8 @@ let timer_timeout_durations = [1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2]
 
 const handleMouseMove = function(event) {
     startTimer();
-    let x = event.movementX;
-    let y = event.movementY;
+    let x = event.movementX ? event.movementX : 0;
+    let y = event.movementY ? event.movementY : 0;
     content.m += Math.sqrt(x*x + y*y);
 };
 
@@ -62,12 +62,17 @@ const sendContent = function() {
 };
 
 const getContent = function() {
+    const _default = {
+        c: 0,
+        s: 0,
+        m: 0
+    };
     let obj = Object.assign({}, {
         ...content
     });
     obj.t = Math.round((Date.now() - ctime) / 1000);
     obj.s = Math.round(obj.s);
-    obj.m = Math.round(obj.m);
+    obj.m = isNaN(obj.m) ? 0 : Math.round(Number(obj.m));
     return obj
 };
 

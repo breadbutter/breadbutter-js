@@ -11,7 +11,7 @@
         "MORE": "más>>"
     },
     "INCOGNITO": {
-        "TITLE": "Bienvenido"
+        "TITLE": "Registrarse / Iniciar sesión"
     },
     "REGISTER": {
         "TITLE": "Bienvenido",
@@ -79,6 +79,7 @@
         "WITH": "con",
         "W_": "w/",
 		"DEIDENTIFY": "Desidentificar %NAME%",
+		"DEIDENTIFY_WITH": "Desidentificar %WITH% %BRAND%",
         "WITH_EMAIL": "Iniciar sesión con el correo electrónico",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -256,5 +257,10 @@
         "NAMELESS_CONTENT_ALL": "Al darme de alta, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a> y la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a>",
         "NAMELESS_CONTENT_TOC": "Al darme de alta, iniciar sesión o continuar, acepto los <a href='%TOC_LINK%' target='_blank'>términos del servicio</a>",
         "NAMELESS_CONTENT_PRIVACY": "Al darme de alta, iniciar sesión o continuar, acepto la <a href='%PRIVACY_LINK%' target='_blank'>política de privacidad</a>"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Bienvenido a %NAME%",
+        "TITLE": "Bienvenido",
+        "SUBTITLE": "Inicie sesión o cree su cuenta gratuita para seguir leyendo."
     }
 }

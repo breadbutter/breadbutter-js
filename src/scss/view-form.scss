@@ -564,6 +564,13 @@
 
         &-forgot-form {
             padding-bottom: 10px;
+            flex-direction: column;
+            display: flex;
+            align-content: stretch;
+            input.form-email {
+                width: auto;
+                margin: 10px 25px 0;
+            }
             .form-title {
                 padding: 42px 0 42px;
             }
@@ -1259,6 +1266,7 @@
     .breadbutter-email {
         .breadbutter-module-magic-link {
             padding: 0 13px;
+            margin: 0 0 25px;
         }
     }
     .breadbutter-incognito {
@@ -1269,6 +1277,7 @@
         }
         .breadbutter-module-magic-link {
             padding: 0 13px;
+            margin: 0 0 25px;
             .breadbutter-magic-link-mask {
                 bottom: -64px;
             }
@@ -1292,9 +1301,9 @@
             transition-duration: 0.125s;
             transition-timing-function: ease-out;
             &.more-content {
-                height: 105px;
+                //height: 105px;
                 &.bb-magic-link {
-                    height: 175px;
+                    //height: 175px;
                 }
                 //&.bb-toc-term {
                 //    height: 163px;

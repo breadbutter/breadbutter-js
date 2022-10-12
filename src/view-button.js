@@ -84,6 +84,9 @@ const getButtonLists = function (providers, options) {
                         )
                     );
                 }
+                if (button_theme == "icon" && (i+1) % 5 == 0) {
+                    container.appendChild(linebreaker());
+                }
             }
         } else {
             //container.appendChild(messages('Need to enable at least 1 identity providers.'));
@@ -109,6 +112,12 @@ const getButtonLists = function (providers, options) {
 
     return { container, error, theme_class };
 };
+
+const linebreaker = function() {
+    let div = document.createElement('div');
+    div.classList.add('bb-icon-line-break');
+    return div;
+}
 
 const buttons = function (
     provider,
@@ -223,6 +232,9 @@ const triggerIdentityProvider = function (func, data, button) {
         func(data, function (res) {
             if (res && res.authentication_token) {
                 api.redirectAuthentication(res.authentication_token, true);
+                setTimeout(function(){
+                    loader.remove();
+                }, 7000);
             } else if (res && res.error) {
                 loader.remove();
                 let alert = Object.assign(

@@ -11,7 +11,7 @@
     "MORE": "още &gt;&gt;"
   },
   "INCOGNITO": {
-    "TITLE": "Добре дошли"
+    "TITLE": "Регистрирай се / Впиши се"
   },
   "REGISTER": {
     "TITLE": "Добре дошли",
@@ -80,6 +80,7 @@
     "W_": "w/",
     "WITH_EMAIL": "Влезте с имейл",
 	"DEIDENTIFY": "Де-идентифициране на %NAME%",
+	"DEIDENTIFY_WITH": "Де-идентифициране на %WITH% %BRAND%",
         "BRAND": {
             "GOOGLE": "Google",
             "FACEBOOK": "Facebook",
@@ -255,5 +256,10 @@
     "NEWSLETTER_THANK": "Благодарим ви, %NAME%, вече сте отписани",
     "NEWSLETTER_SUBSCRIBE": "Абонирай се",
     "SIGN_OUT": "отписване"
-  }
+  },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Добре дошли в %NAME%",
+        "TITLE": "Добре дошли",
+        "SUBTITLE": "Влезте или създайте безплатен акаунт, за да продължите да четете."
+    }
 }

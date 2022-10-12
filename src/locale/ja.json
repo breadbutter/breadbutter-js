@@ -11,7 +11,7 @@
         "MORE": "続き>>"
     },
     "INCOGNITO": {
-        "TITLE": "ようこそ"
+        "TITLE": "サインアップ / サインイン"
     },
     "REGISTER": {
         "TITLE": "ようこそ",
@@ -80,6 +80,7 @@
         "W_": "で",
         "WITH_EMAIL": "メールアドレスでサインイン",
 		"DEIDENTIFY": "%NAME%を匿名化する",
+		"DEIDENTIFY_WITH": "%WITH% %BRAND% を匿名化する",
 		"BRAND": {
             "GOOGLE": "グーグル",
             "FACEBOOK": "フェイスブック",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "ログインしています",
         "CONFIRM_MESSAGE": "上記のメールアドレス宛にアカウント確認用のリンクをお送りしました。リンクをクリックしてサインインを完了してください。",
         "FOCUS_MASK_TEXT": "上記のメールアドレスで開始してください"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "%NAME%へようこそ",
+        "TITLE": "ようこそ",
+        "SUBTITLE": "続きを読むには、サインインするか無料アカウントを作成してください。"
     }
 }

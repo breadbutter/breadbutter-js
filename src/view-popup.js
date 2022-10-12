@@ -337,14 +337,16 @@ const triggerBlur = function(height) {
 };
 
 const triggerAdjustHeader = function(show) {
-    // console.log('triggerAdjustHeader');
+    console.log('triggerAdjustHeader');
     let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
     let header = findChild(wrapper, POPUP_HEADER_ID);
     let title = findChild(header, FORM.TITLE);
     if (show) {
         title.innerText = getTitleText();
+        title.classList.remove('bb-hide');
     } else {
         title.innerText = "";
+        title.classList.add('bb-hide');
     }
 };
 
@@ -765,10 +767,55 @@ function expandSection(element) {
     element.setAttribute('data-collapsed', 'false');
 }
 
-const triggerToggleMobile = function(e) {
-    let isCollapsed = currentPopup.getAttribute('data-collapsed') === 'true';
+function expandProviders(element) {
+    // get the height of the element's inner content, regardless of its actual size
+    let sectionHeight = element.scrollHeight;
 
-    if(isCollapsed) {
+    // have the element transition to the height of its inner content
+    element.style.height = sectionHeight + 'px';
+    console.log(sectionHeight);
+    function removeListenerTransition(e) {
+        element.removeEventListener('transitionend', removeListenerTransition);
+
+        // remove "height" from the element's inline styles, so it can return to its initial value
+        element.style.height = null;
+    }
+
+    // when the next css transition finishes (which should be the one we just triggered)
+    element.addEventListener('transitionend', function(e) {
+        // remove this event listener so it only gets triggered once
+        removeListenerTransition(e);
+    });
+
+    currentPopup.setAttribute('transitioning', 'true');
+    setTimeout(function() {
+        currentPopup.setAttribute('transitioning', 'false');
+        element.classList.remove('bb-provider-collapse');
+    }, 500);
+    // mark the section as "currently not collapsed"
+    element.setAttribute('data-collapsed', 'false');
+
+};
+
+const triggerToggleMobile = function(e) {
+
+
+    let isCollapsed = currentPopup.getAttribute('data-collapsed') === 'true';
+    let holder = currentPopup.querySelector('.' + POPUP_HOLDER_ID);
+    let mobileCollapsed = holder.querySelector('.bb-mobile-collapse');
+    let limitCollapsed = holder.querySelector('.bb-limit-providers');
+    if (mobileCollapsed || limitCollapsed) {
+        //collpase -> open
+        console.log('scrollheight');
+        currentPopup.classList.add('bb-provider-collapse');
+        if (mobileCollapsed) {
+            mobileCollapsed.classList.remove('bb-mobile-collapse');
+        }
+        if (limitCollapsed) {
+            limitCollapsed.classList.remove('bb-limit-providers');
+        }
+        expandProviders(currentPopup);
+    } else if (isCollapsed) {
         expandSection(currentPopup)
         currentPopup.setAttribute('data-collapsed', 'false')
     } else {

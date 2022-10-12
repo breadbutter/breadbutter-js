@@ -127,7 +127,9 @@ const FORM = {
     MORE_INFO: 'form-more-information',
     EXPAND_ICON: 'form-expand-icon',
     DE_IDENTIFICATION: 'form-deidentify-me',
-    CONFIRM_PIN: 'form-confirm-pin'
+    CONFIRM_PIN: 'form-confirm-pin',
+    LOGIN_PROVIDER: 'login-provider',
+    SUGGESTED_LIST: 'suggested-list'
 };
 
 const PASSWORD_STORAGE = {
@@ -185,6 +187,7 @@ const LOGIN_FORM = 'login-form';
 const LOCAL_LOGIN_FORM = 'local-login-form';
 const REGISTER_FORM = 'register-form';
 const DEIDENTIFY_FORM = 'deidentify-form';
+const FORGOT_FORM = 'forgot-form';
 
 
 import api from './api.js';
@@ -456,6 +459,7 @@ const VIEWFORM = function() {
 
     let onProvider = false;
     let onFormEntry = false;
+    let onFormChange = false;
     let onMagicLinkConfirm = false;
 
     const loadOptions = function(options) {
@@ -474,6 +478,7 @@ const VIEWFORM = function() {
         onMagicLinkConfirm = options.onMagicLinkConfirm;
         onProvider = options.onProvider;
         onFormEntry = options.onFormEntry;
+        onFormChange = options.onFormChange;
 
     };
 
@@ -481,7 +486,17 @@ const VIEWFORM = function() {
         if (typeof onFormEntry == 'function') {
             onFormEntry(form);
         }
+        if (typeof onFormChange == 'function') {
+            onFormChange(form);
+        }
     };
+
+    const formChange = function(form, exit) {
+        if (typeof onFormChange == 'function') {
+            onFormChange(form, exit);
+        }
+    }
+
 
     const saveInviteRequired = function(res) {
         let invite_required = res.settings && res.settings.invite_required;
@@ -899,7 +914,7 @@ const VIEWFORM = function() {
     };
 
     const deIdentification = function(id, options) {
-        // console.log('deIdentification');
+        // //console.log('deIdentification');
         options.adjustHeader(false);
 
         loadOptions(options);
@@ -1012,6 +1027,16 @@ const VIEWFORM = function() {
                 localStorage.setItem(
                     CACHE_STORAGE.FIRST_NAME,
                     res.user_profile.first_name
+                );
+            }
+        } else if (res && res.settings &&
+            res.user_profile &&
+            res.user_profile.email_address) {
+            let email_holder = res.user_profile.email_address.split('@')[0];
+            if (localStorage) {
+                localStorage.setItem(
+                    CACHE_STORAGE.FIRST_NAME,
+                    email_holder
                 );
             }
         } else {
@@ -1234,7 +1259,7 @@ const VIEWFORM = function() {
 
     const insertMagicLinkButtonDeIdentification = function(top) {
         //MODULE_MAGIC_LINK
-        // console.log('insertMagicLinkButtonDeIdentification');
+        // //console.log('insertMagicLinkButtonDeIdentification');
         removeChild(top, MODULE_MAGIC_LINK);
         if (MAGIC_LINK_ENABLED) {
             let holder = view.addView(MODULE_MAGIC_LINK);
@@ -1398,7 +1423,10 @@ const VIEWFORM = function() {
         container.classList.add(FORM.FIRST_NAME);
         let b = view.addBlock('input', FORM.FIRST_NAME);
         b.placeholder = Locale.PLACEHOLDER.FIRST_NAME;
-        b.addEventListener('keyup', triggerFirstNameKeyup);
+        b.addEventListener('keyup', function(e) {
+            e.stopPropagation();
+            triggerFirstNameKeyup(e);
+        });
         b.addEventListener('blur', triggerFirstNameBlur);
         container.appendChild(b);
         return container;
@@ -1409,7 +1437,10 @@ const VIEWFORM = function() {
         container.classList.add(FORM.LAST_NAME);
         let b = view.addBlock('input', FORM.LAST_NAME);
         b.placeholder = Locale.PLACEHOLDER.LAST_NAME;
-        b.addEventListener('keyup', triggerLastNameKeyup);
+        b.addEventListener('keyup', function(e) {
+            e.stopPropagation();
+            triggerLastNameKeyup(e);
+        });
         b.addEventListener('blur', triggerLastNameBlur);
         container.appendChild(b);
         return container;
@@ -1486,16 +1517,25 @@ const VIEWFORM = function() {
         }
 
         if (keyup) {
-            b.addEventListener('keyup', keyup);
+            b.addEventListener('keyup', function(e){
+                e.stopPropagation();
+                keyup(e);
+            });
         }
         if (keydown) {
-            b.addEventListener('keydown', keydown);
+            b.addEventListener('keydown', function(e) {
+                e.stopPropagation();
+                keydown(e);
+            });
         }
 
-        b.addEventListener('focus', function() {
+        b.addEventListener('focus', function(e) {
+            e.stopPropagation();
             this.classList.add('focus');
         });
-        b.addEventListener('blur', function() {
+        b.addEventListener('blur', function(e) {
+
+            e.stopPropagation();
             this.classList.remove('focus');
         });
         return b;
@@ -1517,9 +1557,11 @@ const VIEWFORM = function() {
         }
 
         b.addEventListener('keyup', (e)=> {
+            e.stopPropagation();
             triggerPin(e, trigger);
         });
         b.addEventListener('paste', (e)=> {
+            e.stopPropagation();
             pastePin(e, trigger);
         });
         return b;
@@ -1553,7 +1595,10 @@ const VIEWFORM = function() {
             b.placeholder = Locale.PLACEHOLDER.PIN;
         }
         if (cb) {
-            b.addEventListener('keyup', cb);
+            b.addEventListener('keyup', function(e){
+                e.stopPropagation();
+                cb(e);
+            });
         }
         return b;
     };
@@ -1565,7 +1610,10 @@ const VIEWFORM = function() {
             b.placeholder = placeholder;
         }
         if (cb) {
-            b.addEventListener('keyup', cb);
+            b.addEventListener('keyup', function(e) {
+                e.stopPropagation();
+                cb(e);
+            });
         }
         return b;
     };
@@ -1685,7 +1733,10 @@ const VIEWFORM = function() {
             b.placeholder = placeholder;
         }
         if (cb) {
-            b.addEventListener('keyup', cb);
+            b.addEventListener('keyup', function(e) {
+                e.stopPropagation();
+                cb(e);
+            });
         }
         return b;
     };
@@ -1717,7 +1768,7 @@ const VIEWFORM = function() {
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_OR));
         div.appendChild(getText(Locale.NEW_CODE.CONTENT));
         let button = getText(Locale.NEW_CODE.BUTTON, 'link');
-        // console.log(div.innerHTML);
+        // //console.log(div.innerHTML);
         div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
         // div.appendChild(button);
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
@@ -1732,7 +1783,7 @@ const VIEWFORM = function() {
         // div.classList.add('new_code');
         div.appendChild(getText(Locale.DE_IDENTIFICATION.GET_NEW_PIN));
         let button = getText(Locale.DE_IDENTIFICATION.NEW_PIN_BUTTON, 'link');
-        // console.log(div.innerHTML);
+        // //console.log(div.innerHTML);
         div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
         // div.appendChild(button);
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
@@ -1925,7 +1976,7 @@ const VIEWFORM = function() {
         const top = holder.parentElement;
         const callback = async function(res) {
             removeLocalEmail();
-            // console.log(res);
+            // //console.log(res);
             if (res && res.authentication_token) {
                 if (auth_type == AUTH_TYPE.MAGIC_LINK) {
                     await loader.success_hold();
@@ -1946,7 +1997,7 @@ const VIEWFORM = function() {
         };
         if (auth_type == AUTH_TYPE.MAGIC_LINK) {
             loader.start(holder);
-            // console.log(auth_type);
+            // //console.log(auth_type);
         }
         api.startDeIdentification({
             email_address, auth_type, provider, user, options, callback
@@ -1957,7 +2008,7 @@ const VIEWFORM = function() {
         const email_input = findChild(holder, FORM.EMAIL);
         const top = holder.parentElement;
         let email = email_input.email ? email_input.email : email_input.value;
-        // console.log(email_address);
+        // //console.log(email_address);
 
         let alert = false;
 
@@ -1993,7 +2044,7 @@ const VIEWFORM = function() {
     }
 
     const continueDeIdentifyPin = function(holder) {
-        // console.log(holder);
+        // //console.log(holder);
         let top = holder.parentElement;
         const form = findChild(holder, DEIDENTIFY_FORM_ID);
         const pin = findChild(form, FORM.TOKEN_PIN);
@@ -2008,7 +2059,7 @@ const VIEWFORM = function() {
             email_address: email,
             pin: value,
         };
-        // console.log(values);
+        // //console.log(values);
 
         let pass = true;
         let alert = false;
@@ -2085,7 +2136,7 @@ const VIEWFORM = function() {
     const deIdentificationMagicLink = function(holder) {
         const email_input = findChild(holder, FORM.EMAIL);
         let email = email_input.email ? email_input.email : email_input.value;
-        // console.log(email);
+        // //console.log(email);
         startDeIdentification(holder, {
             email_address: email,
             auth_type: AUTH_TYPE.MAGIC_LINK
@@ -2140,7 +2191,7 @@ const VIEWFORM = function() {
     };
 
     const deIdentificationEmailProvider = function(holder, response) {
-        // console.log('deIdentificationEmailProvider');
+        // //console.log('deIdentificationEmailProvider');
         holder.innerHTML = ""; //clean out existing, proceed to process emaill and handling;
         let {
             list,
@@ -2152,7 +2203,7 @@ const VIEWFORM = function() {
         } = processProviders(response);
         let email_address = response.user_profile.email_address;
         if (suggested == 'local') {
-            // console.log('local');
+            // //console.log('local');
             holder.appendChild(getEmail(email_address, true));
             holder.appendChild(
                 getPasswordModule(triggerDeIdentificationPasswordKeyup, Locale.PLACEHOLDER.PASSWD)
@@ -2165,7 +2216,7 @@ const VIEWFORM = function() {
                 )
             );
         } else {
-            // console.log('sso');
+            // //console.log('sso');
             if (response.user_profile && api_suggested_list.length) {
                 if (response.user_profile.profile_image_url) {
                     suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
@@ -2392,7 +2443,9 @@ const VIEWFORM = function() {
         let str2 = Locale.ERROR.INLINE.TITLE_;
         let name = "";
         if (localStorage) {
-            name = localStorage.getItem(CACHE_STORAGE.FIRST_NAME);
+            name = localStorage.getItem(CACHE_STORAGE.FIRST_NAME)
+                ?
+                localStorage.getItem(CACHE_STORAGE.FIRST_NAME) : "";
         }
         str = lang.replace({
             NAME: name
@@ -2418,8 +2471,8 @@ const VIEWFORM = function() {
     };
 
     const highlightEmailFormMagicLink = function(container) {
-        // console.log('highlightEmailFormMagicLink');
-        // console.log(container);
+        // //console.log('highlightEmailFormMagicLink');
+        // //console.log(container);
         let ml_module = findChild(container, MODULE_MAGIC_LINK);
         if (ml_module) {
             ml_module.classList.add('bb-blur');
@@ -2428,9 +2481,9 @@ const VIEWFORM = function() {
 
     let highlightOn = false;
     const highlightEmailForm = function(container, button_holder, on) {
-        // console.log('highlightEmailForm');
-        // console.log(container);
-        // console.log(button_holder);
+        // //console.log('highlightEmailForm');
+        // //console.log(container);
+        // //console.log(button_holder);
         let email_module = findChild(container, MODULE_EMAIL_DISCOVERY);
         let height = email_module.offsetHeight;
         let magic_link_module = findChild(container, MODULE_MAGIC_LINK);
@@ -2481,8 +2534,8 @@ const VIEWFORM = function() {
                 container.prepend(getHeaderModule(Locale.INCOGNITO.TITLE));
             }
             let buttons = findChild(button_holder, BUTTON_ID);
-            // console.log(button_holder);
-            // console.log(buttons);
+            // //console.log(button_holder);
+            // //console.log(buttons);
             for (let i = 0; buttons.children && i < buttons.children.length; i++) {
                 buttons.children[i].onclick = function() {
                     highlightEmailForm(container, button_holder, true);
@@ -2561,7 +2614,7 @@ const VIEWFORM = function() {
         let icon = e.target;
         let holder = findParents(icon, UI_ID);
         if (holder && holder.parentElement) {
-            // console.log('expandingIcons');
+            // //console.log('expandingIcons');
             holder.parentElement.classList.remove('scrolling');
             showMoreIDP(holder);
             setTimeout(function() {
@@ -2571,6 +2624,7 @@ const VIEWFORM = function() {
     };
 
     const getContinueWith = function(res, top, incognito) {
+        //console.log('getContinueWith');
         let list = [];
         let continue_with_count = 0;
         if (res && res.providers) {
@@ -2589,13 +2643,8 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        let popup = document.querySelector('.' + POPUP_ID);
-        if (popup) {
-            let bounding = popup.getBoundingClientRect();
-            let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
-            if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
-                theme = 'round-icons';
-            }
+        if (checkContinueWithBounding(continue_with_count)) {
+            theme = 'round-icons';
         }
         // debugger;
 
@@ -2671,7 +2720,8 @@ const VIEWFORM = function() {
 
         let local = false;
 
-
+        // res.providers = res.providers.concat(res.providers).slice(0, 15);
+        //console.log('counts');
         let {list, button_holder} = getContinueWith(res, top, true);
 
         if (res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled) {
@@ -2806,7 +2856,7 @@ const VIEWFORM = function() {
     const triggerCollapse = function(button_holder) {
         const login_container = button_holder.parentElement;
         if (!login_container.classList.contains('local-login')) {
-            const suggested_list = findChild(button_holder, 'suggested-list');
+            const suggested_list = findChild(button_holder, FORM.SUGGESTED_LIST);
             const container = findChild(button_holder, 'collapsible');
             suggested_list.classList.add('bb-collapsed');
             container.classList.add('hide');
@@ -2841,7 +2891,7 @@ const VIEWFORM = function() {
         let local = Object.assign({}, providers_hash[providers.LOCAL]);
         local.text = Locale.BUTTON.SIGN_IN;
         local.cls = 'green';
-        let suggest_container = findChild(button_holder, 'suggested-list');
+        let suggest_container = findChild(button_holder, FORM.SUGGESTED_LIST);
         cleanChild(suggest_container);
         let localButton = viewButton.buttons(local, {});
         localButton.onclick = triggerLocalInSuggestion;
@@ -2850,7 +2900,7 @@ const VIEWFORM = function() {
     };
 
     const addMoreInSuggest = function(button_holder) {
-        let suggest_container = findChild(button_holder, 'suggested-list');
+        let suggest_container = findChild(button_holder, FORM.SUGGESTED_LIST);
         let more = viewButton.getMoreButton(triggerListCollapse);
         suggest_container.prepend(more);
     };
@@ -2860,7 +2910,7 @@ const VIEWFORM = function() {
         const top = holder.parentElement;
         const button_holder = findChild(top, FORGOT_BUTTON_ID);
         let email = email_input.email ? email_input.email : email_input.value;
-        // console.log(email_address);
+        // //console.log(email_address);
 
         let pass = true;
         let alert = false;
@@ -2871,10 +2921,11 @@ const VIEWFORM = function() {
             insertError(email_input, alert.MESSAGE);
         }
         const callback = async function() {
-            await loader.success_hold();
+            await loader.success();
             loading = false;
             const top = holder.parentElement.parentElement;
             top.classList.remove('forgot');
+            formChange(FORGOT_FORM, 1);
             top.classList.remove('expire');
             removeChild(top, EXPIRE_ID);
             showPopupTitle(top, true);
@@ -2899,7 +2950,7 @@ const VIEWFORM = function() {
             email_address: email,
             password: password_input.value,
         };
-        // console.log(values);
+        // //console.log(values);
 
         let pass = true;
         let top = holder.parentElement;
@@ -2925,13 +2976,13 @@ const VIEWFORM = function() {
             values = view.applyData(top, values);
 
             document.activeElement.blur();
-            // console.log('loading...');
+            // //console.log('loading...');
             api.loginWithPassword(values, async function(res) {
                 if (res && res.authentication_token) {
                     await loader.success_hold();
                     api.redirectAuthentication(
                         res.authentication_token,
-                        true);
+                        true, 'local');
                 } else if (res && res.error) {
                     //Custom alert
                     await loader.failure();
@@ -2984,7 +3035,7 @@ const VIEWFORM = function() {
                 if (values.password.length < password_length) {
                     alert = Locale.ERROR.PASSWORD_LENGTH;
                     params['count'] = password_length;
-                    insertAfter(passwd_input, lang.replace(params, alert.MESSAGE));
+                    insertError(passwd_input, lang.replace(params, alert.MESSAGE));
                     pass = false;
                 }
             } catch (e) {
@@ -2994,13 +3045,13 @@ const VIEWFORM = function() {
         if (values.password != repassword) {
             pass = false;
             alert = Locale.ERROR.PASSWORD_NOT_MATCH;
-            insertAfter(repassword_input, alert.MESSAGE);
+            insertError(repasswd_input, alert.MESSAGE);
         }
 
         if (!val.isEmail(values.email_address)) {
             pass = false;
             alert = Locale.ERROR.VALID_EMAIL;
-            insertAfter(email_input, alert.MESSAGE);
+            insertError(email_input, alert.MESSAGE);
         }
 
         if (pass) {
@@ -3016,7 +3067,7 @@ const VIEWFORM = function() {
                     } else if (res.authentication_token) {
                         api.redirectAuthentication(
                             res.authentication_token,
-                            true);
+                            true, 'local');
                     }
                 } else if (res && res.error) {
                     await loader.failure();
@@ -3081,7 +3132,7 @@ const VIEWFORM = function() {
                 if (res && !res.error) {``
                     await loader.success_hold();
                     if (res.authentication_token) {
-                        api.redirectAuthentication(res.authentication_token, true);
+                        api.redirectAuthentication(res.authentication_token, true, 'local');
                     } else {
                         switchLogin(top);
                     }
@@ -3401,6 +3452,16 @@ const VIEWFORM = function() {
         const holder = button.parentElement;
         const top = holder.parentElement;
         top.parentElement.classList.add('forgot');
+        formChange(FORGOT_FORM);
+        if (top.querySelector('.' + FORM.LOGIN_PROVIDER)) {
+            let suggested_list = top.querySelector('.' + FORM.SUGGESTED_LIST);
+            if (suggested_list.querySelector('.more-block')) {
+                suggested_list.classList.add('bb-collapsed');
+                if (top.querySelector('.collapsible')) {
+                    top.querySelector('.collapsible').classList.add('hide');
+                }
+            }
+        }
     };
 
     const triggerExpireBack = function(e) {
@@ -3419,6 +3480,7 @@ const VIEWFORM = function() {
         const holder = button.parentElement;
         const top = holder.parentElement.parentElement;
         top.classList.remove('forgot');
+        formChange(FORGOT_FORM, 1);
     };
 
     const triggerExpireConfirm = function(e) {
@@ -3546,7 +3608,8 @@ const VIEWFORM = function() {
         if (e.code != 'Enter') {
             return;
         }
-        const next = findChild(holder, FORM.LAST_NAME);
+        const module = findChild(holder, FORM.LAST_NAME);
+        const next = findChild(module, FORM.LAST_NAME);
         if (next) {
             next.focus();
         }
@@ -3630,7 +3693,7 @@ const VIEWFORM = function() {
         const email_input = findChild(module, FORM.EMAIL);
         let email = email_input.email ? email_input.email : email_input.value;
 
-        let pass = true;
+        let pass = true, alert;
         let top = holder.parentElement;
 
         cleanError(email_input);
@@ -3654,7 +3717,7 @@ const VIEWFORM = function() {
     };
 
     const triggerIncognitoMoreOptions = function(button, holder) {
-        // console.log('triggerIncognitoMoreOptions');
+        // //console.log('triggerIncognitoMoreOptions');
         if (holder.classList.contains('less-content')) {
             holder.classList.remove('less-content');
             showMoreIDP(holder.parentElement);
@@ -3676,7 +3739,7 @@ const VIEWFORM = function() {
         let discovery_required = res.settings.discovery_required;
         let password_settings = res.settings.password_settings;
         let password_enabled = password_settings && password_settings.enabled;
-        // console.log(res);
+        // //console.log(res);
         // goRegistration(holder, res);
         if (!invite_required && !discovery_required && password_enabled) {
             goAdvanceRegistration(holder, res);
@@ -3686,8 +3749,8 @@ const VIEWFORM = function() {
     }
 
     const goAdvanceRegistration = function(holder, response) {
+        // console.log('goAdvanceRegistration');
         showPopupTitle(holder, false);
-        // console.log('goRegistration');
         let email_address = getLocalEmail();
         let top = holder.parentElement;
         let register_container = view.addView(REGISTER_ID);
@@ -3734,13 +3797,8 @@ const VIEWFORM = function() {
             } else {
 
                 let continue_with_count = list.length;
-                let popup = document.querySelector('.' + POPUP_ID);
-                if (popup) {
-                    let bounding = popup.getBoundingClientRect();
-                    let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
-                    if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
-                        opt.button_theme = 'round-icons';
-                    }
+                if (checkContinueWithBounding(continue_with_count, true)) {
+                    opt.button_theme = 'round-icons';
                 }
 
                 let buttons = viewButton.getButtonLists(list, opt);
@@ -3767,6 +3825,34 @@ const VIEWFORM = function() {
         }
     };
 
+    const checkContinueWithBounding = (count, register) => {
+        let out_side = false;
+        let popup = document.querySelector('.' + POPUP_ID);
+        if (popup) {
+            let bounding = popup.getBoundingClientRect();
+            let gap = popup.style.bottom ? bounding.bottom : popup.offsetTop;
+            //console.log(gap);
+            //console.log(window.innerHeight);
+            //console.log(count);
+            let button_height = 46;
+            if (register) {
+                let height = 736;
+                if ((window.innerHeight - (count * button_height) - height - gap) <= 0) {
+                    out_side = true;
+                }
+            } else {
+                let header = 50;
+                let bottom = 175;
+                let padding = 50;
+                //console.log((window.innerHeight * 0.9 - header - (count * height) - bottom - padding - gap));
+                if ((window.innerHeight - header - (count * button_height) - bottom - padding - gap) <= gap) {
+                    out_side = true;
+                }
+            }
+        }
+        return out_side;
+    }
+
     const goRegistration = function(holder, response) {
         showPopupTitle(holder, false);
         // console.log('goRegistration');
@@ -3786,19 +3872,15 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        // console.log(top);
+        // //console.log(top);
         let continue_with_count = list.length;
-        // console.log(gap);
+        // //console.log(gap);
         if ((window.innerHeight - (continue_with_count * 46) - 500) <= 0) {
             theme = 'round-icons';
         }
-        let popup = document.querySelector('.' + POPUP_ID);
-        if (popup) {
-            let bounding = popup.getBoundingClientRect();
-            let gap = bounding.top > bounding.bottom ? bounding.top : bounding.bottom;
-            if ((window.innerHeight - 300 - (continue_with_count * 46) - 70 - gap) <= gap) {
-                theme = 'round-icons';
-            }
+
+        if (checkContinueWithBounding(continue_with_count)) {
+            theme = 'round-icons';
         }
 
         let opt = {
@@ -3945,6 +4027,7 @@ const VIEWFORM = function() {
     };
 
     const goLogin = function(holder, response) {
+        // console.log('goLogin');
         formEntry(LOGIN_FORM);
         showPopupTitle(holder, false);
         triggerOnLogin(holder, response);
@@ -3994,11 +4077,14 @@ const VIEWFORM = function() {
             email_address: email_address,
         };
 
+        // console.log(list)
         if (list) {
+            showPopupTitle(top, true);
+            triggerOnLogin(top, response);
             let button_holder = view.addView(BUTTON_HOLDER_ID);
-            button_holder.classList.add('login-provider');
-            // console.log(response);
-            // console.log(suggested_list);
+            button_holder.classList.add(FORM.LOGIN_PROVIDER);
+            // //console.log(response);
+            // //console.log(suggested_list);
             if (response.user_profile && suggested_list.length) {
                 if (response.user_profile.profile_image_url) {
                     suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
@@ -4011,7 +4097,7 @@ const VIEWFORM = function() {
                 suggested_list,
                 opt
             );
-            buttons.container.classList.add('suggested-list');
+            buttons.container.classList.add(FORM.SUGGESTED_LIST);
             buttons.container.classList.add('bb-collapsed');
             button_holder.append(buttons.container);
 
@@ -4066,7 +4152,7 @@ const VIEWFORM = function() {
                     container,
                     error,
                 } = viewButton.getButtonLists([], opt);
-                container.classList.add('suggested-list');
+                container.classList.add(FORM.SUGGESTED_LIST);
                 container.classList.add('bb-collapsed');
                 container.classList.add('bb-local-only');
                 button_holder.append(container);
@@ -4100,7 +4186,7 @@ const VIEWFORM = function() {
         if (collapsible) {
             collapsible.classList.add('hide');
         }
-        let suggested = findChild(button_holder, 'suggested-list');
+        let suggested = findChild(button_holder, FORM.SUGGESTED_LIST);
         if (suggested) {
             suggested.classList.add('bb-collapsed');
         }
@@ -4177,7 +4263,7 @@ const VIEWFORM = function() {
             list = false;
         }
 
-        // console.log({
+        // //console.log({
         //     list,
         //     suggested_list,
         //     suggested,
@@ -4201,6 +4287,7 @@ const VIEWFORM = function() {
 
     const showPopupTitle = function(container, show) {
         let adjustHeader = view.getData(container, 'adjustHeader');
+        // console.log(adjustHeader);
         if (typeof adjustHeader == 'function') {
             adjustHeader(show);
         }
@@ -4214,9 +4301,9 @@ const VIEWFORM = function() {
     }
 
     const addPopupEvent = function(container, event, func) {
-        // console.log(container);
+        // //console.log(container);
         let addEvent = view.getData(container, 'addEvent');
-        // console.log(addEvent);
+        // //console.log(addEvent);
         if (typeof addEvent == 'function') {
             addEvent(event, func);
         }

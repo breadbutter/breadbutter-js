@@ -159,12 +159,12 @@ export function request(url, params, method, callback) {
 //     form.submit();
 // }
 
-export function redirect(url, data, redirect, WINDOW_OPEN) {
+export function redirect(url, data, redirect, WINDOW_OPEN, source) {
     url = getGetData(url, data);
 
     if (redirect) {
         if (typeof WINDOW_OPEN == 'function') {
-            WINDOW_OPEN(url);
+            WINDOW_OPEN(url, source);
         } else if (WINDOW_OPEN) {
             window.open(url);
         } else {

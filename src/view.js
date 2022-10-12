@@ -101,6 +101,12 @@ const initView = function (id, options, container, error) {
     // loadLanguage(options);
 
     let holder = addView();
+    holder.addEventListener('keydown', (e)=> {
+       e.stopPropagation();
+    });
+    holder.addEventListener('keyup', (e)=> {
+        e.stopPropagation();
+    });
     setData(holder, options);
     let element = findElement(id);
     holder.appendChild(container);
@@ -370,7 +376,7 @@ const svgIcons_e = function (provider) {
     html =
         '<div data-name="' +
         type +
-        '" class="bb-item" style="bb-' +
+        '" class="bb-item" style="' +
         style +
         '"><span>' +
         name +

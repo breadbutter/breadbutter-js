@@ -260,5 +260,10 @@
     "LOGGING_IN": "Logging you in",
     "CONFIRM_MESSAGE": "We’ve sent a link to confirm your account to the email address above. Click the link to finish signing in.",
     "FOCUS_MASK_TEXT": "Start with your email address above"
+  },
+  "CONTENT_GATING": {
+    "TITLE_W_NAME": "Welcome to %NAME%",
+    "TITLE": "Welcome",
+    "SUBTITLE": "Sign in or create your free account to continue reading."
   }
 }

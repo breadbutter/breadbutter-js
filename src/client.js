@@ -88,10 +88,14 @@ let profile_init = false;
 let profile = {};
 let suggested_provider = false;
 let device_verified = false;
+let content_preview = false;
+let limit_content_preview_timer = false;
+let access_content_preview = false;
+
 
 const configure = function(opt) {
-    if (typeof opt.limit_content != 'undefined') {
-        limit_content = opt.limit_content;
+    if (typeof opt.content_preview != 'undefined') {
+        content_preview = opt.content_preview;
     }
     if (typeof opt.app_name != 'undefined') {
         options.app_name = opt.app_name;
@@ -220,7 +224,7 @@ const configure = function(opt) {
             resolve(up, dv);
             startup.completeProfile(opt);
             handleUrl();
-            handleLimitPreview();
+            handleLimitContentPreview();
             if (!GATED_PAGE_NOW) {
                 tracking();
             }
@@ -228,14 +232,11 @@ const configure = function(opt) {
     });
 };
 
-let limit_content = false;
-let limit_content_timer = false;
-
-const checkLimitPreviewLinks = () => {
+const checkContentLimitPreviewLinks = () => {
     let limited_page = true;
-    if (limit_content.restricted_links instanceof Array) {
+    if (content_preview.restricted_links instanceof Array) {
         limited_page = false;
-        let urls = limit_content.restricted_links;
+        let urls = content_preview.restricted_links;
         for (let i = 0; i < urls.length; i++) {
             let url = urls[i];
             let wildgate = false;
@@ -258,49 +259,69 @@ const checkLimitPreviewLinks = () => {
     return limited_page;
 };
 
-const handleLimitPreview = () => {
-    if (!device_verified && limit_content) {
-        if (checkLimitPreviewLinks()) {
-            waitLimitPreview();
+const stopLimitCheck = ()=> {
+    window.removeEventListener('scroll', calculateScrollLimit, true);
+    if (limit_content_preview_timer) {
+        clearTimeout(limit_content_preview_timer);
+    }
+};
+
+let has_content_preview = false;
+
+const waitLimitContentPreview = ()=> {
+    has_content_preview = true;
+    if (!isNaN(content_preview.scroll_limit)) {
+        window.addEventListener('scroll', calculateScrollLimit, true);
+    }
+    if (!isNaN(content_preview.time_limit)) {
+        limit_content_preview_timer = setTimeout(()=> {
+            triggerContentPreview();
+        }, Number(content_preview.time_limit) * 1000);
+    }
+};
+
+const handleLimitContentPreview = () => {
+    if (!device_verified) {
+        if (content_preview && checkContentLimitPreviewLinks()) {
+            waitLimitContentPreview();
         }
     }
 };
 
-const waitLimitPreview = ()=> {
-    if (!isNaN(limit_content.scroll_limit)) {
-        window.addEventListener('scroll', calculateScrollLimit, true);
-    }
-    if (!isNaN(limit_content.time_limit)) {
-        limit_content_timer = setTimeout(()=> {
-            triggerLimitContent();
-        }, Number(limit_content.time_limit) * 1000);
-    }
-};
 
-const stopLimitCheck = ()=> {
-    window.removeEventListener('scroll', calculateScrollLimit, true);
-    if (limit_content_timer) {
-        clearTimeout(limit_content_timer);
-    }
-};
 
 const calculateScrollLimit = (event) => {
     let windowHeight = window.innerHeight;
     let scrollMax = (event.target == document) ? document.body.scrollHeight : event.target.scrollHeight;
     let scrollArea = scrollMax - windowHeight;
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : (event.target == document ? window.scrollY : 0));
-    if (scrollNow >= scrollArea * Number(limit_content.scroll_limit)) {
-        triggerLimitContent();
+    if (scrollNow >= scrollArea * Number(content_preview.scroll_limit)) {
+        stopLimitCheck();
+        if (!access_content_preview) {
+            access_content_preview = true;
+            triggerContentPreview();
+        }
     }
 };
 
-const triggerLimitContent = ()=> {
+const removeAllPopups = ()=> {
+    let newsletters = document.querySelectorAll('.breadbutter-ui-newsletter-popup');
+    let continueWiths = document.querySelectorAll('.breadbutter-popup');
+    for(let i = 0; i < newsletters.length; i++) {
+        newsletters[i].remove();
+    }
+    for(let i = 0; i < continueWiths.length; i++) {
+        continueWiths[i].remove();
+    }
+}
+
+const triggerContentPreview = ()=> {
     stopLimitCheck();
-    widgets.continueWith({
-        ...limit_content,
-        locked: true,
-        show_login_focus: true,
-    });
+    removeAllPopups();
+    BreadButter.ui.showContentGatingPage({
+        ...content_preview,
+        app_name: options.app_name
+    })
     document.body.classList.add('breadbutter-locked-limit-content');
 };
 
@@ -1141,7 +1162,7 @@ const startup = new (function(){
         } else if (field) {
             field.innerHTML = viewUI.getLoginWidget();
             field.onclick = function(){
-                let show_login_focus = true;
+                let show_login_focus = false;
                 if (typeof options['show_login_focus'] != 'undefined') {
                     show_login_focus = options['show_login_focus'];
                 }
@@ -1369,7 +1390,22 @@ const ui = new (function() {
         this.gateContent(urls, redirect);
         this.gateLink(urls, options);
     };
+    this.contentPreview = function(options) {
+        if (!isProfileInit({
+            call: 'contentPreview',
+            params: [options]
+        }))
+            return;
+        if (isVerifiedState())
+            return;
 
+        if (typeof options != 'undefined') {
+            content_preview = options;
+            if (checkContentLimitPreviewLinks()) {
+                waitLimitContentPreview();
+            }
+        }
+    };
     this.applyHubspotForm = function() {
         if (!isProfileInit({
             call: 'applyHubspotForm',
@@ -1722,7 +1758,7 @@ const ui = new (function() {
             let field = document.getElementById(field_id);
             field.innerHTML = viewUI.getLoginWidget();
             field.onclick = function(){
-                let show_login_focus = true;
+                let show_login_focus = false;
                 if (typeof options['show_login_focus'] != 'undefined') {
                     show_login_focus = options['show_login_focus'];
                 }
@@ -1839,6 +1875,47 @@ const ui = new (function() {
         }
     };
 
+    this.showContentGatingPage = function(options) {
+        if (!isProfileInit({
+            call: 'showContentGatingPage',
+            params: [options]
+        }))
+            return;
+
+        const RESET_FORM = 'reset-form';
+        const CONFIRM_FORM = 'confirm-form';
+        const INCOGNITO_FORM = 'incognito-form';
+        const MAGIC_LINK_FORM = 'magic-link-form';
+        const EMAIL_FORM = 'email-form';
+        const LOGIN_FORM = 'login-form';
+        const LOCAL_LOGIN_FORM = 'local-login-form';
+        const REGISTER_FORM = 'register-form';
+        const FORGOT_FORM = 'forgot-form';
+        let view = viewUI.getContentGatingCoverPage(options);
+        document.body.appendChild(view);
+        let opt = {
+            ...options,
+            destination_url: document.location.href.split('?')[0],
+            onFormChange: (form, exit)=> {
+                if (exit) {
+                    view.classList.remove('bb-hide-title');
+                } else {
+                    switch(form) {
+                        case FORGOT_FORM:
+                        case RESET_FORM:
+                        case CONFIRM_FORM:
+                            view.classList.add('bb-hide-title');
+                            break;
+                        default:
+                            view.classList.remove('bb-hide-title');
+                            break;
+                    }
+                }
+            },
+        };
+        widgets.signIn("breadbutter-ui-content-gating-content-holder", opt);
+    };
+
     this.addNewsletterWidget = function(field_id, options) {
         if (!isProfileInit({
             call: 'addNewsletterWidget',
@@ -1867,6 +1944,8 @@ const ui = new (function() {
             }
         }
 
+        if (!on_page && has_content_preview) return;
+
         options = options ? options : {};
 
 
@@ -1887,7 +1966,7 @@ const ui = new (function() {
                 return;
             }
             field.innerHTML = result.html;
-        } else {
+        } else if (!has_content_preview) {
             let isMobile = detectMobile();
             if (cached == viewUI.getViewedCode(options.custom_event_code)) {
                 return;
@@ -1963,6 +2042,7 @@ const ui = new (function() {
 let triggerBlurScreen = false;
 const widgets = new (function() {
     this.deIdentification = function(opt) {
+        if (has_content_preview) return;
         opt = parsingUrl(opt);
         // console.log(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
@@ -1974,6 +2054,7 @@ const widgets = new (function() {
         UI.deIdentification(opt);
     };
     this.continueWith = function(opt) {
+        if (has_content_preview) return;
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
 
@@ -2044,6 +2125,7 @@ const widgets = new (function() {
         }
     };
     this.cookie = function() {
+        if (has_content_preview) return;
         let opt = loadOptions();
         viewPolicy.init(opt);
     };

@@ -11,7 +11,7 @@
         "MORE": "更多>>"
     },
     "INCOGNITO": {
-        "TITLE": "欢迎"
+        "TITLE": "注册 / "
     },
 	"DE_IDENTIFICATION": {
         "DE_IDENTIFY_ME": "将我去识别化",
@@ -77,6 +77,7 @@
         "CONTINUE": "使用%WITH% %BRAND% 继续",
         "SIGN_IN": "使用%WITH% %BRAND% 登录",
         "WITH": "通过",
+		"DEIDENTIFY_WITH": "去识别%WITH% %BRAND%",
 		"DEIDENTIFY": "去识别%NAME%",
         "W_": "w/",
         "WITH_EMAIL": "通过电子邮箱登入",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "正在为您登录",
         "CONFIRM_MESSAGE": "我们已向上述电子邮箱地址发送确认帐户的链接，请点击该链接完成登入。",
         "FOCUS_MASK_TEXT": "通过您上方的电子邮箱地址开始"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "欢迎来到 %NAME%",
+        "TITLE": "欢迎",
+        "SUBTITLE": "请登入或创建免费帐户以继续阅读。"
     }
 }

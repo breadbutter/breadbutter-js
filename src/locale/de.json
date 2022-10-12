@@ -21,7 +21,7 @@
         "NEW_PIN_BUTTON": "Klicken Sie hier"
     },
     "INCOGNITO": {
-        "TITLE": "Willkommen"
+        "TITLE": "Registrieren / Anmelden"
     },
     "REGISTER": {
         "TITLE": "Willkommen",
@@ -79,6 +79,7 @@
         "WITH": "mit",
         "W_": "w/",
 		"DEIDENTIFY": "%NAME% de-identifizieren",
+		"DEIDENTIFY_WITH": "de-identifizieren %WITH% %BRAND%",
         "WITH_EMAIL": "Mit E-Mail-Adresse anmelden",
 		"BRAND": {
             "GOOGLE": "Google",
@@ -256,5 +257,10 @@
         "LOGGING_IN": "Sie werden angemeldet",
         "CONFIRM_MESSAGE": "Wir haben einen Link zur Bestätigung Ihres Kontos an die oben angegebene E-Mail-Adresse geschickt. Klicken Sie auf den Link, um sich anzumelden.",
         "FOCUS_MASK_TEXT": "Beginnen Sie mit Ihrer E-Mail-Adresse oben"
+    },
+    "CONTENT_GATING": {
+        "TITLE_W_NAME": "Willkommen bei %NAME%",
+        "TITLE": "Willkommen",
+        "SUBTITLE": "Melden Sie sich an oder erstellen Sie Ihr kostenloses Konto, um weiterzulesen."
     }
 }

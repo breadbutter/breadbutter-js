@@ -109,12 +109,13 @@ const resolveDevice = function(device_id) {
 };
 
 const cleanDeviceId = async function() {
-  if (localStorage) {
-      localStorage.removeItem(CACHE_STORAGE.DEVICE_ID);
-  }
-  if (ALLOW_SUB_DOMAIN) {
-      await cleanCookie();
-  }
+    if (ALLOW_SUB_DOMAIN) {
+        await cleanCookie();
+    }
+    if (localStorage) {
+        localStorage.removeItem(CACHE_STORAGE.DEVICE_ID);
+    }
+    DEVICE_ID = false;
 };
 
 const cleanUser = async function() {
@@ -395,7 +396,7 @@ const startLogin = async function (data, callback) {
         callback});
 };
 
-const redirectLogin = function (pin, auto_redirect) {
+const redirectLogin = function (pin, auto_redirect, source) {
     let url = API_PATH + 'redirect';
 
     let request_data = {
@@ -406,10 +407,10 @@ const redirectLogin = function (pin, auto_redirect) {
         url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
     }
 
-    return redirect(url, request_data, auto_redirect, WINDOW_OPEN);
+    return redirect(url, request_data, auto_redirect, WINDOW_OPEN, source);
 };
 
-const redirectAuthentication = function(pin, auto_redirect) {
+const redirectAuthentication = function(pin, auto_redirect, source) {
     let url = API_PATH +
         'apps/' +
         APP_ID +
@@ -422,7 +423,7 @@ const redirectAuthentication = function(pin, auto_redirect) {
         url = LANDING_REDIRECT_URL + "?redirect=" + encodeURIComponent(url);
     }
 
-    return redirect(url, false, auto_redirect, WINDOW_OPEN);
+    return redirect(url, false, auto_redirect, WINDOW_OPEN, source);
 };
 
 const validateLogin = function (pin, callback) {
@@ -549,6 +550,10 @@ const getClientSettings = async function(email_address, callback) {
     const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
             await cleanDeviceId();
+            if (INITIAL_CLIENT_SETTINGS_RUNNING) {
+                INITIAL_CLIENT_SETTINGS_CALLS = false;
+                INITIAL_CLIENT_SETTINGS_RUNNING = false;
+            }
             getClientSettings(email_address, callback);
         } else {
             handlingCallback(res);
@@ -560,7 +565,9 @@ const getClientSettings = async function(email_address, callback) {
 
 const incrementPageEngagement = async function(content, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/prerelease/page_engagement';
-
+    Object.keys(content).forEach(function(key, index) {
+        content[key] = isNaN(content[key]) ? 0 : Number(content[key]);
+    });
     const _default = {
         c: 0,
         s: 0,
@@ -582,7 +589,7 @@ const incrementPageEngagement = async function(content, callback) {
     const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
             await cleanDeviceId();
-            incrementPageEngagement(data, callback);
+            incrementPageEngagement(content, callback);
         } else if (typeof callback == 'function') {
             callback(res);
         }
@@ -736,7 +743,7 @@ const confirmUser = async function (data, callback) {
     return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
-const resendConfirmationEmail = function (email_address, callback) {
+const resendConfirmationEmail = async function (email_address, callback) {
     let url = API_PATH +
         'apps/' +
         APP_ID +
@@ -744,11 +751,22 @@ const resendConfirmationEmail = function (email_address, callback) {
 
     let request_data = {};
 
+    let device_id = await getDeviceId();
+    request_data['device_id'] = device_id;
+
     if (email_address) {
         request_data['email_address'] = email_address;
     }
 
-    return request(url, request_data, 'POST', callback);
+    const deviceCheckCallback = async function(res) {
+        if (checkDeviceId(res)) {
+            await cleanDeviceId();
+            resendConfirmationEmail(email_address, callback);
+        } else if (typeof callback == 'function') {
+            callback(res);
+        }
+    };
+    return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
 const registerDevice = function(callback) {
