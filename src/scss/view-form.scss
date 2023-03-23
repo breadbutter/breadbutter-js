@@ -258,20 +258,20 @@
         color: #afafaf;
 
         &::before {
-            content: '•';
+            content: '\2022';
             padding-right: 5px;
         }
 
         &.pass {
             color: $breadbutter-green !important;
             &::before {
-                content: '✓';
+                content: '\2713';
             }
         }
         &.fail {
             color: #ec1c24 !important;
             &::before {
-                content: '×';
+                content: '\00D7';
             }
         }
     }
@@ -559,6 +559,20 @@
         {
             .breadbutter-module-poweredby {
                 margin-left: 14px;
+            }
+            .confirmation-form{
+                display: none;
+            }
+            &.confirmation {
+                .confirmation-form {
+                    display: block;
+                    &.breadbutter-forgot-buttons {
+                        display: flex;
+                    }
+                }
+                .filling-form {
+                    display: none;
+                }
             }
         }
 
@@ -994,7 +1008,7 @@
         }
     }
 
-    .breadbutter-deidentify {
+    .breadbutter-deidentify, .breadbutter-custom-data {
         .breadbutter-module-header-discovery {
             padding: 52px 37px 20px;
         }
@@ -1018,7 +1032,7 @@
             color: #4e5051;
             margin-left: 10px;
         }
-        .breadbutter-deidentify-form {
+        .breadbutter-deidentify-form, .breadbutter-custom-data-form {
             .form-password, .form-email {
                 margin: 0 10%;
                 width: 80%;
@@ -1044,7 +1058,7 @@
             }
         }
         .bb-button {
-            &.form-deidentify-me, &.form-confirm-pin {
+            &.form-deidentify-me, &.form-confirm-pin, &.form-submit {
                 box-sizing: border-box;
                 width: 160px;
                 height: 40px;
@@ -1075,6 +1089,32 @@
             .form-password-toggle {
                 margin-right: 10%;
                 top: 10px;
+            }
+        }
+
+        .breadbutter-custom-data-form {
+            .breadbutter-module-form-input {
+                margin: 0 10%;
+                width: 80%;
+                &.bb-checkbox {
+                    margin-top: 20px;
+
+                    label {
+                        padding: 0px 0px 0px 33px;
+                        font-size: 13px !important;
+                        line-height: 20px;
+                        vertical-align: top;
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+    .breadbutter-custom-data {
+        .breadbutter-module-header-discovery {
+            padding-bottom: 10px;
+            .form-subtitle {
+                margin-top: 12px;
             }
         }
     }

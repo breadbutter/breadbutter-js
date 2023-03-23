@@ -1,6 +1,11 @@
 <html>
     <head>
         <title>BreadButter JavaScript SDK demo</title>
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
         <script>
             var app_id, src;
@@ -18,78 +23,24 @@
             window.spreadButter = function () {
                 BreadButter.configure({
                     app_id: app_id,
-                    api_path: 'https://api.logon-dev.com/',
-                    // destination_url: 'https://local.logon-dev.com/',
-                    // callback_url: 'http://www.google.com',
+                    api_path: 'https://api-devlab.breadbutter.io',
+                    // api_path: 'https://api-stable.breadbutter.io',
                     app_name: 'Bread & Butter Sample',
-                    locale: {
-                        POPUP: {
-                            TEXT_1: 'Yoyoyo~',
-                            TEXT_2: 'start with it !'
-                        }
-                    }
-                    // force_reauthentication: 'force',
-                    // client_data: {
-                    //     test: 'global config'
-                    // },
-                    // options: {
-                    //     expandedEmailAddress: false
-                    // }
+                    // allow_cross_domain: false,
+                    // cross_domain_list: [
+                    //     "http://localhost/test/form.html",
+                    //     "http://local.logon-dev.com/test/form.html"
+                    // ],
+                    allow_sub_domain: true,
+                    // expand_email_address: false
                 });
-                // Logon.api.getProviders('email_address(optional)', function(){});
-                // Logon.api.getAuthorization('google')
-
-                // BreadButter.widgets.buttons('breadbutter1', {
-                //     buttonTheme: 'round-icons',
-                //     // client_data: {
-                //     //     test: 'buttons',
-                //     //     user: 2
-                //     // }
-                //     options: {
-                //         showLoginFocus: false
-                //     }
-                // });
-                // BreadButter.widgets.buttons('breadbutter1', { theme: 'icon' });
-                // BreadButter.widgets.buttons('breadbutter2', { collapsible: true});
-
-                // BreadButter.ui.form('breadbutter3');
-
-                BreadButter.widgets.continueWith();
-
-                // BreadButter.widgets.signIn('breadbutter3', {
-                //     force_reauthentication: 'off',
-                //     client_data: {
-                //         test: 'a',
-                //         user: 2
-                //     }
-                // });
-
-
-                // BreadButter.widgets.continueWith({
-                //     client_data: {
-                //         test: 'continuewith',
-                //         user: 1
-                //     },
-                //     continueTop: 20,
-                //     continueRight: 20,
-                //     onFormClose: function(){
-                //         console.log('closing!!!');
-                //     }
-                // });
-                //
-                // BreadButter.widgets.signIn('breadbutter4', {
-                //     email_address: 'test@breadbutter.com',
-                //     mode: BreadButter.mode.RESET_PASSWORD,
-                //     pin: 1234
-                // });
-                // BreadButter.widgets.signIn('breadbutter5');
-                // //
-                // BreadButter.widgets.signIn('breadbutter6', { mode: BreadButter.mode.CONFIRM_EMAIL,
-                // email_address: 'test@breadbutter.com', token: '1234'});
-                // //
-                // BreadButter.widgets.signIn('breadbutter7', { mode: BreadButter.mode.RESET_PASSWORD,
-                // email_address: 'ccooollll@gmail.com', token: '8362' });
-                // //
+                BreadButter.widgets.continueWith({
+                    show_login_focus: false,
+                    onFormClose: function () {
+                        console.log('loginfocus:false');
+                    }
+                });
+                // BreadButter.widgets.buttons('breadbutter1');
             };
 
             (function (d, s, id) {
@@ -111,13 +62,17 @@
             };
         </script>
         <style>
+            html {
+                overflow-x: hidden;
+            }
             body {
                 margin: 0;
-                background: #e9ecea;
+                background: #40ff80;
                 color: #111;
-                background-image: url(mgi-background.png);
+                /*background-image: url(mgi-background.png);*/
                 background-size: 100% 100%;
                 height: 2000px;
+                overflow-x: hidden;
             }
             .content {
                 margin: 8px 24px;
@@ -151,30 +106,12 @@
                 font-weight: 100;
             }
 
-            /* .logon-holder {
-                min-width: 320px;
-                width: 375px;
-                margin-bottom: 1rem;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0.7px 0.7px 0.7px 0 rgba(0, 0, 0, 0.4);
-                background-color: #ffffff;
-            } */
         </style>
     </head>
     <body onload="loading()">
         <div class="banner">JavaScript SDK</div>
         <div class="content">
             <h3 id="app"></h3>
-
-<!--            <div-->
-<!--                    class="fb-login-button"-->
-<!--                    data-max-rows="1"-->
-<!--                    data-size="large"-->
-<!--                    data-button-type="continue_with"-->
-<!--                    data-use-continue-as="true"-->
-<!--            ></div>-->
-            <!--    <h4>providing enterprise providers</h4>-->
             <div class="logon-holder" id="breadbutter1"></div>
             <div class="logon-holder" id="breadbutter2"></div>
 

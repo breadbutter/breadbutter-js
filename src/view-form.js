@@ -29,6 +29,8 @@ const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 const DEIDENTIFY_FORM_ID = 'breadbutter-deidentify-form';
 const DEIDENTIFY_ID = 'breadbutter-deidentify';
+const CUSTOM_DATA_FORM_ID = 'breadbutter-custom-data-form';
+const CUSTOM_DATA_ID = 'breadbutter-custom-data';
 const POPUP_ID = 'breadbutter-popup';
 
 const TERM_POLICY_HOLDER_ID = 'breadbutter-term-policy-holder';
@@ -128,8 +130,11 @@ const FORM = {
     EXPAND_ICON: 'form-expand-icon',
     DE_IDENTIFICATION: 'form-deidentify-me',
     CONFIRM_PIN: 'form-confirm-pin',
+    SUBMIT: 'form-submit',
     LOGIN_PROVIDER: 'login-provider',
-    SUGGESTED_LIST: 'suggested-list'
+    SUGGESTED_LIST: 'suggested-list',
+    FILLING: "filling-form",
+    CONFIRMATION: "confirmation-form"
 };
 
 const PASSWORD_STORAGE = {
@@ -187,6 +192,7 @@ const LOGIN_FORM = 'login-form';
 const LOCAL_LOGIN_FORM = 'local-login-form';
 const REGISTER_FORM = 'register-form';
 const DEIDENTIFY_FORM = 'deidentify-form';
+const CUSTOM_DATA_FORM = 'custom-data-form';
 const FORGOT_FORM = 'forgot-form';
 
 
@@ -355,8 +361,8 @@ const VIEWFORM = function() {
         }
     };
 
-    const insertAfter = function(newNode, referenceNode) {
-        if (referenceNode.nextSibling) {
+    const insertAfter = function(newNode, referenceNode, last) {
+        if (referenceNode.nextSibling && !last) {
             referenceNode.parentNode.insertBefore(
                 newNode,
                 referenceNode.nextSibling
@@ -371,7 +377,7 @@ const VIEWFORM = function() {
         return message;
     };
 
-    const insertError = function(target, text) {
+    const insertError = function(target, text, last) {
         cleanError(target);
         if (!target.classList.contains('error')) {
             target.classList.add('error');
@@ -384,7 +390,7 @@ const VIEWFORM = function() {
             target = target.nextSibling;
         }
 
-        insertAfter(msg, target);
+        insertAfter(msg, target, last);
     };
 
     const cleanError = function(target) {
@@ -913,6 +919,23 @@ const VIEWFORM = function() {
         });
     };
 
+    const addCustomForm = function(id, options) {
+        options.adjustHeader(false);
+
+        loadOptions(options);
+        let email_address = getLocalEmail(options.email_address);
+        const addInView = function(id, options, container, form) {
+            container.appendChild(form);
+
+            showPopupTitle(container, false);
+            view.initView(id, options, container);
+        }
+        let container = addUI(options);
+        options.adjustHeader(false);
+        let form = customForm(options);
+        addInView(id, options, container, form);
+    }
+
     const deIdentification = function(id, options) {
         // //console.log('deIdentification');
         options.adjustHeader(false);
@@ -1367,6 +1390,12 @@ const VIEWFORM = function() {
         return b;
     };
 
+    const getLabel = function(text, cls) {
+        cls = cls ? cls : '';
+        let b = view.addBlock('label', cls);
+        b.innerHTML = text;
+        return b;
+    };
     const getTitle = function(text) {
         let b = view.addBlock('div', FORM.TITLE);
         b.innerHTML = text;
@@ -1416,6 +1445,81 @@ const VIEWFORM = function() {
         let b = view.addBlock('div', FORM.MESSAGE);
         b.innerHTML = text;
         return b;
+    };
+
+    const getInputTextbox = function(custom_data) {
+        let key = custom_data.custom_key,
+            name = custom_data.display_name,
+            mandatory = custom_data.mandatory;
+
+        let container = view.addView(MODULE_FORM_INPUT);
+        container.setAttribute('name', key);
+        let b = view.addBlock('input', key);
+        b.placeholder = name;
+        b.setAttribute('name', key);
+        b.setAttribute('id', key);
+        b.setAttribute('type', 'text');
+        if (mandatory) {
+            b.setAttribute('mandatory', 1);
+        }
+        b.addEventListener('keyup', validateInputTextbox);
+        b.addEventListener('blur', validateInputTextbox);
+        container.appendChild(b);
+        return container;
+    };
+
+    const validateInputTextbox = function(e) {
+        let target = e.target;
+        if (target.getAttribute('mandatory')) {
+            if (!target.value) {
+                insertError(target, Locale.CUSTOM_DATA.MANDATORY, 1);
+            } else {
+                cleanError(target);
+            }
+        } else {
+            cleanError(target);
+        }
+    };
+
+    const getInputCheckbox = function(custom_data) {
+        let key = custom_data.custom_key,
+            default_value = custom_data.default_value,
+            name = custom_data.display_name,
+            mandatory = custom_data.mandatory;
+
+        let container = view.addView(MODULE_FORM_INPUT);
+        container.setAttribute('name', key);
+        container.classList.add('bb-checkbox');
+        let b = view.addBlock('input', key);
+        b.setAttribute('name', key);
+        b.setAttribute('id', key);
+        if (mandatory) {
+            b.setAttribute('mandatory', 1);
+        }
+        b.setAttribute('type', 'checkbox');
+        if (default_value) {
+            b.checked = true;
+        }
+        b.addEventListener('click', validateInputCheckbox);
+        // b.addEventListener('blur', triggerFirstNameBlur);
+
+        container.appendChild(b);
+        let a = getLabel(name);
+        a.setAttribute('for', key);
+        container.appendChild(a);
+        return container;
+    };
+    const validateInputCheckbox = function(e) {
+        let target = e.target;
+        if (target.getAttribute('mandatory')) {
+            if (!target.checked) {
+                insertError(target, Locale.CUSTOM_DATA.MANDATORY, 1);
+            } else {
+                cleanError(target);
+            }
+        } else {
+            cleanError(target);
+        }
     };
 
     const getFirstName = function() {
@@ -2312,6 +2416,93 @@ const VIEWFORM = function() {
         return container;
     }
 
+    const customForm = function(options) {
+        let email_address = options.email_address;
+        formEntry(DEIDENTIFY_FORM);
+        let container = view.addView(CUSTOM_DATA_ID);
+        container.options = options;
+        let form = view.addView(CUSTOM_DATA_FORM_ID);
+        container.appendChild(getHeaderModule(Locale.CUSTOM_DATA.HEADER,
+            Locale.CUSTOM_DATA.SUB_HEADER));
+
+        for(let i = 0; i < options.custom_data.length; i++) {
+            let c_data = options.custom_data[i];
+            switch(c_data.type) {
+                case 'textbox':
+                    form.appendChild(getInputTextbox(c_data));
+                    break;
+                case 'checkbox':
+                    form.appendChild(getInputCheckbox(c_data));
+                    break;
+            }
+        }
+        form.appendChild(
+            getButton(
+                Locale.CUSTOM_DATA.SUBMIT,
+                FORM.SUBMIT,
+                triggerCustomForm
+            )
+        );
+
+        container.appendChild(form);
+        insertPoweredByModule(container);
+        return container;
+    };
+
+    const triggerCustomForm = function(e) {
+        let target = e.target;
+        let form = target.parentElement;
+        let inputs = form.querySelectorAll('input');
+        let pass = true;
+        let data = [];
+        for(let i = 0; i < inputs.length; i++) {
+            let input_item = inputs[i];
+            let name = input_item.name;
+            switch(input_item.type) {
+                case 'text':
+                    if (input_item.getAttribute('mandatory') ) {
+                        if (!input_item.value) {
+                            insertError(input_item, Locale.CUSTOM_DATA.MANDATORY, 1);
+                            pass = false;
+                        }
+                    }
+                    data.push({
+                        key: name,
+                        value: input_item.value
+                    });
+                    break;
+                case 'checkbox':
+                    if (input_item.getAttribute('mandatory') ) {
+                        if (!input_item.checked) {
+                            insertError(input_item, Locale.CUSTOM_DATA.MANDATORY, 1);
+                            pass = false;
+                        }
+                    }
+                    data.push({
+                        key: name,
+                        value: input_item.checked
+                    });
+                    break;
+            }
+        }
+        if (!pass) {
+            return;
+        }
+
+        loader.start(form, false, true, false);
+        api.addUserCustomValues(data, async function(res) {
+            if (res) {
+                await loader.success_hold();
+                setTimeout(async function() {
+                    view.getData(form, 'forceQuit')();
+                }, 1000);
+            } else {
+                await loader.failure();
+            }
+        });
+
+    }
+
     const deIdentifyPinForm = function(options) {
         let email_address = options.email_address;
         let pin = options.pin;
@@ -2575,17 +2766,29 @@ const VIEWFORM = function() {
         let container = view.addView(FORGOT_ID);
         let container1 = view.addView(FORGOT_FORM_ID);
         let container2 = view.addView(FORGOT_BUTTON_ID);
+        let container3 = view.addView(FORGOT_BUTTON_ID);
         container1.appendChild(getTitle(Locale.FORGOT_PASSWORD.TITLE));
-        container1.appendChild(getSubMessage(Locale.FORGOT_PASSWORD.CONTENT));
-        container1.appendChild(
-            getEmail(email_address, false, triggerForgotConfirmKeyup)
-        );
+        let content_1 = getSubMessage(Locale.FORGOT_PASSWORD.CONTENT);
+        content_1.classList.add(FORM.FILLING);
+        let content_2 = getSubMessage(Locale.FORGOT_PASSWORD.CONTENT_2);
+        content_2.classList.add(FORM.CONFIRMATION);
+        container1.appendChild(content_1);
+        container1.appendChild(content_2);
+        let email_entry = getEmail(email_address, false, triggerForgotConfirmKeyup);
+        email_entry.classList.add(FORM.FILLING);
+        container1.appendChild(email_entry);
         container2.appendChild(getForgotReset(triggerForgotConfirm));
         container2.appendChild(
             getButton(Locale.BUTTON.CANCEL, FORM.CANCEL, triggerForgotBack)
         );
+        container2.classList.add(FORM.FILLING);
+        container3.appendChild(
+            getButton(Locale.BUTTON.RETURN_TO_LOGIN, FORM.FORGOT_RESET, onReturnToLoginFromForgot)
+        );
+        container3.classList.add(FORM.CONFIRMATION);
         container.appendChild(container1);
         container.appendChild(container2);
+        container.appendChild(container3);
 
         insertPoweredByModule(container);
         return container;
@@ -2905,6 +3108,24 @@ const VIEWFORM = function() {
         suggest_container.prepend(more);
     };
 
+    const onReturnToLoginFromForgot = function(e) {
+        if (loading) return;
+        const button = e.currentTarget;
+        const holder = button.parentElement;
+        returnToLogin(holder);
+    };
+
+    const returnToLogin = function(holder) {
+        const forgot_holder = holder.parentElement;
+        forgot_holder.classList.remove('confirmation');
+        const top = holder.parentElement.parentElement;
+        top.classList.remove('forgot');
+        formChange(FORGOT_FORM, 1);
+        top.classList.remove('expire');
+        removeChild(top, EXPIRE_ID);
+        // showPopupTitle(top, true);
+    };
+
     const continueForgotEmail = function(holder) {
         const email_input = findChild(holder, FORM.EMAIL);
         const top = holder.parentElement;
@@ -2923,12 +3144,8 @@ const VIEWFORM = function() {
         const callback = async function() {
             await loader.success();
             loading = false;
-            const top = holder.parentElement.parentElement;
-            top.classList.remove('forgot');
-            formChange(FORGOT_FORM, 1);
-            top.classList.remove('expire');
-            removeChild(top, EXPIRE_ID);
-            showPopupTitle(top, true);
+            const forgot_holder = holder.parentElement;
+            forgot_holder.classList.add('confirmation');
         };
 
         if (pass) {
@@ -4325,6 +4542,7 @@ const VIEWFORM = function() {
     }
 
     this.addForm = addForm;
+    this.addCustomForm = addCustomForm;
     this.addRegister = addRegister;
     this.addReset = addReset;
     this.addMagicLink = addMagicLink;

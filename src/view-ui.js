@@ -65,6 +65,64 @@ const getContinueWithSignInHolder = function(options) {
     return popup;
 };
 
+const cleanContinueWithVerifiedUserHolder = function() {
+    let content = document.body.querySelector('.breadbutter-ui-continue-with-verified');
+    if (content) {
+        content.remove();
+    }
+};
+
+const getContinueWithVerifiedUserHolder = function(profile, options) {
+    cleanContinueWithVerifiedUserHolder();
+    let popup = document.createElement('div');
+    popup.classList.add('breadbutter-ui-continue-with-verified');
+    let avatar = profile.profile_image_url ? profile.profile_image_url : false;
+    let avatar_style = "";
+    let default_avatar = "";
+    if (avatar) {
+        avatar_style = 'style="background-image:url(' + avatar + '); border:none;"';
+    } else {
+        default_avatar = getDefaultAvatar();
+    }
+    let first_name = profile.first_name ? profile.first_name : false;
+    if (!first_name) {
+        first_name = profile.email_address.split('@')[0];
+    }
+
+    let welcome = lang.replace({
+        first_name: first_name
+    }, Locale.UI.HELLO);
+    let font = getFontSize(welcome);
+    popup.innerHTML = `
+        <div class="breadbutter-ui-continue-with-container">
+            <div class="breadbutter-ui-profile-widget">
+                <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
+                <div class="breadbutter-ui-profile-name ${font}"><span>${welcome}</span></div>
+            </div>
+        </div>
+    `;
+    if (options.continue_with_position) {
+        if (options.continue_with_position.top) {
+            popup.style.top = parsePosition(options.continue_with_position.top);
+        } else if (options.continue_with_position.bottom) {
+            popup.style.bottom = parsePosition(options.continue_with_position.bottom);
+        } else {
+            popup.style.top = '30px';
+        }
+        if (options.continue_with_position.left) {
+            popup.style.left = parsePosition(options.continue_with_position.left);
+        } else if (options.continue_with_position.right) {
+            popup.style.right = parsePosition(options.continue_with_position.right);
+        } else {
+            popup.style.right = '30px';
+        }
+    } else {
+        popup.style.top = '30px';
+        popup.style.right = '30px';
+    }
+    return popup;
+}
+
 const getContinueWithSignInWidget = function(profile, suggested) {
     let first_name = profile.first_name ? profile.first_name : false;
     if (!first_name) {
@@ -73,6 +131,9 @@ const getContinueWithSignInWidget = function(profile, suggested) {
     let welcome = lang.replace({
         first_name: first_name
     }, Locale.UI.HELLO);
+
+    let font = getFontSize(welcome);
+
     let avatar = profile.profile_image_url ? profile.profile_image_url : false;
     let full_name = profile.first_name ? ((profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim()) : false;
 
@@ -92,9 +153,14 @@ const getContinueWithSignInWidget = function(profile, suggested) {
     let widget = document.createElement('div');
     widget.classList.add('breadbutter-ui-continue-with-container');
     widget.innerHTML = `
+        <!--<div class="breadbutter-ui-profile-widget">
+            <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
+            <div class="breadbutter-ui-profile-avatar-x">${getCloseIcon()}</div>
+        </div>-->
         <div class="breadbutter-ui-profile-widget">
             <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
             <div class="breadbutter-ui-profile-avatar-x">${getCloseIcon()}</div>
+            <div class="breadbutter-ui-profile-name ${font}"><span>${welcome}</span></div>
         </div>
         <div class="breadbutter-ui-profile-dashboard">
             <div class="breadbutter-ui-profile-dashboard-content">
@@ -144,7 +210,7 @@ const getContinueWithSignInWidget = function(profile, suggested) {
             if (boundry.y > max_height / 2) {
                 vertical = 'bottom';
             }
-            console.log(boundry);
+            // console.log(boundry);
             let cls = `bb-${vertical}-${horizontal}`;
             widget.classList.add(cls);
         } else {
@@ -172,15 +238,32 @@ const getLoginWidget = function() {
     `;
 }
 
+const getFontSize = function(welcome) {
+    let font;
+    if (welcome.length > 17) {
+        font = 'font10';
+    } else if (welcome.length > 16) {
+        font = 'font11';
+    } else if (welcome.length > 15) {
+        font = 'font12';
+    } else if (welcome.length > 14) {
+        font = 'font13';
+    } else if (welcome.length > 13) {
+        font = 'font14';
+    } else if (welcome.length > 12) {
+        font = 'font15';
+    } else {
+        font = 'font16';
+    }
+    return font;
+}
+
 const getProfileWidget = function(profile, suggested, isMobile) {
     let mobile_cls = isMobile ? "bb-mobile": "";
     let first_name = profile.first_name ? profile.first_name : false;
     if (!first_name) {
         first_name = profile.email_address.split('@')[0];
     }
-    let welcome = lang.replace({
-        first_name: first_name
-    }, Locale.UI.HELLO);
     let avatar = profile.profile_image_url ? profile.profile_image_url : false;
     let full_name = profile.first_name ? ((profile.first_name + " " + (profile.last_name ? profile.last_name : "")).trim()) : false;
 
@@ -197,7 +280,12 @@ const getProfileWidget = function(profile, suggested, isMobile) {
     let email_address = profile.email_address ? profile.email_address : "";
 
     let provider = view.svgIcons((suggested && suggested.idp) ? suggested.idp : 'local');
-    let font = 'font16';
+
+
+    let welcome = lang.replace({
+        first_name: first_name
+    }, Locale.UI.HELLO);
+    let font = getFontSize(welcome);
     let container_width = '';
     if (welcome.length > 17) {
         if (welcome.length > 22) {
@@ -207,19 +295,6 @@ const getProfileWidget = function(profile, suggested, isMobile) {
         } else if (welcome.length > 19) {
             container_width = 'bb-wider';
         }
-        font = 'font10';
-    } else if (welcome.length > 16) {
-        font = 'font11';
-    } else if (welcome.length > 15) {
-        font = 'font12';
-    } else if (welcome.length > 14) {
-        font = 'font13';
-    } else if (welcome.length > 13) {
-        font = 'font14';
-    } else if (welcome.length > 12) {
-        font = 'font15';
-    } else {
-        font = 'font16';
     }
     return `
     <div class="breadbutter-ui-profile-widget-container ${container_width} ${mobile_cls}">
@@ -486,6 +561,7 @@ const getNewsletterPopupWidget = ({ image_source, header_text, main_text, succes
 
 export default {
     init,
+    getContinueWithVerifiedUserHolder,
     getContinueWithSignInHolder,
     getContinueWithSignInWidget,
     getLoginWidget,

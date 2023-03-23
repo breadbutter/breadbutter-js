@@ -75,13 +75,14 @@ let options = {
     remember_close: false,
     success_event_code: false,
     ga_measurement_id: false,
-    continue_with_hover: true,
+    continue_with_hover: false,
     continue_with_hover_distance: 5,
     hide_local_auth_domains: [],
     landing_redirect_url: false,
     window_open: false,
     onMagicLinkConfirm: false,
-
+    custom_data_required: false,
+    custom_data: [],
 };
 
 let profile_init = false;
@@ -193,6 +194,13 @@ const configure = function(opt) {
         options.onMagicLinkConfirm = opt.onMagicLinkConfirm;
     }
 
+    if (typeof opt.custom_data == 'object') {
+        options.custom_data = opt.custom_data;
+        if (options.custom_data.length) {
+            options.custom_data_required = true;
+        }
+    }
+
 
     api.configure({
         app_id: options.app_id,
@@ -207,7 +215,8 @@ const configure = function(opt) {
         hide_local_auth_domains: options.hide_local_auth_domains,
         landing_redirect_url: options.landing_redirect_url,
         window_open: options.window_open,
-        registration_destination_url: options.registration_destination_url
+        registration_destination_url: options.registration_destination_url,
+        custom_data_required: options.custom_data_required
     });
 
 
@@ -223,8 +232,9 @@ const configure = function(opt) {
             processProfileQueue();
             resolve(up, dv);
             startup.completeProfile(opt);
-            handleUrl();
             handleLimitContentPreview();
+            handleUrl();
+            handleCustomData();
             if (!GATED_PAGE_NOW) {
                 tracking();
             }
@@ -269,18 +279,34 @@ const stopLimitCheck = ()=> {
 let has_content_preview = false;
 
 const waitLimitContentPreview = ()=> {
-    has_content_preview = true;
-    if (!isNaN(content_preview.scroll_limit)) {
-        window.addEventListener('scroll', calculateScrollLimit, true);
+    let opt = parsingUrl({});
+    if (opt && opt.mode) {
+        triggerContentPreview();
+        return;
     }
-    if (!isNaN(content_preview.time_limit)) {
-        limit_content_preview_timer = setTimeout(()=> {
-            triggerContentPreview();
-        }, Number(content_preview.time_limit) * 1000);
+
+    has_content_preview = true;
+    if (isNaN(content_preview.scroll_limit) && isNaN(content_preview.time_limit)) {
+        triggerContentPreview();
+    } else {
+        if (!isNaN(content_preview.scroll_limit)) {
+            window.addEventListener('scroll', calculateScrollLimit, true);
+        }
+        if (!isNaN(content_preview.time_limit)) {
+            limit_content_preview_timer = setTimeout(() => {
+                triggerContentPreview();
+            }, Number(content_preview.time_limit) * 1000);
+        }
     }
 };
 
+let accessLimitContentPreview = false;
+
 const handleLimitContentPreview = () => {
+    if (accessLimitContentPreview) {
+        return;
+    }
+    accessLimitContentPreview = true;
     if (!device_verified) {
         if (content_preview && checkContentLimitPreviewLinks()) {
             waitLimitContentPreview();
@@ -325,6 +351,14 @@ const triggerContentPreview = ()=> {
     document.body.classList.add('breadbutter-locked-limit-content');
 };
 
+const delayCheckContinueWith = ()=> {
+    setTimeout(()=> {
+        if (!ishandlingQueryString) {
+            widgets.continueWith();
+        }
+    }, 1500);
+};
+
 const handleUrl = function() {
   // isParsingUrl = true;
   let opt = parsingUrl({});
@@ -336,8 +370,21 @@ const handleUrl = function() {
                   widgets.deIdentification(opt);
               }
               break;
+          default:
+              delayCheckContinueWith();
+              break;
       }
   }
+};
+
+const handleCustomData = function() {
+    if (requireCustomData()) {
+        setTimeout(()=> {
+            if (!ishandlingCustomData) {
+                widgets.continueWith();
+            }
+        }, 1500);
+    }
 };
 
 const resumePage = function() {
@@ -422,6 +469,13 @@ const queueAction = function(fn, params) {
 }
 
 const events = new (function() {
+    this.initialengagement = function() {
+        if(PAGE_VIEW_EVENT_READY) {
+            engagement.initialize(events);
+        } else {
+            queueAction(engagement.initialize, [events]);
+        }
+    };
     this.engagement = function(content, callback) {
         API.incrementPageEngagement(content, callback);
     };
@@ -472,6 +526,8 @@ const events = new (function() {
 
 let GATED_PAGE_NOW = false;
 let DELAY_FOR_GA = false;
+let WAIT_FOR_GA = false;
+let NO_GA = false;
 
 const tracking = function() {
     if (options.page_view_tracking) {
@@ -484,6 +540,8 @@ const tracking = function() {
             referrer = false;
         }
 
+        WAIT_FOR_GA = false;
+        NO_GA = false;
         if (options.ga_measurement_id) {
             if (typeof window.gtag == 'undefined') {
                 window.dataLayer = window.dataLayer || [];
@@ -504,7 +562,9 @@ const tracking = function() {
         } else {
             let cookie = parseCookie(document.cookie);
             if (typeof ga == 'function') {
+                WAIT_FOR_GA = true;
                 if (typeof ga.getAll == 'function') {
+                    WAIT_FOR_GA = false;
                     ga.getAll().forEach((tracker) => {
                         let cid = tracker.get('clientId');
                         let uid = tracker.get('userId');
@@ -516,6 +576,7 @@ const tracking = function() {
                         });
                     })
                 } else if (!DELAY_FOR_GA){
+                    WAIT_FOR_GA = false;
                     DELAY_FOR_GA = true;
                     setTimeout(function() {
                        tracking();
@@ -532,6 +593,7 @@ const tracking = function() {
                     }
                 });
             } else {
+                NO_GA = true;
                 events.pageview(false, referrer);
             }
         }
@@ -545,9 +607,9 @@ const tracking = function() {
         });
 
         if(PAGE_VIEW_EVENT_READY) {
-            engagement.initialize(events);
+            engagement.initialize(events, WAIT_FOR_GA);
         } else {
-            queueAction(engagement.initialize, [events]);
+            queueAction(engagement.initialize, [events, WAIT_FOR_GA, NO_GA]);
         }
     }
 }
@@ -636,6 +698,8 @@ const loadOptions = function(opt) {
     applyOptions(opt, 'success_event_code');
     applyOptions(opt, 'continue_with_hover');
     applyOptions(opt, 'continue_with_hover_distance');
+    applyOptions(opt, 'custom_data');
+    applyOptions(opt, 'custom_data_required');
 
     opt.internalOnFormClose = internalOnFormClose;
     return opt;
@@ -666,6 +730,17 @@ const UI = new (function() {
             }
         }
         viewPopup.deIdentification(options, form);
+    }),(this.customForm = function(options) {
+        options.hide_focus_text = true;
+        options.show_login_focus = true;
+        options.hide_on_focus = false;
+        options.continue_with_position = 'center';
+        initUI(options);
+        options.profile = profile;
+        let form = new viewForm();
+        form.init(options);
+        viewPopup.addCustomForm(options, form);
+        //viewPopup.deIdentification(options, form);
     }),
     (this.confirmEmail = function(id, options) {
         if (typeof id != 'string') {
@@ -875,6 +950,8 @@ const querystring = function() {
 
 let isParsingUrl = false;
 let isParsingDeIdentification = false;
+let ishandlingQueryString = false;
+let ishandlingCustomData = false;
 
 const parsingUrl = function(opt) {
     // console.log(opt);
@@ -966,6 +1043,11 @@ let isVerifiedState = function() {
 
 let isProfileVerifiedState = function() {
     return profile && profile.state == 'verified';
+}
+
+let requireCustomData = function() {
+    // profile.custom_data_required = true;
+    return isVerifiedState() && profile && profile.custom_data_required && options.custom_data;
 }
 
 let processProfileQueue = function() {
@@ -1401,9 +1483,7 @@ const ui = new (function() {
 
         if (typeof options != 'undefined') {
             content_preview = options;
-            if (checkContentLimitPreviewLinks()) {
-                waitLimitContentPreview();
-            }
+            handleLimitContentPreview();
         }
     };
     this.applyHubspotForm = function() {
@@ -1806,8 +1886,10 @@ const ui = new (function() {
             show_logged_in_profile: true,
             ...options
         };
+        applyOptions(options, 'show_login_focus');
 
         options = parsingUrl(options);
+        
         let mode = (options && options.mode) ? options.mode : false;
 
         if (options.show_only && options.show_only.length) {
@@ -1835,7 +1917,67 @@ const ui = new (function() {
                 return;
             }
         }
+        if (mode) {
+            widgets.continueWith(options);
+        } else if (isVerifiedState()) {
+            if (options.show_logged_in_profile) {
+                let field = viewUI.getContinueWithSignInHolder(options);
+                document.body.appendChild(field);
+                field.appendChild(viewUI.getContinueWithSignInWidget(profile, suggested_provider));
+                let content = field.querySelector('.breadbutter-ui-profile-widget-container');
+                if (content && content.getBoundingClientRect().x < 375) {
+                    content.classList.add('breadbutter-ui-left-aligned-container');
+                }
+                const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
+                if (logout_button) {
+                    logout_button.onclick = async function() {
+                        await API.resetDeviceVerification();
+                        let reload = true;
+                        if (typeof options.onLogout == 'function') {
+                            reload = options.onLogout();
+                        }
+                        if (reload) {
+                            window.location.reload();
+                        }
+                    };
+                }
+            }
+        } else if (isProfileVerifiedState()) {
+            if (!options.hide_verified) {
+                if (profile && profile.email_address && !options['show_login_focus'] && !detectMobile()) {
+                    // console.log('here?');
+                    API.getClientSettings(profile.email_address, (response)=> {
+                        // console.log(response);
+                        let field = viewUI.getContinueWithVerifiedUserHolder(response.user_profile, options);
+                        document.body.appendChild(field);
+                        document.body.classList.add('breadbutter-ui-verified-showing');
+                        field.onclick = async function() {
+                            document.body.classList.remove('breadbutter-ui-verified-showing');
+                        };
+                        options.skipScrolling = true;
+                        widgets.continueWith(options);
+                        options.addEvent('scrolling', (x)=> {
+                            // console.log('11');
+                            if (!document.body.classList.contains('breadbutter-ui-verified-showing')) {
+                                document.body.classList.add('breadbutter-ui-verified-showing');
+                            }
+                        });
+                    })
+                } else {
+                    widgets.continueWith(options);
+                }
+            } else {
+                if (profile && profile.email_address && options['show_login_focus']) {
+                    widgets.continueWith(options);
+                }
+            }
+        } else {
+            widgets.continueWith(options);
+        }
+        
+        /*
         if ((!options.hide_verified && !isVerifiedState()) || (options.hide_verified && !isProfileVerifiedState()) || mode) {
+
             widgets.continueWith(options);
         } else if (isVerifiedState() && options.show_logged_in_profile) {
             let field = viewUI.getContinueWithSignInHolder(options);
@@ -1858,7 +2000,35 @@ const ui = new (function() {
                     }
                 };
             }
+        } else if (isProfileVerifiedState() && profile && profile.email_address) {
+             if ( !options['show_login_focus'] && !detectMobile()) {
+                // console.log('here?');
+                API.getClientSettings(profile.email_address, (response)=> {
+                    // console.log(response);
+                    let field = viewUI.getContinueWithVerifiedUserHolder(response.user_profile, options);
+                    document.body.appendChild(field);
+                    document.body.classList.add('breadbutter-ui-verified-showing');
+                    field.onclick = async function() {
+                        document.body.classList.remove('breadbutter-ui-verified-showing');
+                    };
+                    options.skipScrolling = true;
+                    widgets.continueWith(options);
+                    options.addEvent('scrolling', (x)=> {
+                        // console.log('11');
+                        if (!document.body.classList.contains('breadbutter-ui-verified-showing')) {
+                            document.body.classList.add('breadbutter-ui-verified-showing');
+                        }
+                    });
+                })
+            } else {
+                widgets.continueWith(options);
+            }
+        } else {
+            // console.log('here!');
+            widgets.continueWith(options);
         }
+   
+         */
     };
 
     this.signIn = function(field_id, options) {
@@ -1882,6 +2052,7 @@ const ui = new (function() {
         }))
             return;
 
+        options = options ? options : {};
         const RESET_FORM = 'reset-form';
         const CONFIRM_FORM = 'confirm-form';
         const INCOGNITO_FORM = 'incognito-form';
@@ -1937,9 +2108,14 @@ const ui = new (function() {
             if (options.delay_seconds && !isNaN(options.delay_seconds)) {
                 let time = Number(options.delay_seconds);
                 delete options.delay_seconds;
-                setTimeout(() => {
+                let opt = parsingUrl({});
+                if (opt && opt.mode) {
                     ui.addNewsletterWidget(options);
-                }, time * 1000);
+                } else {
+                    setTimeout(() => {
+                        ui.addNewsletterWidget(options);
+                    }, time * 1000);
+                }
                 return;
             }
         }
@@ -2056,6 +2232,7 @@ const widgets = new (function() {
     this.continueWith = function(opt) {
         if (has_content_preview) return;
         opt = parsingUrl(opt);
+        ishandlingQueryString = true;
         let mode = (opt && opt.mode) ? opt.mode : false;
 
         opt = loadOptions(opt);
@@ -2064,7 +2241,12 @@ const widgets = new (function() {
             events.custom('blur_screen');
         }
         // console.log(opt);
-        if (!mode) {
+        // console.log('!!!!@#!@#!@#');
+        // console.log(mode);
+        if (requireCustomData()) {
+            ishandlingCustomData = true;
+            UI.customForm(opt);
+        } else if (!mode) {
             if (!checkRememberClose(opt)) {
                 UI.form(opt);
             }
@@ -2097,6 +2279,8 @@ const widgets = new (function() {
     this.signIn = function(id, opt) {
         opt = parsingUrl(opt);
         let mode = (opt && opt.mode) ? opt.mode : false;
+        ishandlingQueryString = true;
+        // ishandlingCustomData = true;
 
         opt = loadOptions(opt);
         if (!mode) {

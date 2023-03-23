@@ -214,6 +214,24 @@
   z-index: 999;
 }
 
+.breadbutter-ui-continue-with-verified {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  .breadbutter-ui-profile-widget {
+    .breadbutter-ui-profile-avatar {
+      //border: 3px solid #eef2f8 !important;
+      //width: 46px;
+      //height: 46px;
+    }
+  }
+}
+.breadbutter-ui-verified-showing .breadbutter-ui-continue-with-verified {
+  display: block;
+}
+.breadbutter-ui-verified-showing .breadbutter-popup{
+  display: none;
+}
 .breadbutter-ui-newsletter-popup {
   position: fixed;
   top: 50%;
@@ -749,29 +767,42 @@
   z-index: 998;
   display: block;
   box-sizing: border-box;
-  background-color: #eef2f8;
-  border: 1px solid #ffffff;
-  width: 52px;
-  height: 52px;
-  padding: 6px;
-  border-radius: 50%;
+  //background-color: #eef2f8;
+  //border: 1px solid #ffffff;
+  //width: 52px;
+  //height: 52px;
+  //padding: 6px;
+  //border-radius: 50%;
 
   .breadbutter-ui-profile-widget {
-    width: 40px;
+    //width: 40px;
     height: 40px;
     margin-left: -1px;
     margin-top: -1px;
     z-index: 1;
     .breadbutter-ui-profile-avatar {
       margin-left: 0;
+      position: absolute;
+      top: 0;
+      left: -21px;
     }
     .breadbutter-ui-profile-avatar-x{
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 1);
       fill: #a0a8b1;
       display: none;
+      position: absolute;
+      top: 0;
+      left: -21px;
+    }
+    .breadbutter-ui-profile-name {
+      background: #f1f5fb;
+      padding: 0 11px 0 26px;
+      span {
+        width: auto;
+      }
     }
   }
   .breadbutter-ui-profile-dashboard {

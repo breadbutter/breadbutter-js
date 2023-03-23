@@ -145,6 +145,7 @@
     min-height: 50px;
     background-color: #eeeeee;
     position: relative;
+    min-width: 375px;
     .breadbutter-ui {
       max-height: 90vh;
       overflow-y: auto;
@@ -305,7 +306,7 @@
     &.mobile {
       top: auto !important;
       bottom: 275px !important;
-      display: none;
+      //display: none;
       &.incognito-form, .email-form {
         display: flex;
       }

@@ -14,6 +14,7 @@ let SUCCESS_EVENT_CODE;
 let HIDE_LOCAL_AUTH_DOMAINS;
 
 let LANDING_REDIRECT_URL;
+let CUSTOM_DATA_REQUIRED = false;
 
 let WINDOW_OPEN = false;
 
@@ -245,12 +246,13 @@ const OptionData = function(data) {
         request_data['client_data'] = CLIENT_DATA;
     }
 
-    if (typeof request_data['client_data'] == 'object') {
-        request_data['client_data'] = JSON.stringify(
-            request_data['client_data']
-        );
-    }
+    // if (typeof request_data['client_data'] == 'object') {
+    //     request_data['client_data'] = JSON.stringify(
+    //         request_data['client_data']
+    //     );
+    // }
 
+    
     if (data.callback_url) {
         request_data['callback_url'] = data.callback_url;
     } else if (CALLBACK_URL) {
@@ -370,6 +372,10 @@ const configure = async function (data) {
 
     if (typeof data.window_open != 'undefined') {
         WINDOW_OPEN = data.window_open;
+    }
+
+    if (typeof data.custom_data_required != 'undefined') {
+        CUSTOM_DATA_REQUIRED = data.custom_data_required;
     }
 };
 
@@ -565,6 +571,17 @@ const getClientSettings = async function(email_address, callback) {
 
 const incrementPageEngagement = async function(content, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/prerelease/page_engagement';
+    let ga_data = false;
+    if (content && typeof content.ga_data == 'object') {
+        ga_data = content.ga_data;
+        delete content.ga_data;
+    }
+    let st = false;
+    if (content && typeof content.st == 'boolean' && content.st) {
+        st = true;
+        delete content.st;
+    }
+
     Object.keys(content).forEach(function(key, index) {
         content[key] = isNaN(content[key]) ? 0 : Number(content[key]);
     });
@@ -578,6 +595,13 @@ const incrementPageEngagement = async function(content, callback) {
         ..._default,
         ...content
     };
+
+    if (ga_data !== false) {
+        request_data.ga_data = ga_data;
+    }
+    if (st !== false) {
+        request_data.st = st;
+    }
 
     let device_id = await getDeviceId();
     request_data['device_id'] = device_id;
@@ -778,6 +802,30 @@ const registerDevice = function(callback) {
     return request(url, request_data, 'POST', callback);
 };
 
+const addUserCustomValues = async function (custom_data, callback) {
+    let url = API_PATH +
+        'apps/' +
+        APP_ID +
+        '/user_custom_values';
+
+    let request_data = {
+        custom_data
+    };
+
+    let device_id = await getDeviceId();
+    request_data['device_id'] = device_id;
+
+    const deviceCheckCallback = async function(res) {
+        if (checkDeviceId(res)) {
+            await cleanDeviceId();
+            addUserCustomValues(custom_data, callback);
+        } else if (typeof callback == 'function') {
+            callback(res);
+        }
+    };
+    return request(url, request_data, 'POST', deviceCheckCallback);
+};
+
 const createEvent = async function (code, data, referrer, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/events';
 
@@ -835,7 +883,7 @@ const startAuthentication = async function({
         '/authentications';
 
     cleanEventStorage();
-
+    let custom_data_required = CUSTOM_DATA_REQUIRED ? true : false;
     const cb = function(response) {
         if (response && !response.error) {
             if (options.success_event_code) {
@@ -847,12 +895,14 @@ const startAuthentication = async function({
         }
     }
     return startProcess(url, startAuthentication, {
-        email_address, auth_type, provider, user, options, callback: cb
+        email_address, auth_type, provider, user,
+        options, custom_data_required,
+        callback: cb
     });
 };
 
 const startProcess = async function(url, retry, {
-    email_address, auth_type, provider, user, options, callback
+    email_address, auth_type, provider, user, options, custom_data_required, callback
 }) {
     let request_data = {
         options: options
@@ -883,11 +933,15 @@ const startProcess = async function(url, retry, {
         request_data['page_view_id'] = PAGE_VIEW_ID;
     }
 
+    if (custom_data_required) {
+        request_data['custom_data_required'] = custom_data_required;
+    }
+
     const deviceCheckCallback = async function(res) {
         if (checkDeviceId(res)) {
             await cleanDeviceId();
             retry({
-                email_address, auth_type, provider, user, options, callback
+                email_address, auth_type, provider, user, options, custom_data_required, callback
             });
         } else if (typeof callback == 'function') {
             callback(res);
@@ -1014,7 +1068,8 @@ let API = {
     startDeIdentification,
     confirmDeIdentification,
     assignEventStorage,
-    cleanEventStorage
+    cleanEventStorage,
+    addUserCustomValues
 };
 export default {
     ...API

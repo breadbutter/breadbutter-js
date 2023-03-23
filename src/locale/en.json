@@ -5,10 +5,10 @@
 
     "HEADER_BACK_1": "Sign in for your best experience",
     "HEADER_BACK_2": "Welcome back to %APP_NAME%",
-    "TEXT_1": "First step",
-    "TEXT_2": "`Continue with’ your trusted login method.*<br/>We'll have you started in no time.",
-    "TEXT_3": "*You will be redirected to authenticate your account; we never see your authentication method or password. ",
-    "TEXT_3_2": "*You will be redirected to authenticate your account; we never see your authentication method or password. A simple yes/no is all we receive; although some Identity Providers will also pass along your name. You can change your authentication method at any time.",
+    "TEXT_1": "Sign in to continue",
+    "TEXT_2": "'Continue with' your trusted login method.<br/>We'll have you started in no time.",
+    "TEXT_3": "You will be redirected to authenticate with your chosen account. We don’t see your authentication method and your password remains safe. ",
+    "TEXT_3_2": "You will be redirected to authenticate with your chosen account. We don’t see your authentication method and your password remains safe. You may be asked to share your profile information, which will be stored securely. You can change your authentication method at any time.",
     "MORE": "more>>"
   },
   "INCOGNITO": {
@@ -38,11 +38,12 @@
   },
   "FORGOT_PASSWORD": {
     "TITLE": "Forgot password",
-    "CONTENT": "Enter the email you registered with us & we’ll send you instructions on how to reset your password"
+    "CONTENT": "Enter the email you registered with us & we'll send you instructions on how to reset your password",
+    "CONTENT_2": "A password reset message was sent to your email address. Please click on the link in the email to reset your password. If you do not receive a password reset message, please check your spam folder."
   },
   "EXPIRE_PASSWORD": {
     "TITLE": "Change Password",
-    "CONTENT": "It looks like your password needs to be reset. Enter the email you registered with us & we’ll send you instructions on how to reset your password"
+    "CONTENT": "It looks like your password needs to be reset. Enter the email you registered with us & we'll send you instructions on how to reset your password"
   },
   "NEW_CODE" : {
     "CONTENT_1": "Didn't receive your confirmation PIN?",
@@ -133,7 +134,8 @@
     "MORE_INFO": "more information",
     "START_WITH_EMAIL_ADDRESS": "Start with your email address below",
     "DE_IDENTIFY_ME": "De-Identify me",
-    "SWITCH_DE_IDENTIFY": "De-identify a different email address?"
+    "SWITCH_DE_IDENTIFY": "De-identify a different email address?",
+    "RETURN_TO_LOGIN": "Return to Login"
   },
   "HOVER": {
     "EMAIL_MATCH": "Please ensure that the email address you use when signing in is one that has been invited to register.",
@@ -173,7 +175,7 @@
     },
     "VALID_EMAIL" : {
       "TITLE": "Email format",
-      "MESSAGE": "Please make sure you’re using a valid email address",
+      "MESSAGE": "Please make sure you're using a valid email address",
       "CONFIRM": "ok"
     },
     "PASSWORD_EMPTY": {
@@ -232,9 +234,9 @@
     "BUTTON_2": "Read our policy"
   },
   "TOC_PRIVACY": {
-    "CONTENT_ALL": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
-    "CONTENT_TOC": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
-    "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%’s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
+    "CONTENT_ALL": "By signing up, signing in or continuing, I agree to %APP_NAME%'s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
+    "CONTENT_TOC": "By signing up, signing in or continuing, I agree to %APP_NAME%'s <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
+    "CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to %APP_NAME%'s <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
     "NAMELESS_CONTENT_ALL": "By signing up, signing in or continuing, I agree to the <a href='%TOC_LINK%' target='_blank'>Terms of Service</a> and <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>",
     "NAMELESS_CONTENT_TOC": "By signing up, signing in or continuing, I agree to the <a href='%TOC_LINK%' target='_blank'>Terms of Service</a>",
     "NAMELESS_CONTENT_PRIVACY": "By signing up, signing in or continuing, I agree to the <a href='%PRIVACY_LINK%' target='_blank'>Privacy Policy</a>"
@@ -258,12 +260,18 @@
     "CHECK_YOUR_EMAIL_2": "%FIRST_NAME%, check your email",
     "CONFIRMING": "Confirming Authentication",
     "LOGGING_IN": "Logging you in",
-    "CONFIRM_MESSAGE": "We’ve sent a link to confirm your account to the email address above. Click the link to finish signing in.",
+    "CONFIRM_MESSAGE": "We've sent a link to confirm your account to the email address above. Click the link to finish signing in.",
     "FOCUS_MASK_TEXT": "Start with your email address above"
   },
   "CONTENT_GATING": {
     "TITLE_W_NAME": "Welcome to %NAME%",
     "TITLE": "Welcome",
     "SUBTITLE": "Sign in or create your free account to continue reading."
+  },
+  "CUSTOM_DATA": {
+    "HEADER": "Thanks for Signing Up",
+    "SUB_HEADER": "We just have a few questions we'd like to ask you",
+    "SUBMIT": "Submit",
+    "MANDATORY": "This field is mandatory."
   }
 }

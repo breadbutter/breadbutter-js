@@ -169,6 +169,14 @@ const deIdentification = function (options, form) {
     form.deIdentification(view, options);
 };
 
+const addCustomForm = function (options, form) {
+    isDeIdentification = true;
+    let view = createView(options);
+    options.popup = true;
+
+    form.addCustomForm(view, options);
+};
+
 const addView = function (id) {
     let container = false;
     if (id) {
@@ -209,6 +217,7 @@ let CONTINUE_WITH_HOVER = {
     distance: 5,
     original: 30
 };
+let SKIP_SCROLLING = false;
 
 const createView = function (options) {
     // console.log(options);
@@ -222,6 +231,7 @@ const createView = function (options) {
     options.adjustHeader = triggerAdjustHeader;
     options.addEvent = addEvent;
     options.forceQuit = triggerClosePopup;
+    SKIP_SCROLLING = options.skipScrolling ? options.skipScrolling : false;
     options.isContinueWith = true;
     TRIGGER_EVENT = {};
 
@@ -337,7 +347,7 @@ const triggerBlur = function(height) {
 };
 
 const triggerAdjustHeader = function(show) {
-    console.log('triggerAdjustHeader');
+    // console.log('triggerAdjustHeader');
     let wrapper = findChild(currentPopup, POPUP_WRAPPER_ID);
     let header = findChild(wrapper, POPUP_HEADER_ID);
     let title = findChild(header, FORM.TITLE);
@@ -458,7 +468,9 @@ const scrollingTrigger = function(event) {
         scrollPosition = scrollNow;
         scrolling = true;
     } else if (Math.abs(scrollNow - scrollPosition) > scrollArea && scrollNow > lastScroll){
-        addScrolling();
+        if (!SKIP_SCROLLING) {
+            addScrolling();
+        }
         triggerEvent('scrolling');
     }
     lastScroll = scrollNow;
@@ -917,6 +929,7 @@ const closeForm = function() {
 
 export default {
     addForm,
+    addCustomForm,
     addRegister,
     addReset,
     addConfirm,
