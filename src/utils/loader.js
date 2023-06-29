@@ -65,6 +65,7 @@ S4,11.16,4,20s7.16,16,16,16S36,28.84,36,20z"/>
 
 const start = function (top, infinite, small, transparent) {
     //add mask, add animation
+    // console.log('start');
     if (!top) {
         return;
     }
@@ -78,12 +79,15 @@ const start = function (top, infinite, small, transparent) {
     } else {
         top.appendChild(loading);
     }
+
     if (small) {
         loading.classList.add('bb-small');
     }
     if (transparent) {
         loading.classList.add('bb-transparent');
     }
+
+    top.classList.add('bb-loading-parent');
 };
 
 const success_hold = function () {
@@ -124,9 +128,15 @@ const loadIcon = function (icon, stay) {
 
 const remove = function () {
     if (loading) {
+        let top = loading.parentElement;
+        top.classList.remove('bb-loading-parent');
         loading.remove();
         loading = false;
     }
+
+    let top_loader = document.querySelector('.bb-loading-parent');
+    if (top_loader)
+        top_loader.classList.remove('bb-loading-parent');
 };
 
 export default {

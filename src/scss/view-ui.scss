@@ -964,3 +964,65 @@
     }
   }
 }
+
+.breadbutter-ui-contact-us-icon-message {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  position: fixed;
+  margin: 120px 0;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 1px 1px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+.breadbutter-ui-contact-us-icon {
+  position: fixed;
+  svg {
+    width: 90px;
+    height: 90px;
+    text {
+      text-transform: uppercase;
+    }
+    border-radius: 64px;
+    box-shadow: 0px 15px 10px 0px rgba(0,0,0,0.1);
+  }
+  //border: 2px solid white;
+  //width: 30px;
+  //height: 30px;
+  //padding: 15px;
+  //box-sizing: content-box;
+  //background: rgb(252,185,0);
+  //background: linear-gradient(342deg, rgba(252,185,0,1) 58%, rgba(255,255,255,1) 100%);
+  //cursor: pointer;
+  //box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+  //&.breadbutter-contact-us-icon-position {
+  //  &-bottom-right {
+  //    border-top-left-radius: 50%;
+  //    border-top-right-radius: 50%;
+  //    border-bottom-left-radius: 50%;
+  //  }
+  //  &-bottom-left {
+  //    border-top-left-radius: 50%;
+  //    border-top-right-radius: 50%;
+  //    border-bottom-right-radius: 50%;
+  //  }
+  //  &-top-right {
+  //    border-top-left-radius: 50%;
+  //    border-bottom-right-radius: 50%;
+  //    border-bottom-left-radius: 50%;
+  //  }
+  //  &-top-left {
+  //    border-bottom-left-radius: 50%;
+  //    border-top-right-radius: 50%;
+  //    border-bottom-right-radius: 50%;
+  //  }
+  //}
+  //.breadbutter-ui-contact-us-image-holder {
+  //  svg {
+  //    width: 30px;
+  //    height: 30px;
+  //    fill: white;
+  //  }
+  //}
+}

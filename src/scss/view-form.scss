@@ -86,6 +86,7 @@
         }
     }
 
+
     .form-email {
         margin-top: 34px;
         &.form-disabled-email {
@@ -358,8 +359,6 @@
 
         &-reset {
             padding: 0 13px 0 14px;
-
-
             .breadbutter-module-password {
                 margin: 0 20px;
             }
@@ -422,6 +421,9 @@
                 //transform: rotate(45deg) skew(-30deg, -30deg);
                 margin-top: 7px;
                 margin-bottom: 9px;
+                svg {
+                    display: inline;
+                }
             }
         }
     }
@@ -575,8 +577,28 @@
                 }
             }
         }
+        &-expire
+        {
+            .breadbutter-module-poweredby {
+                margin-left: 14px;
+            }
+            .confirmation-form{
+                display: none;
+            }
+            &.confirmation {
+                .confirmation-form {
+                    display: block;
+                    &.breadbutter-forgot-buttons {
+                        display: flex;
+                    }
+                }
+                .filling-form {
+                    display: none;
+                }
+            }
+        }
 
-        &-forgot-form {
+        &-forgot-form, &-expire-form {
             padding-bottom: 10px;
             flex-direction: column;
             display: flex;
@@ -683,7 +705,8 @@
             align-items: center;
         }
 
-        &-forgot-buttons {
+        &-forgot-buttons,
+        &-expire-buttons {
             background-color: transparent;
             padding: 15px $view-padding 17px;
         }
@@ -696,6 +719,9 @@
             //align-items: center;
             .breadbutter-module-email-discovery {
                 margin: 0 25px 25px;
+                input {
+                    box-sizing: border-box;
+                }
             }
             &.bb-magic-link {
                 .breadbutter-module-email-discovery {
@@ -704,7 +730,7 @@
             }
         }
         &-email {
-            padding-bottom: 36px;
+            //padding-bottom: 36px;
         }
 
         &-confirm-form {
@@ -1003,6 +1029,7 @@
     }
 
     .bb-magic-link {
+        overflow: hidden;
         .breadbutter-switch-login {
             padding-top: 6px;
         }
@@ -1308,10 +1335,20 @@
             padding: 0 13px;
             margin: 0 0 25px;
         }
+        .breadbutter-term-policy-holder {
+            //display: none;
+            margin: 0 25px 10px;
+            padding: 0px 13px 14px;
+        }
+        .breadbutter-module-email-discovery {
+            input {
+                box-sizing: border-box;
+            }
+        }
     }
     .breadbutter-incognito {
         .breadbutter-term-policy-holder {
-            display: none;
+            //display: none;
             margin: 0 25px 10px;
             padding: 0px 13px 14px;
         }
@@ -1319,7 +1356,7 @@
             padding: 0 13px;
             margin: 0 0 25px;
             .breadbutter-magic-link-mask {
-                bottom: -64px;
+                //bottom: -64px;
             }
         }
     }
@@ -1338,7 +1375,7 @@
     .breadbutter-incognito {
         .breadbutter-incognito-holder{
             transition-property: height;
-            transition-duration: 0.125s;
+            transition-duration: 0.25s;
             transition-timing-function: ease-out;
             &.more-content {
                 //height: 105px;
@@ -1361,6 +1398,249 @@
     }
 }
 
+.breadbutter-ui {
+    .breadbutter-contact-popup {
+        transition-property: height;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
+
+        .breadbutter-optin-message {
+            display: none;
+        }
+
+
+        .breadbutter-contactus {
+            //overflow: hidden;
+            background-color: #ffffff;
+            padding: 0px 18px 18px;
+            display: flex;
+            flex-direction: column;
+
+            .bb-button {
+                &.form-submit {
+                    min-height: 40px;
+                    background-color: #1cb93f;
+                    color: #ffffff;
+                    border: 1px solid #1cb93f;
+                    border-radius: 5px;
+                    //margin: 12px 0px 0px;
+                    //width: 100%;
+                    box-sizing: border-box;
+                    margin: 0px auto;
+                    display: inline-block;
+                    text-transform: uppercase;
+                    font-size: 15px;
+                    font-weight: bold;
+                }
+            }
+
+            .breadbutter-module-header-discovery {
+                padding: 12px 0;
+            }
+
+            .breadbutter-contactus-form {
+                padding: 5px 0;
+
+
+                textarea {
+                    width: 100%;
+                    height: 100px;
+                    padding: 14px 12px 14px 21px;
+                    box-sizing: border-box;
+                    text-align: left;
+                    border: solid 1px #f0f0f0;
+                    resize: none;
+                    font-size: 13px;
+                    &::placeholder {
+                        color: #d3d3d3;
+                    }
+                }
+                .breadbutter-name-holder {
+                    display: flex;
+                    justify-content: center;
+                }
+                .breadbutter-detail-holder {
+                    display: flex;
+                    justify-content: center;
+                }
+                .breadbutter-module-form-input {
+                    &.form-phone-number {
+                        flex: 1
+                    }
+                    &.form-company-name {
+                        flex: 1
+                    }
+                }
+                .breadbutter-spacer {
+                    width: 10px;
+                    height: 18px;
+                }
+            }
+        }
+        .breadbutter-contactus-complete {
+            padding: 10px 20px 10px 35px;
+            flex: 1;
+            box-sizing: content-box;
+            width: auto;
+            letter-spacing: normal;
+            text-align: left;
+            color: #414042;
+        }
+
+        .breadbutter-incognito,.breadbutter-email {
+            > .breadbutter-module-header-discovery {
+                //display: block !important;
+                //padding: 31px 0 25px;
+                display: none;
+            }
+        }
+        &.breadbutter-contact-form {
+
+            display: flex;
+            flex-direction: column;
+
+            > :not(.breadbutter-contactus) {
+                //display: none;
+            }
+
+            .breadbutter-contactus:not(.bb-not-verified) {
+                .breadbutter-module-header-discovery {
+                    padding: 31px 0 12px;
+                    text-align: left;
+                }
+
+                .breadbutter-contactus-form {
+                    textarea {
+                        height: 175px !important;
+                        margin: 0px;
+                    }
+
+                }
+                .form-submit {
+                    width: 100%;
+                }
+            }
+        }
+
+        &.breadbutter-contact-login {
+            .breadbutter-contactus {
+                //height: 50px;
+                .breadbutter-contact-blur {
+                    transition-property: margin;
+                    transition-duration: 0.25s;
+                    transition-timing-function: ease-in-out;
+                    position: absolute;
+                    margin-top: 260px;
+                    top: 0px;
+                    left: 0;
+                    right: 0;
+                    bottom: 0px;
+                    background-color: rgba(73, 83, 100, 0.86);
+                    @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                        backdrop-filter: blur(7.8px);
+                        -webkit-backdrop-filter: blur(7.8px);
+                        background-color: rgba(80, 92, 109, .5);
+                    }
+                    display: flex;
+                    align-content: center;
+                    justify-content: flex-start;
+                    align-items: stretch;
+                    flex-direction: column;
+                    color: white;
+                    .breadbutter-contact-arrow {
+                        position: absolute;
+                        width: 0;
+                        height: 0;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-bottom: 10px solid rgba(73, 83, 100, 0.86);
+                        @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+                            border-bottom: 10px solid rgba(80, 92, 109, .5);
+                            backdrop-filter: blur(7.8px);
+                            -webkit-backdrop-filter: blur(7.8px);
+                        }
+                        left: 10px;
+                        top: -10px;
+                    }
+                    .breadbutter-contact-hint {
+                        color: white;
+                        font-weight: 600;
+                    }
+
+                    .form-expand-icon {
+                        text-align: center;
+                        margin-top: 6px;
+                        transform: rotate(180deg);
+                    }
+                    .breadbutter-floating-message-holder {
+                        font-size: 13px;
+                        font-weight: normal;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        text-align: left;
+                        color: #f5f5f5;
+                        margin: 0px 31px 12px 41px;
+                    }
+                    .breadbutter-floating-text {
+                        font-size: 13px;
+                        font-weight: normal;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        color: #f5f5f5;
+                        margin: 0px 31px 12px 41px;
+                        text-align: left;
+                    }
+                    .breadbutter-floating-text-title {
+                        font-size: 20px;
+                        font-weight: bold;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        text-align: center;
+                        color: #fff;
+                        margin-top: 0px;
+                        margin-bottom: 12px;
+                    }
+                    .breadbutter-floating-more {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+.breadbutter-ui {
+    &.contactus {
+        > .breadbutter-module-header-discovery {
+            display: block !important;
+            padding: 31px 13px 25px 14px;
+            background: white;
+            //display: none;
+        }
+        .sign-out-link {
+            min-width: initial;
+            background-color: transparent;
+            color: #50aff5;
+            font-size: 11px;
+            line-height: 1.5;
+            border: none;
+            padding: 5px 10px;
+        }
+        .form-expand-icon {
+            svg {
+                display: inline-block;
+            }
+        }
+    }
+}
+
 .breadbutter-module-magic-link {
     margin: 0;
     cursor: pointer;
@@ -1374,6 +1654,7 @@
         position: relative;
         height: 40px;
         text-align: center;
+        background-color: white;
         .breadbutter-magic-link-wand {
             position: absolute;
             margin: 8px;
@@ -1384,9 +1665,10 @@
         display: none;
         position: absolute;
         top: 0;
-        bottom: -36px;
-        left: 0;
-        right: 0;
+        //bottom: -36px;
+        bottom: -360px;
+        left: -10px;
+        right: -10px;
         background-color: rgba(73, 83, 100, 0.86);
         @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
             -webkit-backdrop-filter: blur(7.8px);
@@ -1418,6 +1700,12 @@
     &.bb-blur {
         .breadbutter-magic-link-mask {
             display: block;
+        }
+    }
+    &.error {
+        +.form-error-message {
+            margin: 0px auto 15px;
+            width: 250px;
         }
     }
 }

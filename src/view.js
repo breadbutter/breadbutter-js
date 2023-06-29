@@ -1,4 +1,5 @@
 const ID = 'breadbutter-ui';
+const OPTIN_ID = 'breadbutter-optin';
 import './scss/view.scss';
 
 import lang from './locale.js';
@@ -101,6 +102,9 @@ const initView = function (id, options, container, error) {
     // loadLanguage(options);
 
     let holder = addView();
+    if (options.opt_in) {
+        holder.classList.add(OPTIN_ID)
+    }
     holder.addEventListener('keydown', (e)=> {
        e.stopPropagation();
     });
@@ -151,6 +155,31 @@ const addView = function (id) {
     if (!id) id = ID;
     const container = document.createElement('div');
     container.classList.add(id);
+    if (ID == id) {
+        observing(container);
+    }
+    return container;
+};
+
+const observing = function(container) {
+    new ResizeObserver(function(){
+        let offsetHeight = container.offsetHeight;
+        let scrollHeight = container.scrollHeight;
+        if (scrollHeight > offsetHeight) {
+            container.classList.add('scroll-limited');
+        } else {
+            container.classList.remove('scroll-limited');
+        }
+    }).observe(container);
+
+}
+
+const addSpanView = function(id) {
+    let container = false;
+    container = document.createElement('span');
+    if (id) {
+        container.classList.add(id);
+    }
     return container;
 };
 
@@ -248,49 +277,125 @@ const svgFooters = function (type) {
 
 let poweredByIndex = 0;
 
+const svgContactUs = function() {
+    let html = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="181.029" height="181.029" viewBox="0 0 181.029 181.029">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.278" y1="0.083" x2="0.737" y2="0.943" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ffde00"/>
+      <stop offset="1" stop-color="#ff9b00"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-0.098" y1="0.555" x2="0.917" y2="0.555" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#eac040"/>
+      <stop offset="0" stop-color="#a0a0a0"/>
+      <stop offset="1" stop-color="#fafafc"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="-0.068" y1="0.585" x2="0.936" y2="0.585" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c9c8c8"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="-0.115" y1="0.555" x2="0.907" y2="0.555" xlink:href="#linear-gradient-3"/>
+  </defs>
+  <g id="Group_20569" data-name="Group 20569" transform="translate(-578.505 -665.499)">
+    <circle id="Ellipse_1475" data-name="Ellipse 1475" cx="90.514" cy="90.514" r="90.514" transform="translate(578.505 665.499)" fill="url(#linear-gradient)"/>
+    <g id="Group_20535" data-name="Group 20535" transform="translate(410.375 126.372)">
+      <g id="Group_20523" data-name="Group 20523" transform="translate(-750.841 9.209)">
+        <g id="Group_15523" data-name="Group 15523" transform="translate(950.399 585.81)">
+          <path id="Path_13894" data-name="Path 13894" d="M976.175,750.909l21.052,16.974,12.564,2.134-.039,7.949,25.545,20.522,39.3-61.212Z" transform="translate(-969.297 -685.688)" opacity="0.094" style="mix-blend-mode: multiply;isolation: isolate"/>
+          <g id="Group_15522" data-name="Group 15522">
+            <g id="Group_15518" data-name="Group 15518">
+              <g id="Group_15516" data-name="Group 15516" transform="translate(25.427)">
+                <path id="Path_13895" data-name="Path 13895" d="M1028.32,628.292l4.148,20.97,82.6-57.008Z" transform="translate(-1028.32 -592.253)" fill="url(#linear-gradient-2)"/>
+              </g>
+              <g id="Group_15517" data-name="Group 15517">
+                <path id="Path_13896" data-name="Path 13896" d="M1069.014,592.253l-86.746,36.038-25.427-20.5Z" transform="translate(-956.841 -592.253)" fill="url(#linear-gradient-3)"/>
+              </g>
+            </g>
+            <g id="Group_15521" data-name="Group 15521" transform="translate(29.575)">
+              <g id="Group_15519" data-name="Group 15519">
+                <path id="Path_13897" data-name="Path 13897" d="M1045.944,636.435l-5.964,12.827,82.6-57.008Z" transform="translate(-1039.98 -592.253)" fill="#4eaff7"/>
+              </g>
+              <g id="Group_15520" data-name="Group 15520" transform="translate(5.964)">
+                <path id="Path_13898" data-name="Path 13898" d="M1133.379,592.253l-76.634,44.181,31.846,25.585Z" transform="translate(-1056.745 -592.253)" fill="url(#linear-gradient-4)"/>
+              </g>
+            </g>
+          </g>
+        </g>
+        <path id="Path_13899" data-name="Path 13899" d="M1065.569,583.894a3.556,3.556,0,0,0-3.485-1.607L949.911,597.824a3.557,3.557,0,0,0-1.745,6.293l24.421,19.69,3.9,19.7a3.557,3.557,0,0,0,5.51,2.238l9.614-6.635,23.948,19.239a3.558,3.558,0,0,0,5.221-.851l44.788-69.767A3.558,3.558,0,0,0,1065.569,583.894Zm-47.785,71.683-26.014-20.9-2.047,1.413-9.749,6.728-4.148-20.97-25.427-20.5,112.173-15.537Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
+    `;
+    return html;
+}
+
 const svgPoweredByFooter = function () {
     poweredByIndex++;
-    let url = "https://breadbutter.io/";
+    let url = "https://breadbutter.io/privacy-policy/";
     if (APP_ID) {
         url += '?app_id=' + APP_ID;
     }
     let html = `
     <a href=${url} target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375" height="49" viewBox="0 0 375 49">
-            <defs>
-            <clipPath id="clip-path-${poweredByIndex}">
-                <path id="Path_1108" data-name="Path 1108" d="M81.761,6.919l-1.914,5.4a.87.87,0,0,0,.507,1.122l5.435,1.885a.871.871,0,0,0,1.122-.506l1.306-5.2a.871.871,0,0,0-.507-1.122L82.883,6.412a.87.87,0,0,0-1.122.507" transform="translate(-79.79 -6.356)" fill="none"/>
-            </clipPath>
-            <linearGradient id="linear-gradient-${poweredByIndex}" x1="-7.595" y1="1.557" x2="-7.498" y2="1.557" gradientUnits="objectBoundingBox">
-                <stop offset="0" stop-color="#ffde00"/>
-                <stop offset="1" stop-color="#ff9b00"/>
-            </linearGradient>
-            <clipPath id="clip-path-2-${poweredByIndex}">
-                <rect id="Rectangle_633" data-name="Rectangle 633" width="110" height="24.802" fill="none"/>
-            </clipPath>
-            </defs>
-            <g id="Group_2258" data-name="Group 2258" transform="translate(-1852 -116.209)">
-            <path id="Rectangle_741" data-name="Rectangle 741" d="M0,0H375a0,0,0,0,1,0,0V37a12,12,0,0,1-12,12H12A12,12,0,0,1,0,37V0A0,0,0,0,1,0,0Z" transform="translate(1852 117)" fill="#fff"/>
-            <g id="Group_2165" data-name="Group 2165" transform="translate(2082.059 126.522)">
-                <g id="Group_2213" data-name="Group 2213" transform="translate(93.457 7.661)">
-                <g id="Group_2212" data-name="Group 2212" clip-path="url(#clip-path-${poweredByIndex})">
-                    <rect id="Rectangle_632" data-name="Rectangle 632" width="11.629" height="11.38" transform="translate(-3.137 7.996) rotate(-69.287)" fill="url(#linear-gradient-${poweredByIndex})"/>
-                </g>
-                </g>
-                <g id="Group_2215" data-name="Group 2215" transform="translate(0 0)">
-                <g id="Group_2214" data-name="Group 2214" clip-path="url(#clip-path-2-${poweredByIndex})">
-                    <path id="Path_1109" data-name="Path 1109" d="M95.813,10.482A5.245,5.245,0,0,0,97.105,6.63c0-4.186-4.2-6.54-11.821-6.63C77.7.091,73.522,2.445,73.522,6.63a5.241,5.241,0,0,0,1.292,3.852,3.264,3.264,0,0,0,.3.262c-1.509,3.067-1.587,9.75-1.587,11.085a3.007,3.007,0,0,0,3,2.973H94.107a3.013,3.013,0,0,0,3-2.983c0-1.332-.079-8.01-1.587-11.074a3.114,3.114,0,0,0,.3-.262m-18.663.146a.411.411,0,0,0,.189-.461.416.416,0,0,0-.394-.31c-.075,0-1.844-.072-1.844-3.226,0-4.285,6.38-5.006,10.219-5.052h0c3.809.045,10.2.762,10.2,5.052,0,3.143-1.757,3.225-1.845,3.226a.414.414,0,0,0-.2.771c1.493.865,2.05,7.324,2.05,11.187a1.424,1.424,0,0,1-1.42,1.407H76.52a1.422,1.422,0,0,1-1.419-1.4c0-3.867.555-10.325,2.049-11.191" transform="translate(12.895 0)"/>
-                </g>
-                </g>
+        <!--<?xml version="1.0" encoding="utf-8"?>-->
+        <!-- Generator: Adobe Illustrator 27.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+        <svg version="1.1" id="power-layer-${poweredByIndex}" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 375 49" style="enable-background:new 0 0 375 49;" xml:space="preserve">
+            <g id="power-group-${poweredByIndex}">
+                <path id="power-path-${poweredByIndex}" fill="#ffffff" d="M320.1,20.9c0.2-0.1,0.2-0.3,0.2-0.5
+                c0-0.2-0.2-0.3-0.4-0.3c-0.1,0-1.8-0.1-1.8-3.2c0-4.3,6.4-5,10.2-5.1l0,0c3.8,0,10.2,0.8,10.2,5.1c0,3.1-1.8,3.2-1.8,3.2
+                c-0.2,0-0.4,0.2-0.4,0.4c0,0.1,0.1,0.3,0.2,0.3c1.5,0.9,2,7.3,2,11.2c0,0.8-0.6,1.4-1.4,1.4h-17.6c-0.8,0-1.4-0.6-1.4-1.4
+                C318.1,28.3,318.6,21.8,320.1,20.9"/>
             </g>
-            <g id="Group_2166" data-name="Group 2166" transform="translate(1852.179 116.709)">
-                <g id="Group_2220" data-name="Group 2220" transform="translate(0 0)">
-                <line id="Line_43" data-name="Line 43" x2="375" fill="none" stroke="#eee" stroke-miterlimit="10" stroke-width="1"/>
+            <g id="Group_2258" transform="translate(-1852 -116.209)">
+                <g id="Group_2165" transform="translate(2082.059 126.522)">
+                    <g id="Group_2213" transform="translate(93.457 7.661)">
+                        <g>
+                            <defs>
+                                <path id="SVGID_1_" d="M2,0.6L0.1,6c-0.2,0.4,0.1,1,0.5,1.1c0,0,0,0,0,0L6,9c0.4,0.2,1-0.1,1.1-0.5l1.3-5.2
+                                c0.2-0.4-0.1-1-0.5-1.1L3.1,0.1C2.6-0.1,2.1,0.1,2,0.6C2,0.6,2,0.6,2,0.6"/>
+                            </defs>
+                            <clipPath id="power-clip-path-${poweredByIndex}">
+                                <use xlink:href="#SVGID_1_" style="overflow:visible;"/>
+                            </clipPath>
+                            <g id="Group_2212" style="clip-path:url(#power-clip-path-${poweredByIndex});">
+                                <linearGradient id="power-square-path-${poweredByIndex}" gradientUnits="userSpaceOnUse" x1="-1280.8392" y1="980.4202"
+                                                x2="-1280.7422" y2="980.4202"
+                                                gradientTransform="matrix(4.113 -10.8773 -10.6444 -4.025 15675.0967 -9893.3584)">
+                                    <stop offset="0" style="stop-color:#FFDE00"/>
+                                    <stop offset="1" style="stop-color:#FF9B00"/>
+                                </linearGradient>
+                                <polygon id="Rectangle_632" style="fill:url(#power-square-path-${poweredByIndex});" points="
+                            -3.1,8 1,-2.9 11.6,1.1 7.5,12"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="Group_2215" transform="translate(0 0)">
+                        <g>
+                            <defs>
+                                <rect id="power-rec-2-${poweredByIndex}" x="0" y="0" width="110" height="24.8"/>
+                            </defs>
+                            <clipPath id="power-clip-path-2-${poweredByIndex}">
+                                <use xlink:href="#power-rec-2-${poweredByIndex}" style="overflow:visible;"/>
+                            </clipPath>
+                            <g id="Group_2214" style="clip-path:url(#power-clip-path-2-${poweredByIndex});">
+                                <path id="Path_1109" d="M108.7,10.5c0.9-1.1,1.4-2.4,1.3-3.9c0-4.2-4.2-6.5-11.8-6.6c-7.6,0.1-11.8,2.4-11.8,6.6
+                                c-0.1,1.4,0.4,2.8,1.3,3.9c0.1,0.1,0.2,0.2,0.3,0.3c-1.5,3.1-1.6,9.7-1.6,11.1c0,1.6,1.4,3,3,3H107c1.6,0,3-1.3,3-3
+                                c0-1.3-0.1-8-1.6-11.1C108.5,10.7,108.6,10.6,108.7,10.5 M90.1,10.6c0.2-0.1,0.2-0.3,0.2-0.5c0-0.2-0.2-0.3-0.4-0.3
+                                c-0.1,0-1.8-0.1-1.8-3.2c0-4.3,6.4-5,10.2-5.1l0,0c3.8,0,10.2,0.8,10.2,5.1c0,3.1-1.8,3.2-1.8,3.2c-0.2,0-0.4,0.2-0.4,0.4
+                                c0,0.1,0.1,0.3,0.2,0.3c1.5,0.9,2.1,7.3,2.1,11.2c0,0.8-0.6,1.4-1.4,1.4H89.4c-0.8,0-1.4-0.6-1.4-1.4
+                                C88,18,88.6,11.5,90.1,10.6"/>
+                            </g>
+                        </g>
+                    </g>
                 </g>
-            </g>
-            <text id="powered_by" data-name="powered by" transform="translate(2103.254 145.708)" fill="#58595b" font-size="11" font-family="OpenSansLight-Italic, Open Sans" font-style="italic"><tspan x="-10" y="0">powered by</tspan></text>
+                <text transform="matrix(1 0 0 1 2093.2539 145.708)" fill="#58595b" font-size="11"
+                      font-family="OpenSansLight-Italic, OpenSans-Italic, Open Sans" font-style="italic">powered by</text>
             </g>
         </svg>
+
     </a>
     `
     return html;
@@ -714,11 +819,19 @@ const uuidv4 = function() {
     });
 }
 
+const parsePosition = function(position) {
+    let pos = position;
+    if (!isNaN(position)) {
+        pos += 'px';
+    }
+    return pos;
+};
 
 export default {
     getIndex,
     findElement,
     addView,
+    addSpanView,
     initView,
     addBlock,
     addButton,
@@ -732,5 +845,7 @@ export default {
     getData,
     unsetData,
     svgPoweredByFooter,
-    loadSVG
+    svgContactUs,
+    loadSVG,
+    parsePosition
 };

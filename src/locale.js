@@ -41,7 +41,7 @@ const getLocale = function (lang, local) {
     }
     let locale = Object.assign({}, Locale['en']);
     if (lang != 'en') {
-        locale = Object.assign(locale, Locale[lang]);
+        locale = assignString(locale, Locale[lang]);
     }
     delete locale['default'];
     if (locale && local) {

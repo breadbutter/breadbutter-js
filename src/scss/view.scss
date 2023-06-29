@@ -30,6 +30,7 @@
             display: inline-block;
             border-radius: 0 !important;
             box-shadow: none !important;
+            box-sizing: border-box;
             &.focus, &:focus {
               border-color: #50aff5;
               & + .form-next-icon{
@@ -109,6 +110,195 @@
 
         .font16 {
             font-size: 16px !important;
+        }
+        .breadbutter-optin-message {
+            font-size: 13px;
+            margin: 8px 0;
+            border: none;
+            width: 100%;
+            display: flex;
+            color: #a0a0a0;
+            span {
+                flex: 1;
+                border-bottom: 1px solid #a3a0a0;
+                margin: 8px;
+            }
+            text-transform: uppercase;
+        }
+
+    }
+
+    &-optin {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+
+        .breadbutter-ui-loader-holder {
+            background: none;
+        }
+        .bb-loading-parent {
+            > :not(.breadbutter-ui-loader-holder) {
+                opacity: 0;
+            }
+        }
+        .breadbutter-forms  {
+            background: none !important;
+            .breadbutter-email {
+                background-color: transparent;
+                background: none !important;
+                .breadbutter-module-header-discovery {
+                    display: none;
+                }
+                .breadbutter-module-email-discovery {
+                    margin: 0 25px;
+                    .form-email {
+                        border-color: #d9d9dc;
+                        &:focus {
+                            border-color: #50aff5;
+                        }
+                    }
+                    .form-next-icon {
+                        background: #d9d9dc;
+                    }
+                }
+                .breadbutter-module-magic-link {
+                    margin-bottom: 15px;
+                    display: none;
+                }
+            }
+            .breadbutter-incognito {
+                background-color: transparent;
+                .breadbutter-module-header-discovery {
+                    display: none;
+                }
+                .form-options.continue-email-address {
+                    display: none;
+                }
+                .breadbutter-module-magic-link {
+                    margin-bottom: 15px;
+                    display: none;
+                }
+                .breadbutter-incognito-holder {
+                    background-color: transparent;
+                }
+                .breadbutter-module-email-discovery {
+                    margin: 0 25px;
+                    .form-email {
+                        border-color: #d9d9dc;
+                        &:focus {
+                            border-color: #50aff5;
+                        }
+                    }
+                    .form-next-icon {
+                        background: #d9d9dc;
+                    }
+                }
+            }
+            .breadbutter-alert {
+                background-color: transparent;
+            }
+            .breadbutter-login {
+                .breadbutter-module-header-discovery {
+                    display: none;
+                }
+                .form-options.continue-email-address {
+                    display: none;
+                }
+            }
+            .breadbutter-register {
+                background-color: transparent;
+                .breadbutter-module-header-discovery {
+                    display: none;
+                }
+                .breadbutter-register-holder {
+                    background-color: transparent;
+                }
+                .breadbutter-module-email-discovery {
+                    margin: 0 25px;
+                    .form-email {
+                        border-color: #d9d9dc;
+                        &:focus {
+                            border-color: #50aff5;
+                        }
+                    }
+                    .form-next-icon {
+                        background: #d9d9dc;
+                    }
+                }
+            }
+            .breadbutter-switch-login {
+                background-color: transparent!important;
+            }
+            .breadbutter-buttons-holder {
+                background-color: transparent!important;
+                .form-message {
+                    display: none;
+                }
+                .breadbutter-ui-loader-holder {
+                    background: none;
+                }
+                &.bb-loading-parent {
+                    .breadbutter-buttons {
+                        opacity: 0;
+                    }
+                }
+            }
+            .breadbutter-register {
+                background-color: transparent;
+                .breadbutter-buttons-holder {
+                    background-color: transparent !important;
+                }
+                .form-message {
+                    margin-top: 12px;
+                }
+                .breadbutter-switch-login {
+                    background-color: transparent;
+                }
+
+                .form-register-button-holder {
+                    &.bb-loading-parent {
+                        .bb-button {
+                            opacity: 0;
+                        }
+                    }
+                }
+            }
+            .breadbutter-confirm {
+                .breadbutter-module-header-discovery {
+                    padding: 12px 0;
+                }
+                .breadbutter-confirm-form {
+                    background-color: transparent;
+                    &.bb-loading-parent {
+                        > :not(.breadbutter-ui-loader-holder) {
+                            opacity: 0;
+                        }
+                    }
+                }
+                .new_code {
+                    margin0bottom: 12px;
+                }
+            }
+            .breadbutter-magic-link {
+                .breadbutter-magic-link-message {
+                    padding: 10px 60px;
+                }
+                .breadbutter-module-poweredby {
+                    display: none;
+                }
+                .breadbutter-ui-loader-holder {
+                    background: none;
+                }
+                .breadbutter-magic-link-view {
+                    &.bb-loading-parent {
+                        .breadbutter-magic-link-plane {
+                            opacity: 0;
+                        }
+                    }
+                }
+            }
+        }
+        .breadbutter-ui-loader-holder {
+            background: none;
         }
     }
 }

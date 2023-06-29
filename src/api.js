@@ -268,7 +268,7 @@ const OptionData = function(data) {
     if (data.registration_destination_url) {
         request_data['registration_destination_url'] = data.registration_destination_url;
     } else if (REGISTRATION_DESTINATION_URL) {
-        request_data['registration_destination_url'] = data.REGISTRATION_DESTINATION_URL;
+        request_data['registration_destination_url'] = REGISTRATION_DESTINATION_URL;
     }
 
     return request_data;
@@ -633,9 +633,18 @@ const ping = function (callback) {
 };
 
 const startMagicLink = async function(data, callback) {
+    let user = false;
+
+    if (data.first_name && data.last_name) {
+        user = {};
+        user['first_name'] = data.first_name;
+        user['last_name'] = data.last_name;
+    }
+
     await startAuthentication({
         email_address: data.email_address,
         auth_type: AUTH_TYPE.MAGIC_LINK,
+        user,
         options: LoginOptionData(data),
         callback});
 };
@@ -918,6 +927,9 @@ const startProcess = async function(url, retry, {
             break;
         case AUTH_TYPE.MAGIC_LINK:
             request_data['auth_type'] = AUTH_TYPE.MAGIC_LINK;
+            if (user) {
+                request_data['user'] = user;
+            }
             break;
         case AUTH_TYPE.AUTH:
             request_data['auth_type'] = AUTH_TYPE.AUTH;
@@ -1039,6 +1051,45 @@ const confirmDeIdentification = async function({
     return request(url, request_data, 'POST', cb);
 };
 
+
+const contactUs = async function({phone, company, message, callback}) {
+    let url = API_PATH + 'apps/' + APP_ID + '/contact_us';
+    let request_data = {};
+
+    let device_id = await getDeviceId();
+    request_data['device_id'] = device_id;
+
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
+    }
+
+    if (phone) {
+        request_data['phone'] = phone;
+    }
+
+    if (company) {
+        request_data['company'] = company;
+    }
+
+    if (message) {
+        request_data['message'] = message;
+    }
+
+
+
+    const deviceCheckCallback = async function(res) {
+        if (checkDeviceId(res)) {
+            await cleanDeviceId();
+            contactUs({
+                phone, company, message, callback
+            });
+        } else if (typeof callback == 'function') {
+            callback(res);
+        }
+    };
+    return request(url, request_data, 'POST', deviceCheckCallback);
+};
+
 let API = {
     configure,
     setPageViewId,
@@ -1069,7 +1120,8 @@ let API = {
     confirmDeIdentification,
     assignEventStorage,
     cleanEventStorage,
-    addUserCustomValues
+    addUserCustomValues,
+    contactUs
 };
 export default {
     ...API

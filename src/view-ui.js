@@ -6,6 +6,12 @@ import lang from './locale.js';
 let Locale = {};
 let APP_ID = false;
 
+const CONTACT_US_ICON_ID = 'breadbutter-ui-contact-us-icon';
+const CONTACT_US_IMAGE_HOLDER_ID = 'breadbutter-ui-contact-us-image-holder';
+const CONTACT_US_POSITION_ID = 'breadbutter-contact-us-icon-position';
+
+const CONTACT_US_ICON_MESSAGE_ID = 'breadbutter-ui-contact-us-icon-message';
+
 const init = function (options) {
     loadAppId(options);
     loadLanguage(options);
@@ -559,6 +565,66 @@ const getNewsletterPopupWidget = ({ image_source, header_text, main_text, succes
     };
 };
 
+const getContactUsIcon = function(options, message) {
+    let icon = view.addView(CONTACT_US_ICON_ID);
+    let vertical = 'bottom', horizontal = 'right';
+    if (options.continue_with_position) {
+        if (options.continue_with_position.top) {
+            icon.style.top = view.parsePosition(options.continue_with_position.top);
+            vertical = 'top';
+        } else if (options.continue_with_position.bottom) {
+            icon.style.bottom = view.parsePosition(options.continue_with_position.bottom);
+        } else {
+            icon.style.bottom = '10px';
+        }
+        if (options.continue_with_position.left) {
+            icon.style.left = parsePosition(options.continue_with_position.left);
+            horizontal = 'right';
+        } else if (options.continue_with_position.right) {
+            icon.style.right = parsePosition(options.continue_with_position.right);
+        } else {
+            icon.style.right = '10px';
+        }
+    } else {
+        icon.style.bottom = '10px';
+        icon.style.right = '10px';
+    }
+    // icon.classList.add(`${CONTACT_US_POSITION_ID}-${vertical}-${horizontal}`);
+    let icon_holder = view.addView(CONTACT_US_IMAGE_HOLDER_ID);
+    icon_holder.innerHTML = view.svgContactUs(message);
+    icon.appendChild(icon_holder);
+    return icon;
+};
+
+//CONTACT_US_ICON_MESSAGE_ID
+
+const getContactUsIconMessage = function(options) {
+
+    let icon = view.addView(CONTACT_US_ICON_MESSAGE_ID);
+    if (options.continue_with_position) {
+        if (options.continue_with_position.top) {
+            icon.style.top = view.parsePosition(options.continue_with_position.top);
+        } else if (options.continue_with_position.bottom) {
+            icon.style.bottom = view.parsePosition(options.continue_with_position.bottom);
+        } else {
+            icon.style.bottom = '10px';
+        }
+        if (options.continue_with_position.left) {
+            icon.style.left = parsePosition(options.continue_with_position.left);
+        } else if (options.continue_with_position.right) {
+            icon.style.right = parsePosition(options.continue_with_position.right);
+        } else {
+            icon.style.right = '10px';
+        }
+    } else {
+        icon.style.bottom = '10px';
+        icon.style.right = '10px';
+    }
+    icon.innerHTML = Locale.CONTACT_US.ICON_NOTE;
+    return icon;
+}
+
+
 export default {
     init,
     getContinueWithVerifiedUserHolder,
@@ -570,5 +636,7 @@ export default {
     getNewsletterPopupWidget,
     checkEventStorage,
     getViewedCode,
-    getContentGatingCoverPage
+    getContentGatingCoverPage,
+    getContactUsIcon,
+    getContactUsIconMessage
 };

@@ -231,6 +231,7 @@ const triggerIdentityProvider = function (func, data, button) {
         }
         func(data, function (res) {
             if (res && res.authentication_token) {
+                console.log('redirect');
                 api.redirectAuthentication(res.authentication_token, true);
                 setTimeout(function(){
                     loader.remove();

@@ -261,6 +261,34 @@
   }
 }
 
+.breadbutter-popup {
+  &.contactus-popup {
+    .breadbutter-popup-holder {
+      max-height: 90vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 375px !important;
+      .breadbutter-ui {
+        > div {
+          overflow: hidden;
+        }
+        &.contactus {
+          &.scroll-limited {
+            padding-right: 15px;
+            background: white;
+            box-sizing: content-box !important;
+          }
+        }
+      }
+    }
+    &.bb-mobile-device {
+      .breadbutter-popup-holder {
+        width: 100% !important;
+      }
+    }
+  }
+}
+
 
 
 @media (max-width:499px) {

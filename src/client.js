@@ -1,13 +1,13 @@
 import API from './api.js';
 import viewButton from './view-button';
 import viewForm from './view-form';
-import viewPopup from './view-popup';
+import viewPopupClass from './view-popup';
 import viewPolicy from './view-policy';
 import viewUI from './view-ui';
 import view from './view';
 import constants from './constants';
 import lang from './locale.js';
-import engagement from './engagement'
+import engagement from './engagement';
 
 import './scss/client.scss';
 
@@ -23,6 +23,8 @@ const html_attributes = constants.html_attributes;
 const errors = constants.errors;
 
 let Locale = {};
+
+let viewPopup;
 
 const loadLanguage = function(options) {
     let locale = lang.getLocale(options.language, options.locale);
@@ -223,6 +225,7 @@ const configure = function(opt) {
 
     startup.beforeProfile();
     loadLanguage(options);
+    viewPopup = new viewPopupClass();
     viewUI.init(options);
 
     return new Promise(function(resolve) {
@@ -528,6 +531,7 @@ let GATED_PAGE_NOW = false;
 let DELAY_FOR_GA = false;
 let WAIT_FOR_GA = false;
 let NO_GA = false;
+let VALID_GA = true;
 
 const tracking = function() {
     if (options.page_view_tracking) {
@@ -561,20 +565,26 @@ const tracking = function() {
             });
         } else {
             let cookie = parseCookie(document.cookie);
-            if (typeof ga == 'function') {
+            if (typeof ga == 'function' && VALID_GA) {
                 WAIT_FOR_GA = true;
                 if (typeof ga.getAll == 'function') {
                     WAIT_FOR_GA = false;
+                    let count = 0;
                     ga.getAll().forEach((tracker) => {
                         let cid = tracker.get('clientId');
                         let uid = tracker.get('userId');
+                        count++;
                         events.pageview(false, referrer, {
                             'ga_data': {
                                 "cid": cid,
                                 "uid": uid
                             }
                         });
-                    })
+                    });
+                    if (count == 0) {
+                        VALID_GA = false;
+                        tracking();
+                    }
                 } else if (!DELAY_FOR_GA){
                     WAIT_FOR_GA = false;
                     DELAY_FOR_GA = true;
@@ -705,10 +715,10 @@ const loadOptions = function(opt) {
     return opt;
 };
 
-const initUI = function(options) {
-    options = loadOptions(options);
-    viewPopup.init(options);
-    viewButton.init(options);
+const initUI = function(opt) {
+    opt = loadOptions(opt);
+    viewPopup.init(opt);
+    viewButton.init(opt);
 };
 
 const UI = new (function() {
@@ -730,7 +740,8 @@ const UI = new (function() {
             }
         }
         viewPopup.deIdentification(options, form);
-    }),(this.customForm = function(options) {
+    }),
+    (this.customForm = function(options) {
         options.hide_focus_text = true;
         options.show_login_focus = true;
         options.hide_on_focus = false;
@@ -741,6 +752,34 @@ const UI = new (function() {
         form.init(options);
         viewPopup.addCustomForm(options, form);
         //viewPopup.deIdentification(options, form);
+    }),
+    (this.optIn = function(id, options) {
+        if (typeof id != 'string') {
+            options = id;
+            id = false;
+        }
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        form.optInForm(id, options);
+    }),
+    (this.contactUs = function(id, opt) {
+        if (typeof id != 'string') {
+            opt = id;
+            id = false;
+        }
+        initUI(opt);
+
+        let popup = new viewPopupClass();
+        popup.init(opt);
+        let form = new viewForm();
+        form.init(opt);
+
+        if (id) {
+            form.addContactUs(id, opt);
+        } else {
+            popup.addContactUs(opt, form);
+        }
     }),
     (this.confirmEmail = function(id, options) {
         if (typeof id != 'string') {
@@ -765,147 +804,147 @@ const UI = new (function() {
             viewPopup.addConfirm(options, form);
         }
     }),
-        (this.resetPassword = function(id, options) {
-            if (typeof id != 'string') {
-                options = id;
-                id = false;
+    (this.resetPassword = function(id, options) {
+        if (typeof id != 'string') {
+            options = id;
+            id = false;
+        }
+        //options required token
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        if (options['email_address']) {
+            if (localStorage) {
+                localStorage.setItem(
+                    'breadbutter-sdk-email-address',
+                    options['email_address']
+                );
             }
-            //options required token
-            initUI(options);
-            let form = new viewForm();
-            form.init(options);
-            if (options['email_address']) {
-                if (localStorage) {
-                    localStorage.setItem(
-                        'breadbutter-sdk-email-address',
-                        options['email_address']
-                    );
-                }
-            }
+        }
 
-            if (id) {
-                form.addReset(id, options);
-            } else {
-                viewPopup.addReset(options, form);
-            }
-        }),
-        (this.magicLink = function(id, options) {
-            if (typeof id != 'string') {
-                options = id;
-                id = false;
-            }
-            //options required token
-            initUI(options);
-            let form = new viewForm();
-            form.init(options);
-            // if (options['email_address']) {
-            //     if (localStorage) {
-            //         localStorage.setItem(
-            //             'breadbutter-sdk-email-address',
-            //             options['email_address']
-            //         );
-            //     }
-            // }
+        if (id) {
+            form.addReset(id, options);
+        } else {
+            viewPopup.addReset(options, form);
+        }
+    }),
+    (this.magicLink = function(id, options) {
+        if (typeof id != 'string') {
+            options = id;
+            id = false;
+        }
+        //options required token
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        // if (options['email_address']) {
+        //     if (localStorage) {
+        //         localStorage.setItem(
+        //             'breadbutter-sdk-email-address',
+        //             options['email_address']
+        //         );
+        //     }
+        // }
 
-            if (id) {
-                form.addMagicLink(id, options);
-            } else {
-                viewPopup.addMagicLink(options, form);
+        if (id) {
+            form.addMagicLink(id, options);
+        } else {
+            viewPopup.addMagicLink(options, form);
+        }
+    }),
+    (this.form = function(id, options) {
+        if (typeof id != 'string') {
+            options = id;
+            id = false;
+        }
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        if (id) {
+            form.addForm(id, options);
+        } else {
+            viewPopup.addForm(options, form);
+        }
+    }),
+    (this.invitation = function(id, options) {
+        if (typeof id != 'string') {
+            options = id;
+            id = false;
+        }
+        initUI(options);
+        let form = new viewForm();
+        form.init(options);
+        if (options['email_address']) {
+            if (localStorage) {
+                localStorage.setItem(
+                    'breadbutter-sdk-email-address',
+                    options['email_address']
+                );
             }
-        }),
-        (this.form = function(id, options) {
-            if (typeof id != 'string') {
-                options = id;
-                id = false;
-            }
-            initUI(options);
-            let form = new viewForm();
-            form.init(options);
-            if (id) {
-                form.addForm(id, options);
-            } else {
-                viewPopup.addForm(options, form);
-            }
-        }),
-        (this.invitation = function(id, options) {
-            if (typeof id != 'string') {
-                options = id;
-                id = false;
-            }
-            initUI(options);
-            let form = new viewForm();
-            form.init(options);
-            if (options['email_address']) {
-                if (localStorage) {
-                    localStorage.setItem(
-                        'breadbutter-sdk-email-address',
-                        options['email_address']
-                    );
-                }
-            }
-            if (id) {
-                form.addRegister(id, options);
-            } else {
-                viewPopup.addRegister(options, form);
-            }
-        }),
-        (this.button = function(id, options) {
-            initUI(options);
+        }
+        if (id) {
+            form.addRegister(id, options);
+        } else {
+            viewPopup.addRegister(options, form);
+        }
+    }),
+    (this.button = function(id, options) {
+        initUI(options);
 
-            let email_address = false;
-            if (options['email_address']) {
-                email_address = options['email_address'];
-            }
+        let email_address = false;
+        if (options['email_address']) {
+            email_address = options['email_address'];
+        }
 
-            let providers = [];
-            if (
-                options['providers'] &&
-                Array.isArray(options['providers'])
-            ) {
-                providers =
-                    options['providers'];
-            }
+        let providers = [];
+        if (
+            options['providers'] &&
+            Array.isArray(options['providers'])
+        ) {
+            providers =
+                options['providers'];
+        }
 
-            if (typeof options['register'] == 'undefined') {
-                options['register'] = true;
-            }
+        if (typeof options['register'] == 'undefined') {
+            options['register'] = true;
+        }
 
-            if (providers.length === 0) {
-                api.getProviders(email_address, function(res) {
-                    let list = [];
-                    if (res && res.providers) {
-                        for (let i = 0; i < res.providers.length; i++) {
-                            let provider = res.providers[i];
-                            if (provider.idp && providers_hash[provider.idp]) {
-                                list.push(provider);
-                            }
+        if (providers.length === 0) {
+            api.getProviders(email_address, function(res) {
+                let list = [];
+                if (res && res.providers) {
+                    for (let i = 0; i < res.providers.length; i++) {
+                        let provider = res.providers[i];
+                        if (provider.idp && providers_hash[provider.idp]) {
+                            list.push(provider);
                         }
                     }
-                    // identityProviderListParsing('social_identity_providers');
-                    // identityProviderListParsing('enterprise_identity_providers');
+                }
+                // identityProviderListParsing('social_identity_providers');
+                // identityProviderListParsing('enterprise_identity_providers');
 
-                    if (list.length === 0) {
-                        list = false;
-                    }
-
-                    viewButton.addButtons(id, list, options);
-                });
-            } else {
-                let list = [];
-
-                // console.log(identity_providers);
-
-                for (let i = 0; i < providers.length; i++) {
-                    if (providers_hash[providers[i].idp]) {
-                        list.push(providers[i]);
-                    }
+                if (list.length === 0) {
+                    list = false;
                 }
 
-                // console.log(list);
-
                 viewButton.addButtons(id, list, options);
+            });
+        } else {
+            let list = [];
+
+            // console.log(identity_providers);
+
+            for (let i = 0; i < providers.length; i++) {
+                if (providers_hash[providers[i].idp]) {
+                    list.push(providers[i]);
+                }
             }
-        });
+
+            // console.log(list);
+
+            viewButton.addButtons(id, list, options);
+        }
+    });
 })();
 
 const querystring = function() {
@@ -1098,8 +1137,17 @@ const onBlurQueryUnderForm = function(form, type) {
 const CACHE_STORAGE = {
     DEVICE_ID: 'breadbutter-sdk-device-id',
     SUCCESS_EVENT_CODE: 'breadbutter-sdk-success-event-code',
-    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code'
+    LAST_SUCCESS_EVENT_CODE: 'breadbutter-sdk-last-success-event-code',
+    START_CONTACT: 'breadbutter-start-contact-sign-in'
 };
+
+const hasPreviousContactIconOpen = function() {
+    let event = false;
+    if (localStorage) {
+        event = localStorage.getItem(CACHE_STORAGE.START_CONTACT + '-' + btoa(document.location.pathname));
+    }
+    return event;
+}
 
 const checkEventStorage = function(custom_event_code) {
     let event = false;
@@ -1956,12 +2004,14 @@ const ui = new (function() {
                         };
                         options.skipScrolling = true;
                         widgets.continueWith(options);
-                        options.addEvent('scrolling', (x)=> {
-                            // console.log('11');
-                            if (!document.body.classList.contains('breadbutter-ui-verified-showing')) {
-                                document.body.classList.add('breadbutter-ui-verified-showing');
-                            }
-                        });
+                        if (typeof options.addEvent == 'function') {
+                            options.addEvent('scrolling', (x) => {
+                                // console.log('11');
+                                if (!document.body.classList.contains('breadbutter-ui-verified-showing')) {
+                                    document.body.classList.add('breadbutter-ui-verified-showing');
+                                }
+                            });
+                        }
                     })
                 } else {
                     widgets.continueWith(options);
@@ -1974,63 +2024,75 @@ const ui = new (function() {
         } else {
             widgets.continueWith(options);
         }
-        
-        /*
-        if ((!options.hide_verified && !isVerifiedState()) || (options.hide_verified && !isProfileVerifiedState()) || mode) {
-
-            widgets.continueWith(options);
-        } else if (isVerifiedState() && options.show_logged_in_profile) {
-            let field = viewUI.getContinueWithSignInHolder(options);
-            document.body.appendChild(field);
-            field.appendChild(viewUI.getContinueWithSignInWidget(profile, suggested_provider));
-            let content = field.querySelector('.breadbutter-ui-profile-widget-container');
-            if (content && content.getBoundingClientRect().x < 375) {
-                content.classList.add('breadbutter-ui-left-aligned-container');
-            }
-            const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
-            if (logout_button) {
-                logout_button.onclick = async function() {
-                    await API.resetDeviceVerification();
-                    let reload = true;
-                    if (typeof options.onLogout == 'function') {
-                        reload = options.onLogout();
-                    }
-                    if (reload) {
-                        window.location.reload();
-                    }
-                };
-            }
-        } else if (isProfileVerifiedState() && profile && profile.email_address) {
-             if ( !options['show_login_focus'] && !detectMobile()) {
-                // console.log('here?');
-                API.getClientSettings(profile.email_address, (response)=> {
-                    // console.log(response);
-                    let field = viewUI.getContinueWithVerifiedUserHolder(response.user_profile, options);
-                    document.body.appendChild(field);
-                    document.body.classList.add('breadbutter-ui-verified-showing');
-                    field.onclick = async function() {
-                        document.body.classList.remove('breadbutter-ui-verified-showing');
-                    };
-                    options.skipScrolling = true;
-                    widgets.continueWith(options);
-                    options.addEvent('scrolling', (x)=> {
-                        // console.log('11');
-                        if (!document.body.classList.contains('breadbutter-ui-verified-showing')) {
-                            document.body.classList.add('breadbutter-ui-verified-showing');
-                        }
-                    });
-                })
-            } else {
-                widgets.continueWith(options);
-            }
-        } else {
-            // console.log('here!');
-            widgets.continueWith(options);
-        }
-   
-         */
     };
 
+    this.contactUsForm = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'contactUsForm',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+        widgets.contactUs(field_id, options);
+    };
+    this.contactUs = function(options) {
+        if (!isProfileInit({
+            call: 'contactUs',
+            params: [options]
+        }))
+            return;
+
+        options = options ? options : {};
+        if (options.continue_with_position) {
+            if (!options.continue_with_position.top && !options.continue_with_position.bottom) {
+                options.continue_with_position.bottom = '10px';
+            }
+            if (!options.continue_with_position.left && !options.continue_with_position.right) {
+                options.continue_with_position.right = '10px';
+            }
+        } else {
+            options.continue_with_position = {
+                bottom: '10px',
+                right: '10px'
+            }
+        }
+
+        viewUI.init(options);
+        // let message = options.locale && options.locale.CONTACT_US && options.locale.ICON_NOTE ? options.locale.ICON_NOTE : Locale.CONTACT_US.ICON_NOTE;
+        let field = viewUI.getContactUsIcon(options);
+        let note = viewUI.getContactUsIconMessage(options);
+        document.body.appendChild(field);
+        document.body.appendChild(note);
+        field.addEventListener('click', () => {
+            // field.remove();
+            // note.remove();
+            widgets.contactUs(false, options);
+        });
+        note.addEventListener('click', () => {
+            // field.remove();
+            // note.remove();
+            widgets.contactUs(false, options);
+        });
+
+        if (hasPreviousContactIconOpen() && isVerifiedState()) {
+            ui.contactUsForm(false, options);
+        }
+    };
+
+    this.optIn = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'optIn',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+
+        if (!isVerifiedState()) {
+            widgets.optIn(field_id, options);
+        }
+    };
     this.signIn = function(field_id, options) {
         if (!isProfileInit({
             call: 'signIn',
@@ -2274,6 +2336,65 @@ const widgets = new (function() {
                     UI.form(opt);
                     break;
             }
+        }
+    };
+    this.contactUs = function(id, opt) {
+        // console.log('contactus');
+        if (typeof opt.expand_email_address == 'undefined') {
+            opt.expand_email_address = false;
+        }
+
+        opt = loadOptions(opt);
+        // console.log(opt);
+        opt.destination_url = document.location.href.split('?')[0];
+        opt.contact_us = true;
+
+
+        if (!opt.locale) {
+            opt.locale = {};
+        }
+        if (!opt.locale.CONTACT_US || JSON.stringify(opt.locale.CONTACT_US) == '{}') {
+            opt.locale.CONTACT_US = Locale.CONTACT_US;
+        }
+        if (!opt.locale.REGISTER) {
+            opt.locale.REGISTER = {};
+        }
+        if (!opt.locale.INCOGNITO) {
+            opt.locale.INCOGNITO = {};
+        }
+        if (!opt.locale.LOGIN) {
+            opt.locale.LOGIN = {
+                CONTENT: ""
+            };
+        }
+        // opt.locale.LOGIN.TITLE = opt.locale.CONTACT_US.HEADER;
+        // opt.locale.REGISTER.TITLE = opt.locale.CONTACT_US.HEADER;
+        // opt.locale.INCOGNITO.TITLE = opt.locale.CONTACT_US.HEADER;
+        if (isVerifiedState()) {
+            let name = profile.first_name ? profile.first_name : "";
+            opt.locale.CONTACT_US.HEADER = lang.replace({
+                FIRST_NAME: name
+            }, opt.locale.CONTACT_US.SUB_HEADER)
+        }
+
+        if (!id) {
+            UI.contactUs(opt);
+        } else {
+            UI.contactUs(id, opt);
+        }
+    };
+    this.optIn = function(id, opt) {
+        opt = parsingUrl(opt);
+        opt = loadOptions(opt);
+        // opt.button_theme = 'round-icons';
+
+        opt.destination_url = document.location.href.split('?')[0];
+        opt.expand_email_address = true;
+        opt.opt_in = true;
+        if (!id) {
+            UI.optIn(opt);
+        } else {
+            UI.optIn(id, opt);
         }
     };
     this.signIn = function(id, opt) {
