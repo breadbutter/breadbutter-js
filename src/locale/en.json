@@ -6,9 +6,9 @@
     "HEADER_BACK_1": "Sign in for your best experience",
     "HEADER_BACK_2": "Welcome back to %APP_NAME%",
     "TEXT_1": "Sign in to continue",
-    "TEXT_2": "'Continue with' your trusted login method.<br/>We'll have you started in no time.",
-    "TEXT_3": "You will be redirected to authenticate with your chosen account. We don’t see your authentication method and your password remains safe. ",
-    "TEXT_3_2": "You will be redirected to authenticate with your chosen account. We don’t see your authentication method and your password remains safe. You may be asked to share your profile information, which will be stored securely. You can change your authentication method at any time.",
+    "TEXT_2": "'Continue with' your trusted login method.<br/>We'll get you going in no time.",
+    "TEXT_3": "You will be redirected to authenticate with your chosen account. We don’t see your password, only confirmation that you authenticated successfully and securely. ",
+    "TEXT_3_2": "You will be redirected to authenticate with your chosen account. We don’t see your password, only confirmation that you authenticated successfully and securely. You may be asked to share your profile information, which will be stored securely. You can change your authentication method at any time.",
     "MORE": "more>>"
   },
   "INCOGNITO": {
@@ -289,10 +289,10 @@
     "SUB_HEADER": "%FIRST_NAME%, how can we help?",
     "COLLAPSE": "Get in touch with us.",
     "BUTTON": "%FIRST_NAME%, send your message",
-    "MESSAGE_INPUT": "Enter your message here",
+    "MESSAGE_INPUT": "Let us know how we can help",
     "PHONE_NUMBER":  "Phone Number (optional)",
     "COMPANY_NAME": "Company Name (optional)",
     "SUCCESS":  "Thanks for reaching out, %FIRST_NAME%. We’ll get back to you as soon as possible.",
-    "ICON_NOTE": "Connect with us"
+    "ICON_NOTE": "Get in touch with a real person"
   }
 }

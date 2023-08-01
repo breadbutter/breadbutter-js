@@ -251,7 +251,6 @@ const triggerIdentityProvider = function (func, data, button) {
 };
 
 const trigger = function (e) {
-    // console.log('trigger');
     let name = e.currentTarget.getAttribute('name');
     let provider_id = e.currentTarget.getAttribute(
         'provider_id'
@@ -273,7 +272,6 @@ const trigger = function (e) {
 
 const triggerRegister = function (e) {
     //update for register
-    // console.log('triggerRegister');
     let name = e.currentTarget.getAttribute('name');
     let pin = e.currentTarget.pin;
     let email_address = e.currentTarget.email_address;

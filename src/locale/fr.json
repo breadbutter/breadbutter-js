@@ -37,7 +37,8 @@
     },
     "FORGOT_PASSWORD": {
         "TITLE": "Mot de passe oublié",
-        "CONTENT": "Saisissez l'adresse e-mail que vous avez enregistrée avec nous et nous vous enverrons des instructions pour réinitialiser votre mot de passe."
+        "CONTENT": "Saisissez l'adresse e-mail que vous avez enregistrée avec nous et nous vous enverrons des instructions pour réinitialiser votre mot de passe.",
+        "CONTENT_2": "Un message de réinitialisation de mot de passe a été envoyé à votre adresse e-mail. Veuillez cliquer sur le lien dans l'e-mail pour réinitialiser votre mot de passe. Si vous ne recevez pas de message de réinitialisation de mot de passe, veuillez vérifier votre dossier de spam."
     },
     "EXPIRE_PASSWORD": {
         "TITLE": "Modifier le mot de passe",
@@ -132,7 +133,11 @@
         "START_WITH_EMAIL_ADDRESS": "Commencez par saisir votre adresse e-mail ci-dessous",
 		"CONFIRM_PIN": "Confirmer le code PIN",
         "DE_IDENTIFY_ME": "Anonymisez-moi",
-        "SWITCH_DE_IDENTIFY": "Anonymiser une adresse e-mail différente ?"
+        "SWITCH_DE_IDENTIFY": "Anonymiser une adresse e-mail différente ?",
+        "RETURN_TO_LOGIN": "Retourner à la connexion",
+        "SUBMIT": "Soumettre",
+        "SIGN_OUT": "Se déconnecter",
+        "OR_CONTINUE_WITH_EMAIL_OPTIN": "ou"
     },
     "HOVER": {
         "EMAIL_MATCH": "Veuillez vous assurer que l'adresse e-mail que vous utilisez pour vous connecter est celle qui a été invitée à s'inscrire.",
@@ -219,7 +224,10 @@
             "TITLE": "Aucun fournisseur n'est activé",
             "MESSAGE": "Ce site Web n'a pas activé de fournisseurs d'identité ou d'authentification locale. Veuillez contacter l'administrateur du site Web pour plus d'informations.",
             "CONFIRM": "OK"
-        }
+        },
+        "MAGIC_LINK_REGISTRATION_DISABLED": {
+            "MESSAGE": "Les nouveaux utilisateurs ne peuvent pas s'inscrire avec le lien de connexion."
+          }
     },
     "RES_MAPPING": {
         "invalid_pin": "Veuillez vérifier que vous avez le bon code PIN.",
@@ -238,7 +246,8 @@
         "CONFIRMING": "Confirmation de l'authentification",
         "LOGGING_IN": "Connexion à votre compte",
         "CONFIRM_MESSAGE": "Nous avons envoyé un lien pour confirmer votre compte à l'adresse e-mail ci-dessus. Cliquez sur le lien afin de vous connecter.",
-        "FOCUS_MASK_TEXT": "Commencez par votre adresse e-mail ci-dessus"
+        "FOCUS_MASK_TEXT": "Commencez par votre adresse e-mail ci-dessus",
+        "LEAVE_MAGIC_LINK_OPT_IN": "Se connecter avec un fournisseur de confiance ou utiliser votre e-mail"
     },
 	"UI": {
         "LOGOUT": "Déconnexion",
@@ -248,7 +257,9 @@
         "SIGN_IN_TITLE": "Vous êtes actuellement connecté en tant que",
         "SIGN_OUT": "DÉCONNEXION",
 		"NEWSLETTER_THANK": "Merci %NAME%, vous êtes maintenant inscrit",
-        "NEWSLETTER_SUBSCRIBE": "S'inscrire"
+        "NEWSLETTER_SUBSCRIBE": "S'inscrire",
+        "NEWSLETTER_TITLE": "La lettre d'information BreadButter",
+        "NEWSLETTER_SUBTITLE": "Restez informé du beurre le plus doux, crémeux et riche, avec juste une touche de douceur, avec du pain doux, même couleur brun riche."
     },
     "TOC_PRIVACY": {
         "CONTENT_ALL": "En m'inscrivant, en me connectant ou en continuant, j'accepte les <a href='%TOC_LINK%' target='_blank'>conditions d'utilisation</a> et la <a href='%PRIVACY_LINK%' target='_blank'>politique de confidentialité</a> de %APP_NAME%",
@@ -262,5 +273,22 @@
         "TITLE_W_NAME": "Bienvenue chez %NAME%",
         "TITLE": "Bienvenue",
         "SUBTITLE": "Connectez-vous ou créez votre compte gratuitement pour continuer à lire."
-    }
+    },
+    "CUSTOM_DATA": {
+		"HEADER": "Merci de vous être inscrit",
+		"SUB_HEADER": "Nous avons quelques questions à vous poser",
+		"SUBMIT": "Soumettre",
+		"MANDATORY": "Ce champ est obligatoire."
+	},
+	"CONTACT_US": {
+		"HEADER": "Prenez contact",
+		"SUB_HEADER": "%FIRST_NAME%, comment pouvons-nous vous aider?",
+		"COLLAPSE": "Prenez contact avec nous.",
+		"BUTTON": "%FIRST_NAME%, envoyez votre message",
+		"MESSAGE_INPUT": "Faites-nous savoir comment nous pouvons vous aider",
+		"PHONE_NUMBER": "Numéro de téléphone (facultatif)",
+		"COMPANY_NAME": "Nom de l'entreprise (facultatif)",
+		"SUCCESS": "Merci de nous contacter, %FIRST_NAME%. Nous vous répondrons dès que possible.",
+		"ICON_NOTE": "Prenez contact avec une vraie personne"
+	}
 }

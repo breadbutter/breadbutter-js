@@ -17,5 +17,7 @@
   "DEV_NO_DISCOVERY": false,
   "DEV_PENDING_ON": false,
   "DEV_PENDING_OFF": false,
-  "DEV_RESPONSE": false
+  "DEV_RESPONSE": false,
+  "DEV_NO_PRIVACY_LINK": false,
+  "DEV_NO_TOC_LINK": false
 }

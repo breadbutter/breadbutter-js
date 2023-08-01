@@ -1498,6 +1498,7 @@
 
             display: flex;
             flex-direction: column;
+            max-height: none !important;
 
             > :not(.breadbutter-contactus) {
                 //display: none;
@@ -1772,4 +1773,28 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+
+.breadbutter-popup.bb-mobile-device {
+    .bb-button-mask {
+        display: none;
+    }
+    .bb-mobile-collapse {
+        .breadbutter-buttons-holder.bb-tile {
+            .breadbutter-buttons.bb-tile {
+                > div:not(.first) {
+                    display: none;
+                }
+            }
+            .bb-button-mask {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1000;
+            }
+        }
+    }
 }

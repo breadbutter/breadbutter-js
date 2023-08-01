@@ -159,10 +159,6 @@ const getContinueWithSignInWidget = function(profile, suggested) {
     let widget = document.createElement('div');
     widget.classList.add('breadbutter-ui-continue-with-container');
     widget.innerHTML = `
-        <!--<div class="breadbutter-ui-profile-widget">
-            <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
-            <div class="breadbutter-ui-profile-avatar-x">${getCloseIcon()}</div>
-        </div>-->
         <div class="breadbutter-ui-profile-widget">
             <div class="breadbutter-ui-profile-avatar" ${avatar_style}>${default_avatar}</div>
             <div class="breadbutter-ui-profile-avatar-x">${getCloseIcon()}</div>

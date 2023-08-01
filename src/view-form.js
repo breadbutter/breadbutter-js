@@ -239,7 +239,8 @@ import {
     DEV_NO_INVITE, DEV_RESET_REQUEST,
     DEV_NEED_DISCOVERY, DEV_NO_DISCOVERY,
     DEV_PENDING_ON, DEV_PENDING_OFF,
-    DEV_RESPONSE
+    DEV_RESPONSE, DEV_NO_PRIVACY_LINK,
+    DEV_NO_TOC_LINK
 } from './dev.json';
 
 const VIEWFORM = function() {
@@ -343,6 +344,16 @@ const VIEWFORM = function() {
             if (DEV_PENDING_OFF) {
                 if (res.user_profile) {
                     res.user_profile.pending_pin_confirmation = false;
+                }
+            }
+            if(DEV_NO_PRIVACY_LINK) {
+                if (res.settings.privacy_policy_url) {
+                    res.settings.privacy_policy_url = false;
+                }
+            }
+            if (DEV_NO_TOC_LINK) {
+                if (res.settings.terms_and_conditions_url) {
+                    res.settings.terms_and_conditions_url = false;
                 }
             }
 
@@ -683,7 +694,7 @@ const VIEWFORM = function() {
     const getClientSettings = function(email, cb) {
         api.getClientSettings(email, function(res) {
             // loader.remove();
-            // console.log('getClientSettings');
+            // logger.debug('getClientSettings');
             if (res) {
                 res = applyDev(res);
                 updateProfileData(res);
@@ -993,7 +1004,7 @@ const VIEWFORM = function() {
                     return;
                 }
 
-                // console.log(profile);
+                // logger.debug(profile);
                 // profile.pending_pin_confirmation = true;
                 // suggested = false;
                 if (profile &&
@@ -1058,8 +1069,15 @@ const VIEWFORM = function() {
         });
     }
 
+    let onFocus = false;
+    let onToggleMobile = false;
     const addForm = function(id, options) {
-
+        if (typeof options.onFocus == 'function') {
+            onFocus = options.onFocus;
+        }
+        if (typeof options.onToggleMobile == 'function') {
+            onToggleMobile = options.onToggleMobile;
+        }
         loadOptions(options);
         checkProviders((res) => {
             options.email_address = getLocalEmail(options.email_address);
@@ -1123,7 +1141,7 @@ const VIEWFORM = function() {
     }
 
     const deIdentification = function(id, options) {
-        // //console.log('deIdentification');
+        // //logger.debug('deIdentification');
         options.adjustHeader(false);
 
         loadOptions(options);
@@ -1359,7 +1377,7 @@ const VIEWFORM = function() {
     }
 
     const insertSwitchLogin = function(top, skip, registering, basic) {
-        //console.log('insert switch login');
+        //logger.debug('insert switch login');
         loading = false;
         removeChild(top, SWITCH_HOLDER_ID);
         removeChild(top, MODULE_SPACER);
@@ -1393,7 +1411,7 @@ const VIEWFORM = function() {
     };
 
     const insertMoreInformation = function(top, registering, basic) {
-        //console.log('insertMoreInformation');
+        //logger.debug('insertMoreInformation');
         logger.debug('insertMoreInformation')
         if (OPT_IN && MAGIC_LINK_REGISTRATION_ENABLED) {
             if (!basic || LOCAL_LOGIN_ENABLED) {
@@ -1559,7 +1577,7 @@ const VIEWFORM = function() {
 
     const insertMagicLinkButtonDeIdentification = function(top) {
         //MODULE_MAGIC_LINK
-        // //console.log('insertMagicLinkButtonDeIdentification');
+        // //logger.debug('insertMagicLinkButtonDeIdentification');
         removeChild(top, MODULE_MAGIC_LINK);
         if (MAGIC_LINK_ENABLED) {
             let holder = view.addView(MODULE_MAGIC_LINK);
@@ -2061,12 +2079,28 @@ const VIEWFORM = function() {
         b.addEventListener('focus', function(e) {
             e.stopPropagation();
             this.classList.add('focus');
+            if (typeof onFocus == 'function') {
+                onFocus(true);
+            }
         });
         b.addEventListener('blur', function(e) {
-
             e.stopPropagation();
             this.classList.remove('focus');
+            if (typeof onFocus == 'function') {
+                onFocus(false);
+            }
         });
+        function outputsize() {
+            if (b.offsetWidth != 0 && b.offsetHeight != 0) {
+                setTimeout(()=> {
+                    b.focus();
+                    b.blur();
+                }, 10);
+            }
+        }
+        outputsize()
+
+        new ResizeObserver(outputsize).observe(b);
         return b;
     };
 
@@ -2193,10 +2227,9 @@ const VIEWFORM = function() {
     };
 
     const insertPoweredByModule = function(top) {
-        if (OPT_IN) {
-            removeChild(top, MODULE_POWEREDBY)
-            top.appendChild(getPoweredByModule());
-        }
+        logger.debug('insert poweredby');
+        removeChild(top, MODULE_POWEREDBY)
+        top.appendChild(getPoweredByModule());
     };
 
     const getHeaderModule = function(title, content) {
@@ -2299,7 +2332,7 @@ const VIEWFORM = function() {
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_OR));
         div.appendChild(getText(Locale.NEW_CODE.CONTENT));
         let button = getText(Locale.NEW_CODE.BUTTON, 'link');
-        // //console.log(div.innerHTML);
+        // //logger.debug(div.innerHTML);
         div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
         // div.appendChild(button);
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
@@ -2314,7 +2347,7 @@ const VIEWFORM = function() {
         // div.classList.add('new_code');
         div.appendChild(getText(Locale.DE_IDENTIFICATION.GET_NEW_PIN));
         let button = getText(Locale.DE_IDENTIFICATION.NEW_PIN_BUTTON, 'link');
-        // //console.log(div.innerHTML);
+        // //logger.debug(div.innerHTML);
         div.innerHTML = div.innerHTML.replace('%BUTTON%', button.outerHTML);
         // div.appendChild(button);
         // div.appendChild(getText(Locale.NEW_CODE.CONTENT_3));
@@ -2539,7 +2572,7 @@ const VIEWFORM = function() {
         const top = holder.parentElement;
         const callback = async function(res) {
             removeLocalEmail();
-            // //console.log(res);
+            // //logger.debug(res);
             if (res && res.authentication_token) {
                 if (auth_type == AUTH_TYPE.MAGIC_LINK) {
                     await loader.success_hold();
@@ -2560,7 +2593,7 @@ const VIEWFORM = function() {
         };
         if (auth_type == AUTH_TYPE.MAGIC_LINK) {
             loader.start(holder);
-            // //console.log(auth_type);
+            // //logger.debug(auth_type);
         }
         api.startDeIdentification({
             email_address, auth_type, provider, user, options, callback
@@ -2571,7 +2604,7 @@ const VIEWFORM = function() {
         const email_input = findChild(holder, FORM.EMAIL);
         const top = holder.parentElement;
         let email = email_input.email ? email_input.email : email_input.value;
-        // //console.log(email_address);
+        // //logger.debug(email_address);
 
         let alert = false;
 
@@ -2607,7 +2640,7 @@ const VIEWFORM = function() {
     }
 
     const continueDeIdentifyPin = function(holder) {
-        // //console.log(holder);
+        // //logger.debug(holder);
         let top = holder.parentElement;
         const form = findChild(holder, DEIDENTIFY_FORM_ID);
         const pin = findChild(form, FORM.TOKEN_PIN);
@@ -2622,7 +2655,7 @@ const VIEWFORM = function() {
             email_address: email,
             pin: value,
         };
-        // //console.log(values);
+        // //logger.debug(values);
 
         let pass = true;
         let alert = false;
@@ -2699,7 +2732,7 @@ const VIEWFORM = function() {
     const deIdentificationMagicLink = function(holder) {
         const email_input = findChild(holder, FORM.EMAIL);
         let email = email_input.email ? email_input.email : email_input.value;
-        // //console.log(email);
+        // //logger.debug(email);
         startDeIdentification(holder, {
             email_address: email,
             auth_type: AUTH_TYPE.MAGIC_LINK
@@ -2754,7 +2787,7 @@ const VIEWFORM = function() {
     };
 
     const deIdentificationEmailProvider = function(holder, response) {
-        // //console.log('deIdentificationEmailProvider');
+        // //logger.debug('deIdentificationEmailProvider');
         holder.innerHTML = ""; //clean out existing, proceed to process emaill and handling;
         let {
             list,
@@ -2766,7 +2799,7 @@ const VIEWFORM = function() {
         } = processProviders(response);
         let email_address = response.user_profile.email_address;
         if (suggested == 'local') {
-            // //console.log('local');
+            // //logger.debug('local');
             holder.appendChild(getEmail(email_address, true));
             holder.appendChild(
                 getPasswordModule(triggerDeIdentificationPasswordKeyup, Locale.PLACEHOLDER.PASSWD)
@@ -2779,7 +2812,7 @@ const VIEWFORM = function() {
                 )
             );
         } else {
-            // //console.log('sso');
+            // //logger.debug('sso');
             if (response.user_profile && api_suggested_list.length) {
                 if (response.user_profile.profile_image_url) {
                     suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
@@ -2994,7 +3027,7 @@ const VIEWFORM = function() {
 
     const contactUsForm = function(top, options, res) {
 
-        // console.log(res);
+        // logger.debug(res);
         let verified = isVerifiedState();
 
         if (!verified) {
@@ -3006,9 +3039,9 @@ const VIEWFORM = function() {
                 localStorage.removeItem('breadbutter-start-contact-sign-in-'+btoa(document.location.pathname));
             }
         }
-        //console.log(verified);
-        // console.log(top);
-        //console.log(options);
+        //logger.debug(verified);
+        // logger.debug(top);
+        //logger.debug(options);
         // formEntry(CONFIRM_FORM);
         let container = view.addView(CONTACTUS_ID);
 
@@ -3328,8 +3361,8 @@ const VIEWFORM = function() {
     };
 
     const highlightEmailFormMagicLink = function(container) {
-        // //console.log('highlightEmailFormMagicLink');
-        // //console.log(container);
+        // //logger.debug('highlightEmailFormMagicLink');
+        // //logger.debug(container);
         let ml_module = findChild(container, MODULE_MAGIC_LINK);
         if (ml_module) {
             ml_module.classList.add('bb-blur');
@@ -3338,9 +3371,9 @@ const VIEWFORM = function() {
 
     let highlightOn = false;
     const highlightEmailForm = function(container, button_holder, on) {
-        // //console.log('highlightEmailForm');
-        // //console.log(container);
-        // //console.log(button_holder);
+        // //logger.debug('highlightEmailForm');
+        // //logger.debug(container);
+        // //logger.debug(button_holder);
         let email_module = findChild(container, MODULE_EMAIL_DISCOVERY);
         let height = email_module.offsetHeight;
         let magic_link_module = findChild(container, MODULE_MAGIC_LINK);
@@ -3350,7 +3383,7 @@ const VIEWFORM = function() {
 
         height = container.offsetHeight - button_holder.offsetHeight;
 
-        // console.log(highlightEmailForm);
+        // logger.debug(highlightEmailForm);
         if (on) {
             highlightOn = true;
             let onBlur = triggerOnBlur(container, height);
@@ -3394,8 +3427,8 @@ const VIEWFORM = function() {
                 container.prepend(getHeaderModule(Locale.INCOGNITO.TITLE));
             }
             let buttons = findChild(button_holder, BUTTON_ID);
-            // //console.log(button_holder);
-            // //console.log(buttons);
+            // //logger.debug(button_holder);
+            // //logger.debug(buttons);
             for (let i = 0; buttons.children && i < buttons.children.length; i++) {
                 buttons.children[i].onclick = function() {
                     highlightEmailForm(container, button_holder, true);
@@ -3447,7 +3480,7 @@ const VIEWFORM = function() {
     };
 
     const forgotForm = function(email_address) {
-        //console.log('forgotForm');
+        //logger.debug('forgotForm');
         let container = view.addView(FORGOT_ID);
         let container1 = view.addView(FORGOT_FORM_ID);
         let container2 = view.addView(FORGOT_BUTTON_ID);
@@ -3503,7 +3536,7 @@ const VIEWFORM = function() {
         let icon = e.target;
         let holder = findParents(icon, UI_ID);
         if (holder && holder.parentElement) {
-            // //console.log('expandingIcons');
+            // //logger.debug('expandingIcons');
             holder.parentElement.classList.remove('scrolling');
             showMoreIDP(holder);
             setTimeout(function() {
@@ -3513,7 +3546,7 @@ const VIEWFORM = function() {
     };
 
     const getContinueWith = function(res, top, incognito) {
-        //console.log('getContinueWith');
+        //logger.debug('getContinueWith');
         let list = [];
         let continue_with_count = 0;
         if (res && res.providers) {
@@ -3555,6 +3588,11 @@ const VIEWFORM = function() {
             if (theme !== 'tiles') {
                 let contin = getParagraph(Locale.BUTTON.CONTINUE_WITH);
                 button_holder.prepend(contin);
+            }
+            if (theme == 'tiles' && incognito && isMobile) {
+                let mask_holder = view.addView('bb-button-mask');
+                mask_holder.onclick = onToggleMobile;
+                button_holder.append(mask_holder);
             }
             let {container, error, theme_class} = viewButton.getButtonLists(list, opt);
             if (theme_class) {
@@ -3618,7 +3656,7 @@ const VIEWFORM = function() {
 
         let magic_link = res && res.settings && res.settings.magic_link_settings && res.settings.magic_link_settings.enabled;
         // res.providers = res.providers.concat(res.providers).slice(0, 15);
-        //console.log('counts');
+        //logger.debug('counts');
         let {list, button_holder} = getContinueWith(res, top, true);
 
         if (res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled) {
@@ -3626,7 +3664,7 @@ const VIEWFORM = function() {
         }
 
 
-        // console.log(local);
+        // logger.debug(local);
         if (magic_link || local) {
             let form_holder = incognitoEmailForm(email_address);
             top.appendChild(form_holder);
@@ -3651,18 +3689,21 @@ const VIEWFORM = function() {
 
         if (isMobile && !CONTACT_US) {
             if (list.length > 5 || (list && local)) {
-                let d = button_holder.querySelector('.breadbutter-provider-limit');
-                if (!d) {
-                    d = getArrowDown();
-                    button_holder.append(d);
-                }
-                top.classList.add('bb-mobile-collapse');
-                button_holder.classList.add('bb-limit-providers');
-                d.onclick = function() {
-                    top.classList.remove('bb-mobile-collapse');
-                    this.parentElement.classList.remove('bb-limit-providers');
-                    this.remove();
-                }
+                // if (!options.show_login_focus) {
+                    let d = button_holder.querySelector('.breadbutter-provider-limit');
+                    if (!d) {
+                        d = getArrowDown();
+                        button_holder.append(d);
+                    }
+                    // console.log(options);
+                    top.classList.add('bb-mobile-collapse');
+                    button_holder.classList.add('bb-limit-providers');
+                    d.onclick = function() {
+                        top.classList.remove('bb-mobile-collapse');
+                        this.parentElement.classList.remove('bb-limit-providers');
+                        this.remove();
+                    }
+                // }
             }
         }
 
@@ -3843,7 +3884,7 @@ const VIEWFORM = function() {
         const top = holder.parentElement;
         const button_holder = findChild(top, FORGOT_BUTTON_ID);
         let email = email_input.email ? email_input.email : email_input.value;
-        // //console.log(email_address);
+        // //logger.debug(email_address);
 
         let pass = true;
         let alert = false;
@@ -3854,7 +3895,7 @@ const VIEWFORM = function() {
             insertError(email_input, alert.MESSAGE);
         }
         const callback = async function() {
-            //console.log('testing');
+            //logger.debug('testing');
             await loader.success();
             loading = false;
             const forgot_holder = holder.parentElement;
@@ -3880,7 +3921,7 @@ const VIEWFORM = function() {
             email_address: email,
             password: password_input.value,
         };
-        // //console.log(values);
+        // //logger.debug(values);
 
         let pass = true;
         let top = holder.parentElement;
@@ -3906,7 +3947,7 @@ const VIEWFORM = function() {
             values = view.applyData(top, values);
 
             document.activeElement.blur();
-            // //console.log('loading...');
+            // //logger.debug('loading...');
             api.loginWithPassword(values, async function(res) {
                 if (res && res.authentication_token) {
                     await loader.success_hold();
@@ -4607,7 +4648,7 @@ const VIEWFORM = function() {
     };
 
     const triggerSwitchLogin = function(e) {
-        //console.log('triggerSwitchLogin');
+        //logger.debug('triggerSwitchLogin');
         if (loading) return;
         const button = e.currentTarget;
         removeLocalEmail();
@@ -4694,7 +4735,7 @@ const VIEWFORM = function() {
     };
 
     const triggerIncognitoMoreOptions = function(button, holder) {
-        // //console.log('triggerIncognitoMoreOptions');
+        // //logger.debug('triggerIncognitoMoreOptions');
         if (holder.classList.contains('less-content')) {
             holder.classList.remove('less-content');
             showMoreIDP(holder.parentElement);
@@ -4871,9 +4912,9 @@ const VIEWFORM = function() {
 
             // let top = bounding.top;
             // let gap = popup.style.bottom ? bounding.bottom : popup.offsetTop;
-            //console.log(gap);
-            //console.log(window.innerHeight);
-            //console.log(count);
+            //logger.debug(gap);
+            //logger.debug(window.innerHeight);
+            //logger.debug(count);
             let button_height = 46;
             if (register) {
                 let height = 736;
@@ -4884,14 +4925,21 @@ const VIEWFORM = function() {
                 let header = 50;
                 let bottom = 175;
                 let padding = 50;
-                //console.log((window.innerHeight * 0.9 - header - (count * height) - bottom - padding - gap));
+                //logger.debug((window.innerHeight * 0.9 - header - (count * height) - bottom - padding - gap));
                 if ((window.innerHeight - header - (count * button_height) - bottom - padding - gap) <= 0) {
+                    out_side = true;
+                }
+            }
+
+            if (isMobile) {
+                out_side = false;
+                if (window.innerHeight - (count * button_height) < 0) {
                     out_side = true;
                 }
             }
         }
         // out_side = false;
-        // console.log(popup);
+        // logger.debug(popup);
         return out_side;
     }
 
@@ -4914,9 +4962,9 @@ const VIEWFORM = function() {
         let theme = OPTS.button_theme;
 
         // let overflow = false;
-        // //console.log(top);
+        // //logger.debug(top);
         let continue_with_count = list.length;
-        // //console.log(gap);
+        // //logger.debug(gap);
         if ((window.innerHeight - (continue_with_count * 46) - 500) <= 0) {
             theme = 'round-icons';
         }
@@ -5083,7 +5131,7 @@ const VIEWFORM = function() {
     };
 
     const goLogin = function(holder, response) {
-        // console.log('goLogin');
+        // logger.debug('goLogin');
         formEntry(LOGIN_FORM);
         showPopupTitle(holder, false);
         triggerOnLogin(holder, response);
@@ -5133,14 +5181,14 @@ const VIEWFORM = function() {
             email_address: email_address,
         };
 
-        // console.log(list)
+        // logger.debug(list)
         if (list) {
             showPopupTitle(top, true);
             triggerOnLogin(top, response);
             let button_holder = view.addView(BUTTON_HOLDER_ID);
             button_holder.classList.add(FORM.LOGIN_PROVIDER);
-            // //console.log(response);
-            // //console.log(suggested_list);
+            // //logger.debug(response);
+            // //logger.debug(suggested_list);
             if (response.user_profile && suggested_list.length) {
                 if (response.user_profile.profile_image_url) {
                     suggested_list[0].profile_image_url = response.user_profile.profile_image_url;
@@ -5319,7 +5367,7 @@ const VIEWFORM = function() {
             list = false;
         }
 
-        // //console.log({
+        // //logger.debug({
         //     list,
         //     suggested_list,
         //     suggested,
@@ -5343,7 +5391,7 @@ const VIEWFORM = function() {
 
     const showPopupTitle = function(container, show) {
         let adjustHeader = view.getData(container, 'adjustHeader');
-        // console.log(adjustHeader);
+        // logger.debug(adjustHeader);
         if (typeof adjustHeader == 'function') {
             adjustHeader(show);
         }
@@ -5357,9 +5405,9 @@ const VIEWFORM = function() {
     }
 
     const addPopupEvent = function(container, event, func) {
-        // //console.log(container);
+        // //logger.debug(container);
         let addEvent = view.getData(container, 'addEvent');
-        // //console.log(addEvent);
+        // //logger.debug(addEvent);
         if (typeof addEvent == 'function') {
             addEvent(event, func);
         }
@@ -5376,7 +5424,7 @@ const VIEWFORM = function() {
 
     const isContinueWith = function(container) {
         let isContinueWith = view.getData(container, 'isContinueWith');
-        //console.log(isContinueWith);
+        //logger.debug(isContinueWith);
         return isContinueWith;
     }
 

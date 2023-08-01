@@ -5,6 +5,7 @@ const POPUP_HOLDER_ID = 'breadbutter-popup-holder';
 const POPUP_HEADER_ID = 'breadbutter-popup-header';
 const POPUP_WRAPPER_ID = 'breadbutter-popup-wrapper';
 
+const TRANSPARENT_MASK_ID = 'breadbutter-mask-transparent';
 const MASK_HOLDER_ID = 'breadbutter-mask';
 
 const ARROW_HOLDER_ID = 'breadbutter-floating-arrow-holder';
@@ -227,18 +228,21 @@ const VIEWPOPUP = function() {
     };
     let SKIP_SCROLLING = false;
 
+    let VIEW_OPTIONS = false;
     const createView = function(options) {
         // console.log(options);
         options.onProvider = triggerProvider;
         options.onFormEntry = triggerFormEntry;
         if (isMobile) {
-            options.button_theme = 'round-icons';
+            // options.button_theme = 'round-icons';
         }
         options.onLogin = triggerLogin;
         options.onBlur = triggerBlur;
         options.adjustHeader = triggerAdjustHeader;
         options.addEvent = addEvent;
         options.forceQuit = triggerClosePopup;
+        options.onFocus = triggerFocus;
+        options.onToggleMobile = triggerToggleMobile;
         SKIP_SCROLLING = options.skipScrolling ? options.skipScrolling : false;
         options.isContinueWith = true;
         TRIGGER_EVENT = {};
@@ -344,9 +348,20 @@ const VIEWPOPUP = function() {
         }
 
         assignMask(options.locked);
-        popup.style.zIndex = view.getIndex();
+        popup.style.zIndex = view.getIndex()
+        VIEW_OPTIONS = options;
         return holder;
     };
+
+    const triggerFocus = function(focus) {
+        if (isMobile) {
+            if (focus) {
+                currentPopup.classList.add('bb-input-focusing');
+            } else {
+                currentPopup.classList.remove('bb-input-focusing');
+            }
+        }
+    }
 
     const triggerBlur = function(height) {
         // console.log('triggerBlur');
@@ -542,6 +557,14 @@ const VIEWPOPUP = function() {
             if (!DATA.hide_focus_text) {
                 assignTextLocation();
             }
+        } else if (isMobile){
+            closeMask();
+            // DATA.hide_on_focus = true;
+            currentMask = getMask(locked);
+            currentMask.classList.add(TRANSPARENT_MASK_ID);
+            currentMask.onclick = triggerCollapseMobile;
+            currentMask.style.zIndex = view.getIndex();
+            document.body.append(currentMask);
         }
     };
 
@@ -840,8 +863,59 @@ const VIEWPOPUP = function() {
 
     };
 
+    const triggerCollapseMobile = function(e) {
+        let holder = currentPopup.querySelector('.' + POPUP_HOLDER_ID);
+        let mobileCollapsed = holder.querySelector('.bb-mobile-collapse');
+        let limitCollapsed = holder.querySelector('.bb-limit-providers');
+
+
+        // get the height of the element's inner content, regardless of its actual size
+        let sectionHeight = currentPopup.offsetHeight;
+
+        // temporarily disable all css transitions
+        let elementTransition = currentPopup.style.transition;
+        currentPopup.style.transition = '';
+
+        // on the next frame (as soon as the previous style change has taken effect),
+        // explicitly set the element's height to its current pixel height, so we
+        // aren't transitioning out of 'auto'
+        requestAnimationFrame(function() {
+            currentPopup.style.height = sectionHeight + 'px';
+            currentPopup.style.transition = elementTransition;
+
+            // on the next frame (as soon as the previous style change has taken effect),
+            // have the element transition to height: 0
+            requestAnimationFrame(function() {
+                currentPopup.style.height = 30 + 'px';
+            });
+        });
+
+
+        currentPopup.setAttribute('transitioning', 'true');
+        setTimeout(function() {
+            currentPopup.setAttribute('transitioning', 'false');
+            currentPopup.classList.add('bb-mobile-collpase');
+
+            if (mobileCollapsed || limitCollapsed) {
+                if (mobileCollapsed) {
+                    mobileCollapsed.classList.remove('bb-mobile-collapse');
+                }
+                if (limitCollapsed) {
+                    limitCollapsed.classList.remove('bb-limit-providers');
+                }
+            }
+        }, 500);
+
+        // mark the section as "currently collapsed"
+
+        currentPopup.setAttribute('data-collapsed', 'true');
+
+    };
+
+
     const triggerToggleMobile = function(e) {
 
+        // console.log('triggerToggleMobile');
 
         let isCollapsed = currentPopup.getAttribute('data-collapsed') === 'true';
         let holder = currentPopup.querySelector('.' + POPUP_HOLDER_ID);
@@ -857,21 +931,34 @@ const VIEWPOPUP = function() {
             if (limitCollapsed) {
                 limitCollapsed.classList.remove('bb-limit-providers');
             }
+            if (VIEW_OPTIONS.button_theme == 'tiles') {
+                let text_wrapper = findChild(currentPopup, TEXT_HOLDER_ID);
+                if (text_wrapper) {
+                    text_wrapper.classList.add('bb-hide');
+                }
+            }
             expandProviders(currentPopup);
+            detectMobileEmailFocus();
         } else if (isCollapsed) {
-            expandSection(currentPopup)
+            expandSection(currentPopup);
             currentPopup.setAttribute('data-collapsed', 'false')
+            detectMobileEmailFocus();
         } else {
             collapseSection(currentPopup)
         }
-        // if (currentPopup.classList.contains('bb-mobile-collpase')) {
-        //     //collpase -> open
-        //     currentPopup.classList.remove('bb-mobile-collpase');
-        // } else {
-        //     //open -> collpase
-        //     currentPopup.classList.add('bb-mobile-collpase');
-        // }
     };
+
+    const detectMobileEmailFocus = function() {
+        if (isMobile) {
+            let email = currentPopup.querySelector('input.form-email');
+            if (email) {
+                setTimeout(() => {
+                    email.focus();
+                    email.blur();
+                }, 10);
+            }
+        }
+    }
 
     const getMask = function(locked) {
         let m = addView(MASK_HOLDER_ID);

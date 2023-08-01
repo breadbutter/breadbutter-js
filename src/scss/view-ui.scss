@@ -208,16 +208,29 @@
     }
   }
 }
+.bb-mobile {
+  .breadbutter-ui-newsletter-widget-container {
+    .breadbutter-ui-newsletter-dashboard {
+      .breadbutter-ui-newsletter-text {
+        padding: 0 10px;
+        text-align: center;
+        box-sizing: border-box;
+      }
+    }
+  }
 
+}
 .breadbutter-ui-continue-with-logged-in {
   position: fixed;
   z-index: 999;
+  margin-left: 20px;
 }
 
 .breadbutter-ui-continue-with-verified {
   display: none;
   position: fixed;
   z-index: 999;
+  margin-left: 20px;
   .breadbutter-ui-profile-widget {
     .breadbutter-ui-profile-avatar {
       //border: 3px solid #eef2f8 !important;
@@ -269,13 +282,16 @@
       margin-top: 25px;
       margin-left: 15px;
       margin-right: 15px;
+      text-align: center;
     }
     .breadbutter-ui-newsletter-subtitle {
       margin-left: 15px;
       margin-right: 15px;
+      text-align: center;
     }
     .breadbutter-ui-newsletter-holder {
       display: flex;
+      align-items: center;
     }
   }
   .breadbutter-ui-newsletter-widget-mask {

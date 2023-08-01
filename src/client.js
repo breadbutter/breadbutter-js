@@ -1919,6 +1919,37 @@ const ui = new (function() {
             });
         });
     };
+    this.profileWidget = function(options) {
+        if (!isProfileInit({
+            call: 'profileWidget',
+            params: [options]
+        }))
+            return;
+
+        if (isVerifiedState()) {
+            let field = viewUI.getContinueWithSignInHolder(options);
+            document.body.appendChild(field);
+            field.appendChild(viewUI.getContinueWithSignInWidget(profile, suggested_provider));
+            let content = field.querySelector('.breadbutter-ui-profile-widget-container');
+            if (content && content.getBoundingClientRect().x < 375) {
+                content.classList.add('breadbutter-ui-left-aligned-container');
+            }
+            const logout_button = field.querySelector('.breadbutter-ui-profile-dashboard-logout-button');
+            if (logout_button) {
+                logout_button.onclick = async function() {
+                    await API.resetDeviceVerification();
+                    let reload = true;
+                    if (typeof options.onLogout == 'function') {
+                        reload = options.onLogout();
+                    }
+                    if (reload) {
+                        window.location.reload();
+                    }
+                };
+            }
+        }
+
+    };
     this.continueWith = function(options) {
         if (!isProfileInit({
             call: 'continueWith',
@@ -1931,10 +1962,11 @@ const ui = new (function() {
 
         options = {
             hide_verified: true,
-            show_logged_in_profile: true,
+            show_logged_in_profile: false,
             ...options
         };
         applyOptions(options, 'show_login_focus');
+        applyOptions(options, 'continue_with_position');
 
         options = parsingUrl(options);
         
@@ -2248,7 +2280,7 @@ const ui = new (function() {
             let opt = {
                 ...options
             };
-            opt.button_theme = 'round-icons';
+            // opt.button_theme = 'round-icons';
             opt.success_event_code = options.custom_event_code;
             opt.destination_url = document.location.href.split('?')[0];
             widgets.signIn(result.index, opt);
@@ -2355,6 +2387,8 @@ const widgets = new (function() {
         }
         if (!opt.locale.CONTACT_US || JSON.stringify(opt.locale.CONTACT_US) == '{}') {
             opt.locale.CONTACT_US = Locale.CONTACT_US;
+        } else {
+            opt.locale.CONTACT_US = Object.assign(Locale.CONTACT_US, opt.locale.CONTACT_US);
         }
         if (!opt.locale.REGISTER) {
             opt.locale.REGISTER = {};
