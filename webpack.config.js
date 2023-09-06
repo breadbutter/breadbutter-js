@@ -9,18 +9,6 @@ module.exports = {
 
     module: {
         rules: [
-            // {
-            //     test: /\.ttf$/,
-            //     use: [
-            //         'file-loader',
-            //         {
-            //             loader: 'ttf-loader',
-            //             options: {
-            //                 name: './fonts/[name].[ext]',
-            //             },
-            //         },
-            //     ]
-            // },
             {
                 test: /\.s[ac]ss$/i,
                 use: [
@@ -32,18 +20,6 @@ module.exports = {
                     'sass-loader',
                 ],
             },
-            // {
-            //     test: /\.ttf$/,
-            //     use: [
-            //         'file-loader',
-            //         {
-            //             loader: 'ttf-loader',
-            //             options: {
-            //                 name: './font/[name].[ext]',
-            //             },
-            //         },
-            //     ]
-            // },
             {
                 test: /\.(woff(2)?|ttf|otf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
@@ -57,13 +33,6 @@ module.exports = {
                     },
                 ],
             },
-            // {
-            //     test: /\.(ttf|otf)(\?v=\d+\.\d+\.\d+)?$/,
-            //     // use: [{
-            //     //     loader: 'file-loader', options: {esModule: false}
-            //     // }]
-            //     loader: "url-loader?limit=10000&mimetype=application/octet-stream&name=./fonts/[name].[ext]"
-            // }
         ],
     },
     devServer: {

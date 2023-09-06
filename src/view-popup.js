@@ -970,14 +970,7 @@ const VIEWPOPUP = function() {
     }
 
     const getCloseIconSvg = function() {
-        return `
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
-<g>
-<path class="st0" d="M27.26,15.54l-4.36,4.46l4.36,4.46c0.8,0.82,0.8,2.15,0,2.97c-0.8,0.82-2.1,0.82-2.9,0L20,22.97l-4.36,4.46
-c-0.8,0.82-2.1,0.82-2.9,0c-0.8-0.82-0.8-2.15,0-2.97l0,0L17.1,20l-4.36-4.46c-0.8-0.82-0.8-2.15,0-2.97c0.8-0.82,2.1-0.82,2.9,0
-L20,17.03l4.36-4.46c0.8-0.82,2.1-0.82,2.9,0C28.06,13.39,28.06,14.72,27.26,15.54L27.26,15.54z"/>
-</g>
-</svg>`;
+        return view.getCloseIconSvg();
     };
 
     const cleanChild = function(holder) {
@@ -1055,6 +1048,7 @@ L20,17.03l4.36-4.46c0.8-0.82,2.1-0.82,2.9,0C28.06,13.39,28.06,14.72,27.26,15.54L
     this.addContactUs = addContactUs;
     this.deIdentification = deIdentification;
     this.init = init;
+    this.close = closeForm;
 };
 
 export default VIEWPOPUP;

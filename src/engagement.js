@@ -12,6 +12,7 @@ const TIMER_TIMEOUT = 10000;
 let timer_count = 0;
 let timer_timeout_durations = [1, 1, 1, 2, 2, 5, 5, 5]
 let ga_data = false;
+let segment_anonymous_id = false;
 
 const FOCUS_TIMER = 10000;
 const FOCUS_DURATION = 60000;
@@ -126,7 +127,7 @@ const hasContent = function() {
         // console.log('clean focus timer');
         focus_time = false;
     }
-    return c || ga_data;
+    return c || ga_data || segment_anonymous_id;
 }
 
 const sendContent = function() {
@@ -156,6 +157,10 @@ const getContent = function() {
 
     if (ga_data !== false) {
         obj.ga_data = ga_data;
+    }
+
+    if (segment_anonymous_id !== false) {
+        obj.segment_anonymous_id = segment_anonymous_id;
     }
 
     let focusing = (now - focus_counter) < FOCUS_DURATION;
@@ -194,6 +199,10 @@ const resetContent = function() {
     if (ga_data !== false && (Date.now() - 1000) > ga_data_timer) {
         ga_data_timer = false;
         ga_data = false;
+    }
+    if (segment_anonymous_id !== false && (Date.now() - 1000) > segment_timer) {
+        segment_timer = false;
+        segment_anonymous_id = false;
     }
     delete content.st;
 };
@@ -237,13 +246,30 @@ const getGAdata = function() {
     }
 };
 
+const getSegment = async () => {
+    try {
+        const results = analytics && await analytics.identify();
+        const anonymousId = results && results.event && results.event.anonymousId || false;
+        if (anonymousId) {
+            segment_anonymous_id = anonymousId;
+            segment_timer = Date.now();
+        }
+    } catch (e) {
+
+    }
+};
+
 let ga_data_timer = false;
+let segment_timer = false;
 
 const startTimer = function() {
     if (!ctime) {
         resetContent();
         if (WAIT_FOR_GA || (NO_GA && timer_count < 4)) {
             getGAdata();
+        }
+        if (WAIT_SEGMENT && timer_count < 4) {
+            getSegment();
         }
         ctime = Date.now();
         let time = TIMER_TIMEOUT;
@@ -259,10 +285,12 @@ const startTimer = function() {
 }
 let WAIT_FOR_GA = false;
 let NO_GA = false;
+let WAIT_SEGMENT = false;
 
-const initialize = function(events, wait_for_ga, no_ga) {
+const initialize = function(events, wait_for_ga, no_ga, wait_segment) {
     WAIT_FOR_GA = wait_for_ga;
     NO_GA = no_ga;
+    WAIT_SEGMENT = wait_segment;
     if (!EVENTS) {
         EVENTS = events;
         document.addEventListener('mousemove', handleMouseMove);

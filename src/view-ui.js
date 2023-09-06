@@ -406,14 +406,7 @@ const getNewsletterWidget = function({ image_source, header_text, main_text, suc
 }
 
 const getCloseIcon = () => {
-    return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
-<g>
-<path className="st0" d="M27.26,15.54l-4.36,4.46l4.36,4.46c0.8,0.82,0.8,2.15,0,2.97c-0.8,0.82-2.1,0.82-2.9,0L20,22.97l-4.36,4.46
-c-0.8,0.82-2.1,0.82-2.9,0c-0.8-0.82-0.8-2.15,0-2.97l0,0L17.1,20l-4.36-4.46c-0.8-0.82-0.8-2.15,0-2.97c0.8-0.82,2.1-0.82,2.9,0
-L20,17.03l4.36-4.46c0.8-0.82,2.1-0.82,2.9,0C28.06,13.39,28.06,14.72,27.26,15.54L27.26,15.54z"></path>
-</g>
-</svg>`;
+    return view.getCloseIconSvg();
 }
 
 const CACHE_STORAGE = {
@@ -460,7 +453,9 @@ const getContentGatingCoverPage = (options) => {
     let holder = "breadbutter-ui-content-gating-content-holder";
     let popup = document.createElement('div');
     popup.classList.add('breadbutter-ui-content-gating-popup');
-
+    if (options && options.clickable_content) {
+        popup.classList.add('bb-clickable-content');
+    }
     let locale = lang.getLocale(options.language, options.locale);
 
     let title = options.app_name && options.app_name.length ? locale.CONTENT_GATING.TITLE_W_NAME.replace(/%NAME%/ig, options.app_name) : locale.CONTENT_GATING.TITLE;
@@ -491,6 +486,54 @@ const getContentGatingCoverPage = (options) => {
 
     more_content.appendChild(text_3);
     more_content.appendChild(more_button);
+
+    if (options && options.fixed_height) {
+        let fixed_h = options.fixed_height;
+        if (!isNaN(fixed_h) && fixed_h >= 0 && fixed_h <= 100) {
+            let gating_h = popup.querySelector('.breadbutter-ui-content-gating-holder');
+            gating_h.style.height = fixed_h + '%';
+            gating_h.style.minHeight = fixed_h + '%';
+            gating_h.style.maxHeight = fixed_h + '%';
+            gating_h.scrollTop = 0;
+            let first_scroll = false;
+            gating_h.addEventListener('scroll', (event)=> {
+                if (!first_scroll) {
+                    first_scroll = true;
+                    gating_h.scrollTop = 0;
+                }
+            });
+        }
+    }
+    return popup;
+}
+
+
+const getContentGatingCenterPage = (options) => {
+    let holder = "breadbutter-ui-content-gating-content-holder";
+    let popup = document.createElement('div');
+    popup.classList.add('breadbutter-ui-content-gating-popup');
+    popup.classList.add('bb-content-gating-center');
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // true for mobile device
+        popup.classList.add('bb-mobile-device');
+    }
+
+    let locale = lang.getLocale(options.language, options.locale);
+
+    let title = locale.CONTENT_GATING.TITLE;
+    let html = `
+        <div class="breadbutter-ui-content-gating-background">
+        </div>
+        <div class="breadbutter-ui-content-gating-holder">
+           <div class="breadbutter-ui-content-gating-container">
+<!--                <div class="breadbutter-ui-content-gating-close">${getCloseIcon()}</div>-->
+                <div class="breadbutter-ui-content-gating-title">${title}</div>
+                <div class="breadbutter-ui-content-gating-content" id="${holder}"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    popup.innerHTML = html;
     return popup;
 }
 
@@ -633,6 +676,7 @@ export default {
     checkEventStorage,
     getViewedCode,
     getContentGatingCoverPage,
+    getContentGatingCenterPage,
     getContactUsIcon,
     getContactUsIconMessage
 };

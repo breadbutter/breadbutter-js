@@ -94,6 +94,9 @@ let device_verified = false;
 let content_preview = false;
 let limit_content_preview_timer = false;
 let access_content_preview = false;
+let content_gating = false;
+let limit_content_gating_timer = false;
+let access_content_gating = false;
 
 
 const configure = function(opt) {
@@ -272,14 +275,21 @@ const checkContentLimitPreviewLinks = () => {
     return limited_page;
 };
 
-const stopLimitCheck = ()=> {
-    window.removeEventListener('scroll', calculateScrollLimit, true);
+const stopLimitPreviewCheck = ()=> {
+    window.removeEventListener('scroll', calculateScrollLimitPreview, true);
     if (limit_content_preview_timer) {
         clearTimeout(limit_content_preview_timer);
     }
 };
+const stopLimitGatingCheck = ()=> {
+    window.removeEventListener('scroll', calculateScrollLimitGating, true);
+    if (limit_content_gating_timer) {
+        clearTimeout(limit_content_gating_timer);
+    }
+};
 
 let has_content_preview = false;
+let has_content_gating = false;
 
 const waitLimitContentPreview = ()=> {
     let opt = parsingUrl({});
@@ -293,7 +303,7 @@ const waitLimitContentPreview = ()=> {
         triggerContentPreview();
     } else {
         if (!isNaN(content_preview.scroll_limit)) {
-            window.addEventListener('scroll', calculateScrollLimit, true);
+            window.addEventListener('scroll', calculateScrollLimitPreview, true);
         }
         if (!isNaN(content_preview.time_limit)) {
             limit_content_preview_timer = setTimeout(() => {
@@ -303,8 +313,30 @@ const waitLimitContentPreview = ()=> {
     }
 };
 
-let accessLimitContentPreview = false;
+const waitLimitContentGating = ()=> {
+    let opt = parsingUrl({});
+    if (opt && opt.mode) {
+        triggerContentGating();
+        return;
+    }
 
+    has_content_gating = true;
+    if (isNaN(content_gating.scroll_limit) && isNaN(content_gating.time_limit)) {
+        triggerContentGating();
+    } else {
+        if (!isNaN(content_gating.scroll_limit)) {
+            window.addEventListener('scroll', calculateScrollLimitGating, true);
+        }
+        if (!isNaN(content_gating.time_limit)) {
+            limit_content_gating_timer = setTimeout(() => {
+                triggerContentGating();
+            }, Number(content_gating.time_limit) * 1000);
+        }
+    }
+};
+
+let accessLimitContentPreview = false;
+let accessLimitContentGating = false;
 const handleLimitContentPreview = () => {
     if (accessLimitContentPreview) {
         return;
@@ -317,18 +349,44 @@ const handleLimitContentPreview = () => {
     }
 };
 
+const handleLimitContentGating = () => {
+    if (accessLimitContentGating) {
+        return;
+    }
+    accessLimitContentGating = true;
+    if (!device_verified) {
+        if (content_gating) {
+            waitLimitContentGating();
+        }
+    }
+};
 
 
-const calculateScrollLimit = (event) => {
+
+const calculateScrollLimitPreview = (event) => {
     let windowHeight = window.innerHeight;
     let scrollMax = (event.target == document) ? document.body.scrollHeight : event.target.scrollHeight;
     let scrollArea = scrollMax - windowHeight;
     let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : (event.target == document ? window.scrollY : 0));
     if (scrollNow >= scrollArea * Number(content_preview.scroll_limit)) {
-        stopLimitCheck();
+        stopLimitPreviewCheck();
         if (!access_content_preview) {
             access_content_preview = true;
             triggerContentPreview();
+        }
+    }
+};
+
+const calculateScrollLimitGating = (event) => {
+    let windowHeight = window.innerHeight;
+    let scrollMax = (event.target == document) ? document.body.scrollHeight : event.target.scrollHeight;
+    let scrollArea = scrollMax - windowHeight;
+    let scrollNow = event.target.scrollTop ? event.target.scrollTop : (event.target.scrollingElement ? event.target.scrollingElement.scrollTop : (event.target == document ? window.scrollY : 0));
+    if (scrollNow >= scrollArea * Number(content_gating.scroll_limit)) {
+        stopLimitGatingCheck();
+        if (!access_content_gating) {
+            access_content_gating = true;
+            triggerContentGating();
         }
     }
 };
@@ -345,13 +403,21 @@ const removeAllPopups = ()=> {
 }
 
 const triggerContentPreview = ()=> {
-    stopLimitCheck();
+    stopLimitPreviewCheck();
     removeAllPopups();
-    BreadButter.ui.showContentGatingPage({
+    BreadButter.ui.showContentPreview({
         ...content_preview,
         app_name: options.app_name
-    })
-    document.body.classList.add('breadbutter-locked-limit-content');
+    });
+};
+
+const triggerContentGating = ()=> {
+    stopLimitGatingCheck();
+    removeAllPopups();
+    BreadButter.ui.showContentGating({
+        ...content_gating,
+        app_name: options.app_name
+    });
 };
 
 const delayCheckContinueWith = ()=> {
@@ -533,7 +599,121 @@ let WAIT_FOR_GA = false;
 let NO_GA = false;
 let VALID_GA = true;
 
-const tracking = function() {
+const getGAData = async (callback)=> {
+    WAIT_FOR_GA = false;
+    NO_GA = false;
+    if (options.ga_measurement_id) {
+        if (typeof window.gtag == 'undefined') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+        }
+        try {
+            const client_id = await new Promise((resolve) => {
+                gtag('get', options.ga_measurement_id, 'client_id', resolve);
+            });
+
+            if (client_id) {
+                callback({ ga_data: { cid: client_id } });
+            } else {
+                callback();
+            }
+        } catch (error) {
+            callback();
+        }
+    } else {
+        let cookie = parseCookie(document.cookie);
+        if (typeof ga == 'function' && VALID_GA) {
+            WAIT_FOR_GA = true;
+            if (typeof ga.getAll == 'function') {
+                WAIT_FOR_GA = false;
+                let data = ga.getAll().reduce((data, tracker)=> {
+                    if (data === false) {
+                        let cid = tracker.get('clientId');
+                        let uid = tracker.get('userId');
+
+                        return { ga_data: { cid, uid } };
+                    } else {
+                        return data;
+                    }
+                }, false);
+                if (data === false) {
+                    VALID_GA = false;
+                    await getGAData(callback);
+                } else {
+                    callback(data);
+                }
+            } else if (!DELAY_FOR_GA){
+                WAIT_FOR_GA = false;
+                DELAY_FOR_GA = true;
+                setTimeout(async () => {
+                    await getGAData(callback);
+                }, 150);
+                return;
+            } else {
+                callback();
+            }
+        } else if (cookie['_ga']) {
+            let client_id = cookie['_ga'].split('.').slice(2).join('.');
+            callback({ ga_data: { cid: client_id } });
+        } else {
+            NO_GA = true;
+            callback();
+        }
+    }
+};
+
+const getGAPromise = async () => {
+    try {
+        return await new Promise((resolve) => {
+            getGAData((response) => {
+                resolve(response || {});
+            });
+        });
+    } catch (error) {
+        return {};
+    }
+};
+
+
+const getSegment = async (callback) => {
+    try {
+        if (typeof analytics != 'undefined') {
+            if (typeof analytics.identify != 'undefined') {
+                const results = await analytics.identify();
+                const anonymousId = results && results.event && results.event.anonymousId || false;
+                if (anonymousId) {
+                    callback({
+                        segment_anonymous_id: anonymousId
+                    });
+                } else {
+                    callback();
+                }
+            } else {
+                setTimeout(async () => {
+                    await getSegment(callback);
+                }, 150);
+            }
+        } else {
+            callback();
+        }
+    } catch (e) {
+        callback();
+    }
+};
+
+const getSegmentPromise = async () => {
+    try {
+        return await new Promise((resolve) => {
+            getSegment((response) => {
+                resolve(response || {});
+            });
+        });
+    } catch (error) {
+        return {};
+    }
+};
+
+const tracking = async () => {
     if (options.page_view_tracking) {
 
         let referrer = document.referrer;
@@ -544,69 +724,7 @@ const tracking = function() {
             referrer = false;
         }
 
-        WAIT_FOR_GA = false;
-        NO_GA = false;
-        if (options.ga_measurement_id) {
-            if (typeof window.gtag == 'undefined') {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-            }
-            gtag('get', options.ga_measurement_id, 'client_id', (client_id) => {
-                // do something with client_id
-                if (client_id) {
-                    events.pageview(false, referrer, {
-                        'ga_data': {
-                            "cid": client_id
-                        }
-                    });
-                } else {
-                    events.pageview(false, referrer);
-                }
-            });
-        } else {
-            let cookie = parseCookie(document.cookie);
-            if (typeof ga == 'function' && VALID_GA) {
-                WAIT_FOR_GA = true;
-                if (typeof ga.getAll == 'function') {
-                    WAIT_FOR_GA = false;
-                    let count = 0;
-                    ga.getAll().forEach((tracker) => {
-                        let cid = tracker.get('clientId');
-                        let uid = tracker.get('userId');
-                        count++;
-                        events.pageview(false, referrer, {
-                            'ga_data': {
-                                "cid": cid,
-                                "uid": uid
-                            }
-                        });
-                    });
-                    if (count == 0) {
-                        VALID_GA = false;
-                        tracking();
-                    }
-                } else if (!DELAY_FOR_GA){
-                    WAIT_FOR_GA = false;
-                    DELAY_FOR_GA = true;
-                    setTimeout(function() {
-                       tracking();
-                    }, 150);
-                    return;
-                } else {
-                    events.pageview(false, referrer);
-                }
-            } else if (cookie['_ga']) {
-                let client_id = cookie['_ga'].split('.').slice(2).join('.');
-                events.pageview(false, referrer, {
-                    'ga_data': {
-                        "cid": client_id
-                    }
-                });
-            } else {
-                NO_GA = true;
-                events.pageview(false, referrer);
-            }
-        }
+        let data = {};
 
         window.addEventListener('hashchange', function() {
             events.pageview();
@@ -615,12 +733,32 @@ const tracking = function() {
         window.addEventListener('bb-new-device-id', function() {
             events.pageview();
         });
+        const promises = [getGAPromise(), getSegmentPromise()];
 
-        if(PAGE_VIEW_EVENT_READY) {
-            engagement.initialize(events, WAIT_FOR_GA);
-        } else {
-            queueAction(engagement.initialize, [events, WAIT_FOR_GA, NO_GA]);
-        }
+        Promise.all(promises)
+            .then(([gaData, segmentData]) => {
+                // gaData and segmentData will contain the resolved values from getGAPromise and getSegmentPromise respectively
+                // You can handle the data here
+                // console.log('Google Analytics Data:', gaData);
+                // console.log('Segment Data:', segmentData);
+                events.pageview(false, referrer, {
+                    ...gaData,
+                    ...segmentData
+                });
+
+                let WAIT_SEGMENT = segmentData && segmentData.segment_anonymous_id ? false : true;
+
+                // Your further processing code here
+                if(PAGE_VIEW_EVENT_READY) {
+                    engagement.initialize(events, WAIT_FOR_GA, false, WAIT_SEGMENT);
+                } else {
+                    queueAction(engagement.initialize, [events, WAIT_FOR_GA, NO_GA, WAIT_SEGMENT]);
+                }
+            })
+            .catch((error) => {
+                // Handle any errors that occurred in either getGAPromise or getSegmentPromise
+                console.error('Error:', error);
+            });
     }
 }
 
@@ -1531,8 +1669,22 @@ const ui = new (function() {
 
         if (typeof options != 'undefined') {
             content_preview = options;
-            handleLimitContentPreview();
         }
+        handleLimitContentPreview();
+    };
+    this.contentGating = function(options) {
+        if (!isProfileInit({
+            call: 'contentGating',
+            params: [options]
+        }))
+            return;
+        if (isVerifiedState())
+            return;
+
+        if (typeof options != 'undefined') {
+            content_gating = options;
+        }
+        handleLimitContentGating();
     };
     this.applyHubspotForm = function() {
         if (!isProfileInit({
@@ -1785,6 +1937,31 @@ const ui = new (function() {
         }
     };
 
+    this.handleContactUs = function(field_id, options) {
+        if (!isProfileInit({
+            call: 'handleContactUs',
+            params: [field_id, options]
+        }))
+            return;
+
+        options = options ? options : {};
+        options = {
+            continue_with_position: 'center',
+            ...options
+        };
+        const field = document.getElementById(field_id);
+        if (!isFieldExist(field))
+            return;
+
+        field.addEventListener("click", async (event) => {
+            ui.contactUsForm(false, options);
+        });
+
+        if (hasPreviousContactIconOpen() && isVerifiedState()) {
+            ui.contactUsForm(false, options);
+        }
+    };
+
     this.toggleLoginLogout = function(field_id, ui_options) {
         if (!isProfileInit({
             call: 'toggleLoginLogout',
@@ -1997,6 +2174,20 @@ const ui = new (function() {
                 return;
             }
         }
+        
+        let callContinueWith = (o) => {
+            widgets.continueWith(o);
+        }
+        if (options && options.delay_seconds && options.delay_seconds > 0) {
+            callContinueWith = (o) => {
+                let now = Date.now();
+                setTimeout(() => {
+                    let delayed = Date.now() - now;
+                    widgets.continueWith(o);
+                }, options.delay_seconds * 1000);
+            };
+        }
+        
         if (mode) {
             widgets.continueWith(options);
         } else if (isVerifiedState()) {
@@ -2046,15 +2237,15 @@ const ui = new (function() {
                         }
                     })
                 } else {
-                    widgets.continueWith(options);
+                    callContinueWith(options);
                 }
             } else {
                 if (profile && profile.email_address && options['show_login_focus']) {
-                    widgets.continueWith(options);
+                    callContinueWith(options);
                 }
             }
         } else {
-            widgets.continueWith(options);
+            callContinueWith(options);
         }
     };
 
@@ -2139,9 +2330,9 @@ const ui = new (function() {
         }
     };
 
-    this.showContentGatingPage = function(options) {
+    this.showContentPreview = function(options) {
         if (!isProfileInit({
-            call: 'showContentGatingPage',
+            call: 'showContentPreview',
             params: [options]
         }))
             return;
@@ -2179,6 +2370,61 @@ const ui = new (function() {
             },
         };
         widgets.signIn("breadbutter-ui-content-gating-content-holder", opt);
+        document.body.classList.add('breadbutter-locked-limit-content');
+    };
+
+    this.showContentGating = function(options) {
+        if (!isProfileInit({
+            call: 'showContentGating',
+            params: [options]
+        }))
+            return;
+
+        if (!isVerifiedState()) {
+            has_content_preview = true;
+            options = options ? options : {};
+            // viewPopup.close();
+            const RESET_FORM = 'reset-form';
+            const CONFIRM_FORM = 'confirm-form';
+            const INCOGNITO_FORM = 'incognito-form';
+            const MAGIC_LINK_FORM = 'magic-link-form';
+            const EMAIL_FORM = 'email-form';
+            const LOGIN_FORM = 'login-form';
+            const LOCAL_LOGIN_FORM = 'local-login-form';
+            const REGISTER_FORM = 'register-form';
+            const FORGOT_FORM = 'forgot-form';
+            let view = viewUI.getContentGatingCenterPage(options);
+            document.body.appendChild(view);
+            let opt = {
+                ...options,
+                destination_url: document.location.href.split('?')[0],
+                onFormChange: (form, exit) => {
+                    if (exit) {
+                        view.classList.remove('bb-hide-title');
+                    } else {
+                        switch (form) {
+                            case FORGOT_FORM:
+                            case RESET_FORM:
+                            case CONFIRM_FORM:
+                                view.classList.add('bb-hide-title');
+                                break;
+                            default:
+                                view.classList.remove('bb-hide-title');
+                                break;
+                        }
+                    }
+                },
+            };
+            let exit_button = view.querySelector('.breadbutter-ui-content-gating-close');
+            if (exit_button) {
+                exit_button.addEventListener('click', () => {
+                    has_content_preview = false;
+                    view.remove();
+                });
+            }
+            widgets.signIn("breadbutter-ui-content-gating-content-holder", opt);
+            document.body.classList.add('breadbutter-locked-limit-content');
+        }
     };
 
     this.addNewsletterWidget = function(field_id, options) {

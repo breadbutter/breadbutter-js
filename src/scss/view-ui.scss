@@ -979,6 +979,64 @@
       display: none;
     }
   }
+  &.bb-clickable-content {
+    pointer-events: none;
+      .breadbutter-ui-content-gating-background {
+        //flex: 1;
+        pointer-events: none;
+      }
+      .breadbutter-ui-content-gating-holder {
+        pointer-events: auto;
+      }
+  }
+  &.bb-content-gating-center {
+    .breadbutter-ui-content-gating-holder {
+      border-radius: 12px;
+      //overflow: hidden;
+      box-shadow: 0 32px 64px 0 rgba(0,0,0,0.2);
+      bottom: auto;
+      right: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-height: 0%;
+      max-height: 100%;
+    }
+    .breadbutter-ui-content-gating-background {
+      background-image: none;
+      background-color: rgba(28,28,28,0.86);
+    }
+    .breadbutter-ui-content-gating-close {
+      cursor: pointer;
+      border-radius: 50%;
+      background: #eeeef0;
+      border: none;
+      padding: 0;
+      width: 26px;
+      height: 26px;
+      position: absolute;
+      top: 8px;
+      right: 7px;
+      svg {
+        width: 26px;
+        height: 26px;
+        fill: #878787;
+      }
+    }
+    &.bb-mobile-device {
+      .breadbutter-ui-content-gating-holder {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
 }
 
 .breadbutter-ui-contact-us-icon-message {

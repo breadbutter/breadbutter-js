@@ -576,6 +576,11 @@ const incrementPageEngagement = async function(content, callback) {
         ga_data = content.ga_data;
         delete content.ga_data;
     }
+    let segment_anonymous_id = false;
+    if (content && typeof content.segment_anonymous_id == 'string') {
+        segment_anonymous_id = content.segment_anonymous_id;
+        delete content.segment_anonymous_id;
+    }
     let st = false;
     if (content && typeof content.st == 'boolean' && content.st) {
         st = true;
@@ -598,6 +603,9 @@ const incrementPageEngagement = async function(content, callback) {
 
     if (ga_data !== false) {
         request_data.ga_data = ga_data;
+    }
+    if (segment_anonymous_id != false) {
+        request_data.segment_anonymous_id = segment_anonymous_id;
     }
     if (st !== false) {
         request_data.st = st;

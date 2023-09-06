@@ -1339,6 +1339,9 @@
             //display: none;
             margin: 0 25px 10px;
             padding: 0px 13px 14px;
+            &:first-child {
+                margin-top: 10px;
+            }
         }
         .breadbutter-module-email-discovery {
             input {
@@ -1351,6 +1354,10 @@
             //display: none;
             margin: 0 25px 10px;
             padding: 0px 13px 14px;
+            &:first-child {
+                margin-top: 10px;
+                padding-top: 14px;
+            }
         }
         .breadbutter-module-magic-link {
             padding: 0 13px;
