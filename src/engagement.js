@@ -248,8 +248,8 @@ const getGAdata = function() {
 
 const getSegment = async () => {
     try {
-        const results = analytics && await analytics.identify();
-        const anonymousId = results && results.event && results.event.anonymousId || false;
+        // const results = analytics && await analytics.identify();
+        const anonymousId = analytics && analytics.user && analytics.user().anonymousId();
         if (anonymousId) {
             segment_anonymous_id = anonymousId;
             segment_timer = Date.now();

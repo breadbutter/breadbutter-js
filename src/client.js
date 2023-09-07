@@ -678,9 +678,8 @@ const getGAPromise = async () => {
 const getSegment = async (callback) => {
     try {
         if (typeof analytics != 'undefined') {
-            if (typeof analytics.identify != 'undefined') {
-                const results = await analytics.identify();
-                const anonymousId = results && results.event && results.event.anonymousId || false;
+            if (typeof analytics.user != 'undefined' && typeof analytics.user().anonymousId != 'undefined') {
+                const anonymousId = analytics.user().anonymousId();
                 if (anonymousId) {
                     callback({
                         segment_anonymous_id: anonymousId
