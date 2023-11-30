@@ -530,6 +530,9 @@ const VIEWPOPUP = function() {
         }
         setTimeout(function() {
             holder.classList.add('scrolling');
+            setTimeout(()=> {
+                holder.classList.add('scrolling-end');
+            }, 250);
         }, 50)
 
     }
@@ -935,6 +938,11 @@ const VIEWPOPUP = function() {
                 let text_wrapper = findChild(currentPopup, TEXT_HOLDER_ID);
                 if (text_wrapper) {
                     text_wrapper.classList.add('bb-hide');
+                }
+
+                let more = holder.querySelector('.bb-more-button');
+                if (more) {
+                    more.remove();
                 }
             }
             expandProviders(currentPopup);

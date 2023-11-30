@@ -79,10 +79,14 @@
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   position: fixed;
   z-index: 10000;
+  font-weight: 400;
+  div {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 400;
+  }
   &.hide {
     display: none;
   }
-
   .breadbutter-popup-wrapper {
     z-index: 1;
     border-radius: 12px;
@@ -185,15 +189,19 @@
         .breadbutter-module-header-discovery {
           display: none;
         }
+        .local-login {
+          .breadbutter-module-header-discovery {
+            display: block;
+          }
+        }
       }
     }
 
     transition-property: height;
-    transition-duration: 0.125s;
-    transition-timing-function: ease-out;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
 
-    &.scrolling:not(.reset-form, .confirm-form, .email-form, .register-form, .local-login-form, .magic-link-form) {
-      height: 94px!important;
+    &.scrolling-end:not(.reset-form, .confirm-form, .email-form, .register-form, .local-login-form, .magic-link-form) {
       .breadbutter-incognito {
         .more-content {
           display: none;
@@ -218,8 +226,13 @@
             & > div {
               display: none;
             }
-            & > div:nth-child(-n+5) {
+            & > div:nth-child(-n+3) {
               display: block;
+            }
+            &.bb-icon {
+              & > div:nth-child(-n+5) {
+                display: block;
+              }
             }
           }
           .breadbutter-provider-limit {
@@ -228,6 +241,9 @@
         }
       }
       .breadbutter-login:not(.local-login) {
+        .login-provider {
+          padding: 6px 10px 12px;
+        }
         .breadbutter-module-dropdown {
           display: flex;
           margin: 0 -13px 0px -14px;
@@ -245,6 +261,10 @@
            display: none;
          }
       }
+    }
+
+    &.scrolling:not(.reset-form, .confirm-form, .email-form, .register-form, .local-login-form, .magic-link-form) {
+      height: 94px!important;
     }
 
     &.scrolling{
@@ -410,6 +430,10 @@
     overflow-y: visible;
   }
 
+  .tile-content .breadbutter-buttons-holder .breadbutter-module-email-discovery input.form-email {
+    padding: 7px 35px 7px 12px !important;
+  }
+
   &.bb-input-focusing {
     //bottom: 200px;
   }
@@ -541,6 +565,11 @@
             }
           }
           .breadbutter-email {
+            .breadbutter-email-holder {
+              .breadbutter-module-email-discovery {
+                margin-bottom: 0;
+              }
+            }
             .breadbutter-module-header-discovery {
               padding: 0;
               .form-title {

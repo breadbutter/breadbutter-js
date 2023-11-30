@@ -5,6 +5,7 @@
   "DEV_HV_LOCAL": false,
   "DEV_NOT_HV_LOCAL": false,
   "DEV_LOCAL_SUGGESTION": false,
+  "DEV_MAGIC_SUGGESTION": false,
   "DEV_NON_SUGGESTION": false,
   "DEV_SUGGESTION": false,
   "DEV_EMPTY_PROVIDER": false,

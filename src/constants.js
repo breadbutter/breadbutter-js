@@ -18,6 +18,7 @@ const providers = {
     KEYKCLOAK: 'keycloak',
     SALESFORCE: 'salesforce',
     LOCAL: 'local',
+    MAGIC_LINK: 'magic_link'
 };
 
 const LOCAL = {
@@ -98,6 +99,12 @@ const SALESFORCE = {
     name: 'SalesForce',
 };
 
+const MAGIC_LINK = {
+    idp: providers.MAGIC_LINK,
+    name: "Magic Link",
+    type: "social"
+}
+
 const providers_hash = {
     apple: APPLE,
     basecamp: BASECAMP,
@@ -118,6 +125,7 @@ const providers_hash = {
     keycloak: KEYCLOAK,
     salesforce: SALESFORCE,
     local: LOCAL,
+    magic_link: MAGIC_LINK
 };
 
 const providers_buttons = {
@@ -140,6 +148,7 @@ const providers_buttons = {
     KEYCLOAK: KEYCLOAK,
     SALESFORCE: SALESFORCE,
     LOCAL: LOCAL,
+    MAGIC_LINK: MAGIC_LINK
 };
 
 const providers_list = [];

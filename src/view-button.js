@@ -40,6 +40,46 @@ const addButtons = function (id, providers, options) {
     VIEW.initView(id, options, holder, error);
 };
 
+const getContinueAnotherWayButton = function() {
+    const container = VIEW.addView(ID);
+    let theme_class = 'bb-tile';
+    let button_theme = 'tiles', pass = true, register = false;
+    container.classList.add(theme_class);
+    container.classList.add('bb-more-button');
+    container.appendChild(
+        buttons(
+            {
+                idp: 'more',
+            },
+            {
+                button_theme,
+                pass,
+                register
+            }
+        )
+    );
+    return container;
+}
+const getContinueWithEmailButton = function() {
+    const container = VIEW.addView(ID);
+    let theme_class = 'bb-tile';
+    let button_theme = 'tiles', pass = true, register = false;
+    container.classList.add(theme_class);
+    container.appendChild(
+        buttons(
+            {
+                idp: 'email',
+            },
+            {
+                button_theme,
+                pass,
+                register
+            }
+        )
+    );
+    return container;
+}
+
 const getButtonLists = function (providers, options) {
     // console.log(options);
     // loadClientData(options);
@@ -100,6 +140,7 @@ const getButtonLists = function (providers, options) {
         error = 'Need to add ' + window.location.origin + ' to CORS whitelist.';
     }
 
+    // console.log(suggested, providers, button_theme, collapsible);
     if (
         suggested != 'local' &&
         providers.length > 1 &&
@@ -131,6 +172,7 @@ const buttons = function (
             div.innerHTML = VIEW.svgIcons_e(provider);
         } else {
             div.innerHTML = VIEW.svgButtons_e(provider, register, deidentify);
+            VIEW.appySVGButtonStyle_e(div, provider);
         }
     } else {
         if (button_theme == 'icon') {
@@ -226,7 +268,7 @@ const triggerIdentityProvider = function (func, data, button) {
             loader.remove();
         };
         if (button_holder) {
-            loader.start(button_holder, true);
+            loader.start(button_holder, true, true);
             window.addEventListener('pageshow', pageShow);
         }
         func(data, function (res) {
@@ -261,7 +303,12 @@ const trigger = function (e) {
         data['email_address'] = email_address;
     }
     data = VIEW.applyData(e.currentTarget, data);
-    if (provider_id) {
+
+    console.log(assigned_hash);
+    console.log(name);
+    if (assigned_hash[name]) {
+        assigned_hash[name](e.currentTarget, data);
+    } else if (provider_id) {
         data['id'] = provider_id;
         triggerIdentityProvider(api.login, data, e.currentTarget);
     } else if (name) {
@@ -283,7 +330,6 @@ const triggerRegister = function (e) {
         data['email_address'] = email_address;
     }
     data = VIEW.applyData(e.currentTarget, data);
-
     if (provider_id) {
         data['id'] = provider_id;
         triggerIdentityProvider(api.register, data, e.currentTarget);
@@ -293,10 +339,21 @@ const triggerRegister = function (e) {
     }
 };
 
+let assigned_hash = {};
+const assignFunc = function(data) {
+    assigned_hash = {
+        ...data,
+        ...assigned_hash
+    };
+};
+
 export default {
     addButtons,
     getButtonLists,
     getMoreButton,
+    getContinueWithEmailButton,
+    getContinueAnotherWayButton,
     buttons,
+    assignFunc,
     init,
 };

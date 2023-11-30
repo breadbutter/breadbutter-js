@@ -503,6 +503,35 @@ const handleClientSettings = function(res) {
     }
 };
 
+const providerNavigatorCheck = function(res) {
+    let suggested_provider = res.suggested_provider;
+    if (navigator.userAgent.match(/FBAN|FBAV|Instagram/i)) {
+        //remove google
+        res.providers = res.providers.filter((p)=> p.idp != 'google');
+        if (suggested_provider && suggested_provider.idp == 'google') {
+            delete res.suggested_provider;
+        }
+    } else if (navigator.userAgent.match(/LinkedInApp/i)) {
+        res.providers = res.providers.filter((p)=> p.idp != 'google');
+        const index = res.providers.findIndex(item => item.idp === 'linkedin');
+        if (index !== -1) {
+            const [item] = res.providers.splice(index, 1); // This removes the item from its current position
+            res.providers.unshift(item);  // And this adds the item to the front of the array
+
+        }
+        if (suggested_provider && suggested_provider.idp == 'google') {
+            if (index !== -1) {
+                res.suggested_provider = res.providers[0];
+            } else {
+                delete res.suggested_provider;
+            }
+        }
+        //remove google
+        //move linkedin to first
+    }
+    return res
+}
+
 const getClientSettings = async function(email_address, callback) {
     let url = API_PATH + 'apps/' + APP_ID + '/client_settings';
 
@@ -544,6 +573,9 @@ const getClientSettings = async function(email_address, callback) {
                     }
                 }
             }
+        }
+        if (res.providers) {
+            res = providerNavigatorCheck(res);
         }
 
         // console.log(res);
@@ -1098,6 +1130,32 @@ const contactUs = async function({phone, company, message, callback}) {
     return request(url, request_data, 'POST', deviceCheckCallback);
 };
 
+const identifyUser = async function({email_address, first_name, last_name, callback}) {
+    let url = API_PATH + 'apps/' + APP_ID + '/identify_user';
+    let request_data = {};
+
+    let device_id = await getDeviceId();
+    request_data['device_id'] = device_id;
+
+    if (PAGE_VIEW_ID) {
+        request_data['page_view_id'] = PAGE_VIEW_ID;
+    }
+
+    if (email_address) {
+        request_data['email_address'] = email_address;
+    }
+
+    if (first_name) {
+        request_data['first_name'] = first_name;
+    }
+
+    if (last_name) {
+        request_data['last_name'] = last_name;
+    }
+
+    return request(url, request_data, 'POST', callback);
+};
+
 let API = {
     configure,
     setPageViewId,
@@ -1129,7 +1187,8 @@ let API = {
     assignEventStorage,
     cleanEventStorage,
     addUserCustomValues,
-    contactUs
+    contactUs,
+    identifyUser
 };
 export default {
     ...API

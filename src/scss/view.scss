@@ -1,6 +1,11 @@
 .breadbutter {
     &-ui {
         font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 400;
+        div {
+            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 400;
+        }
 
         .bb-button {
             min-width: 180px;
@@ -150,19 +155,23 @@
                 }
                 .breadbutter-module-email-discovery {
                     margin: 0 25px;
-                    .form-email {
-                        border-color: #d9d9dc;
-                        &:focus {
-                            border-color: #50aff5;
-                        }
-                    }
-                    .form-next-icon {
-                        background: #d9d9dc;
-                    }
+                    background-color: transparent !important;
+                    //.form-email {
+                    //    border-color: #d9d9dc;
+                    //    &:focus {
+                    //        border-color: #50aff5;
+                    //    }
+                    //}
+                    //.form-next-icon {
+                    //    background: #d9d9dc;
+                    //}
                 }
                 .breadbutter-module-magic-link {
                     margin-bottom: 15px;
                     display: none;
+                }
+                .breadbutter-email-holder {
+                    background-color: transparent;
                 }
             }
             .breadbutter-incognito {
@@ -182,15 +191,16 @@
                 }
                 .breadbutter-module-email-discovery {
                     margin: 0 25px;
-                    .form-email {
-                        border-color: #d9d9dc;
-                        &:focus {
-                            border-color: #50aff5;
-                        }
-                    }
-                    .form-next-icon {
-                        background: #d9d9dc;
-                    }
+                    background-color: transparent !important;
+                    //.form-email {
+                    //    border-color: #d9d9dc;
+                    //    &:focus {
+                    //        border-color: #50aff5;
+                    //    }
+                    //}
+                    //.form-next-icon {
+                    //    background: #d9d9dc;
+                    //}
                 }
             }
             .breadbutter-alert {
@@ -242,6 +252,23 @@
                     }
                 }
             }
+
+            div:not(.breadbutter-login) > {
+                .breadbutter-buttons-holder,
+                .breadbutter-module-email-discovery,
+                .breadbutter-incognito-holder,
+                .breadbutter-email-holder {
+                    .breadbutter-buttons:not(.bb-icon) > div:not(.enterprise):not(:hover) {
+                        .bb-icon-wrapper {
+                            border-color: #000;
+                        }
+                    }
+                    .breadbutter-module-email-discovery {
+                        border-color: #000 !important;
+                    }
+                }
+            }
+
             .breadbutter-register {
                 background-color: transparent;
                 .breadbutter-buttons-holder {
@@ -356,4 +383,23 @@
     overflow: hidden !important;
     touch-action: none !important;
     overscroll-behavior: contain !important;
+}
+
+.breadbutter-ui {
+    .continue-or {
+        font-size: 13px;
+        margin: 8px 0;
+        border: none;
+        width: 100%;
+        display: flex;
+        color: #a0a0a0;
+        text-transform: uppercase !important;
+        text-decoration: none !important;
+        cursor: default;
+        span {
+            flex: 1;
+            border-bottom: 1px solid #a3a0a0;
+            margin: 8px 3px;
+        }
+    }
 }

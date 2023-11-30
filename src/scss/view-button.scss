@@ -176,7 +176,7 @@
      */
 
     .breadbutter-buttons .enterprise:hover {
-        opacity: 0.65;
+        //opacity: 0.65;
     }
     .bb-icon {
         svg {
@@ -262,11 +262,16 @@
 
         & > div:not(.enterprise) {
             .bb-icon-wrapper {
-                border: none;
+                //border: none;
                 border-radius: 4px;
                 //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
                 height: 38px;
                 text-align: center;
+
+                border: solid 1px #333;
+                background-color: #fff;
+                color: #333;
+                border: 1px solid #e6e6e6;
 
                 span {
                     font-size: 12px;
@@ -275,18 +280,25 @@
                     line-height: 40px;
                     vertical-align: top;
                     margin-left: 2px;
+
+                    //font-weight: 500;
+                    //font-family: Roboto;
+                    //font-family: Roboto, 'Arial' !important;
+                    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+                    font-weight: 600;
+                    //font-size: 16px;
                 }
             }
 
             .bb-microsoft {
                 span {
-                    font-family: 'Selawik', 'Segoe UI', Arial !important;
+                    //font-family: 'Selawik', 'Segoe UI', Arial !important;
                 }
 
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    color: #797a79;
-                    border: 1px solid #e6e6e6;
+                    //background-color: #fff;
+                    //color: #797a79;
+                    //border: 1px solid #e6e6e6;
                 }
 
                 .bb-icon {
@@ -295,15 +307,15 @@
 
             .bb-google {
                 span {
-                    font-family: Roboto, 'Arial' !important;
-                    font-weight: 600;
+                    //font-family: Roboto, 'Arial' !important;
+                    //font-weight: 600;
                 }
 
                 /* background-color: #4285f4; */
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    color: rgba(0, 0, 0, 0.54);
-                    border: 1px solid #e6e6e6;
+                    //background-color: #fff;
+                    //color: rgba(0, 0, 0, 0.54);
+                    //border: 1px solid #e6e6e6;
                 }
 
                 .bb-icon {
@@ -314,44 +326,50 @@
 
             .bb-facebook {
                 span {
-                    font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
-                    'Arial' !important;
-                    font-weight: 400;
-                    margin-left: 0px;
+                    //font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
+                    //'Arial' !important;
+                    //font-weight: 400;
+                    //margin-left: 0px;
                 }
 
                 .bb-icon-wrapper {
-                    background-color: #227aed;
-                    border: 1px solid #227aed;
-                    color: #fff;
+                    //background-color: #227aed;
+                    //border: 1px solid #227aed;
+                    //color: #fff;
                 }
 
                 .bb-icon {
+                    path {
+                        fill: rgb(34, 122, 237)!important;
+                    }
                 }
             }
 
             .bb-apple {
                 span {
-                    font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
-                    'Arial' !important;
-                    font-weight: 600;
+                    //font-family: 'SF UI Display', 'SF Pro Display', 'SF Pro Icons',
+                    //'Arial' !important;
+                    //font-weight: 600;
                 }
 
                 .bb-icon-wrapper {
-                    background-color: #000;
-                    border: 1px solid #000;
-                    color: #fff;
+                    //background-color: #000;
+                    //border: 1px solid #000;
+                    //color: #fff;
                 }
 
                 .bb-icon {
+                    g {
+                        fill: #000!important;
+                    }
                 }
             }
 
             .bb-linkedin {
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    color: #797a79;
-                    border: 1px solid #e6e6e6;
+                    //background-color: #fff;
+                    //color: #797a79;
+                    //border: 1px solid #e6e6e6;
                 }
 
                 .bb-icon {
@@ -361,32 +379,34 @@
 
             .bb-github {
                 .bb-icon-wrapper {
-                    background-color: #444;
-                    border: 1px solid #444;
-                    color: #fff;
+                    //background-color: #444;
+                    //border: 1px solid #444;
+                    //color: #fff;
                 }
 
                 .bb-icon {
-                    fill: #fff;
+                    //fill: #fff;
                 }
             }
 
             .bb-basecamp {
                 .bb-icon-wrapper {
-                    background-color: #1d2d35;
-                    border: 1px solid #1d2d35;
-                    color: #fff;
+                    //background-color: #1d2d35;
+                    //border: 1px solid #1d2d35;
+                    //color: #fff;
                 }
-
                 .bb-icon {
+                    path.cls-2 {
+                        stroke: rgb(29, 45, 53) !important;
+                    }
                 }
             }
 
             .bb-fitbit {
                 .bb-icon-wrapper {
-                    background-color: #002a3a;
-                    color: #fff;
-                    border: 1px solid #002a3a;
+                    //background-color: #002a3a;
+                    //color: #fff;
+                    //border: 1px solid #002a3a;
                 }
 
                 .bb-icon {
@@ -395,20 +415,23 @@
 
             .bb-dropbox {
                 .bb-icon-wrapper {
-                    background-color: #0061ff;
-                    border: 1px solid #0061ff;
-                    color: #fff;
+                    //background-color: #0061ff;
+                    //border: 1px solid #0061ff;
+                    //color: #fff;
                 }
 
                 .bb-icon {
+                    path.st0_dropbox {
+                        fill: rgb(0, 97, 255)!important;
+                    }
                 }
             }
 
             .bb-evernote {
                 .bb-icon-wrapper {
-                    border: 1px solid #00a82d;
-                    background-color: #00a82d;
-                    color: #fff;
+                    //border: 1px solid #00a82d;
+                    //background-color: #00a82d;
+                    //color: #fff;
                 }
 
                 .bb-icon {
@@ -417,9 +440,9 @@
 
             .bb-shopify {
                 .bb-icon-wrapper {
-                    border: 1px solid #95bf47;
-                    background-color: #95bf47;
-                    color: #fff;
+                    //border: 1px solid #95bf47;
+                    //background-color: #95bf47;
+                    //color: #fff;
                 }
 
                 .bb-icon {
@@ -432,35 +455,38 @@
                 }
 
                 .bb-icon-wrapper {
-                    background-color: #2266f7;
-                    border: 1px solid #2266f7;
-                    color: #fff;
+                    //background-color: #2266f7;
+                    //border: 1px solid #2266f7;
+                    //color: #fff;
                 }
 
                 .bb-icon {
+                    path {
+                        fill: rgb(34, 102, 247) !important;
+                    }
                 }
             }
 
             .bb-twitter {
                 .bb-icon-wrapper {
-                    background-color: #3399ff;
-                    border: 1px solid #3399ff;
-                    color: #fff;
+                    //background-color: #3399ff;
+                    //border: 1px solid #3399ff;
+                    //color: #fff;
                 }
 
                 .bb-icon {
-                    fill: #fff;
+                    //fill: #fff;
                 }
             }
 
             .bb-slack {
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    color: #393a3f;
-                    border: 1px solid #e6e6e6;
+                    //background-color: #fff;
+                    //color: #393a3f;
+                    //border: 1px solid #e6e6e6;
 
                     b {
-                        font-weight: 800;
+                        //font-weight: 800;
                     }
                 }
 
@@ -470,12 +496,12 @@
 
             .bb-salesforce {
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    color: #797a79;
-                    border: 1px solid #e6e6e6;
+                    //background-color: #fff;
+                    //color: #797a79;
+                    //border: 1px solid #e6e6e6;
 
                     b {
-                        font-weight: 800;
+                        //font-weight: 800;
                     }
                 }
 
@@ -489,21 +515,22 @@
                 }
 
                 .bb-icon-wrapper {
-                    background-color: #2ca01c;
-                    border: 1px solid #2ca01c;
-                    color: #fff;
+                    //background-color: #2ca01c;
+                    //border: 1px solid #2ca01c;
+                    //color: #fff;
                 }
 
                 .bb-icon {
-                    fill: #fff;
+                    //fill: #fff;
+                    fill: rgb(44, 160, 28);
                 }
             }
 
             .bb-twitch {
                 .bb-icon-wrapper {
-                    background-color: #9146ff;
-                    border: 1px solid #9146ff;
-                    color: #fff;
+                    //background-color: #9146ff;
+                    //border: 1px solid #9146ff;
+                    //color: #fff;
                 }
 
                 .bb-icon {
@@ -511,11 +538,29 @@
                 }
             }
 
+            .bb-email {
+                .bb-icon-wrapper {
+                    //background-color: #9146ff;
+                    //border: 1px solid #9146ff;
+                    //color: #fff;
+                }
+
+                .bb-icon {
+                    //fill: #000;
+                    padding: 3px 0;
+                    height: 18px;
+                    svg {
+                        vertical-align: top;
+                    }
+                }
+
+            }
+
             .bb-local:not(.green) {
                 .bb-icon-wrapper {
                     background-color: #fff;
                     border: 1px solid #e6e6e6;
-                    color: #797a79;
+                    color: #333;
                 }
 
                 .bb-icon {
@@ -567,18 +612,6 @@
                 }
             }
 
-            .bb-linkedin {
-                .bb-icon-wrapper {
-                    background-color: #2f7ab1;
-                    border: 1px solid #2f7ab1;
-                    color: #ffffff;
-                }
-
-                .bb-icon {
-                    fill: #fff;
-                }
-            }
-
             .bb-google {
                 .bb-icon-wrapper {
                     background-color: #3e82f1;
@@ -597,10 +630,41 @@
                 }
             }
 
+            .bb-facebook {
+                .bb-icon-wrapper {
+                    background-color: #5e9ef2;
+                    border: 1px solid #5e9ef2;
+                    color: #fff;
+                }
+                .bb-icon {
+                    path {
+                        fill: #fff!important;
+                    }
+                }
+            }
+
+            .bb-linkedin {
+                .bb-icon-wrapper {
+                    background-color: #2f7ab1;
+                    border: 1px solid #2f7ab1;
+                    color: #ffffff;
+                }
+
+                .bb-icon {
+                    fill: #fff;
+                }
+            }
+
+
             .bb-github {
                 .bb-icon-wrapper {
                     background-color: #5f6060;
                     border: 1px solid #5f6060;
+                    color: #fff;
+                }
+
+                .bb-icon {
+                    fill: #fff;
                 }
             }
 
@@ -608,6 +672,12 @@
                 .bb-icon-wrapper {
                     background-color: #31474f;
                     border: 1px solid #31474f;
+                    color: #fff;
+                }
+                .bb-icon {
+                    path.cls-2 {
+                        stroke: #fff !important;
+                    }
                 }
             }
 
@@ -618,17 +688,16 @@
                 }
             }
 
-            .bb-facebook {
-                .bb-icon-wrapper {
-                    background-color: #5e9ef2;
-                    border: 1px solid #5e9ef2;
-                }
-            }
-
             .bb-dropbox {
                 .bb-icon-wrapper {
                     background-color: #044bb2;
                     border: 1px solid #044bb2;
+                    color: #fff;
+                }
+                .bb-icon {
+                    path.st0_dropbox {
+                        fill: #fff!important;
+                    }
                 }
             }
 
@@ -650,6 +719,13 @@
                 .bb-icon-wrapper {
                     background-color: #1e51ad;
                     border: 1px solid #1e51ad;
+                    color: #fff;
+                }
+
+                .bb-icon {
+                    path {
+                        fill: #fff !important;
+                    }
                 }
             }
 
@@ -664,6 +740,7 @@
                 .bb-icon-wrapper {
                     background-color: #f4f4f4;
                     border: 1px solid #f4f4f4;
+                    color: #393a3f;
                 }
             }
 
@@ -671,6 +748,7 @@
                 .bb-icon-wrapper {
                     background-color: #f4f4f4;
                     border: 1px solid #f4f4f4;
+                    color: #797a79;
                 }
             }
 
@@ -678,6 +756,12 @@
                 .bb-icon-wrapper {
                     background-color: #145907;
                     border: 1px solid #145907;
+                    color: #fff;
+                }
+
+                .bb-icon {
+                    fill: #fff;
+                    //fill: rgb(44, 160, 28);
                 }
             }
 
@@ -685,6 +769,7 @@
                 .bb-icon-wrapper {
                     background-color: #5511bf;
                     border: 1px solid #5511bf;
+                    color: #fff;
                 }
             }
 
@@ -692,6 +777,12 @@
                 .bb-icon-wrapper {
                     background-color: #464646;
                     border: 1px solid #464646;
+                    color: #fff;
+                }
+                .bb-icon {
+                    g {
+                        fill: #fff!important;
+                    }
                 }
             }
 
@@ -699,6 +790,15 @@
                 .bb-icon-wrapper {
                     background-color: #f1f1f1;
                     border: 1px solid #f1f1f1;
+                    color: #797a79;
+                }
+            }
+
+            .bb-email {
+                .bb-icon-wrapper {
+                    background-color: #f1f1f1;
+                    border: 1px solid #f1f1f1;
+                    color: #797a79;
                 }
             }
 
@@ -706,6 +806,7 @@
                 .bb-icon-wrapper {
                     background-color: #53913c;
                     border: 1px solid #53913c;
+                    color: #fff;
                 }
             }
         }
@@ -991,7 +1092,8 @@
                     .bb-icon-wrapper {
                         .icon-holder {
                             border-radius: 0;
-                            margin: 7px 8px 9px 8px;
+                            //margin: 7px 8px 9px 8px;
+                            margin: 7px 10px 7px 10px;
                             width: 18px;
                             height: 18px;
                             padding: 3px;
@@ -1002,6 +1104,11 @@
                                 margin: 0;
                                 width: 18px;
                                 height: 18px;
+                                //margin: 7px 10px 7px 10px;
+                                //float: left;
+                                //width: 24px;
+                                //height: 24px;
+                                //position: absolute;
                             }
 
                             svg {
@@ -1028,13 +1135,19 @@
                             overflow: hidden;
                             padding: 0 5px;
                             text-overflow: ellipsis;
+
+                            font-weight: 600;
+                            //font-family: Roboto, Arial !important;
+                            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
                         }
+                        background-color: #fff;
+                        color: #333;
                     }
 
                     &.bb-okta {
                         .bb-icon-wrapper {
-                            color: #007dc1;
-                            background-color: #fff;
+                            //color: #007dc1;
+                            //background-color: #fff;
                             border: 1px solid #e6e6e6;
 
                             svg {
@@ -1045,33 +1158,101 @@
 
                     &.bb-onelogin {
                         .bb-icon-wrapper {
-                            background-color: #1c1f2a;
+                            //background-color: #1c1f2a;
+                            //color: #fff;
                             border: 1px solid #e6e6e6;
-                            color: #fff;
+                            svg {
+                                g {
+                                    g {
+                                        path:first-child {
+                                            fill: #1C1F2A;
+                                        }
+                                        path:last-child {
+                                            fill: #ffffff;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
                     &.bb-microsoft {
                         .bb-icon-wrapper {
-                            color: #8c8c8c;
-                            background-color: #fff;
+                            //color: #8c8c8c;
+                            //background-color: #fff;
                             border: 1px solid #e6e6e6;
 
                             span {
-                                font-family: 'Selawik', 'Segoe UI', Arial !important;
+                                //font-family: 'Selawik', 'Segoe UI', Arial !important;
                             }
                         }
                     }
 
                     &.bb-google {
                         .bb-icon-wrapper {
-                            background-color: #fff;
+                            //background-color: #fff;
+                            //color: #8c8c8c;
                             border: 1px solid #e6e6e6;
-                            color: #8c8c8c;
 
                             span {
-                                font-weight: 600;
-                                font-family: Roboto, Arial !important;
+                                //font-weight: 600;
+                                //font-family: Roboto, Arial !important;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        &.bb-microsoft {
+                            .bb-icon-wrapper {
+                                background-color: #f4f4f4;
+                                border: 1px solid #f4f4f4;
+                                color: #797a79;
+                            }
+                        }
+
+                        &.bb-google {
+                            .bb-icon-wrapper {
+                                background-color: #3e82f1;
+                                //border: 1px solid #3e82f1;
+                                color: #fff;
+                            }
+
+                            .icon-holder {
+                                background: #fff;
+                                margin: 2px;
+                                border-radius: 2px;
+                                padding: 8px 10px 8px 11px;
+                            }
+                        }
+
+                        &.bb-onelogin {
+                            .bb-icon-wrapper {
+                                background-color: #1C1F2A;
+                                color: #fff;
+                                svg {
+                                    g {
+                                        g {
+                                            path:first-child {
+                                                fill: #ffffff;
+                                            }
+                                            path:last-child {
+                                                fill: #1C1F2A;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.bb-okta {
+                            .bb-icon-wrapper {
+                                background-color: #007dc1;
+                                color: #fff;
+                                .bb-icon {
+                                    svg {
+                                        fill: #fff;
+                                    }
+                                }
                             }
                         }
                     }

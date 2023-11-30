@@ -106,6 +106,16 @@ $error-color: $brand-failure;
     }
   }
 }
+
+.breadbutter-ui-loader-holder {
+  &.bb-small {
+    .util-loader {
+      width: $small-loader-size;
+      height: $small-loader-size;
+    }
+  }
+}
+
 .breadbutter-popup-holder {
   & > .breadbutter-ui-loader-holder {
     &.bb-small {

@@ -278,52 +278,82 @@ const svgFooters = function (type) {
 let poweredByIndex = 0;
 
 const svgContactUs = function() {
+//     let html = `
+// <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="181.029" height="181.029" viewBox="0 0 181.029 181.029">
+//   <defs>
+//     <linearGradient id="linear-gradient" x1="0.278" y1="0.083" x2="0.737" y2="0.943" gradientUnits="objectBoundingBox">
+//       <stop offset="0" stop-color="#ffde00"/>
+//       <stop offset="1" stop-color="#ff9b00"/>
+//     </linearGradient>
+//     <linearGradient id="linear-gradient-2" x1="-0.098" y1="0.555" x2="0.917" y2="0.555" gradientUnits="objectBoundingBox">
+//       <stop offset="0" stop-color="#eac040"/>
+//       <stop offset="0" stop-color="#a0a0a0"/>
+//       <stop offset="1" stop-color="#fafafc"/>
+//     </linearGradient>
+//     <linearGradient id="linear-gradient-3" x1="-0.068" y1="0.585" x2="0.936" y2="0.585" gradientUnits="objectBoundingBox">
+//       <stop offset="0" stop-color="#c9c8c8"/>
+//       <stop offset="1" stop-color="#fff"/>
+//     </linearGradient>
+//     <linearGradient id="linear-gradient-4" x1="-0.115" y1="0.555" x2="0.907" y2="0.555" xlink:href="#linear-gradient-3"/>
+//   </defs>
+//   <g id="Group_20569" data-name="Group 20569" transform="translate(-578.505 -665.499)">
+//     <circle id="Ellipse_1475" data-name="Ellipse 1475" cx="90.514" cy="90.514" r="90.514" transform="translate(578.505 665.499)" fill="url(#linear-gradient)"/>
+//     <g id="Group_20535" data-name="Group 20535" transform="translate(410.375 126.372)">
+//       <g id="Group_20523" data-name="Group 20523" transform="translate(-750.841 9.209)">
+//         <g id="Group_15523" data-name="Group 15523" transform="translate(950.399 585.81)">
+//           <path id="Path_13894" data-name="Path 13894" d="M976.175,750.909l21.052,16.974,12.564,2.134-.039,7.949,25.545,20.522,39.3-61.212Z" transform="translate(-969.297 -685.688)" opacity="0.094" style="mix-blend-mode: multiply;isolation: isolate"/>
+//           <g id="Group_15522" data-name="Group 15522">
+//             <g id="Group_15518" data-name="Group 15518">
+//               <g id="Group_15516" data-name="Group 15516" transform="translate(25.427)">
+//                 <path id="Path_13895" data-name="Path 13895" d="M1028.32,628.292l4.148,20.97,82.6-57.008Z" transform="translate(-1028.32 -592.253)" fill="url(#linear-gradient-2)"/>
+//               </g>
+//               <g id="Group_15517" data-name="Group 15517">
+//                 <path id="Path_13896" data-name="Path 13896" d="M1069.014,592.253l-86.746,36.038-25.427-20.5Z" transform="translate(-956.841 -592.253)" fill="url(#linear-gradient-3)"/>
+//               </g>
+//             </g>
+//             <g id="Group_15521" data-name="Group 15521" transform="translate(29.575)">
+//               <g id="Group_15519" data-name="Group 15519">
+//                 <path id="Path_13897" data-name="Path 13897" d="M1045.944,636.435l-5.964,12.827,82.6-57.008Z" transform="translate(-1039.98 -592.253)" fill="#4eaff7"/>
+//               </g>
+//               <g id="Group_15520" data-name="Group 15520" transform="translate(5.964)">
+//                 <path id="Path_13898" data-name="Path 13898" d="M1133.379,592.253l-76.634,44.181,31.846,25.585Z" transform="translate(-1056.745 -592.253)" fill="url(#linear-gradient-4)"/>
+//               </g>
+//             </g>
+//           </g>
+//         </g>
+//         <path id="Path_13899" data-name="Path 13899" d="M1065.569,583.894a3.556,3.556,0,0,0-3.485-1.607L949.911,597.824a3.557,3.557,0,0,0-1.745,6.293l24.421,19.69,3.9,19.7a3.557,3.557,0,0,0,5.51,2.238l9.614-6.635,23.948,19.239a3.558,3.558,0,0,0,5.221-.851l44.788-69.767A3.558,3.558,0,0,0,1065.569,583.894Zm-47.785,71.683-26.014-20.9-2.047,1.413-9.749,6.728-4.148-20.97-25.427-20.5,112.173-15.537Z"/>
+//       </g>
+//     </g>
+//   </g>
+// </svg>
+//     `;
     let html = `
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="181.029" height="181.029" viewBox="0 0 181.029 181.029">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="181.03" height="181.03" viewBox="0 0 181.03 181.03">
   <defs>
-    <linearGradient id="linear-gradient" x1="0.278" y1="0.083" x2="0.737" y2="0.943" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#ffde00"/>
-      <stop offset="1" stop-color="#ff9b00"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-2" x1="-0.098" y1="0.555" x2="0.917" y2="0.555" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#eac040"/>
-      <stop offset="0" stop-color="#a0a0a0"/>
-      <stop offset="1" stop-color="#fafafc"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-3" x1="-0.068" y1="0.585" x2="0.936" y2="0.585" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#c9c8c8"/>
-      <stop offset="1" stop-color="#fff"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-4" x1="-0.115" y1="0.555" x2="0.907" y2="0.555" xlink:href="#linear-gradient-3"/>
+    <filter x="0" y="0" width="529.389" height="311.347" filterUnits="userSpaceOnUse">
+      <feOffset dy="32" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="32" result="blur"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path-contact">
+      <rect data-name="Rectangle 4889" width="81.794" height="61.673" transform="translate(0 0)" fill="none"/>
+    </clipPath>
   </defs>
-  <g id="Group_20569" data-name="Group 20569" transform="translate(-578.505 -665.499)">
-    <circle id="Ellipse_1475" data-name="Ellipse 1475" cx="90.514" cy="90.514" r="90.514" transform="translate(578.505 665.499)" fill="url(#linear-gradient)"/>
-    <g id="Group_20535" data-name="Group 20535" transform="translate(410.375 126.372)">
-      <g id="Group_20523" data-name="Group 20523" transform="translate(-750.841 9.209)">
-        <g id="Group_15523" data-name="Group 15523" transform="translate(950.399 585.81)">
-          <path id="Path_13894" data-name="Path 13894" d="M976.175,750.909l21.052,16.974,12.564,2.134-.039,7.949,25.545,20.522,39.3-61.212Z" transform="translate(-969.297 -685.688)" opacity="0.094" style="mix-blend-mode: multiply;isolation: isolate"/>
-          <g id="Group_15522" data-name="Group 15522">
-            <g id="Group_15518" data-name="Group 15518">
-              <g id="Group_15516" data-name="Group 15516" transform="translate(25.427)">
-                <path id="Path_13895" data-name="Path 13895" d="M1028.32,628.292l4.148,20.97,82.6-57.008Z" transform="translate(-1028.32 -592.253)" fill="url(#linear-gradient-2)"/>
-              </g>
-              <g id="Group_15517" data-name="Group 15517">
-                <path id="Path_13896" data-name="Path 13896" d="M1069.014,592.253l-86.746,36.038-25.427-20.5Z" transform="translate(-956.841 -592.253)" fill="url(#linear-gradient-3)"/>
-              </g>
-            </g>
-            <g id="Group_15521" data-name="Group 15521" transform="translate(29.575)">
-              <g id="Group_15519" data-name="Group 15519">
-                <path id="Path_13897" data-name="Path 13897" d="M1045.944,636.435l-5.964,12.827,82.6-57.008Z" transform="translate(-1039.98 -592.253)" fill="#4eaff7"/>
-              </g>
-              <g id="Group_15520" data-name="Group 15520" transform="translate(5.964)">
-                <path id="Path_13898" data-name="Path 13898" d="M1133.379,592.253l-76.634,44.181,31.846,25.585Z" transform="translate(-1056.745 -592.253)" fill="url(#linear-gradient-4)"/>
-              </g>
-            </g>
-          </g>
-        </g>
-        <path id="Path_13899" data-name="Path 13899" d="M1065.569,583.894a3.556,3.556,0,0,0-3.485-1.607L949.911,597.824a3.557,3.557,0,0,0-1.745,6.293l24.421,19.69,3.9,19.7a3.557,3.557,0,0,0,5.51,2.238l9.614-6.635,23.948,19.239a3.558,3.558,0,0,0,5.221-.851l44.788-69.767A3.558,3.558,0,0,0,1065.569,583.894Zm-47.785,71.683-26.014-20.9-2.047,1.413-9.749,6.728-4.148-20.97-25.427-20.5,112.173-15.537Z"/>
+  <g data-name="Group 20700" transform="translate(-891.5, -278.5)">
+    <g data-name="Group 20694" transform="translate(313.341 -386.991)">
+      <circle data-name="Ellipse 1475" cx="90.514" cy="90.514" r="90.514" transform="translate(578.505 665.499)" fill="#4fadf2"/>
+    </g>
+    
+    
+    <g id="Group_20695" data-name="Group 20695" transform="translate(935.463 323.132)">
+      <g data-name="Mask Group 20664" transform="translate(6 9.053)" clip-path="url(#clip-path-contact)">
+        <path data-name="Path 46419" d="M7.362,0A7.48,7.48,0,0,0,0,7.47V54.2a7.479,7.479,0,0,0,7.362,7.47H74.488a7.432,7.432,0,0,0,7.306-7.47V7.47A7.432,7.432,0,0,0,74.488,0Zm0,6.98H74.488c.183,0,.326.079.326.49v.982L40.9,31.245,6.98,8.452V7.47c0-.412.2-.49.382-.49M6.98,16.849l32.009,21.54a3.487,3.487,0,0,0,3.87,0l31.955-21.54V54.2c0,.412-.143.49-.326.49H7.362c-.185,0-.382-.079-.382-.49Z" transform="translate(0 0.001)" fill="#333"/>
+        <path data-name="Path 46420" d="M4.382,4H71.508c.183,0,.326.079.326.49v.982L37.916,28.265,4,5.473V4.49c0-.412.2-.49.382-.49M4,13.869l32.009,21.54a3.487,3.487,0,0,0,3.87,0l31.955-21.54V51.222c0,.412-.143.49-.326.49H4.382c-.185,0-.382-.079-.382-.49Z" transform="translate(2.98 2.98)" fill="#f9e9b9"/>
       </g>
     </g>
+    <ellipse data-name="Ellipse 1484" cx="43" cy="6.5" rx="43" ry="6.5" transform="translate(939.346 405.298)" fill="#489fde"/>
   </g>
 </svg>
     `;
@@ -409,11 +439,27 @@ const enterpriseStyle = function (provider) {
         str += 'color:' + provider.customization.login_text_hex_color + ';';
     }
     if (provider.customization && provider.customization.login_background_hex_color) {
-        str += 'background-color:' + provider.customization.login_background_hex_color + ';';
+        // str += 'background-color:' + provider.customization.login_background_hex_color + ';';
     }
 
     return str;
 };
+
+const appySVGButtonStyle_e = function(div, provider) {
+    if (provider.customization && provider.customization.login_background_hex_color) {
+        let css = '.breadbutter-ui .breadbutter-buttons:not(.bb-icon) .enterprise[provider_id="'+ provider.id+'"]>div:hover .bb-icon-wrapper {' +
+            'background-color: ' + provider.customization.login_background_hex_color + ';' +
+            '}'
+        let style = document.createElement('style');
+
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        div.appendChild(style);
+    }
+}
 
 const svgButtons_e = function (provider, register, deidentify) {
     var html = '';
@@ -436,7 +482,7 @@ const svgButtons_e = function (provider, register, deidentify) {
     let style = enterpriseStyle(provider);
 
     sign_in = lang.replace({
-        WITH: Locale.TILE.W_,
+        WITH: Locale.TILE.WITH,
         BRAND: name
     }, sign_in);
     if (provider.alias) {
@@ -498,12 +544,13 @@ const svgIcons_e = function (provider) {
 };
 
 const svgButtons = function (type, opt, register, deidentify) {
+    // console.log(type);
     let html = '';
     let TYPE = type;
     let svg = loadSVG(type);
     let sign_in = register ?  Locale.TILE.CONTINUE : Locale.TILE.SIGN_IN;
     sign_in = deidentify ? Locale.TILE.DEIDENTIFY_WITH: sign_in;
-
+    let text, cls;
     let brand = Locale.TILE.BRAND[TYPE.toUpperCase()];
     if (brand) {
         let prep = Locale.TILE.WITH;
@@ -619,9 +666,15 @@ const svgButtons = function (type, opt, register, deidentify) {
                 '<div class="bb-icon">' +
                 svg;
             break;
+        case 'magic_link':
+            html =
+                '<div data-name="magic-link" class="bb-magic-link"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon">' +
+                svg;
+            break;
         case 'local':
-            let text = opt.text ? opt.text : Locale.TILE.WITH_EMAIL;
-            let cls = opt.cls ? opt.cls : '';
+            text = opt.text ? opt.text : Locale.TILE.WITH_EMAIL;
+            cls = opt.cls ? opt.cls : '';
             html =
                 '<div data-name="local" class="bb-local ' +
                 cls +
@@ -632,8 +685,29 @@ const svgButtons = function (type, opt, register, deidentify) {
                 text +
                 '</span></div></div>';
             break;
+        case 'email':
+            text = opt.text ? opt.text : Locale.TILE.CONTINUE_EMAIL;
+            cls = opt.cls ? opt.cls : '';
+            html =
+                '<div data-name="email" class="bb-email ' +
+                cls +
+                '"><div class="bb-icon-wrapper">' +
+                '<div class="bb-icon">' +
+                svg +
+                '</div><span>' +
+                text +
+                '</span></div></div>';
+            break;
+            break;
+        case 'more':
+            html =
+                '<div data-name="local" class="bb-local"><div class="bb-icon-wrapper">' +
+                '<span>' +
+                Locale.TILE.MORE +
+                '</span></div></div>';
+            break;
     }
-    if (TYPE != 'local') {
+    if (TYPE != 'local' && TYPE != 'more'  && TYPE != 'email') {
         if (opt.alias) {
             if (deidentify) {
                 sign_in = lang.replace({
@@ -672,6 +746,46 @@ const enterpriseIcon = function (type, provider) {
 const loadSVG = function (type) {
     let svg = '';
     switch (type) {
+        case 'email':
+            svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="18.096" viewBox="0 0 24 18.096">' +
+            '  <defs>' +
+            '    <clipPath id="clip-path">' +
+            '      <rect id="Rectangle_4889" data-name="Rectangle 4889" width="24" height="18.096" transform="translate(0 0)" fill="none"/>' +
+            '    </clipPath>' +
+            '  </defs>' +
+            '  <g id="Group_21938" data-name="Group 21938" transform="translate(-473.626 -1274.283)">' +
+            '    <g id="Group_21811" data-name="Group 21811" transform="translate(473.626 1274.283)">' +
+            '      <g id="Mask_Group_20664" data-name="Mask Group 20664" transform="translate(0 0)" clip-path="url(#clip-path)">' +
+            '        <path id="Path_46419" data-name="Path 46419" d="M2.16,0A2.195,2.195,0,0,0,0,2.192V15.9A2.194,2.194,0,0,0,2.16,18.1h19.7A2.181,2.181,0,0,0,24,15.9V2.192A2.181,2.181,0,0,0,21.856,0Zm0,2.048h19.7c.054,0,.1.023.1.144V2.48L12,9.168,2.048,2.48V2.192c0-.121.058-.144.112-.144m-.112,2.9,9.392,6.32a1.023,1.023,0,0,0,1.136,0l9.376-6.32V15.9c0,.121-.042.144-.1.144H2.16c-.054,0-.112-.023-.112-.144Z" transform="translate(0 0)" fill="#333"/>' +
+            '        <path id="Path_46420" data-name="Path 46420" d="M4.112,4h19.7c.054,0,.1.023.1.144v.288L13.952,11.12,4,4.432V4.144C4,4.023,4.058,4,4.112,4M4,6.9l9.392,6.32a1.023,1.023,0,0,0,1.136,0L23.9,6.9v10.96c0,.121-.042.144-.1.144H4.112C4.058,18,4,17.977,4,17.856Z" transform="translate(-1.952 -1.952)" fill="#f9e9b9"/>' +
+            '      </g>' +
+            '    </g>' +
+            '  </g>' +
+            '</svg>';
+            break;
+        case 'magic_link':
+            svg = `
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.164" height="24.4" viewBox="0 0 24.164 24.4">
+              <defs>
+                <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+                  <stop offset="0" stop-color="#fdd03a"/>
+                  <stop offset="0.648" stop-color="#d98b7a"/>
+                  <stop offset="1" stop-color="#9203fa"/>
+                </radialGradient>
+              </defs>
+              <g id="Group_15318" data-name="Group 15318" transform="translate(479.338 -2635.516)">
+                <g id="Group_14825" data-name="Group 14825" transform="translate(-503.977 2630.618)">
+                  <g id="Group_13895" data-name="Group 13895" transform="translate(30.624 4.898)">
+                    <path id="Path_13311" data-name="Path 13311" d="M57.655,7.512a.686.686,0,0,0-.97,0l-2.91,2.91a.686.686,0,0,0,.97.97l2.91-2.91a.686.686,0,0,0,0-.97ZM51.934,5.1a.686.686,0,0,0-1.167.485L50.76,9.695a.69.69,0,0,0,1.379,0L52.132,5.58a.68.68,0,0,0-.2-.485Zm8.138,8.138a.68.68,0,0,0-.485-.2l-4.115-.008a.689.689,0,1,0,0,1.379l4.115-.008a.686.686,0,0,0,.485-1.167ZM46.016,7.028a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,1,0,.97-.97Zm9.214,9.214a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,0,0,.97-.97ZM47.365,12.6a.669.669,0,0,0-.477-.2l-4.115.008a.682.682,0,0,0,0,1.364l4.115.008a.681.681,0,0,0,.477-1.175Zm5.2,5.2a.681.681,0,0,0-1.175.477l.008,4.114a.682.682,0,0,0,1.364,0l.008-4.115a.669.669,0,0,0-.2-.477Z" transform="translate(-42.091 -4.898)" fill="url(#radial-gradient)"/>
+                  </g>
+                  <g id="Group_13896" data-name="Group 13896" transform="translate(24.639 11.687)">
+                    <path id="Path_13312" data-name="Path 13312" d="M39.884,24.885a.712.712,0,0,0-.97,0L24.829,39.205a.713.713,0,0,0,0,.97l1.94,1.94a.713.713,0,0,0,.97,0l14.084-14.32a.712.712,0,0,0,0-.97ZM39.4,26.34l.97.97-3.88,3.88-.97-.97Z" transform="translate(-24.639 -24.694)"/>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            `;
+            break;
         case 'okta':
             svg =
                 '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" xml:space="preserve" viewBox="0 0 13 13"><g class="currentLayer" style=""><path d="M6.310026569366443,0.000026690959941788606 c-3.48,-0.010000000000000005 -6.3,2.8 -6.3100000000000005,6.28 c-0.010000000000000005,3.47 2.81,6.29 6.29,6.3 s6.3,-2.8 6.3100000000000005,-6.28 C12.600026569366463,2.820026690959935 9.79002656936646,0.010026690959932694 6.310026569366443,0.000026690959941788606 M6.300026569366452,9.43002669095992 c-1.7400000000000002,0 -3.15,-1.4100000000000001 -3.14,-3.15 c0,-1.7400000000000002 1.4100000000000001,-3.14 3.15,-3.14 c1.7400000000000002,0 3.15,1.4100000000000001 3.14,3.15 C9.450026569366457,8.030026690959943 8.030026569366441,9.43002669095992 6.300026569366452,9.43002669095992 "/></g></svg>';
@@ -858,5 +972,6 @@ export default {
     svgContactUs,
     loadSVG,
     parsePosition,
-    getCloseIconSvg
+    getCloseIconSvg,
+    appySVGButtonStyle_e
 };

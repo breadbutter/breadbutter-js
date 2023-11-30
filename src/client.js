@@ -498,9 +498,14 @@ const api = new (function() {
                 callback();
             }
         });
-    }
+    };
+
+    this.identifyUser = function(email_address, first_name, last_name, callback) {
+        API.identifyUser({email_address, first_name, last_name, callback});
+    };
 
     this.getProviders = API.getProviders;
+    
     this.ping = API.ping;
 })();
 
@@ -906,6 +911,7 @@ const UI = new (function() {
             id = false;
         }
         initUI(opt);
+        removeAllPopups();
 
         let popup = new viewPopupClass();
         popup.init(opt);
@@ -2370,6 +2376,10 @@ const ui = new (function() {
         };
         widgets.signIn("breadbutter-ui-content-gating-content-holder", opt);
         document.body.classList.add('breadbutter-locked-limit-content');
+
+        setTimeout(()=> {
+            view.classList.add('animate-in');
+        }, 200);
     };
 
     this.showContentGating = function(options) {
@@ -2570,6 +2580,10 @@ const widgets = new (function() {
     };
     this.continueWith = function(opt) {
         if (has_content_preview) return;
+        opt = opt ? opt : {};
+        if (!opt.destination_url) {
+            opt.destination_url = document.location.href.split('?')[0];
+        }
         opt = parsingUrl(opt);
         ishandlingQueryString = true;
         let mode = (opt && opt.mode) ? opt.mode : false;

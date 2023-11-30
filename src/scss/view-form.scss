@@ -377,7 +377,7 @@
 
             .breadbutter-buttons-holder {
                 background-color: #eeeeee;
-                padding: 10px 10px 0px 11px;
+                padding: 10px 10px 10px 11px;
                 .form-message {
                     margin-bottom: 3px;
                 }
@@ -403,8 +403,20 @@
             & > div {
                 display: none;
             }
-            & > div:nth-child(-n+5) {
+            & > div:nth-child(-n+3) {
                 display: block;
+            }
+            &.bb-icon {
+                & > div:nth-child(-n+5) {
+                    display: block;
+                }
+            }
+        }
+        &.bb-limit-providers-less {
+            .breadbutter-buttons {
+                & > div:nth-child(-n+4) {
+                    display: block;
+                }
             }
         }
         .breadbutter-provider-limit {
@@ -648,7 +660,7 @@
         &-switch-login {
             position: relative;
             background-color: #ffffff;
-            padding: 15px $view-padding 14px;
+            //padding: 15px $view-padding 14px;
         }
 
         &-reset-title,
@@ -711,21 +723,25 @@
             padding: 15px $view-padding 17px;
         }
 
-        &-incognito-holder {
-            background-color: #fff;
+        &-incognito-holder, &-email-holder {
+            //background-color: #fff;
             padding: 0 0 0px;
             display: flex;
             flex-direction: column;
+            background-color: #eee;
             //align-items: center;
             .breadbutter-module-email-discovery {
-                margin: 0 25px 25px;
+                //margin: 0 25px 25px;
+                padding: 15px 13px 15px;
+                //margin-bottom: 25px;
                 input {
                     box-sizing: border-box;
                 }
             }
             &.bb-magic-link {
                 .breadbutter-module-email-discovery {
-                    margin: 0 25px;
+                    //margin: 0 25px;
+                    padding: 15px 13px;
                 }
             }
         }
@@ -740,12 +756,16 @@
 
         &-buttons-holder {
             background-color: #fff;
-            padding: 10px 0;
+            //padding: 10px 0;
+            padding: 6px 10px 6px 10px;
             &.login-provider {
-                margin: 0 -3px;
+                //margin: 0 -3px;
                 background-color: #fff;
                 * {
                     box-sizing: content-box;
+                }
+                .breadbutter-buttons {
+                    padding: 0;
                 }
             }
 
@@ -786,7 +806,7 @@
                 align-items: flex-start;
                 justify-content: flex-start;
                 z-index: 1;
-                background-color: #e6e6e6;
+                //background-color: #e6e6e6;
 
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
@@ -831,12 +851,51 @@
             }
         }
 
+
         &-login {
-            padding: 0 13px 0px 14px;
+            padding: 0;
             box-sizing: border-box;
+
             .breadbutter-module {
                 &-password {
                     margin-bottom: 20px;
+                }
+            }
+
+            .breadbutter-buttons-holder {
+                background-color: #fff;
+                //padding: 10px 0;
+                padding: 6px 10px 0;
+                .breadbutter-buttons:not(.bb-icon)>div:not(.enterprise):not(:hover) > div:not(.green) .bb-icon-wrapper {
+                    border-color: #000;
+                }
+            }
+
+            .breadbutter-switch-login {
+                padding: 0 10px 3px!important;
+                background-color: #fff;
+                * {
+                    box-sizing: content-box;
+                }
+                .breadbutter-buttons {
+                    padding: 0;
+                    .bb-local:not(.green) .bb-icon-wrapper {
+                        border-color: #000 !important;
+                    }
+                }
+                .form-forgot {
+                    //padding: 5px 10px 8px;
+                    display: block;
+                    text-align: left;
+                }
+            }
+            .breadbutter-module-magic-link {
+                //display: none;
+                padding: 0 10px !important;
+                background-color: #fff;
+                .breadbutter-magic-link-button {
+                    border-color: #000;
+                    margin: 0 3px;
                 }
             }
         }
@@ -848,6 +907,9 @@
                     background: none;
                     border: none;
                 }
+            }
+            .breadbutter-module-magic-link {
+                display: none;
             }
         }
 
@@ -930,6 +992,16 @@
                         margin: 8px auto 14px auto;
                     }
                 }
+            }
+            .breadbutter-login {
+                .breadbutter-buttons-holder {
+                    background-color: transparent;
+                }
+                //.breadbutter-buttons:not(.bb-icon)>div:not(.enterprise):not(:hover) {
+                //    .bb-icon-wrapper {
+                //        border-color: #000;
+                //    }
+                //}
             }
 
             .breadbutter-incognito-holder {
@@ -1031,7 +1103,20 @@
     .bb-magic-link {
         overflow: hidden;
         .breadbutter-switch-login {
-            padding-top: 6px;
+            //padding-top: 6px;
+            padding: 6px 0 0;
+        }
+    }
+    .breadbutter-register-holder {
+        .breadbutter-switch-login {
+            //padding-top: 6px;
+            padding: 0;
+            .breadbutter-buttons {
+                padding: 6px 0 0;
+                div[data-name=local] {
+                    margin: 0;
+                }
+            }
         }
     }
 
@@ -1057,7 +1142,7 @@
             letter-spacing: normal;
             text-align: left;
             color: #4e5051;
-            margin-left: 10px;
+            margin-left: 25px;
         }
         .breadbutter-deidentify-form, .breadbutter-custom-data-form {
             .form-password, .form-email {
@@ -1145,6 +1230,90 @@
             }
         }
     }
+    .breadbutter-email {
+        .breadbutter-discovery-holder.tile-content {
+            .bb-on-blur-email {
+                .bb-email-holding-button {
+                    z-index: 10003;
+
+                    .bb-email-start-focus-text {
+                        display: block!important;
+                    }
+                }
+            }
+        }
+    }
+    .breadbutter-incognito, .breadbutter-email {
+        .breadbutter-module-magic-link {
+            display: none;
+        }
+        .breadbutter-buttons-holder {
+            //padding-bottom: 0;
+        }
+        .breadbutter-discovery-holder.tile-content {
+            .breadbutter-buttons-holder,
+            .breadbutter-incognito-holder,
+            .breadbutter-email-holder {
+                //padding-bottom: 6px;
+
+                .bb-email-revealing-button {
+                    //padding: 0 10px;
+
+                    &.bb-hide {
+                        display: none;
+                    }
+                }
+
+                .bb-email-revealing-button + .bb-email-holding-button {
+                    display: none;
+                    padding: 0 5px 0 3px;
+                    margin: 2px 0;
+                    .bb-email-start-focus-text {
+                        display: none;
+                        font-size: 13px;
+                        line-height: 1.455;
+                        height: 20px;
+                        color: white;
+                        text-align: center;
+                        margin-top: -30px;
+                        margin-bottom: 10px;
+                    }
+                    .form-error-message {
+                        height: auto;
+                    }
+                    &.bb-show {
+                        display: block;
+                    }
+                }
+
+                .breadbutter-module-email-discovery {
+                    height: 40px;
+                    background-color: #fff !important;
+                    border: 1px solid #e6e6e6;
+                    color: #797a79;
+                    border-radius: 4px;
+                    text-align: center;
+                    margin: 0 !important;
+                    padding: 0!important;
+                    width: 100%;
+
+                    input.form-email {
+                        padding: 11px 35px 7px 12px;
+                        background-color: rgba(0, 0, 0, 0) !important;
+                        margin: 0;
+                        border: none;
+                    }
+
+                    .form-next-icon {
+                        right: 8px;
+                        top: 10px;
+                    }
+                }
+            }
+
+        }
+    }
+
 
     .error {
         //.form-title {
@@ -1169,8 +1338,9 @@
     }
     .breadbutter-module-email-discovery {
         position: relative;
-        padding: 15px;
-        margin: 0 25px;
+        padding: 15px 13px;
+        margin: 0;
+        background-color: #eee;
 
         .form-email {
             margin-top: 0;
@@ -1183,9 +1353,16 @@
             background: none;
             background-color: rgba(0, 0, 0, 0) !important;
 
+            border-color: #50aff5;
+            & + .form-next-icon {
+                background: #50aff5;
+
+                svg {
+                    fill: #fff;
+                }
+            }
             &.focus {
                 border-color: #50aff5;
-
                 & + .form-next-icon {
                     background: #50aff5;
 
@@ -1198,7 +1375,7 @@
 
         .form-next-icon {
             position: absolute;
-            right: 18px;
+            right: 13px;
             top: 21px;
             height: 24px;
             cursor: pointer;
@@ -1207,8 +1384,10 @@
                 height: 12px;
                 margin: 6px;
                 fill: #878787;
+                fill: #fff;
             }
             background: #eeeef0;
+            background: #50aff5;
             &:hover {
                 background: #50aff5;
                 svg {
@@ -1332,12 +1511,12 @@
     }
     .breadbutter-email {
         .breadbutter-module-magic-link {
-            padding: 0 13px;
-            margin: 0 0 25px;
+            padding: 15px 13px 25px;
+            background-color: #eee;
         }
         .breadbutter-term-policy-holder {
             //display: none;
-            margin: 0 25px 10px;
+            margin: 10px 25px 0px;
             padding: 0px 13px 14px;
             &:first-child {
                 margin-top: 10px;
@@ -1352,7 +1531,7 @@
     .breadbutter-incognito {
         .breadbutter-term-policy-holder {
             //display: none;
-            margin: 0 25px 10px;
+            margin: 10px 25px 0px;
             padding: 0px 13px 14px;
             &:first-child {
                 margin-top: 10px;
@@ -1361,7 +1540,7 @@
         }
         .breadbutter-module-magic-link {
             padding: 0 13px;
-            margin: 0 0 25px;
+            margin: 15px 0 25px;
             .breadbutter-magic-link-mask {
                 //bottom: -64px;
             }
@@ -1374,6 +1553,17 @@
         }
         .breadbutter-module-magic-link {
             padding: 0;
+        }
+    }
+    .breadbutter-register {
+        .breadbutter-switch-login {
+            padding: 0;
+            .bb-more-button {
+                padding: 4px 0;
+                .bb-local {
+                    margin: 0;
+                }
+            }
         }
     }
 }
@@ -1655,7 +1845,7 @@
     position: relative;
     .breadbutter-magic-link-button {
         font-size: 13px;
-        color: #797a79;
+        color: #333;
         line-height: 40px;
         border: 1px solid #e6e6e6;
         border-radius: 4px;
@@ -1663,6 +1853,10 @@
         height: 40px;
         text-align: center;
         background-color: white;
+        //font-family: Roboto, 'Arial' !important;
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif !important;
+        font-weight: 600;
+        font-size: 12px;
         .breadbutter-magic-link-wand {
             position: absolute;
             margin: 8px;

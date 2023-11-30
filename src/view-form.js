@@ -28,6 +28,7 @@ const EXPIRE_BUTTON_ID = 'breadbutter-expire-buttons';
 const INCOGNITO_ID = 'breadbutter-incognito';
 const INCOGNITO_TITLE_ID = 'breadbutter-incognito-title';
 const INCOGNITO_HOLDER_ID = 'breadbutter-incognito-holder';
+const EMAIL_HOLDER_ID = 'breadbutter-email-holder';
 const INCOGNITO_LOGIN_ID = 'breadbutter-incognito-login';
 const INCOGNITO_REGISTER_ID = 'breadbutter-incognito-register';
 const DEIDENTIFY_FORM_ID = 'breadbutter-deidentify-form';
@@ -35,6 +36,7 @@ const DEIDENTIFY_ID = 'breadbutter-deidentify';
 const CUSTOM_DATA_FORM_ID = 'breadbutter-custom-data-form';
 const CUSTOM_DATA_ID = 'breadbutter-custom-data';
 const POPUP_ID = 'breadbutter-popup';
+const DISCOVERY_HOLDER_ID = 'breadbutter-discovery-holder';
 
 const CONTACTUS_FORM_ID = 'breadbutter-contactus-form';
 const CONTACTUS_COMPLETE_ID = 'breadbutter-contactus-complete';
@@ -154,6 +156,7 @@ const FORM = {
     SUBMIT: 'form-submit',
     LOGIN_PROVIDER: 'login-provider',
     SUGGESTED_LIST: 'suggested-list',
+    BUTTONS: 'breadbutter-buttons',
     FILLING: "filling-form",
     CONFIRMATION: "confirmation-form",
     SIGN_OUT: "sign-out-link"
@@ -229,10 +232,14 @@ const providers_hash = constants.providers_hash;
 const providers_buttons = constants.providers_buttons;
 const providers_list = constants.providers_list;
 const errors = constants.errors;
+const LIMIT_LIST_LENGTH = 5;
+const ICON_LIMIT_LIST_LENGTH = 5;
+
 
 import {
     DEV_LOCAL, DEV_NO_LOCAL, DEV_HV_LOCAL,
     DEV_NOT_HV_LOCAL, DEV_LOCAL_SUGGESTION,
+    DEV_MAGIC_SUGGESTION,
     DEV_NON_SUGGESTION, DEV_SUGGESTION,
     DEV_EMPTY_PROVIDER, DEV_ONE_PROVIDER,
     DEV_USER_STATUS, DEV_NEED_INVITE,
@@ -271,12 +278,19 @@ const VIEWFORM = function() {
 
         if (res) {
             if (DEV_LOCAL_SUGGESTION) {
+                // res.suggested_provider = providers_hash['local'];
                 // res.suggested_identity_provider = 'local';
+                delete res.suggested_provider;
             }
             if (DEV_SUGGESTION) {
                 res.suggested_provider = providers_hash[DEV_SUGGESTION];
                 // res.suggested_identity_provider = DEV_SUGGESTION;
             }
+
+            if (DEV_MAGIC_SUGGESTION) {
+                res.suggested_provider = providers_hash['magic_link'];
+            }
+
             if (DEV_NON_SUGGESTION) {
                 res.suggested_provider = false;
             }
@@ -388,6 +402,10 @@ const VIEWFORM = function() {
         return c;
     };
 
+    const findKid = function(container, child) {
+        return container.querySelector('.' + child);
+    };
+
     const removeChild = function(container, child) {
         let c = findChild(container, child);
         if (c) {
@@ -441,11 +459,23 @@ const VIEWFORM = function() {
             target = target.nextSibling;
         }
 
-        insertAfter(msg, target, last);
+        if (target.closest('.bb-email-holding-button')) {
+            let holder = target.closest('.bb-email-holding-button');
+            holder.appendChild(msg);
+        } else {
+            insertAfter(msg, target, last);
+        }
     };
 
     const cleanError = function(target) {
-        if (target) {
+        if (target.closest('.bb-email-holding-button')) {
+            let holder = target.closest('.bb-email-holding-button');
+            let error_message = holder.querySelector('.' + FORM.ERROR_MESSAGE);
+            if (error_message) {
+                error_message.remove();
+            }
+
+        } else if (target) {
             if (target.nextSibling) {
                 if (target.nextSibling.classList.contains(FORM.ERROR_MESSAGE)) {
                     target.parentNode.removeChild(target.nextSibling);
@@ -459,8 +489,8 @@ const VIEWFORM = function() {
                     }
                 }
             }
-            target.classList.remove('error');
         }
+        target.classList.remove('error');
     };
 
     const cleanBlur = function(target) {
@@ -508,10 +538,12 @@ const VIEWFORM = function() {
 //----------------------------------------------------------------------------------------
 
     const init = function(options) {
-
         detectMobile();
         loadOptions(options);
         loadApp(options);
+        viewButton.assignFunc({
+            magic_link: onTriggerMagicLinkButton
+        });
     };
 
     let onProvider = false;
@@ -532,6 +564,8 @@ const VIEWFORM = function() {
             OPTS.expand_email_address = true;
         }
 
+
+        // OPTS.expand_email_address = true;
         onMagicLinkConfirm = options.onMagicLinkConfirm;
         onProvider = options.onProvider;
         onFormEntry = options.onFormEntry;
@@ -1234,12 +1268,22 @@ const VIEWFORM = function() {
                     loader.start(container, true);
                     enterDiscovery(options.email_address, signin).then(() => {
                         loader.remove();
+                        if (!verified) {
+                            setTimeout(()=> {
+                                showContactSignIn(container)
+                            }, 550);
+                        }
                     });
+                } else {
+                    if (!verified) {
+                        setTimeout(()=> {
+                            showContactSignIn(container)
+                        }, 550);
+                    }
                 }
             }
             let form = contactUsForm(container, options, res);
             container.appendChild(form);
-
         });
     }
 
@@ -1344,8 +1388,8 @@ const VIEWFORM = function() {
     }
 
     const switchLogin = function(holder) {
-        showPopupTitle(holder, true);
         checkProviders((res) => {
+            showPopupTitle(holder, true);
             let invite_required = res.settings.invite_required;
             let discovery_required = res.settings.discovery_required;
             const email_address = getLocalEmail();
@@ -1376,12 +1420,31 @@ const VIEWFORM = function() {
         holder.appendChild(form);
     }
 
-    const insertSwitchLogin = function(top, skip, registering, basic) {
+    const insertSwitchLogin = function(top, skip, registering, basic, suggested) {
         //logger.debug('insert switch login');
         loading = false;
         removeChild(top, SWITCH_HOLDER_ID);
         removeChild(top, MODULE_SPACER);
         let holder = view.addView(SWITCH_HOLDER_ID);
+        if (!suggested) {
+            insertLoginMagicLink(top, registering, basic);
+        }
+        // if (OPT_IN) {
+        //     if (registering) {
+        //         holder.appendChild(
+        //             getButton(Locale.BUTTON.SWITCH_LOGIN, FORM.SWITCH_LOGIN, triggerSwitchLogin)
+        //         );
+        //     } else {
+        //         holder.appendChild(
+        //             getButton(Locale.MAGIC_LINK.LEAVE_MAGIC_LINK_OPT_IN, FORM.SWITCH_LOGIN, triggerSwitchLogin)
+        //
+        //         );
+        //     }
+        // } else {
+        //         holder.appendChild(getSwitchLogin(triggerSwitchLogin));
+        // }
+        holder.appendChild(getSwitchLogin(triggerSwitchLogin));
+
         if (!skip) {
             if (getInviteRequired()) {
                 let new_user = getNewUser();
@@ -1391,28 +1454,15 @@ const VIEWFORM = function() {
         } else {
             holder.appendChild(getForgot(triggerForgot));
         }
-        if (OPT_IN) {
-            if (registering) {
-                holder.appendChild(
-                    getButton(Locale.BUTTON.SWITCH_LOGIN, FORM.SWITCH_LOGIN, triggerSwitchLogin)
-                );
-            } else {
-                holder.appendChild(
-                    getButton(Locale.MAGIC_LINK.LEAVE_MAGIC_LINK_OPT_IN, FORM.SWITCH_LOGIN, triggerSwitchLogin)
-                );
-            }
-        } else {
-                holder.appendChild(getSwitchLogin(triggerSwitchLogin));
-        }
 
         top.appendChild(holder);
         insertMoreInformation(top, registering, basic);
+        insertTermPolicyHolder(top);
         insertPoweredByModule(top);
     };
 
-    const insertMoreInformation = function(top, registering, basic) {
-        //logger.debug('insertMoreInformation');
-        logger.debug('insertMoreInformation')
+    const insertLoginMagicLink = function(top, registering, basic) {
+        // if (!registering) {
         if (OPT_IN && MAGIC_LINK_REGISTRATION_ENABLED) {
             if (!basic || LOCAL_LOGIN_ENABLED) {
                 insertMagicLinkButton(top, false, registering, true);
@@ -1422,6 +1472,9 @@ const VIEWFORM = function() {
                 insertMagicLinkButton(top, false, registering);
             }
         }
+    }
+
+    const insertMoreInformation = function(top, registering, basic) {
 
         removeChild(top, MODULE_MORE_INFO);
         let holder = view.addView(MODULE_MORE_INFO);
@@ -1430,7 +1483,11 @@ const VIEWFORM = function() {
         holder.appendChild(more_info);
         top.appendChild(holder);
 
-        insertTermPolicyHolder(top);
+        // insertTermPolicyHolder(top);
+    };
+
+    const getButtonArrowDown = function() {
+        return viewButton.getContinueAnotherWayButton();
     };
 
     const getArrowDown = function() {
@@ -1610,9 +1667,42 @@ const VIEWFORM = function() {
         deIdentificationMagicLink(target.parentElement);
     }
 
+    const onTriggerMagicLinkButton = function(button, data) {
+        console.log(button);
+        console.log(data);
+
+        let email = data.email_address;
+        let target = button.closest('.' + BUTTON_HOLDER_ID);
+        let top = target.closest('.' + LOGIN_ID) || target.closest('.' + EMAIL_ID) || target.closest('.' + INCOGNITO_ID);
+        const letMagicWork = function(values) {
+            api.startMagicLink(values, async function(res) {
+                loader.remove();
+                if (res && res.authentication_token) {
+                    switchMagicLinkConfirmation(top.closest('.' + ID), email, res.authentication_token);
+                } else {
+                    await loader.failure();
+                    console.error('Something is wrong');
+                    console.error(res.error);
+                    if (res && res.error && res.error.message) {
+                        if (res.error.message.indexOf(
+                            'magic_link_registration_enabled'
+                        ) != -1) {
+                            insertError(target, Locale.ERROR.MAGIC_LINK_REGISTRATION_DISABLED.MESSAGE);
+                        } else {
+                            insertError(target, res.error.message);
+                        }
+                    }
+                }
+            });
+        }
+
+        loader.start(top, false, true, false);
+        letMagicWork(data);
+    };
+
     const onTriggerMagicLink = function(target, register) {
         loading = false;
-        let top = target.parentElement;
+        let top = target.parentElement.parentElement;
         logger.debug('onTriggerMagicLink', top, target, register);
         let email_holder = top.querySelector('.' + FORM.EMAIL);
         let email = email_holder.email ? email_holder.email : email_holder.value;
@@ -1943,7 +2033,7 @@ const VIEWFORM = function() {
 
     }
 
-    const getFirstName = function(value) {
+    const getFirstName = function(value, disable_focus) {
         let container = view.addView(MODULE_FORM_INPUT);
         container.classList.add(FORM.FIRST_NAME);
         let b = view.addBlock('input', FORM.FIRST_NAME);
@@ -1952,12 +2042,21 @@ const VIEWFORM = function() {
             e.stopPropagation();
             triggerFirstNameKeyup(e);
         });
-        b.addEventListener('blur', triggerFirstNameBlur);
+        // b.addEventListener('blur', function(e) {
+        //     e.stopPropagation();
+        //     setTimeout(()=> {
+        //         triggerFirstNameBlur(e);
+        //     }, 150)
+        // });
         if (value) {
             b.value = value;
             b.disabled = true;
         }
         container.appendChild(b);
+
+        if (!disable_focus) {
+            focusField(b);
+        }
         return container;
     };
 
@@ -1970,7 +2069,12 @@ const VIEWFORM = function() {
             e.stopPropagation();
             triggerLastNameKeyup(e, callback);
         });
-        b.addEventListener('blur', triggerLastNameBlur);
+        // b.addEventListener('blur', function(e) {
+        //     e.stopPropagation();
+        //     setTimeout(()=> {
+        //         triggerLastNameBlur(e);
+        //     }, 150)
+        // });
         container.appendChild(b);
         if (value) {
             b.value = value;
@@ -2051,9 +2155,10 @@ const VIEWFORM = function() {
         return b;
     };
 
-    const getEmail = function(email, lock, keyup, keydown) {
+    const getEmail = function(email, lock, keyup, keydown, focus) {
         let b = view.addBlock('input', FORM.EMAIL);
         b.type = 'email';
+        // b.placeholder = Locale.PLACEHOLDER.EMAIL_ADDRESS;
         b.placeholder = Locale.PLACEHOLDER.EMAIL_ADDRESS;
 
         if (email) {
@@ -2091,17 +2196,25 @@ const VIEWFORM = function() {
                 onFocus(false);
             }
         });
-        function outputsize() {
-            if (b.offsetWidth != 0 && b.offsetHeight != 0) {
-                setTimeout(()=> {
-                    b.focus();
-                    b.blur();
-                }, 10);
+        if (isMobile) {
+            function outputsize() {
+                if (b.offsetWidth != 0 && b.offsetHeight != 0) {
+                    setTimeout(() => {
+                        if (!b.hasFocus()) {
+                            b.focus();
+                            b.blur();
+                        }
+                    }, 10);
+                }
             }
-        }
-        outputsize()
 
-        new ResizeObserver(outputsize).observe(b);
+            outputsize()
+
+            new ResizeObserver(outputsize).observe(b);
+        }
+        if (focus) {
+            focusField(b);
+        }
         return b;
     };
 
@@ -2137,16 +2250,25 @@ const VIEWFORM = function() {
         if (pin) {
             pin = pin + '';
         }
+        let first_letter;
         for (let i = 0; i < length; i++) {
             let cls = FORM.PIN + '-' + i;
             let p = pin ? pin[i] : false;
             let a = getPin(cls, p, trigger);
+            if (i == 0) {
+                first_letter = a;
+            }
             b.appendChild(a);
         }
 
         if (cb) {
             b.callback = cb;
         }
+
+        if (!pin && first_letter) {
+            focusField(first_letter);
+        }
+
         return b;
     };
 
@@ -2249,15 +2371,19 @@ const VIEWFORM = function() {
         let email = getEmail(email_address, false, function(e) {
             const input = e.srcElement;
             const holder = input.parentElement;
-            if (e.code != 'Tab' && e.code != 'Enter') {
+            if (e.code != 'Tab' && e.code != 'Enter' ) {
+                // console.log(e);
                 cleanError(holder);
                 cleanError(input);
                 if (advance) {
                     cleanBlur(holder);
                 } else if(highlightOn) {
-                    let holderParent = holder.parentElement;
-                    if (findChild(holderParent, BUTTON_HOLDER_ID)) {
-                        const button_holder = findChild(holderParent, BUTTON_HOLDER_ID);
+                    let holderParent = holder.parentElement.parentElement;
+                    if (findKid(holderParent, BUTTON_HOLDER_ID)) {
+                        const button_holder = findKid(holderParent, BUTTON_HOLDER_ID);
+                        if (holderParent.closest('.breadbutter-email')) {
+                            holderParent = holderParent.closest('.breadbutter-email');
+                        }
                         highlightEmailForm(holderParent, button_holder, true);
                     }
                 }
@@ -2371,7 +2497,13 @@ const VIEWFORM = function() {
     };
 
     const getSwitchLogin = function(cb) {
-        return getButton(Locale.BUTTON.SWITCH_LOGIN, FORM.SWITCH_LOGIN, cb);
+        // return getButton(Locale.BUTTON.SWITCH_LOGIN, FORM.SWITCH_LOGIN, cb);
+        let button = getButtonArrowDown();
+        if (cb) {
+            button.onclick = cb;
+        }
+        return button;
+
     };
 
     const getSwitchDeIdentify = function(cb) {
@@ -2434,11 +2566,16 @@ const VIEWFORM = function() {
 
     const getMoreModuleOptions = function(cb) {
         const button = getButton(Locale.BUTTON.OR_CONTINUE_WITH_EMAIL, FORM.OPTIONS, cb);
+        // button.innerHTML = '<span></span>' +
+        //     Locale.BUTTON.OR_CONTINUE_WITH_EMAIL +
+        //     '<span></span>';
+        // button.classList.add('continue-or')
         return button;
     };
 
-    const getMoreSignupModuleOptions = function(cb) {
-        const button = getButton(Locale.BUTTON.OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD, FORM.OPTIONS, cb);
+    const getMoreSignupModuleOptions = function(cb, magic_link) {
+        let text = magic_link ? Locale.BUTTON.OR_SIGN_UP_WITH_EMAIL : Locale.BUTTON.OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD;
+        const button = getButton(text, FORM.OPTIONS, cb);
         return button;
     };
 
@@ -2866,7 +3003,7 @@ const VIEWFORM = function() {
     }
 
     const deIdentificationEmailRequest = function(holder, email, container) {
-        holder.appendChild(getEmail(email, false, triggerDeIdentificationKeyup));
+        holder.appendChild(getEmail(email, false, triggerDeIdentificationKeyup, false, true));
         holder.appendChild(
             getButton(
                 Locale.BUTTON.DE_IDENTIFY_ME,
@@ -3193,37 +3330,37 @@ const VIEWFORM = function() {
 
             const getTextTitle = function() {
                 let b = view.addView(BLUR_TEXT_TITLE_ID);
-                b.innerHTML = Locale.POPUP.TEXT_1;
+                b.innerHTML = Locale.CONTACT_US.TEXT_1;
                 return b;
             };
 
             const getText = function() {
                 let b = view.addView(BLUR_TEXT_ID);
-                b.innerHTML = Locale.POPUP.TEXT_2;
+                b.innerHTML = Locale.CONTACT_US.TEXT_2;
                 return b;
             };
 
-            const getMessage = function() {
-                let a = view.addView(BLUR_MESSAGE_HOLDER_ID);
-
-                let b = view.addSpanView(BLUR_MESSAGE_ID);
-                b.innerHTML = Locale.POPUP.TEXT_3;
-                //
-                // let c = view.addSpanView(BLUR_MORE_ID);
-                // c.innerHTML = Locale.POPUP.MORE;
-                // c.addEventListener("click", function() {
-                //     b.innerHTML = Locale.POPUP.TEXT_3_2;
-                //     this.remove();
-                // });
-                a.appendChild(b);
-                // a.appendChild(c);
-                return a;
-            }
+            // const getMessage = function() {
+            //     let a = view.addView(BLUR_MESSAGE_HOLDER_ID);
+            //
+            //     let b = view.addSpanView(BLUR_MESSAGE_ID);
+            //     b.innerHTML = Locale.POPUP.TEXT_3;
+            //     //
+            //     // let c = view.addSpanView(BLUR_MORE_ID);
+            //     // c.innerHTML = Locale.POPUP.MORE;
+            //     // c.addEventListener("click", function() {
+            //     //     b.innerHTML = Locale.POPUP.TEXT_3_2;
+            //     //     this.remove();
+            //     // });
+            //     a.appendChild(b);
+            //     // a.appendChild(c);
+            //     return a;
+            // }
 
             contact_blur.appendChild(getArrowUpButton());
             contact_blur.appendChild(getTextTitle());
             contact_blur.appendChild(getText());
-            contact_blur.appendChild(getMessage());
+            // contact_blur.appendChild(getMessage());
 
 
             setTimeout(function(){
@@ -3280,6 +3417,11 @@ const VIEWFORM = function() {
             getButton(Locale.BUTTON.CANCEL, FORM.CANCEL, triggerResetCancel)
         );
         insertPoweredByModule(container);
+
+        // console.log('resetting?');
+        let pwd_field = pwd.querySelector('input[type="password"]');
+        focusField(pwd_field);
+
         return container;
     };
 
@@ -3367,7 +3509,12 @@ const VIEWFORM = function() {
         let ml_module = findChild(container, MODULE_MAGIC_LINK);
         if (ml_module) {
             ml_module.classList.add('bb-blur');
+            let email_holder = ml_module.parentElement.querySelector('input[type="email"]');
+            if (email_holder) {
+                email_holder.focus();
+            }
         }
+
     };
 
     let highlightOn = false;
@@ -3382,7 +3529,9 @@ const VIEWFORM = function() {
             height += magic_link_module.offsetHeight;
         }
 
-        height = container.offsetHeight - button_holder.offsetHeight;
+        if (button_holder) {
+            height = container.offsetHeight - button_holder.offsetHeight;
+        }
 
         // logger.debug(highlightEmailForm);
         if (on) {
@@ -3400,6 +3549,13 @@ const VIEWFORM = function() {
                 button_holder.classList.add(BLUR_CLASS);
             }
         } else {
+            if (button_holder) {
+                let mask = findChild(button_holder, BLUR_HOLDER_ID);
+                button_holder.classList.remove('bb-on-blur-email');
+                if (mask && mask.remove) {
+                    mask.remove();
+                }
+            }
             highlightOn = false;
             let onBlur = triggerOnBlur(container, false);
             if (!onBlur) {
@@ -3418,9 +3574,16 @@ const VIEWFORM = function() {
     const emailForm = function(res, email_address, options, holder) {
         formEntry(EMAIL_FORM);
         let container = view.addView(EMAIL_ID);
+        let discovery_holder = view.addView(DISCOVERY_HOLDER_ID);
+        container.appendChild(discovery_holder);
 
-        let {list, button_holder} = getContinueWith(res, container);
+        let {list, button_holder} = getContinueWith(res, discovery_holder);
 
+        let tile_mode = button_holder.classList.contains('bb-tile');
+
+        if (tile_mode) {
+            discovery_holder.classList.add('tile-content');
+        }
         if (!list || list.length == 0 || CONTACT_US) {
             container.prepend(getHeaderModule(Locale.LOGIN.TITLE, Locale.LOGIN.CONTENT));
         } else {
@@ -3432,16 +3595,40 @@ const VIEWFORM = function() {
             // //logger.debug(buttons);
             for (let i = 0; buttons.children && i < buttons.children.length; i++) {
                 buttons.children[i].onclick = function() {
-                    highlightEmailForm(container, button_holder, true);
+
+                    if (discovery_holder.classList.contains('tile-content')) {
+                        let email_show = button_holder.querySelector('.bb-email-revealing-button');
+                        let email_field = button_holder.querySelector('.bb-email-holding-button');
+
+                        email_show.classList.add('bb-hide');
+                        let email_input = email_field.querySelector('input[type=email]');
+                        focusField(email_input);
+                        email_field.classList.add('bb-show');
+                        let mask = view.addView(BLUR_HOLDER_ID);
+                        button_holder.classList.add('bb-on-blur-email');
+                        button_holder.prepend(mask);
+                    } else {
+                        highlightEmailForm(container, button_holder, true);
+                        let email_input = container.querySelector('input[type=email]');
+                        focusField(email_input);
+                    }
+                    // console.dir(email_field);
                 };
             }
-            button_holder.appendChild(getModuleDropdown());
+            if (!tile_mode) {
+                button_holder.appendChild(getModuleDropdown());
+            }
         }
 
-        container.appendChild(getDiscoveryNextModule(email_address, continueBasicEmailLookupModule));
+        // applyBasicEmailForm(discovery_holder, email_address, tile_mode);
+
+        let form_holder = applyBasicEmailForm(email_address, tile_mode, button_holder);
+        //CHECK EMAIL confirm
+        discovery_holder.appendChild(form_holder);
+        
         // insertPoweredByModule(container);
 
-        insertMagicLinkButton(container, true);
+        insertMagicLinkButton(discovery_holder, true);
         insertTermPolicyHolder(container);
         return container;
     };
@@ -3539,6 +3726,7 @@ const VIEWFORM = function() {
         if (holder && holder.parentElement) {
             // //logger.debug('expandingIcons');
             holder.parentElement.classList.remove('scrolling');
+            holder.parentElement.classList.remove('scrolling-end');
             showMoreIDP(holder);
             setTimeout(function() {
                 holder.parentElement.style.height = null;
@@ -3559,6 +3747,11 @@ const VIEWFORM = function() {
                 }
             }
         }
+        
+        let magic_link = res && res.settings && res.settings.magic_link_settings && res.settings.magic_link_settings.enabled;
+        let local = res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled
+        let email_tile = magic_link || local;
+        
 
         if (list.length === 0) {
             list = false;
@@ -3584,6 +3777,7 @@ const VIEWFORM = function() {
             opt.pass = true;
         }
 
+        
         let button_holder = view.addView(BUTTON_HOLDER_ID);
         if (list) {
             if (theme !== 'tiles') {
@@ -3600,6 +3794,7 @@ const VIEWFORM = function() {
                 button_holder.classList.add(theme_class);
             }
             button_holder.append(container);
+            let tile_mode = theme == 'tiles';
 
             if (theme == 'tiles' && incognito) {
                 opt.button_theme = 'round-icons';
@@ -3612,8 +3807,25 @@ const VIEWFORM = function() {
 
             top.appendChild(button_holder);
 
-            if (list.length > 5) {
-                let d = getArrowDown();
+            let limit = ICON_LIMIT_LIST_LENGTH;
+            if (theme == 'tiles') {
+                limit = LIMIT_LIST_LENGTH;
+                if (email_tile && tile_mode) {
+                    limit = LIMIT_LIST_LENGTH - 1;
+                }
+            }
+
+            // console.log(list.length, limit);
+            if (list.length > limit) {
+                let d;
+                if (tile_mode) {
+                    d = getButtonArrowDown();
+                    if (limit == LIMIT_LIST_LENGTH) {
+                        button_holder.classList.add('bb-limit-providers-less');
+                    }
+                } else {
+                    d = getArrowDown();
+                }
                 button_holder.append(d);
                 button_holder.classList.add('bb-limit-providers');
                 d.onclick = function() {
@@ -3624,15 +3836,16 @@ const VIEWFORM = function() {
 
 
             if (OPT_IN && (MAGIC_LINK_ENABLED || LOCAL_LOGIN_ENABLED)) {
-                let continueWith = getDiv('<span></span>' +
-                    Locale.BUTTON.OR_CONTINUE_WITH_EMAIL_OPTIN +
-                    '<span></span>', 'breadbutter-optin-message');
-                button_holder.appendChild(continueWith);
+                if (!tile_mode) {
+                    let continueWith = getDiv('<span></span>' +
+                        Locale.BUTTON.OR_CONTINUE_WITH_EMAIL_OPTIN +
+                        '<span></span>', 'breadbutter-optin-message');
+                    button_holder.appendChild(continueWith);
+                }
             } else if (incognito) {
                 let dropdown = getModuleDropdown(expandingIcons);
                 top.appendChild(dropdown);
-            } else {
-
+            } else if (!tile_mode) {
                 let more = getMoreModuleOptions();
                 more.innerText = Locale.BUTTON.START_WITH_EMAIL_ADDRESS;
                 more.classList.add(CONTIUNUE_WITH_EMAIL_ID);
@@ -3658,29 +3871,54 @@ const VIEWFORM = function() {
         let magic_link = res && res.settings && res.settings.magic_link_settings && res.settings.magic_link_settings.enabled;
         // res.providers = res.providers.concat(res.providers).slice(0, 15);
         //logger.debug('counts');
-        let {list, button_holder} = getContinueWith(res, top, true);
+        let discovery_holder = view.addView(DISCOVERY_HOLDER_ID);
+        top.appendChild(discovery_holder);
+        let {list, button_holder} = getContinueWith(res, discovery_holder, true);
 
         if (res && res.settings && res.settings.password_settings && res.settings.password_settings.enabled) {
             local = providers_hash[providers.LOCAL];
         }
 
+        let tile_mode = button_holder.classList.contains('bb-tile');
 
         // logger.debug(local);
         if (magic_link || local) {
-            let form_holder = incognitoEmailForm(email_address);
-            top.appendChild(form_holder);
+            let form_holder = incognitoEmailForm(email_address, tile_mode, button_holder);
+
+            discovery_holder.appendChild(form_holder);
             let more = getMoreModuleOptions(function(e) {
                 if (loading) return;
                 const button = e.currentTarget;
                 triggerIncognitoMoreOptions(button, form_holder)
+
+                button.innerHTML = '<span></span>' +
+                    Locale.BUTTON.OR +
+                    '<span></span>';
+                button.classList.add('continue-or');
+                button.onclick = null;
             });
-            button_holder.appendChild(more);
+            // console.log(tile_mode);
+            if (!tile_mode) {
+                button_holder.appendChild(more);
+            } else {
+
+            }
             // if (list) {
-            let incognito_holder = findChild(top, INCOGNITO_HOLDER_ID);
+            let incognito_holder = findChild(discovery_holder, INCOGNITO_HOLDER_ID);
             incognito_holder.classList.add('more-content');
+
+            if (OPT_IN) {
+                console.log('optin');
+                insertMagicLinkButton(discovery_holder, true);
+            } else if (!tile_mode && magic_link) {
+                insertMagicLinkButton(discovery_holder, true);
+            }
             insertMoreInformation(incognito_holder);
+            insertTermPolicyHolder(top);
             // insertPoweredByModule(incognito_holder);
-            if (OPTS.expand_email_address) {
+            if (tile_mode) {
+                discovery_holder.classList.add('tile-content');
+            } else if (OPTS.expand_email_address) {
                 convertMoreOptions(more);
             } else if (!email_address) {
                 triggerIncognitoMoreOptions(more, form_holder);
@@ -3692,25 +3930,29 @@ const VIEWFORM = function() {
             insertTermPolicyHolder(container);
         }
 
+        // let limit = LIMIT_LIST_LENGTH;
+        // if (button_holder.classList.contains('bb-icon')) {
+        //     limit = ICON_LIMIT_LIST_LENGTH;
+        // }
 
         if (isMobile && !CONTACT_US) {
-            if (list.length > 5 || (list && local)) {
+            if (list.length > ICON_LIMIT_LIST_LENGTH || (list && local)) {
                 // if (!options.show_login_focus) {
-                    let d = button_holder.querySelector('.breadbutter-provider-limit');
-                    if (!d) {
-                        d = getArrowDown();
-                        button_holder.append(d);
-                    }
+                //     let d = button_holder.querySelector('.breadbutter-provider-limit');
+                //     if (!d) {
+                //         d = getArrowDown();
+                //         button_holder.append(d);
+                //     }
                     // console.log(options);
                     if (isPopup) {
                         top.classList.add('bb-mobile-collapse');
                     }
                     button_holder.classList.add('bb-limit-providers');
-                    d.onclick = function() {
-                        top.classList.remove('bb-mobile-collapse');
-                        this.parentElement.classList.remove('bb-limit-providers');
-                        this.remove();
-                    }
+                    // d.onclick = function() {
+                    //     top.classList.remove('bb-mobile-collapse');
+                    //     this.parentElement.classList.remove('bb-limit-providers');
+                    //     this.remove();
+                    // }
                 // }
             }
         }
@@ -3719,14 +3961,82 @@ const VIEWFORM = function() {
         return top;
     };
 
-    const incognitoEmailForm = function(email_address, pin) {
+    const getTileEmailContainer = function(div) {
+        let container = view.addView(BUTTON_ID);
+        container.appendChild(div);
+        return container;
+    };
+
+    const incognitoEmailForm = function(email_address, tile_mode, button_holder) {
         let container = view.addView(INCOGNITO_HOLDER_ID);
-        container.appendChild(
-            getDiscoveryNextModule(email_address, continueEmailLookupModule, true)
-        );
+        if (tile_mode) {
+            let email_show = viewButton.getContinueWithEmailButton();
+            email_show.classList.add('bb-email-revealing-button');
+            let email_field = getTileEmailContainer(getDiscoveryNextModule(email_address, continueEmailLookupTileModule, true));
+            email_field.classList.add('bb-email-holding-button');
+            email_field.querySelector('input').placeholder = Locale.PLACEHOLDER.ENTER_EMAIL_ADDRESS;
+            email_show.onclick = function() {
+                email_field.classList.add('bb-show');
+                let email_input = email_field.querySelector('input[type=email]');
+                console.log(email_input)
+                focusField(email_input);
+                email_show.classList.add('bb-hide');
+            }
+
+            if (button_holder) {
+                let more_button = button_holder.querySelector('.bb-more-button');
+                if (more_button) {
+                    button_holder.insertBefore(email_show, more_button);
+                    button_holder.insertBefore(email_field, more_button);
+                } else {
+                    button_holder.appendChild(email_show);
+                    button_holder.appendChild(email_field);
+                }
+            }
+        } else {
+            container.appendChild(
+                getDiscoveryNextModule(email_address, continueEmailLookupModule, true)
+            );
+        }
 
         return container;
     };
+
+    const applyBasicEmailForm = function(email_address, tile_mode, button_holder) {
+        let container = view.addView(EMAIL_HOLDER_ID);
+        if (tile_mode) {
+            let email_show = viewButton.getContinueWithEmailButton();
+            email_show.classList.add('bb-email-revealing-button');
+            let email_field = getTileEmailContainer(getDiscoveryNextModule(email_address, continueBasicEmailLookupTileModule));
+            email_field.classList.add('bb-email-holding-button');
+            email_field.querySelector('input').placeholder = Locale.PLACEHOLDER.ENTER_EMAIL_ADDRESS;
+            let text = view.addView('bb-email-start-focus-text');
+            text.innerText = Locale.BUTTON.START_WITH_EMAIL_ADDRESS;
+            email_field.prepend(text);
+            email_show.onclick = function() {
+                email_show.classList.add('bb-hide');
+                let email_input = email_field.querySelector('input[type=email]');
+                focusField(email_input);
+                email_field.classList.add('bb-show');
+            }
+
+            if (button_holder) {
+                let more_button = button_holder.querySelector('.bb-more-button');
+                if (more_button) {
+                    button_holder.insertBefore(email_show, more_button);
+                    button_holder.insertBefore(email_field, more_button);
+                } else {
+                    button_holder.appendChild(email_show);
+                    button_holder.appendChild(email_field);
+                }
+            }
+        } else {
+            container.appendChild(
+                getDiscoveryNextModule(email_address, continueBasicEmailLookupModule)
+            );
+        }
+        return container;
+    }
 
     const applyPasswordExpired = function(top, email) {
         showPopupTitle(top, false);
@@ -3767,6 +4077,7 @@ const VIEWFORM = function() {
             cleanError(pin);
         }
 
+        console.log(e);
         if (input.value) {
             let value = input.value;
             let target = input;
@@ -3776,7 +4087,7 @@ const VIEWFORM = function() {
                 target = target.nextSibling;
             }
         }
-        if (e.code.indexOf('Digit') != -1) {
+        if (!isNaN(e.key)) {
             if (input.nextSibling) {
                 input.nextSibling.focus();
             } else {
@@ -3807,12 +4118,17 @@ const VIEWFORM = function() {
         const suggested_list = button.parentElement;
         const button_holder = suggested_list.parentElement;
         const container = findChild(button_holder, 'collapsible');
-        if (suggested_list.classList.contains('bb-collapsed')) {
-            suggested_list.classList.remove('bb-collapsed');
+
+        if (suggested_list && suggested_list.classList.contains('bb-collapsed')) {
+            if (suggested_list) {
+                suggested_list.classList.remove('bb-collapsed');
+            }
             container.classList.remove('hide');
             expandingIcons(e);
         } else {
-            suggested_list.classList.add('bb-collapsed');
+            if (suggested_list) {
+                suggested_list.classList.add('bb-collapsed');
+            }
             container.classList.add('hide');
         }
     };
@@ -3822,8 +4138,12 @@ const VIEWFORM = function() {
         if (!login_container.classList.contains('local-login')) {
             const suggested_list = findChild(button_holder, FORM.SUGGESTED_LIST);
             const container = findChild(button_holder, 'collapsible');
-            suggested_list.classList.add('bb-collapsed');
-            container.classList.add('hide');
+            if (suggested_list) {
+                suggested_list.classList.add('bb-collapsed');
+            }
+            if (container) {
+                container.classList.add('hide');
+            }
         }
     };
 
@@ -3856,11 +4176,15 @@ const VIEWFORM = function() {
         local.text = Locale.BUTTON.SIGN_IN;
         local.cls = 'green';
         let suggest_container = findChild(button_holder, FORM.SUGGESTED_LIST);
+        if (!suggest_container) {
+            // console.log(button_holder);
+            suggest_container = findChild(button_holder, FORM.BUTTONS);
+        }
         cleanChild(suggest_container);
         let localButton = viewButton.buttons(local, {});
         localButton.onclick = triggerLocalInSuggestion;
         suggest_container.appendChild(localButton);
-        addMoreInSuggest(button_holder);
+        // addMoreInSuggest(button_holder);
     };
 
     const addMoreInSuggest = function(button_holder) {
@@ -4019,6 +4343,14 @@ const VIEWFORM = function() {
                 }
             } catch (e) {
             }
+        }
+        if (values.first_name.length == 0) {
+            pass = false;
+            insertError(fname_input, Locale.ERROR.EMPTY_FIRST_NAME.MESSAGE);
+        }
+        if (values.last_name.length == 0) {
+            pass = false;
+            insertError(lname_input, Locale.ERROR.EMPTY_FIRST_NAME.MESSAGE);
         }
 
         if (values.password != repassword) {
@@ -4450,14 +4782,33 @@ const VIEWFORM = function() {
         formChange(FORGOT_FORM);
         if (top.querySelector('.' + FORM.LOGIN_PROVIDER)) {
             let suggested_list = top.querySelector('.' + FORM.SUGGESTED_LIST);
-            if (suggested_list.querySelector('.more-block')) {
+            if (suggested_list && suggested_list.querySelector('.more-block')) {
                 suggested_list.classList.add('bb-collapsed');
                 if (top.querySelector('.collapsible')) {
                     top.querySelector('.collapsible').classList.add('hide');
                 }
             }
         }
+        // console.log(top);
+        let forgot_form = top.parentElement.querySelector('.'+FORGOT_ID);
+        let email_field = forgot_form.querySelector('input[type=email]');
+        focusField(email_field);
     };
+
+    const focusField = function(field) {
+        if (field) {
+            document.activeElement.blur();
+            field.focus();
+            setTimeout(() => {
+                // field.focus();
+                // console.log(field);
+                if (isMobile) {
+                    field.click();
+                    field.focus();
+                }
+            }, 50);
+        }
+    }
 
     const triggerExpireBack = function(e) {
         if (loading) return;
@@ -4568,10 +4919,12 @@ const VIEWFORM = function() {
 
         if (fname_input.value.length == 0) {
             pass = false;
+            // insertError(fname_input, Locale.ERROR.EMPTY_FIRST_NAME.MESSAGE);
         }
 
         if (lname_input.value.length == 0) {
             pass = false;
+            // insertError(lname_input, Locale.ERROR.EMPTY_LAST_NAME.MESSAGE);
         }
 
         let button = findChild(findChild(holder, FORM.REGISTER_BUTTON_HOLDER), FORM.REGISTER);
@@ -4588,9 +4941,7 @@ const VIEWFORM = function() {
         if (loading) return;
         const button = e.currentTarget;
         const holder = button.parentElement;
-        if (!button.classList.contains('disabled')) {
-            continueRegister(holder.parentElement);
-        }
+        continueRegister(holder.parentElement);
     };
 
     const triggerFirstNameKeyup = function(e) {
@@ -4659,6 +5010,10 @@ const VIEWFORM = function() {
         //logger.debug('triggerSwitchLogin');
         if (loading) return;
         const button = e.currentTarget;
+        const holder = button.closest('.breadbutter-switch-login');
+        if (holder) {
+            loader.start(holder, true, true);
+        }
         removeLocalEmail();
         switchLogin(button.closest('.'+ID).children[0]);
     };
@@ -4674,9 +5029,18 @@ const VIEWFORM = function() {
         continueEmailAndPassword(holder);
     };
 
+    const continueBasicEmailLookupTileModule = function(module) {
+        const holder = module.closest('.breadbutter-discovery-holder');
+        continueEmailLookup(holder, true);
+    }
     const continueBasicEmailLookupModule = function(module) {
         const holder = module.parentElement;
         continueEmailLookup(holder, true);
+    }
+
+    const continueEmailLookupTileModule = function(module) {
+        const holder = module.closest('.breadbutter-discovery-holder');
+        continueEmailLookup(holder);
     }
 
     const continueEmailLookupModule = function(module) {
@@ -4685,29 +5049,38 @@ const VIEWFORM = function() {
     }
 
     const continueEmailLookup = function(holder, basic) {
-        
-        const module = findChild(holder, MODULE_EMAIL_DISCOVERY);
-        const button_holder = findChild(holder, BUTTON_HOLDER_ID);
-        const email_input = findChild(module, FORM.EMAIL);
+
+        let top_holder = holder;
+        const module = findKid(holder, MODULE_EMAIL_DISCOVERY);
+        let button_holder = findKid(holder, BUTTON_HOLDER_ID);
+        // console.log(button_holder);
+        const email_input = findKid(module, FORM.EMAIL);
         let email = email_input.email ? email_input.email : email_input.value;
 
         let pass = true, alert;
         let top = holder.parentElement;
         logger.debug('continueEmailLookup', top, holder);
-        
+        // console.log(email);
         cleanError(email_input);
         if (!val.isEmail(email)) {
             pass = false;
             alert = Locale.ERROR.VALID_EMAIL;
             insertError(email_input, alert.MESSAGE);
-            if (basic && findChild(holder, BUTTON_HOLDER_ID)) {
-                highlightEmailForm(holder, button_holder, true);
+            if (basic) {
+                if (top_holder.closest('.breadbutter-email')) {
+                    top_holder = top_holder.closest('.breadbutter-email');
+                }
+                button_holder = findKid(top_holder, BUTTON_HOLDER_ID);
+
+                if (button_holder) {
+                    highlightEmailForm(top_holder, button_holder, true);
+                }
             }
         }
         saveLocalEmail(email);
         if (pass) {
             if (basic) {
-                highlightEmailForm(holder, button_holder);
+                highlightEmailForm(top_holder, button_holder);
             }
             loader.start(holder, false, true, false);
             loading = true;
@@ -4731,6 +5104,11 @@ const VIEWFORM = function() {
                         let target = top.querySelector('.' + MODULE_MAGIC_LINK);
                         if (target) {
                             onTriggerMagicLink(target);
+                            // onTriggerMagicLinkButton
+                        } else {
+                            onTriggerMagicLinkButton(button_holder, {
+                                email_address: email
+                            });
                         }
                     }
                 });
@@ -4765,7 +5143,11 @@ const VIEWFORM = function() {
         button.onclick = function() {
         };
         button.classList.add(CONTIUNUE_WITH_EMAIL_ID);
-        button.innerText = Locale.BUTTON.CONTINUE_WITH_EMAIL;
+        // button.innerText = Locale.BUTTON.CONTINUE_WITH_EMAIL;
+        button.innerHTML = '<span></span>' +
+            Locale.BUTTON.OR +
+            '<span></span>';
+        button.classList.add('continue-or')
     };
 
     const checkRegistration = function(holder, res) {
@@ -4791,8 +5173,9 @@ const VIEWFORM = function() {
         let email_address = getLocalEmail();
         let top = holder.parentElement;
         let register_container = view.addView(REGISTER_ID);
+        let header;
         if (!OPT_IN) {
-            let header = getHeaderModule(Locale.REGISTER.TITLE, Locale.REGISTER.CONTENT);
+            header = getHeaderModule(Locale.REGISTER.TITLE, Locale.REGISTER.CONTENT);
             register_container.appendChild(header);
         }
         register_container.appendChild(getEmail(email_address, true));
@@ -4817,6 +5200,9 @@ const VIEWFORM = function() {
         };
 
         if (list || local || MAGIC_LINK_REGISTRATION_ENABLED) {
+            if (top.classList.contains('breadbutter-incognito') || top.classList.contains('breadbutter-email')) {
+                top = top.closest('.' + ID);
+            }
             cleanChild(top);
             top.appendChild(register_container);
         }
@@ -4838,30 +5224,39 @@ const VIEWFORM = function() {
                 );
                 button_holder2.append(container);
                 register_container.append(button_holder2);
-            } else {
-                let continue_with_count = list.length;
-                if (checkContinueWithBounding(continue_with_count, true)) {
-                    opt.button_theme = 'round-icons';
-                }
 
-                let buttons = viewButton.getButtonLists(list, opt);
-                const container_main = buttons.container;
-                if (list.length > 1) {
-                    button_holder.append(container_main);
-                } else if (!suggested) {
-                    button_holder.append(container_main);
+
+                if (local || MAGIC_LINK_REGISTRATION_ENABLED) {
+                    let or_local = getParagraph(Locale.REGISTER.OR_LOCAL);
+                    register_container.appendChild(or_local);
                 }
-                if (button_holder.children.length != 0) {
-                    register_container.appendChild(button_holder);
+            } else {
+                // let continue_with_count = list.length;
+                // if (checkContinueWithBounding(continue_with_count, true)) {
+                //     opt.button_theme = 'round-icons';
+                // }
+                //
+                // let buttons = viewButton.getButtonLists(list, opt);
+                // const container_main = buttons.container;
+                // if (list.length > 1) {
+                //     button_holder.append(container_main);
+                // } else if (!suggested) {
+                //     button_holder.append(container_main);
+                // }
+                // if (button_holder.children.length != 0) {
+                //     register_container.appendChild(button_holder);
+                // }
+                let or_local = getParagraph(Locale.REGISTER.FILL_FORM);
+                register_container.appendChild(or_local);
+                if (header) {
+                    header.querySelector('.form-subtitle').remove();
                 }
             }
 
             if (local) {
-                let or_local = getParagraph(Locale.REGISTER.OR_LOCAL);
-                register_container.appendChild(or_local);
-
                 getLocalRegistrationContainer(register_container);
-            } else if (MAGIC_LINK_REGISTRATION_ENABLED) {
+            }
+            else if (MAGIC_LINK_REGISTRATION_ENABLED) {
                 getMagicRegistrationContainer(register_container, function(form){
                     let target = form.querySelector('.' + MODULE_MAGIC_LINK);
                     if (OPT_IN) {
@@ -4892,27 +5287,33 @@ const VIEWFORM = function() {
                     );
                     button_holder2.append(container);
                     register_container.append(button_holder2);
+
+                    let or_local = getParagraph(Locale.REGISTER.OR_LOCAL);
+                    register_container.appendChild(or_local);
                 } else {
 
-                    let continue_with_count = list.length;
-                    if (checkContinueWithBounding(continue_with_count, true)) {
-                        opt.button_theme = 'round-icons';
+                    if (header) {
+                        header.querySelector('.form-subtitle').remove();
                     }
-
-                    let buttons = viewButton.getButtonLists(list, opt);
-                    const container_main = buttons.container;
-                    if (list.length > 1) {
-                        button_holder.append(container_main);
-                    } else if (!suggested) {
-                        button_holder.append(container_main);
-                    }
-                    if (button_holder.children.length != 0) {
-                        register_container.appendChild(button_holder);
-                    }
+                    // let continue_with_count = list.length;
+                    // if (checkContinueWithBounding(continue_with_count, true)) {
+                    //     opt.button_theme = 'round-icons';
+                    // }
+                    //
+                    // let buttons = viewButton.getButtonLists(list, opt);
+                    // const container_main = buttons.container;
+                    // if (list.length > 1) {
+                    //     button_holder.append(container_main);
+                    // } else if (!suggested) {
+                    //     button_holder.append(container_main);
+                    // }
+                    // if (button_holder.children.length != 0) {
+                    //     register_container.appendChild(button_holder);
+                    // }
+                    let or_local = getParagraph(Locale.REGISTER.FILL_FORM);
+                    register_container.appendChild(or_local);
                 }
 
-                let or_local = getParagraph(Locale.REGISTER.OR_LOCAL);
-                register_container.appendChild(or_local);
             }
             getMagicRegistrationContainer(register_container, function(form){
                 let target = form.querySelector('.' + MODULE_MAGIC_LINK);
@@ -5047,6 +5448,11 @@ const VIEWFORM = function() {
                     goLocalRegistration(top);
                 });
                 button_holder.appendChild(more);
+            } else if (MAGIC_LINK_REGISTRATION_ENABLED) {
+                let more = getMoreSignupModuleOptions(function(e) {
+                    goMagicLinkRegistration(top);
+                }, true);
+                button_holder.appendChild(more);
             }
 
             if (button_holder.children.length != 0) {
@@ -5057,6 +5463,30 @@ const VIEWFORM = function() {
         } else if (local) {
             goLocalRegistration(top);
         }
+    };
+
+    const goMagicLinkRegistration = function(top) {
+        let email_address = getLocalEmail();
+        // let top = holder.parentElement;
+
+        let register_container = view.addView(REGISTER_HOLDER_ID);
+
+        let header = getHeaderModule(Locale.REGISTER.TITLE, Locale.REGISTER.CONTENT_2);
+        register_container.appendChild(header);
+        register_container.appendChild(getEmail(email_address, true));
+
+        getMagicRegistrationContainer(register_container, function(form) {
+            let target = form.querySelector('.' + MODULE_MAGIC_LINK);
+            if (OPT_IN) {
+                onTriggerOptInMagicLink(target, true);
+            } else {
+                onTriggerMagicLink(target, true);
+            }
+        });
+        insertSwitchLogin(register_container, false, true);
+
+        cleanChild(top);
+        top.appendChild(register_container);
     };
 
     const goLocalRegistration = function(top, pin) {
@@ -5157,12 +5587,15 @@ const VIEWFORM = function() {
     };
 
     const goLogin = function(holder, response) {
-        // logger.debug('goLogin');
+        // console.debug('goLogin');
         formEntry(LOGIN_FORM);
         showPopupTitle(holder, false);
         triggerOnLogin(holder, response);
         let email_address = getLocalEmail();
         let top = holder.parentElement;
+        if (!top.classList.contains(ID)) {
+            top = top.closest('.' + ID);
+        }
 
         let login_container = view.addView(LOGIN_ID);
         let header = getHeaderModule(Locale.LOGIN.TITLE);
@@ -5178,6 +5611,10 @@ const VIEWFORM = function() {
             local
         } = processProviders(response);
 
+        // console.log(list);
+        // console.log(suggested_list);
+        // console.log(suggested);
+        // console.log(local);
         if (list || local) {
             cleanChild(top);
             top.appendChild(login_container);
@@ -5203,7 +5640,7 @@ const VIEWFORM = function() {
 
         let opt = {
             button_theme: false,
-            suggested: suggested,
+            // suggested: suggested,
             email_address: email_address,
         };
 
@@ -5227,21 +5664,22 @@ const VIEWFORM = function() {
                 suggested_list,
                 opt
             );
-            buttons.container.classList.add(FORM.SUGGESTED_LIST);
-            buttons.container.classList.add('bb-collapsed');
+            // buttons.container.classList.add(FORM.SUGGESTED_LIST);
+            // buttons.container.classList.add('bb-collapsed');
             button_holder.append(buttons.container);
 
-            buttons = viewButton.getButtonLists(list, opt);
+            // buttons = viewButton.getButtonLists(list, opt);
             let container_main = buttons.container;
-            container_main.classList.add('collapsible');
-            container_main.classList.add('hide');
-            if (suggested) {
-                container_main.classList.add(suggested);
-            }
+
+            // container_main.classList.add('collapsible');
+            // container_main.classList.add('hide');
+            // if (suggested) {
+            //     container_main.classList.add(suggested);
+            // }
 
             if (list.length > 1 || (list.length == 1 && local)) {
 
-                addMoreInSuggest(button_holder);
+                // addMoreInSuggest(button_holder);
                 //
                 // let continue_with = getParagraph(Locale.BUTTON.CONTINUE_WITH);
                 // continue_with.classList.add('no-local');
@@ -5254,26 +5692,27 @@ const VIEWFORM = function() {
             }
             button_holder.append(container_main);
             login_container.appendChild(button_holder);
+
             if (local) {
-                let localButton;
+                // let localButton;
                 if (suggested == 'local') {
                     switchLocalLogin(container_main);
                     container_main.classList.add('suggest-local');
                     updateSuggestionToLocal(button_holder);
                 } else {
-                    insertSwitchLogin(login_container);
+                    insertSwitchLogin(login_container, false, false, false, true);
                 }
 
-                localButton = viewButton.buttons(local, opt);
-                container_main.appendChild(localButton);
-                if (response.user_profile && !response.user_profile.has_password) {
-                    localButton.suggested = suggested;
-                    localButton.onclick = alertLocalRegisterConfirmation;
-                } else {
-                    localButton.onclick = triggerLocalInListLogin;
-                }
+                // localButton = viewButton.buttons(local, opt);
+                // container_main.appendChild(localButton);
+                // if (response.user_profile && !response.user_profile.has_password) {
+                //     localButton.suggested = suggested;
+                //     localButton.onclick = alertLocalRegisterConfirmation;
+                // } else {
+                //     localButton.onclick = triggerLocalInListLogin;
+                // }
             } else {
-                insertSwitchLogin(login_container);
+                insertSwitchLogin(login_container, false, false, false, true);
             }
         } else {
             if (local) {
@@ -5283,13 +5722,13 @@ const VIEWFORM = function() {
                     error,
                 } = viewButton.getButtonLists([], opt);
                 container.classList.add(FORM.SUGGESTED_LIST);
-                container.classList.add('bb-collapsed');
-                container.classList.add('bb-local-only');
+                // container.classList.add('bb-collapsed');
+                // container.classList.add('bb-local-only');
                 button_holder.append(container);
 
                 login_container.appendChild(button_holder);
                 updateSuggestionToLocal(button_holder);
-                insertSwitchLogin(login_container, true);
+                insertSwitchLogin(login_container, true, false, false, suggested != 'local');
             } else {
                 let alert = Locale.ERROR.NO_PROVIDER;
                 showAlert(top, alert, false, triggerAlertConfirm);

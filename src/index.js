@@ -10,6 +10,7 @@ const bb = new (function () {
     me.init = false;
     me.configure = client.configure;
     me.getProfile = client.api.getProfile;
+    me.identifyUser = client.api.identifyUser;
     me.ping = client.api.ping;
     me.api = client.api;
     me.ui = client.ui;

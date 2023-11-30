@@ -70,6 +70,10 @@ const start = function (top, infinite, small, transparent) {
         return;
     }
 
+    if (top.parentElement.classList.contains('breadbutter-discovery-holder')) {
+        top = top.parentElement;
+    }
+
     if (!loading) {
         addLoader(top);
         if (infinite) {

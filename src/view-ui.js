@@ -1,3 +1,5 @@
+import {image} from "superagent/lib/node/parsers";
+
 const ID = 'breadbutter-ui-widget';
 import './scss/view-ui.scss';
 import view from './view.js';
@@ -342,13 +344,14 @@ const getProfileWidget = function(profile, suggested, isMobile) {
 }
 let newsletter_index = 0;
 
-const getNewsletterWidget = function({ image_source, header_text, main_text, success_text, profile, verified, custom_event_code }) {
+const getNewsletterWidget = function({ image_source, header_text, main_text, success_header, success_text, profile, verified, custom_event_code }) {
     let holder = 'breadbutter-ui-newsletter-holder-' + newsletter_index++;
     let title = header_text ? header_text : Locale.UI.NEWSLETTER_TITLE;
     let subtitle = main_text ? main_text : Locale.UI.NEWSLETTER_SUBTITLE;
     let loggedin_text = success_text ? success_text : Locale.UI.NEWSLETTER_THANK;
-    let image_url = image_source ? image_source : getDefaultBackground();
-
+    let loggedin_header = success_header ? success_header : Locale.UI.NEWSLETTER_THANK_HEADER;
+    // let image_url = image_source ? image_source : getDefaultBackground();
+    let image_url = image_source ? image_source : false;
     let cache = false;
     let viewed = false;
     if (localStorage) {
@@ -366,14 +369,18 @@ const getNewsletterWidget = function({ image_source, header_text, main_text, suc
         return false;
     }
 
-    let html = `
-    <div class="breadbutter-ui-newsletter-widget-container">
-        <div class="breadbutter-ui-newsletter-background" style="background-image:url(${image_url})">
-        </div>
-        <div class="breadbutter-ui-newsletter-dashboard">`;
+    let html = '<div class="breadbutter-ui-newsletter-widget-container">';
+    if (image_url) {
+        html += `<div class="breadbutter-ui-newsletter-background" style="background-image:url(${image_url})"></div>`;
+    } else {
+        html += `<div class="breadbutter-ui-newsletter-background"></div>`;
+    }
+    html += '<div class="breadbutter-ui-newsletter-dashboard">';
     if (verified) {
         if (cache) {
             let name = profile.first_name ? profile.first_name : "";
+            loggedin_header = lang.replace({NAME: name}, loggedin_header);
+            html += `        <div class="breadbutter-ui-newsletter-text-header">${loggedin_header}</div>`;
             loggedin_text = lang.replace({NAME: name}, loggedin_text);
             html += `        <div class="breadbutter-ui-newsletter-text">${loggedin_text}</div>`;
             viewedEventStorage(custom_event_code);
@@ -458,14 +465,14 @@ const getContentGatingCoverPage = (options) => {
     }
     let locale = lang.getLocale(options.language, options.locale);
 
-    let title = options.app_name && options.app_name.length ? locale.CONTENT_GATING.TITLE_W_NAME.replace(/%NAME%/ig, options.app_name) : locale.CONTENT_GATING.TITLE;
+    // let title = options.app_name && options.app_name.length ? locale.CONTENT_GATING.TITLE_W_NAME.replace(/%NAME%/ig, options.app_name) : locale.CONTENT_GATING.TITLE;
     let html = `
         <div class="breadbutter-ui-content-gating-background">
         </div>
         <div class="breadbutter-ui-content-gating-holder">
            <div class="breadbutter-ui-content-gating-container">
-                <div class="breadbutter-ui-content-gating-title">${title}</div>
-                <div class="breadbutter-ui-content-gating-subtitle">${locale.CONTENT_GATING.SUBTITLE}</div>
+                <div class="breadbutter-ui-content-gating-title">${locale.POPUP.TEXT_1}</div>
+                <div class="breadbutter-ui-content-gating-subtitle">${locale.POPUP.TEXT_2}</div>
                 <div class="breadbutter-ui-content-gating-content" id="${holder}"></div>
                 <div class="breadbutter-ui-content-gating-more-content">
                 </div>
@@ -537,13 +544,14 @@ const getContentGatingCenterPage = (options) => {
     return popup;
 }
 
-const getNewsletterPopupWidget = ({ image_source, header_text, main_text, success_text, profile, verified, custom_event_code }, isMobile) => {
+const getNewsletterPopupWidget = ({ image_source, header_text, main_text, success_header,success_text, profile, verified, custom_event_code }, isMobile) => {
     let holder = 'breadbutter-ui-newsletter-holder-' + newsletter_index++;
     let title = header_text ? header_text : Locale.UI.NEWSLETTER_TITLE;
     let subtitle = main_text ? main_text : Locale.UI.NEWSLETTER_SUBTITLE;
     let loggedin_text = success_text ? success_text : Locale.UI.NEWSLETTER_THANK;
-    let image_url = image_source ? image_source : getDefaultBackground();
-
+    let loggedin_header = success_header ? success_header : Locale.UI.NEWSLETTER_THANK_HEADER;
+    // let image_url = image_source ? image_source : getDefaultBackground();
+    let image_url = image_source ? image_source : false;
     let cache = false;
     let viewed = false;
     if (localStorage) {
@@ -565,13 +573,18 @@ const getNewsletterPopupWidget = ({ image_source, header_text, main_text, succes
     let html = `
     <div class="breadbutter-ui-newsletter-widget-container">
         <div class="breadbutter-ui-newsletter-holder">
-       <div class="breadbutter-ui-newsletter-widget-close">${getCloseIcon()}</div>
-        <div class="breadbutter-ui-newsletter-background" style="background-image:url(${image_url})">
-        </div>
-        <div class="breadbutter-ui-newsletter-dashboard">`;
+       <div class="breadbutter-ui-newsletter-widget-close">${getCloseIcon()}</div>`;
+    if (image_url) {
+        html += `<div class="breadbutter-ui-newsletter-background" style="background-image:url(${image_url})"></div>`;
+    } else {
+        html += `<div class="breadbutter-ui-newsletter-background" style="height: 25px;min-height: 25px;"></div>`;
+    }
+    html += `<div class="breadbutter-ui-newsletter-dashboard">`;
     if (verified) {
         if (cache) {
             let name = profile.first_name ? profile.first_name : "";
+            loggedin_header = lang.replace({NAME: name}, loggedin_header);
+            html += `        <div class="breadbutter-ui-newsletter-text-header">${loggedin_header}</div>`;
             loggedin_text = lang.replace({NAME: name}, loggedin_text);
             html += `        <div class="breadbutter-ui-newsletter-text">${loggedin_text}</div>`;
             viewedEventStorage(custom_event_code);

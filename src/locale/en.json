@@ -20,7 +20,8 @@
     "CONTENT_2": "Sign up with your email",
     "SSO": "Or create an account with your email address and a password",
     "LOCAL": "Create an account with your email address and a password",
-    "OR_LOCAL": "Or fill in the form below"
+    "OR_LOCAL": "Or fill in the form below",
+    "FILL_FORM": "Fill in the form to Sign up"
   },
   "CONFIRM_EMAIL": {
     "TITLE": "Email confirmation",
@@ -65,6 +66,7 @@
   "GREETING": "Hello %NAME%",
   "PLACEHOLDER": {
     "EMAIL_ADDRESS": "Email address",
+    "ENTER_EMAIL_ADDRESS": "Enter your email address",
     "PASSWD": "Password",
     "PASSWORD": "Create password",
     "CONFIRM_PASSWORD": "Confirm password",
@@ -83,6 +85,8 @@
     "WITH": "with",
     "W_": "w/",
     "WITH_EMAIL": "Sign in with email",
+    "CONTINUE_EMAIL": "Continue with Email Address",
+    "MORE": "Continue another way",
     "BRAND": {
       "GOOGLE": "Google",
       "FACEBOOK": "Facebook",
@@ -102,7 +106,8 @@
       "TWITCH": "twitch",
       "SALESFORCE": "Salesforce",
       "OKTA": "Okta",
-      "ONELOGIN": "OneLogin"
+      "ONELOGIN": "OneLogin",
+      "MAGIC_LINK": "Magic Link"
     }
   },
   "BUTTON": {
@@ -130,7 +135,9 @@
     "CONFIRM_PIN": "Confirm PIN",
     "OR_CONTINUE_WITH_EMAIL_OPTIN": "or",
     "OR_CONTINUE_WITH_EMAIL": "or continue with your email address",
+    "OR": "or",
     "OR_SIGN_UP_WITH_EMAIL_AND_PASSWORD": "Or sign up with your email address and password",
+    "OR_SIGN_UP_WITH_EMAIL": "Or sign up with your email address",
     "CONTINUE_WITH_EMAIL": "or enter your email address below",
     "MORE_INFO": "more information",
     "START_WITH_EMAIL_ADDRESS": "Start with your email address below",
@@ -257,10 +264,11 @@
     "HELLO": "Hello, %FIRST_NAME%",
     "SIGN_IN_TITLE": "You are currently signed in as",
     "SIGN_OUT": "SIGN OUT",
-    "NEWSLETTER_TITLE": "The BreadButter Newsletter",
-    "NEWSLETTER_SUBTITLE": "Keep up with the fastest-growing soft, creamy, and rich, with just a hint of sweetness butter with soft, even rich brown colour bread.",
-    "NEWSLETTER_THANK": "Thank you %NAME%, you are now subscribed",
-    "NEWSLETTER_SUBSCRIBE": "Subscribe"
+    "NEWSLETTER_TITLE": "Welcome",
+    "NEWSLETTER_SUBTITLE": "Keep up with the latest information and news",
+    "NEWSLETTER_THANK_HEADER": "Perfect %NAME%, you're in!",
+    "NEWSLETTER_THANK": "",
+    "NEWSLETTER_SUBSCRIBE": "Opt in"
   },
   "MAGIC_LINK": {
     "SEND_BUTTON_TEXT": "Send sign in link",
@@ -285,14 +293,16 @@
     "MANDATORY": "This field is mandatory."
   },
   "CONTACT_US": {
-    "HEADER": "Get in touch",
-    "SUB_HEADER": "%FIRST_NAME%, how can we help?",
+    "ICON_NOTE": "Connect with a real person",
+    "HEADER": "Connect with a real person",
     "COLLAPSE": "Get in touch with us.",
-    "BUTTON": "%FIRST_NAME%, send your message",
+    "SUB_HEADER": "%FIRST_NAME%, how can we help?",
+    "BUTTON": "Send your message",
+    "SUCCESS":  "Thanks for reaching out, %FIRST_NAME%. We will get back to you as soon as possible",
+    "TEXT_1": "Let’s get started with your contact information",
+    "TEXT_2": "We only receive what is needed to get in touch with you",
     "MESSAGE_INPUT": "Let us know how we can help",
     "PHONE_NUMBER":  "Phone Number (optional)",
-    "COMPANY_NAME": "Company Name (optional)",
-    "SUCCESS":  "Thanks for reaching out, %FIRST_NAME%. We’ll get back to you as soon as possible.",
-    "ICON_NOTE": "Get in touch with a real person"
+    "COMPANY_NAME": "Company Name (optional)"
   }
 }
