@@ -680,7 +680,7 @@ const getGAPromise = async () => {
 };
 
 
-const getSegment = async (callback) => {
+const getSegment = async (callback, count) => {
     try {
         if (typeof analytics != 'undefined') {
             if (typeof analytics.user != 'undefined' && typeof analytics.user().anonymousId != 'undefined') {
@@ -693,9 +693,13 @@ const getSegment = async (callback) => {
                     callback();
                 }
             } else {
-                setTimeout(async () => {
-                    await getSegment(callback);
-                }, 150);
+                if (count > 5) {
+                    callback();
+                } else {
+                    setTimeout(async () => {
+                        await getSegment(callback, ++count);
+                    }, 150 * count);
+                }
             }
         } else {
             callback();
@@ -710,7 +714,7 @@ const getSegmentPromise = async () => {
         return await new Promise((resolve) => {
             getSegment((response) => {
                 resolve(response || {});
-            });
+            }, 1);
         });
     } catch (error) {
         return {};

@@ -131,6 +131,12 @@
     background-repeat: no-repeat;
     background-color: white;
     margin-top: 15px;
+    &.breadbutter-ui-newsletter-fill {
+      margin: 0;
+      background-size: cover;
+      width: 100%;
+      height: 200px;
+    }
   }
   .breadbutter-ui-newsletter-dashboard {
     flex: 1;
@@ -328,11 +334,15 @@
       margin-left: 15px;
       margin-right: 15px;
       text-align: center;
+      box-sizing: border-box;
+      padding: 0 11px;
     }
     .breadbutter-ui-newsletter-subtitle {
       margin-left: 15px;
       margin-right: 15px;
       text-align: center;
+      box-sizing: border-box;
+      padding: 0 11px;
     }
     .breadbutter-ui-newsletter-holder {
       display: flex;
@@ -389,11 +399,11 @@
       scrollbar-width: none;  /* Firefox */
       .breadbutter-ui-newsletter-background {
         //height: 50vw;
-        background-size: contain;
-        background-position: center;
         //width: 100%;
-        height: 100px;
-        width: 200px;
+        //background-size: contain;
+        //background-position: center;
+        //height: 100px;
+        //width: 200px;
       }
       .breadbutter-ui-newsletter-dashboard {
         width: auto;
@@ -401,11 +411,11 @@
         min-width: 0;
         .breadbutter-ui-newsletter-title {
           width: auto;
-          padding: 0 26px;
+          //padding: 0 26px;
         }
         .breadbutter-ui-newsletter-subtitle {
           width: auto;
-          padding: 0 26px;
+          //padding: 0 26px;
         }
         .breadbutter-ui-newsletter-content {
           width: 100%;

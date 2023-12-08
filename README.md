@@ -2,7 +2,7 @@
 The official BreadButter JavaScript client library.
 
 ## Download
-    https://cdn.breadbutter.io/dist/breadbutter.7.0.0.931.min.js
+    https://cdn.breadbutter.io/dist/breadbutter.7.0.0.941.min.js
     
 ## Configuration
 
@@ -27,7 +27,7 @@ The official BreadButter JavaScript client library.
             BreadButter.widgets.continueWith();
         };
     </script>
-    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.7.0.0.931.min.js"></script>
+    <script id="breadbutter-js" src="https://cdn.breadbutter.io/dist/breadbutter.7.0.0.941.min.js"></script>
   </head>
  <body></body>
 </html>
@@ -43,7 +43,7 @@ Inject this on your home page to get started using with Bread & Butter with the 
     	BreadButter.configure({ app_id: APP_ID });
     	BreadButter.widgets.continueWith();
     };
-    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.7.0.0.931.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
+    (function(d, s, id){ var js,fjs=d.getElementsByTagName(s)[0]; if(d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = 'https://cdn.breadbutter.io/dist/breadbutter.7.0.0.941.min.js'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'breadbutter-js'));
 </script>
 ```
 
