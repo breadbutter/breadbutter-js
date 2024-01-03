@@ -743,9 +743,10 @@ const enterpriseIcon = function (type, provider) {
     return svg;
 };
 
-const loadSVG = function (type) {
+const loadSVG = function (svg_type) {
     let svg = '';
-    switch (type) {
+    let radial = 'radial-' + Math.ceil(Math.random() * 1000);
+    switch (svg_type) {
         case 'email':
             svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="18.096" viewBox="0 0 24 18.096">' +
             '  <defs>' +
@@ -767,7 +768,7 @@ const loadSVG = function (type) {
             svg = `
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24.164" height="24.4" viewBox="0 0 24.164 24.4">
               <defs>
-                <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+                <radialGradient id="${radial}" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
                   <stop offset="0" stop-color="#fdd03a"/>
                   <stop offset="0.648" stop-color="#d98b7a"/>
                   <stop offset="1" stop-color="#9203fa"/>
@@ -776,7 +777,7 @@ const loadSVG = function (type) {
               <g id="Group_15318" data-name="Group 15318" transform="translate(479.338 -2635.516)">
                 <g id="Group_14825" data-name="Group 14825" transform="translate(-503.977 2630.618)">
                   <g id="Group_13895" data-name="Group 13895" transform="translate(30.624 4.898)">
-                    <path id="Path_13311" data-name="Path 13311" d="M57.655,7.512a.686.686,0,0,0-.97,0l-2.91,2.91a.686.686,0,0,0,.97.97l2.91-2.91a.686.686,0,0,0,0-.97ZM51.934,5.1a.686.686,0,0,0-1.167.485L50.76,9.695a.69.69,0,0,0,1.379,0L52.132,5.58a.68.68,0,0,0-.2-.485Zm8.138,8.138a.68.68,0,0,0-.485-.2l-4.115-.008a.689.689,0,1,0,0,1.379l4.115-.008a.686.686,0,0,0,.485-1.167ZM46.016,7.028a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,1,0,.97-.97Zm9.214,9.214a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,0,0,.97-.97ZM47.365,12.6a.669.669,0,0,0-.477-.2l-4.115.008a.682.682,0,0,0,0,1.364l4.115.008a.681.681,0,0,0,.477-1.175Zm5.2,5.2a.681.681,0,0,0-1.175.477l.008,4.114a.682.682,0,0,0,1.364,0l.008-4.115a.669.669,0,0,0-.2-.477Z" transform="translate(-42.091 -4.898)" fill="url(#radial-gradient)"/>
+                    <path id="Path_13311" data-name="Path 13311" d="M57.655,7.512a.686.686,0,0,0-.97,0l-2.91,2.91a.686.686,0,0,0,.97.97l2.91-2.91a.686.686,0,0,0,0-.97ZM51.934,5.1a.686.686,0,0,0-1.167.485L50.76,9.695a.69.69,0,0,0,1.379,0L52.132,5.58a.68.68,0,0,0-.2-.485Zm8.138,8.138a.68.68,0,0,0-.485-.2l-4.115-.008a.689.689,0,1,0,0,1.379l4.115-.008a.686.686,0,0,0,.485-1.167ZM46.016,7.028a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,1,0,.97-.97Zm9.214,9.214a.686.686,0,0,0-.97.97l2.91,2.91a.686.686,0,0,0,.97-.97ZM47.365,12.6a.669.669,0,0,0-.477-.2l-4.115.008a.682.682,0,0,0,0,1.364l4.115.008a.681.681,0,0,0,.477-1.175Zm5.2,5.2a.681.681,0,0,0-1.175.477l.008,4.114a.682.682,0,0,0,1.364,0l.008-4.115a.669.669,0,0,0-.2-.477Z" transform="translate(-42.091 -4.898)" fill="url(#${radial})"/>
                   </g>
                   <g id="Group_13896" data-name="Group 13896" transform="translate(24.639 11.687)">
                     <path id="Path_13312" data-name="Path 13312" d="M39.884,24.885a.712.712,0,0,0-.97,0L24.829,39.205a.713.713,0,0,0,0,.97l1.94,1.94a.713.713,0,0,0,.97,0l14.084-14.32a.712.712,0,0,0,0-.97ZM39.4,26.34l.97.97-3.88,3.88-.97-.97Z" transform="translate(-24.639 -24.694)"/>

@@ -80,17 +80,18 @@ const cleanContinueWithVerifiedUserHolder = function() {
     }
 };
 
-const getContinueWithVerifiedUserHolder = function(profile, options) {
+const getContinueWithVerifiedUserHolder = function(profile, suggested, options) {
     cleanContinueWithVerifiedUserHolder();
     let popup = document.createElement('div');
     popup.classList.add('breadbutter-ui-continue-with-verified');
     let avatar = profile.profile_image_url ? profile.profile_image_url : false;
     let avatar_style = "";
     let default_avatar = "";
+    let idp = (suggested && suggested.idp) ? suggested.idp : 'local';
     if (avatar) {
         avatar_style = 'style="background-image:url(' + avatar + '); border:none;"';
     } else {
-        default_avatar = getDefaultAvatar();
+        default_avatar = getDefaultAvatar(profile.last_name || profile.first_name || profile.email_address, idp);
     }
     let first_name = profile.first_name ? profile.first_name : false;
     if (!first_name) {
@@ -150,14 +151,15 @@ const getContinueWithSignInWidget = function(profile, suggested) {
     }
     let avatar_style = "";
     let default_avatar = "";
+    let idp = (suggested && suggested.idp) ? suggested.idp : 'local';
     if (avatar) {
         avatar_style = 'style="background-image:url(' + avatar + '); border:none;"';
     } else {
-        default_avatar = getDefaultAvatar();
+        default_avatar = getDefaultAvatar(profile.last_name || profile.first_name || profile.email_address, idp);
     }
     let email_address = profile.email_address ? profile.email_address : "";
 
-    let provider = view.svgIcons((suggested && suggested.idp) ? suggested.idp : 'local');
+    let provider = view.svgIcons(idp);
     let widget = document.createElement('div');
     widget.classList.add('breadbutter-ui-continue-with-container');
     widget.innerHTML = `
@@ -224,8 +226,13 @@ const getContinueWithSignInWidget = function(profile, suggested) {
     return widget;
 };
 
-const getDefaultAvatar = function() {
-  return `<svg data-v-84d03bbe="" class="default-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><g data-name="Group 6439"><g data-name="Group 6438" transform="translate(-329 -2158)"><g data-name="Group 3232"><g data-name="Group 438"><g data-name="Ellipse 64" transform="translate(329 2158)" fill="#fff" stroke="#d0d8e2"><circle cx="20" cy="20" r="20" stroke="none"></circle><circle cx="20" cy="20" r="19.5" fill="none"></circle></g></g></g><circle data-name="Ellipse 571" cx="7" cy="7" r="7" transform="translate(342 2167)" fill="#d0d8e2"></circle><path data-name="Path 2398" d="M348.935 2182c-7.815 0-14.447 2.356-16.935 5.643a19.476 19.476 0 0 0 33.87 0c-2.488-3.287-9.12-5.643-16.935-5.643z" fill="#d0d8e2"></path></g></g></svg>`;
+const getDefaultAvatar = function(name, idp) {
+    if (name) {
+        let first_letter = name[0].toUpperCase();
+        return `<div class="bb-default-avatar bb-${idp}">${first_letter}</div>`;
+    } else {
+        return `<svg data-v-84d03bbe="" class="default-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><g data-name="Group 6439"><g data-name="Group 6438" transform="translate(-329 -2158)"><g data-name="Group 3232"><g data-name="Group 438"><g data-name="Ellipse 64" transform="translate(329 2158)" fill="#fff" stroke="#d0d8e2"><circle cx="20" cy="20" r="20" stroke="none"></circle><circle cx="20" cy="20" r="19.5" fill="none"></circle></g></g></g><circle data-name="Ellipse 571" cx="7" cy="7" r="7" transform="translate(342 2167)" fill="#d0d8e2"></circle><path data-name="Path 2398" d="M348.935 2182c-7.815 0-14.447 2.356-16.935 5.643a19.476 19.476 0 0 0 33.87 0c-2.488-3.287-9.12-5.643-16.935-5.643z" fill="#d0d8e2"></path></g></g></svg>`;
+    }
 };
 
 const getLoginWidget = function() {
@@ -276,14 +283,15 @@ const getProfileWidget = function(profile, suggested, isMobile) {
     }
     let avatar_style = "";
     let default_avatar = "";
+    let idp = (suggested && suggested.idp) ? suggested.idp : 'local';
     if (avatar) {
         avatar_style = 'style="background-image:url(' + avatar + '); border:none;"';
     } else {
-        default_avatar = getDefaultAvatar();
+        default_avatar = getDefaultAvatar(profile.last_name || profile.first_name || profile.email_address, idp);
     }
     let email_address = profile.email_address ? profile.email_address : "";
 
-    let provider = view.svgIcons((suggested && suggested.idp) ? suggested.idp : 'local');
+    let provider = view.svgIcons(idp);
 
 
     let welcome = lang.replace({
@@ -516,6 +524,7 @@ const getContentGatingCoverPage = (options) => {
 
 
 const getContentGatingCenterPage = (options) => {
+    let locale = lang.getLocale(options.language, options.locale);
     let holder = "breadbutter-ui-content-gating-content-holder";
     let popup = document.createElement('div');
     popup.classList.add('breadbutter-ui-content-gating-popup');
@@ -524,17 +533,38 @@ const getContentGatingCenterPage = (options) => {
         // true for mobile device
         popup.classList.add('bb-mobile-device');
     }
-
-    let locale = lang.getLocale(options.language, options.locale);
+    let image_type = options.image_type;
+    let image_source = options.image_source;
+    let image_url = (image_source && image_type != 'none') ? image_source : false;
+    if (image_url && !image_type) {
+        image_type = 'center';
+    }
+    image_type = image_type ? image_type : 'default';
+    let image_cls = '';
+    // console.log(image_type);
+    // console.log(image_url);
+    if (image_type == 'default' || image_type == 'fill') {
+        image_cls = 'breadbutter-ui-content-gating-fill';
+    }
+    if (image_type == 'default') {
+        image_url = getDefaultNewsletter();
+    }
 
     let title = locale.CONTENT_GATING.TITLE;
-    let html = `
-        <div class="breadbutter-ui-content-gating-background">
-        </div>
-        <div class="breadbutter-ui-content-gating-holder">
+    let subtitle = locale.CONTENT_GATING.SUBTITLE;
+    let html = '<div class="breadbutter-ui-content-gating-background">' +
+        '</div>' +
+        '<div class="breadbutter-ui-content-gating-holder">';
+    if (image_url) {
+        html += `<div class="breadbutter-ui-content-gating-image ${image_cls}" style="background-image:url(${image_url})"></div>`;
+    } else {
+        html += `<div class="breadbutter-ui-content-gating-image" style="height: 25px;min-height: 25px;"></div>`;
+    }
+    html += `
            <div class="breadbutter-ui-content-gating-container">
 <!--                <div class="breadbutter-ui-content-gating-close">${getCloseIcon()}</div>-->
                 <div class="breadbutter-ui-content-gating-title">${title}</div>
+                <div class="breadbutter-ui-content-gating-subtitle">${subtitle}</div>
                 <div class="breadbutter-ui-content-gating-content" id="${holder}"></div>
                 </div>
             </div>
@@ -566,7 +596,7 @@ const getNewsletterPopupWidget = ({ image_type, image_source, header_text, main_
     if (image_type == 'default' || image_type == 'fill') {
         image_cls = 'breadbutter-ui-newsletter-fill';
     }
-    if (image_type == 'default' && !image_url) {
+    if (image_type == 'default') {
         image_url = getDefaultNewsletter();
     }
     let cache = false;

@@ -2228,7 +2228,7 @@ const ui = new (function() {
                     // console.log('here?');
                     API.getClientSettings(profile.email_address, (response)=> {
                         // console.log(response);
-                        let field = viewUI.getContinueWithVerifiedUserHolder(response.user_profile, options);
+                        let field = viewUI.getContinueWithVerifiedUserHolder(response.user_profile, response.suggested, options);
                         document.body.appendChild(field);
                         document.body.classList.add('breadbutter-ui-verified-showing');
                         field.onclick = async function() {

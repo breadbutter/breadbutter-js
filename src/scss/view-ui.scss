@@ -302,13 +302,21 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
+  max-height: 100%;
 
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 32px 64px 0 #00000033;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 999;
 
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
   .breadbutter-ui-newsletter-widget-close {
     cursor: pointer;
     border-radius: 50%;
@@ -517,8 +525,8 @@
           display: block;
           box-sizing: border-box;
           text-align: center;
-          width: 40px;
-          height: 40px;
+          width: 42px;
+          height: 42px;
           float: left;
           border-radius: 100px;
           font-weight: 700;
@@ -972,6 +980,28 @@
     transition-property: bottom;
     transition-duration: .375s;
     transition-timing-function: ease-out;
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari and Opera */
+    }
+
+    .breadbutter-ui-content-gating-image {
+      background-size: contain;
+      background-position: 50% 50%;
+      height: 100px;
+      width: 200px;
+      background-repeat: no-repeat;
+      background-color: white;
+      margin: 15px auto 0;
+      &.breadbutter-ui-content-gating-fill {
+        margin: 0;
+        background-size: cover;
+        width: 100%;
+        height: 200px;
+      }
+    }
     .breadbutter-ui-content-gating-container {
       width: 375px;
       margin: 0 auto;
@@ -986,6 +1016,22 @@
           letter-spacing: normal;
           text-align: center;
           color: #414042;
+        margin-top: 12px;
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 11px;
+        //width: 375px;
+        font-size: 22px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.95;
+        letter-spacing: normal;
+        text-align: center;
+        color: #414042;
+        margin-bottom: 16px;
       }
       .breadbutter-ui-content-gating-subtitle {
         margin: 15.9px 29.6px 19px 29.1px;
@@ -997,6 +1043,21 @@
         letter-spacing: normal;
         text-align: center;
         color: #000;
+
+
+        margin-left: 15px;
+        margin-right: 15px;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 11px;
+        //width: 375px;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: #414042;
       }
       .breadbutter-ui-content-gating-more-content {
         margin: 34.3px 35.4px 26px 34.9px;
@@ -1117,6 +1178,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
       }
     }
   }
@@ -1182,4 +1244,79 @@
   //    fill: white;
   //  }
   //}
+}
+.bb-default-avatar {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  font-family: "Open Sans";
+  font-size: 19px;
+  color: #fff;
+  align-items: center;
+  border: solid 1px #d0d8e1;
+  background-color: #0050ad;
+  &.bb-google {
+    background-color: #0050ad;
+  }
+  &.bb-facebook {
+    background-color: #227aed;
+  }
+  &.bb-microsoft {
+    background-color: #7eba00;
+  }
+  &.bb-linkedin {
+    background-color: #2867b2;
+  }
+  &.bb-twitter {
+    background-color: #010202;
+  }
+  &.bb-quickbooks {
+    background-color: #2ba11c;
+  }
+  &.bb-github {
+    background-color: #5f6060;
+  }
+  &.bb-slack {
+    background-color: #d31a69;
+  }
+  &.bb-basecamp {
+    background-color: #1d2d35;
+  }
+  &.bb-okta {
+    background-color: #017dc1;
+  }
+  &.bb-onelogin {
+    background-color: #00a9e0;
+  }
+  &.bb-dropbox {
+    background-color: #0061ff;
+  }
+  &.bb-planningcenter {
+    background-color: #2166f7;
+  }
+  &.bb-apple {
+    background-color: #000000;
+  }
+  &.bb-twitch {
+    background-color: #9146ff;
+  }
+  &.bb-salesforce {
+    background-color: #00a1e0;
+  }
+  &.bb-local {
+    background-color: #0050ad;
+  }
+  &.bb-magic_link {
+    background-color: #F4BC2B;
+  }
+}
+
+.breadbutter-ui-profile-widget {
+  .bb-default-avatar {
+    width: 100%;
+    height: 100%;
+  }
 }

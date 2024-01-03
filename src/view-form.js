@@ -249,6 +249,7 @@ import {
     DEV_RESPONSE, DEV_NO_PRIVACY_LINK,
     DEV_NO_TOC_LINK
 } from './dev.json';
+import VIEW from "./view";
 
 const VIEWFORM = function() {
     let Locale = {};
@@ -537,6 +538,11 @@ const VIEWFORM = function() {
     };
 //----------------------------------------------------------------------------------------
 
+    const applyStartMagicLink = function(target, values, callback) {
+        let data = VIEW.applyData(target, values);
+        api.startMagicLink(data,callback);
+    }
+
     const init = function(options) {
         detectMobile();
         loadOptions(options);
@@ -818,7 +824,7 @@ const VIEWFORM = function() {
 
 
         const letMagicWork = function(values) {
-            api.startMagicLink(values,async function(res) {
+            applyStartMagicLink(top, values,async function(res) {
                 loader.remove();
                 if (res && res.authentication_token) {
                     switchMagicLinkConfirmation(top.closest('.' + ID), email, res.authentication_token, false, true);
@@ -1675,7 +1681,7 @@ const VIEWFORM = function() {
         let target = button.closest('.' + BUTTON_HOLDER_ID);
         let top = target.closest('.' + LOGIN_ID) || target.closest('.' + EMAIL_ID) || target.closest('.' + INCOGNITO_ID);
         const letMagicWork = function(values) {
-            api.startMagicLink(values, async function(res) {
+            applyStartMagicLink(top, values, async function(res) {
                 loader.remove();
                 if (res && res.authentication_token) {
                     switchMagicLinkConfirmation(top.closest('.' + ID), email, res.authentication_token);
@@ -1740,7 +1746,7 @@ const VIEWFORM = function() {
         cleanError(target);
 
         const letMagicWork = function(values) {
-            api.startMagicLink(values, async function(res) {
+            applyStartMagicLink(target, values, async function(res) {
                 loader.remove();
                 if (res && res.authentication_token) {
                     switchMagicLinkConfirmation(top.closest('.' + ID), email, res.authentication_token);
