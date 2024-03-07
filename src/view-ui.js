@@ -10,10 +10,11 @@ let APP_ID = false;
 
 const CONTACT_US_ICON_ID = 'breadbutter-ui-contact-us-icon';
 const CONTACT_US_IMAGE_HOLDER_ID = 'breadbutter-ui-contact-us-image-holder';
+const CONTACT_US_IMAGE_ID = 'breadbutter-ui-contact-us-image';
 const CONTACT_US_POSITION_ID = 'breadbutter-contact-us-icon-position';
 
 const CONTACT_US_ICON_MESSAGE_ID = 'breadbutter-ui-contact-us-icon-message';
-
+const CONTACT_US_ICON_MESSAGE_ARROW_ID = 'breadbutter-ui-contact-us-icon-message-arrow';
 const init = function (options) {
     loadAppId(options);
     loadLanguage(options);
@@ -690,7 +691,13 @@ const getContactUsIcon = function(options, message) {
     }
     // icon.classList.add(`${CONTACT_US_POSITION_ID}-${vertical}-${horizontal}`);
     let icon_holder = view.addView(CONTACT_US_IMAGE_HOLDER_ID);
-    icon_holder.innerHTML = view.svgContactUs(message);
+    if (options.custom_image_url) {
+        let icon_image = view.addView(CONTACT_US_IMAGE_ID);
+        icon_image.style['background-image'] = `url(${options.custom_image_url})`;
+        icon_holder.appendChild(icon_image);
+    } else {
+        icon_holder.innerHTML = view.svgContactUs(message);
+    }
     icon.appendChild(icon_holder);
     return icon;
 };
@@ -700,9 +707,11 @@ const getContactUsIcon = function(options, message) {
 const getContactUsIconMessage = function(options) {
 
     let icon = view.addView(CONTACT_US_ICON_MESSAGE_ID);
+    let vertical ='bottom', horizontal = 'right';
     if (options.continue_with_position) {
         if (options.continue_with_position.top) {
             icon.style.top = view.parsePosition(options.continue_with_position.top);
+            vertical = 'top';
         } else if (options.continue_with_position.bottom) {
             icon.style.bottom = view.parsePosition(options.continue_with_position.bottom);
         } else {
@@ -710,6 +719,7 @@ const getContactUsIconMessage = function(options) {
         }
         if (options.continue_with_position.left) {
             icon.style.left = parsePosition(options.continue_with_position.left);
+            horizontal = 'left';
         } else if (options.continue_with_position.right) {
             icon.style.right = parsePosition(options.continue_with_position.right);
         } else {
@@ -720,6 +730,13 @@ const getContactUsIconMessage = function(options) {
         icon.style.right = '10px';
     }
     icon.innerHTML = Locale.CONTACT_US.ICON_NOTE;
+    icon.classList.add('bb-' + vertical);
+    icon.classList.add('bb-' + horizontal);
+    let arrow = view.addView(CONTACT_US_ICON_MESSAGE_ARROW_ID);
+    icon.appendChild(arrow);
+    window.addEventListener('scroll', function(event) {
+        icon.classList.add('bb-hide');
+    }, true);
     return icon;
 }
 

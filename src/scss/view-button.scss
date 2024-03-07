@@ -1,7 +1,3 @@
-@import 'theme';
-//@import 'scss/mixins/breadbutter-buttons-type';
-
-
 .breadbutter-ui {
     .breadbutter-buttons .bb-button {
         background: #fefefe;
@@ -20,7 +16,7 @@
 
     .breadbutter-buttons {
         color: #3c3c3c;
-        font-family: 'Open Sans', Arial;
+        font-family: var(--bb-font-family);
         font-size: 16px !important;
         padding: 4px 4px;
         display: flex;
@@ -63,7 +59,7 @@
         .more {
             width: 28px;
             height: 40px;
-            background-color: $breadbutter-light-grey;
+            background-color: var(--bb-light-grey);
             line-height: 40px;
             border-radius: 4px;
             //padding: 0 10px;
@@ -76,19 +72,19 @@
             justify-content: center;
 
             svg {
-                fill: $breadbutter-dark-grey;
+                fill: var(--bb-dark-grey);
                 transform: rotateZ(180deg);
             }
 
             //&:after {
             //    content: '▲';
-            //    color: $breadbutter-dark-grey;
+            //    color: var(--bb-dark-grey);
             //    font-size: 15px;
             //}
         }
 
         &.bb-collapsed .more {
-            background-color: $breadbutter-dark-grey;
+            background-color: var(--bb-dark-grey);
 
             svg {
                 fill: #ffffff;
@@ -250,7 +246,7 @@
                 }
 
                 span {
-                    font-family: 'Open Sans';
+                    font-family: var(--bb-font-family);
                     //font-weight: 500;
                     letter-spacing: 0.25px;
                     vertical-align: top;
@@ -262,16 +258,13 @@
 
         & > div:not(.enterprise) {
             .bb-icon-wrapper {
-                //border: none;
                 border-radius: 4px;
-                //box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .4);
                 height: 38px;
                 text-align: center;
 
-                border: solid 1px #333;
-                background-color: #fff;
-                color: #333;
-                border: 1px solid #e6e6e6;
+                background-color: var(--bb-sso-background-color);
+                color: var(--bb-sso-color);
+                border: 1px solid var(--bb-sso-border-color);
 
                 span {
                     font-size: 12px;
@@ -284,7 +277,7 @@
                     //font-weight: 500;
                     //font-family: Roboto;
                     //font-family: Roboto, 'Arial' !important;
-                    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+                    font-family: var(--bb-font-family);
                     font-weight: 600;
                     //font-size: 16px;
                 }
@@ -298,7 +291,7 @@
                 .bb-icon-wrapper {
                     //background-color: #fff;
                     //color: #797a79;
-                    //border: 1px solid #e6e6e6;
+                    //border: 1px solid var(--bb-light-grey);
                 }
 
                 .bb-icon {
@@ -315,7 +308,7 @@
                 .bb-icon-wrapper {
                     //background-color: #fff;
                     //color: rgba(0, 0, 0, 0.54);
-                    //border: 1px solid #e6e6e6;
+                    //border: 1px solid var(--bb-light-grey);
                 }
 
                 .bb-icon {
@@ -369,7 +362,7 @@
                 .bb-icon-wrapper {
                     //background-color: #fff;
                     //color: #797a79;
-                    //border: 1px solid #e6e6e6;
+                    //border: 1px solid var(--bb-light-grey);
                 }
 
                 .bb-icon {
@@ -483,7 +476,7 @@
                 .bb-icon-wrapper {
                     //background-color: #fff;
                     //color: #393a3f;
-                    //border: 1px solid #e6e6e6;
+                    //border: 1px solid var(--bb-light-grey);
 
                     b {
                         //font-weight: 800;
@@ -498,7 +491,7 @@
                 .bb-icon-wrapper {
                     //background-color: #fff;
                     //color: #797a79;
-                    //border: 1px solid #e6e6e6;
+                    //border: 1px solid var(--bb-light-grey);
 
                     b {
                         //font-weight: 800;
@@ -558,9 +551,9 @@
 
             .bb-local:not(.green) {
                 .bb-icon-wrapper {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
-                    color: #333;
+                    background-color: var(--bb-sso-background-color);
+                    border: 1px solid var(--bb-sso-border-color);
+                    color: var(--bb-sso-color);
                 }
 
                 .bb-icon {
@@ -579,9 +572,9 @@
 
             .bb-local.green {
                 .bb-icon-wrapper {
-                    background-color: $breadbutter-green;
-                    border: 1px solid $breadbutter-green;
-                    color: #fff;
+                    background-color: var(--bb-signin-background-color);
+                    border: 1px solid var(--bb-signin-border-color);
+                    color: var(--bb-signin-color);
 
                     span {
                         font-weight: 600;
@@ -591,7 +584,7 @@
 
                 .bb-icon {
                     margin: 7px 10px 7px 5px;
-                    fill: #fff;
+                    fill: var(--bb-signin-color);
 
                     svg {
                         height: 16.6px;
@@ -606,16 +599,16 @@
         & > div:not(.enterprise):hover {
             .bb-microsoft {
                 .bb-icon-wrapper {
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
+                    background-color: var(--bb-microsoft-hover-background-color);
+                    border: 1px solid var(--bb-microsoft-hover-border-color);
                     color: #797a79;
                 }
             }
 
             .bb-google {
                 .bb-icon-wrapper {
-                    background-color: #3e82f1;
-                    border: 1px solid #3e82f1;
+                    background-color: var(--bb-google-hover-background-color);
+                    border: 1px solid var(--bb-google-hover-border-color);
                     color: #fff;
                 }
 
@@ -632,8 +625,8 @@
 
             .bb-facebook {
                 .bb-icon-wrapper {
-                    background-color: #5e9ef2;
-                    border: 1px solid #5e9ef2;
+                    background-color: var(--bb-facebook-hover-background-color);
+                    border: 1px solid var(--bb-facebook-hover-border-color);
                     color: #fff;
                 }
                 .bb-icon {
@@ -645,8 +638,8 @@
 
             .bb-linkedin {
                 .bb-icon-wrapper {
-                    background-color: #2f7ab1;
-                    border: 1px solid #2f7ab1;
+                    background-color: var(--bb-linkedin-hover-background-color);
+                    border: 1px solid var(--bb-linkedin-hover-border-color);
                     color: #ffffff;
                 }
 
@@ -658,8 +651,8 @@
 
             .bb-github {
                 .bb-icon-wrapper {
-                    background-color: #5f6060;
-                    border: 1px solid #5f6060;
+                    background-color: var(--bb-github-hover-background-color);
+                    border: 1px solid var(--bb-github-hover-border-color);
                     color: #fff;
                 }
 
@@ -670,8 +663,8 @@
 
             .bb-basecamp {
                 .bb-icon-wrapper {
-                    background-color: #31474f;
-                    border: 1px solid #31474f;
+                    background-color: var(--bb-basecamp-hover-background-color);
+                    border: 1px solid var(--bb-basecamp-hover-border-color);
                     color: #fff;
                 }
                 .bb-icon {
@@ -683,15 +676,15 @@
 
             .bb-fitbit {
                 .bb-icon-wrapper {
-                    background-color: #06475b;
-                    border: 1px solid #06475b;
+                    background-color: var(--bb-fitbit-hover-background-color);
+                    border: 1px solid var(--bb-fitbit-hover-border-color);
                 }
             }
 
             .bb-dropbox {
                 .bb-icon-wrapper {
-                    background-color: #044bb2;
-                    border: 1px solid #044bb2;
+                    background-color: var(--bb-dropbox-hover-background-color);
+                    border: 1px solid var(--bb-dropbox-hover-border-color);
                     color: #fff;
                 }
                 .bb-icon {
@@ -703,22 +696,22 @@
 
             .bb-evernote {
                 .bb-icon-wrapper {
-                    background-color: #077020;
-                    border: 1px solid #077020;
+                    background-color: var(--bb-evernote-hover-background-color);
+                    border: 1px solid var(--bb-evernote-hover-border-color);
                 }
             }
 
             .bb-shopify {
                 .bb-icon-wrapper {
-                    background-color: #6a8432;
-                    border: 1px solid #6a8432;
+                    background-color: var(--bb-shopify-hover-background-color);
+                    border: 1px solid var(--bb-shopify-hover-border-color);
                 }
             }
 
             .bb-planningcenter {
                 .bb-icon-wrapper {
-                    background-color: #1e51ad;
-                    border: 1px solid #1e51ad;
+                    background-color: var(--bb-planningcenter-hover-background-color);
+                    border: 1px solid var(--bb-planningcenter-hover-border-color);
                     color: #fff;
                 }
 
@@ -731,31 +724,31 @@
 
             .bb-twitter {
                 .bb-icon-wrapper {
-                    background-color: #2778ba;
-                    border: 1px solid #2778ba;
+                    background-color: var(--bb-twitter-hover-background-color);
+                    border: 1px solid var(--bb-twitter-hover-border-color);
                 }
             }
 
             .bb-slack {
                 .bb-icon-wrapper {
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
+                    background-color: var(--bb-slack-hover-background-color);
+                    border: 1px solid var(--bb-slack-hover-border-color);
                     color: #393a3f;
                 }
             }
 
             .bb-salesforce {
                 .bb-icon-wrapper {
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
+                    background-color: var(--bb-salesforce-hover-background-color);
+                    border: 1px solid var(--bb-salesforce-hover-border-color);
                     color: #797a79;
                 }
             }
 
             .bb-quickbooks {
                 .bb-icon-wrapper {
-                    background-color: #145907;
-                    border: 1px solid #145907;
+                    background-color: var(--bb-quickbooks-hover-background-color);
+                    border: 1px solid var(--bb-quickbooks-hover-border-color);
                     color: #fff;
                 }
 
@@ -767,16 +760,16 @@
 
             .bb-twitch {
                 .bb-icon-wrapper {
-                    background-color: #5511bf;
-                    border: 1px solid #5511bf;
+                    background-color: var(--bb-twitch-hover-background-color);
+                    border: 1px solid var(--bb-twitch-hover-border-color);
                     color: #fff;
                 }
             }
 
             .bb-apple {
                 .bb-icon-wrapper {
-                    background-color: #464646;
-                    border: 1px solid #464646;
+                    background-color: var(--bb-apple-hover-background-color);
+                    border: 1px solid var(--bb-apple-hover-border-color);
                     color: #fff;
                 }
                 .bb-icon {
@@ -788,24 +781,24 @@
 
             .bb-local {
                 .bb-icon-wrapper {
-                    background-color: #f1f1f1;
-                    border: 1px solid #f1f1f1;
+                    background-color: var(--bb-local-hover-background-color);
+                    border: 1px solid var(--bb-local-hover-border-color);
                     color: #797a79;
                 }
             }
 
             .bb-email {
                 .bb-icon-wrapper {
-                    background-color: #f1f1f1;
-                    border: 1px solid #f1f1f1;
+                    background-color: var(--bb-email-hover-background-color);
+                    border: 1px solid var(--bb-email-hover-border-color);
                     color: #797a79;
                 }
             }
 
             .bb-local.green {
                 .bb-icon-wrapper {
-                    background-color: #53913c;
-                    border: 1px solid #53913c;
+                    background-color: var(--bb-local-green-hover-background-color);
+                    border: 1px solid var(--bb-local-green-hover-border-color);
                     color: #fff;
                 }
             }
@@ -831,16 +824,16 @@
                 }
 
                 &[data-name='microsoft'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-microsoft-background-color);
+                    border: 1px solid var(--bb-microsoft-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='linkedin'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-linkedin-background-color);
+                    border: 1px solid var(--bb-linkedin-border-color);
 
                     svg {
                         fill: #2f7ab1;
@@ -848,8 +841,8 @@
                 }
 
                 &[data-name='google'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-google-background-color);
+                    border: 1px solid var(--bb-google-border-color);
 
                     svg {
                         height: 20px;
@@ -859,8 +852,8 @@
                 }
 
                 &[data-name='github'] {
-                    background-color: #444;
-                    border: 1px solid #444;
+                    background-color: var(--bb-github-background-color);
+                    border: 1px solid var(--bb-github-border-color);
 
                     svg {
                         fill: #fff;
@@ -868,8 +861,8 @@
                 }
 
                 &[data-name='basecamp'] {
-                    background-color: #1d2d35;
-                    border: 1px solid #1d2d35;
+                    background-color: var(--bb-basecamp-background-color);
+                    border: 1px solid var(--bb-basecamp-border-color);
 
                     svg {
                         fill: #fff;
@@ -877,56 +870,56 @@
                 }
 
                 &[data-name='fitbit'] {
-                    background-color: #002a3a;
-                    border: 1px solid #002a3a;
+                    background-color: var(--bb-fitbit-background-color);
+                    border: 1px solid var(--bb-fitbit-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='facebook'] {
-                    background-color: #227aed;
-                    border: 1px solid #227aed;
+                    background-color: var(--bb-facebook-background-color);
+                    border: 1px solid var(--bb-facebook-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='dropbox'] {
-                    background-color: #0061ff;
-                    border: 1px solid #0061ff;
+                    background-color: var(--bb-dropbox-background-color);
+                    border: 1px solid var(--bb-dropbox-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='evernote'] {
-                    background-color: #00a82d;
-                    border: 1px solid #00a82d;
+                    background-color: var(--bb-evernote-background-color);
+                    border: 1px solid var(--bb-evernote-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='shopify'] {
-                    background-color: #95bf47;
-                    border: 1px solid #95bf47;
+                    background-color: var(--bb-shopify-background-color);
+                    border: 1px solid var(--bb-shopify-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='planningcenter'] {
-                    background-color: #2266f7;
-                    border: 1px solid #2266f7;
+                    background-color: var(--bb-planningcenter-background-color);
+                    border: 1px solid var(--bb-planningcenter-border-color);
 
                     svg {
                     }
                 }
 
                 &[data-name='twitter'] {
-                    background-color: #3399ff;
-                    border: 1px solid #3399ff;
+                    background-color: var(--bb-twitter-background-color);
+                    border: 1px solid var(--bb-twitter-border-color);
 
                     svg {
                         fill: #fff;
@@ -934,8 +927,8 @@
                 }
 
                 &[data-name='quickbooks'] {
-                    background-color: #2ca01c;
-                    border: 1px solid #2ca01c;
+                    background-color: var(--bb-quickbooks-background-color);
+                    border: 1px solid var(--bb-quickbooks-border-color);
 
                     svg {
                         fill: #fff;
@@ -943,28 +936,28 @@
                 }
 
                 &[data-name='slack'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-slack-background-color);
+                    border: 1px solid var(--bb-slack-border-color);
                 }
 
                 &[data-name='salesforce'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-salesforce-background-color);
+                    border: 1px solid var(--bb-salesforce-border-color);
                 }
 
                 &[data-name='apple'] {
-                    background-color: #000;
-                    border: 1px solid #000;
+                    background-color: var(--bb-apple-background-color);
+                    border: 1px solid var(--bb-apple-border-color);
                 }
 
                 &[data-name='twitch'] {
-                    background-color: #9146ff;
-                    border: 1px solid #9146ff;
+                    background-color: var(--bb-twitch-background-color);
+                    border: 1px solid var(--bb-twitch-border-color);
                 }
 
                 &[data-name='local'] {
-                    background-color: #fff;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-local-background-color);
+                    border: 1px solid var(--bb-local-border-color);
                 }
             }
         }
@@ -974,13 +967,13 @@
         & > div:not(.enterprise):hover {
             .bb-item {
                 &[data-name='microsoft'] {
-                    background-color: #f1f1f1;
-                    border: 1px solid #f1f1f1;
+                    background-color: var(--bb-microsoft-hover-background-color);
+                    border: 1px solid var(--bb-microsoft-hover-border-color);
                 }
 
                 &[data-name='linkedin'] {
-                    background-color: #2f7ab1;
-                    border: 1px solid #2f7ab1;
+                    background-color: var(--bb-linkedin-hover-background-color);
+                    border: 1px solid var(--bb-linkedin-hover-border-color);
 
                     svg {
                         fill: #fff;
@@ -988,8 +981,8 @@
                 }
 
                 &[data-name='google'] {
-                    background-color: #3e82f1;
-                    border: 1px solid #3e82f1;
+                    background-color: var(--bb-google-hover-background-color);
+                    border: 1px solid var(--bb-google-hover-border-color);
 
                     svg {
                         background: #fff;
@@ -999,78 +992,78 @@
                 }
 
                 &[data-name='github'] {
-                    background-color: #5f6060;
-                    border: 1px solid #5f6060;
+                    background-color: var(--bb-github-hover-background-color);
+                    border: 1px solid var(--bb-github-hover-border-color);
                 }
 
                 &[data-name='basecamp'] {
-                    background-color: #31474f;
-                    border: 1px solid #31474f;
+                    background-color: var(--bb-basecamp-hover-background-color);
+                    border: 1px solid var(--bb-basecamp-hover-border-color);
                 }
 
                 &[data-name='fitbit'] {
-                    background-color: #06475b;
-                    border: 1px solid #06475b;
+                    background-color: var(--bb-fitbit-hover-background-color);
+                    border: 1px solid var(--bb-fitbit-hover-border-color);
                 }
 
                 &[data-name='facebook'] {
-                    background-color: #5e9ef2;
-                    border: 1px solid #5e9ef2;
+                    background-color: var(--bb-facebook-hover-background-color);
+                    border: 1px solid var(--bb-facebook-hover-border-color);
                 }
 
                 &[data-name='dropbox'] {
-                    background-color: #044bb2;
-                    border: 1px solid #044bb2;
+                    background-color: var(--bb-dropbox-hover-background-color);
+                    border: 1px solid var(--bb-dropbox-hover-border-color);
                 }
 
                 &[data-name='evernote'] {
-                    background-color: #077020;
-                    border: 1px solid #077020;
+                    background-color: var(--bb-evernote-hover-background-color);
+                    border: 1px solid var(--bb-evernote-hover-border-color);
                 }
 
                 &[data-name='shopify'] {
-                    background-color: #6a8432;
-                    border: 1px solid #6a8432;
+                    background-color: var(--bb-shopify-hover-background-color);
+                    border: 1px solid var(--bb-shopify-hover-border-color);
                 }
 
                 &[data-name='planningcenter'] {
-                    background-color: #1e51ad;
-                    border: 1px solid #1e51ad;
+                    background-color: var(--bb-planningcenter-hover-background-color);
+                    border: 1px solid   var(--bb-planningcenter-hover-border-color);
                 }
 
                 &[data-name='twitter'] {
-                    background-color: #2778ba;
-                    border: 1px solid #2778ba;
+                    background-color: var(--bb-twitter-hover-background-color);
+                    border: 1px solid var(--bb-twitter-hover-border-color);
                 }
 
                 &[data-name='slack'] {
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
+                    background-color: var(--bb-slack-hover-background-color);
+                    border: 1px solid var(--bb-slack-hover-border-color);
                 }
 
                 &[data-name='salesforce'] {
-                    background-color: #f4f4f4;
-                    border: 1px solid #f4f4f4;
+                    background-color: var(--bb-salesforce-hover-background-color);
+                    border: 1px solid var(--bb-salesforce-hover-border-color);
                 }
 
                 &[data-name='quickbooks'] {
-                    background-color: #145907;
-                    border: 1px solid #145907;
+                    background-color: var(--bb-quickbooks-hover-background-color);
+                    border: 1px solid var(--bb-quickbooks-hover-border-color);
                 }
 
                 &[data-name='twitch'] {
-                    background-color: #5511bf;
-                    border: 1px solid #5511bf;
+                    background-color: var(--bb-twitch-hover-background-color);
+                    border: 1px solid var(--bb-twitch-hover-border-color);
                 }
 
                 &[data-name='apple'] {
-                    background-color: #464646;
-                    border: 1px solid #464646;
+                    background-color: var(--bb-apple-hover-background-color);
+                    border: 1px solid var(--bb-apple-hover-border-color);
                 }
 
                 &[data-name='local'] {
-                    background-color: #f1f1f1;
-                    border: 1px solid #f1f1f1;
+                    background-color: var(--bb-local-hover-background-color);
+                    border: 1px solid var(--bb-local-hover-border-color);
                 }
             }
         }
@@ -1138,7 +1131,7 @@
 
                             font-weight: 600;
                             //font-family: Roboto, Arial !important;
-                            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+                            font-family: var(--bb-font-family);
                         }
                         background-color: #fff;
                         color: #333;
@@ -1148,7 +1141,7 @@
                         .bb-icon-wrapper {
                             //color: #007dc1;
                             //background-color: #fff;
-                            border: 1px solid #e6e6e6;
+                            border: 1px solid var(--bb-okta-border-color);
 
                             svg {
                                 fill: #007dc1;
@@ -1160,7 +1153,7 @@
                         .bb-icon-wrapper {
                             //background-color: #1c1f2a;
                             //color: #fff;
-                            border: 1px solid #e6e6e6;
+                            border: 1px solid var(--bb-onelogin-border-color);
                             svg {
                                 g {
                                     g {
@@ -1180,7 +1173,7 @@
                         .bb-icon-wrapper {
                             //color: #8c8c8c;
                             //background-color: #fff;
-                            border: 1px solid #e6e6e6;
+                            border: 1px solid var(--bb-microsoft-border-color);
 
                             span {
                                 //font-family: 'Selawik', 'Segoe UI', Arial !important;
@@ -1192,7 +1185,7 @@
                         .bb-icon-wrapper {
                             //background-color: #fff;
                             //color: #8c8c8c;
-                            border: 1px solid #e6e6e6;
+                            border: 1px solid var(--bb-google-border-color);
 
                             span {
                                 //font-weight: 600;
@@ -1204,15 +1197,15 @@
                     &:hover {
                         &.bb-microsoft {
                             .bb-icon-wrapper {
-                                background-color: #f4f4f4;
-                                border: 1px solid #f4f4f4;
+                                background-color: var(--bb-microsoft-hover-background-color);
+                                border: 1px solid var(--bb-microsoft-hover-border-color);
                                 color: #797a79;
                             }
                         }
 
                         &.bb-google {
                             .bb-icon-wrapper {
-                                background-color: #3e82f1;
+                                background-color: var(--bb-google-hover-background-color);
                                 //border: 1px solid #3e82f1;
                                 color: #fff;
                             }
@@ -1227,7 +1220,7 @@
 
                         &.bb-onelogin {
                             .bb-icon-wrapper {
-                                background-color: #1C1F2A;
+                                background-color: var(--bb-onelogin-hover-background-color);
                                 color: #fff;
                                 svg {
                                     g {
@@ -1246,7 +1239,7 @@
 
                         &.bb-okta {
                             .bb-icon-wrapper {
-                                background-color: #007dc1;
+                                background-color: var(--bb-okta-hover-background-color);
                                 color: #fff;
                                 .bb-icon {
                                     svg {
@@ -1275,7 +1268,7 @@
                     background-position: center;
                     background-size: 100% 100%;
                     background-color: transparent;
-                    border: 1px solid #e6e6e6;
+                    border: 1px solid var(--bb-light-grey);
                 }
 
                 .bb-item {
@@ -1283,7 +1276,7 @@
                     padding: 0;
                     height: 40px;
                     width: 40px;
-                    border: 1px solid #e6e6e6;
+                    border: 1px solid var(--bb-light-grey);
 
                     svg {
                         fill: transparent;
@@ -1305,27 +1298,27 @@
                     }
 
                     &[data-name='okta'] {
-                        background-color: #f7f7f7;
-                        border: 1px solid #f7f7f7;
-                        color: #007dc1;
+                        background-color: var(--bb-okta-enterprise-background-color);
+                        border: 1px solid var(--bb-okta-enterprise-border-color);
+                        color: var(--bb-microsoft-enterprise-color);
                     }
 
                     &[data-name='onelogin'] {
-                        background-color: #1c1f2a;
-                        border: 1px solid #1c1f2a;
-                        color: #fff;
+                        background-color: var(--bb-onelogin-enterprise-background-color);
+                        border: 1px solid var(--bb-onelogin-enterprise-border-color);
+                        color: var(--bb-onelogin-enterprise-color);
                     }
 
                     &[data-name='google'] {
-                        background-color: #4285f4;
-                        border: 1px solid #4285f4;
-                        color: #fff;
+                        background-color: var(--bb-google-enterprise-background-color);
+                        border: 1px solid var(--bb-google-enterprise-border-color);
+                        color: var(--bb-google-enterprise-color);
                     }
 
                     &[data-name='microsoft'] {
-                        background-color: #fff;
-                        border: 1px solid #e6e6e6;
-                        color: #8c8c8c;
+                        background-color: var(--bb-microsoft-enterprise-background-color);
+                        border: 1px solid var(--bb-microsoft-enterprise-border-color);
+                        color: var(--bb-microsoft-enterprise-color);
                     }
                 }
             }

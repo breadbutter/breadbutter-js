@@ -9,6 +9,7 @@ import constants from './constants';
 import lang from './locale.js';
 import engagement from './engagement';
 
+import './scss/theme.scss';
 import './scss/client.scss';
 
 const providers = constants.providers;
@@ -2294,17 +2295,25 @@ const ui = new (function() {
         // let message = options.locale && options.locale.CONTACT_US && options.locale.ICON_NOTE ? options.locale.ICON_NOTE : Locale.CONTACT_US.ICON_NOTE;
         let field = viewUI.getContactUsIcon(options);
         let note = viewUI.getContactUsIconMessage(options);
+        let isMobile = detectMobile();
+        if (isMobile) {
+            field.classList.add('bb-mobile');
+            note.classList.add('bb-mobile');
+        }
+
         document.body.appendChild(field);
         document.body.appendChild(note);
         field.addEventListener('click', () => {
-            // field.remove();
-            // note.remove();
             widgets.contactUs(false, options);
+            setTimeout(()=> {
+                note.classList.remove('bb-hide');
+            }, 1000);
         });
         note.addEventListener('click', () => {
-            // field.remove();
-            // note.remove();
             widgets.contactUs(false, options);
+            setTimeout(()=> {
+                note.classList.remove('bb-hide');
+            }, 1000);
         });
 
         if (hasPreviousContactIconOpen() && isVerifiedState()) {
@@ -2455,6 +2464,20 @@ const ui = new (function() {
         if (!options.custom_event_code) {
             return;
         }
+        if (hasPreviousContactIconOpen()) {
+            return;
+        }
+
+        if (document.querySelector('.contactus-popup') &&
+            document.querySelector('.contactus-popup').checkVisibility()) {
+            return;
+        }
+
+        if (document.querySelector('.breadbutter-mask') &&
+            document.querySelector('.breadbutter-mask').checkVisibility()) {
+            return;
+        }
+
         let verified = isVerifiedState();
         let cached = viewUI.checkEventStorage(options.custom_event_code);
         if (!on_page && cached != options.custom_event_code) {
@@ -2675,6 +2698,7 @@ const widgets = new (function() {
         }
 
         if (!id) {
+            document.body.classList.remove('breadbutter-ui-verified-showing');
             UI.contactUs(opt);
         } else {
             UI.contactUs(id, opt);

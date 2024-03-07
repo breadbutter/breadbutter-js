@@ -1,6 +1,3 @@
-@import 'theme';
-
-
 :not(.breadbutter-popup-holder) > .breadbutter-ui {
     border-radius: 12px;
     overflow: hidden;
@@ -13,19 +10,19 @@
         &.form-next,
         &.form-incognito-next {
             height: 40px;
-            background-color: $breadbutter-blue;
-            color: #ffffff;
+            background-color: var(--bb-function-button-background-color);
+            color: var(--bb-function-button-color);
             font-weight: 600;
-            border: 1px solid $breadbutter-blue;
+            border: 1px solid var(--bb-function-button-border-color);
             border-radius: 4px;
             margin: 26px 10px 10px;
         }
 
         &.form-forgot-reset {
-            background-color: #50aff5;
-            color: #ffffff;
+            background-color: var(--bb-function-button-background-color);
+            color: var(--bb-function-button-color);
+            border: 1px solid var(--bb-function-button-border-color);
             font-weight: 600;
-            border: 1px solid #50aff5;
             border-radius: 4px;
             margin: 0 10px 10px;
             //width: 100%;
@@ -33,9 +30,9 @@
 
         &.form-options {
             background-color: transparent;
-            color: $breadbutter-dark-grey2;
-            font-size: 13px;
-            line-height: 1.455;
+            color: var(--bb-form-options-color);
+            font-size: var(--bb-form-options-font-size);
+            line-height: var(--bb-form-options-line-height);
             border: none;
             padding: 0;
             margin: 0 auto;
@@ -44,7 +41,7 @@
 
             svg {
                 margin-right: 4px;
-                fill: $breadbutter-grey;
+                fill: var(--bb-grey);
             }
         }
 
@@ -54,9 +51,9 @@
         &.form-confirm-email,
         &.form-alert-confirm {
             height: 40px;
-            background-color: #50aff5;
-            color: #ffffff;
-            border: 1px solid #50aff5;
+            background-color: var(--bb-function-button-background-color);
+            color: var(--bb-function-button-color);
+            border: 1px solid var(--bb-function-button-border-color);
             border-radius: 5px;
             margin: 26px 0px 0px;
             //width: 100%;
@@ -70,9 +67,9 @@
 
         &.form-cancel,
         &.form-alert-confirm-2 {
-            background-color: transparent;
+            background-color: var(--bb-form-cancel-background-color);
             border: none;
-            color: #c3c3c3;
+            color: var(--bb-form-cancel-color);
             text-decoration: underline;
             margin: 10px 10px 0;
             //width: 100%;
@@ -81,8 +78,9 @@
             margin: 10px 0px 10px;
         }
         &.disabled {
-            background-color: #989898;
-            border: 1px solid #989898;
+            background-color: var(--bb-disabled-button-background-color);
+            border: 1px solid var(--bb-disabled-button-border-color);
+            color: var(--bb-disabled-button-color);
         }
     }
 
@@ -90,10 +88,10 @@
     .form-email {
         margin-top: 34px;
         &.form-disabled-email {
-            background-color: transparent !important;
-            color: #414042 !important;
-            font-size: 16px;
-            line-height: 0.88;
+            background-color: var(--bb-form-email-display-background-color) !important;
+            color: var(--bb-form-email-display-color) !important;
+            font-size: var(--bb-form-email-display-font-size);
+            line-height: var(--bb-form-email-display-line-height);
             text-align: center;
             border: none;
             margin-top: -10px;
@@ -107,9 +105,9 @@
     .form-new-user {
         min-width: initial;
         background-color: transparent;
-        color: #50aff5;
-        font-size: 11px;
-        line-height: 1.5;
+        color: var(--bb-function-text-color);
+        font-size: var(--bb-function-text-font-size);
+        line-height: var(--bb-function-text-line-height);
         border: none;
         padding: 5px 10px;
         margin: 5px 10px;
@@ -162,15 +160,15 @@
 
     .form-message,
     .form-sub-message {
-        font-size: 13px;
+        font-size: var(--bb-form-message-font-size);
         //font-style: italic;
-        line-height: 1.38;
+        line-height: var(--bb-form-message-line-height);
         text-align: center;
-        color: #707070;
+        color: var(--bb-form-message-color);
 
         &.in_provider {
             height: 18px;
-            color: $breadbutter-grey;
+            color: var(--bb-grey);
             font-size: 12px;
             line-height: 18px;
             margin-top: 0 !important;
@@ -194,7 +192,6 @@
     }
 
     .form-message {
-        font-size: 13px;
         margin-top: 22px;
         margin-bottom: 10px;
         border: none;
@@ -212,15 +209,15 @@
     .form-login-holder {
         .breadbutter-ui-loader-holder {
             width: auto !important;
-            width: height !important;
+            //width: height !important;
         }
     }
 
     .form-subtitle,
     .form-subtitle-error {
-        color: #414042;
-        font-size: 16px;
-        line-height: 26px;
+        color: var(--bb-form-subtitle-color);
+        font-size: var(--bb-form-subtitle-font-size);
+        line-height: var(--bb-form-subtitle-line-height);
         text-align: center;
         margin: auto;
     }
@@ -236,10 +233,10 @@
 
     .form-title,
     .form-title-error {
-        color: #414042;
-        font-size: 24px;
-        font-weight: 600;
-        line-height: 1.44;
+        color: var(--bb-form-title-color);
+        font-size: var(--bb-form-title-font-size);
+        font-weight: var(--bb-form-title-font-weight);
+        line-height: var(--bb-form-title-line-height);
         text-align: center;
         margin: 0;
     }
@@ -253,10 +250,10 @@
     }
 
     .form-hint {
-        font-size: 11px;
-        line-height: 15px;
+        font-size: var(--bb-form-hint-font-size);
+        line-height: var(--bb-form-hint-line-height);
         padding-bottom: 2px;
-        color: #afafaf;
+        color: var(--bb-form-hint-color);
 
         &::before {
             content: '\2022';
@@ -264,13 +261,13 @@
         }
 
         &.pass {
-            color: $breadbutter-green !important;
+            color: var(--bb-green) !important;
             &::before {
                 content: '\2713';
             }
         }
         &.fail {
-            color: #ec1c24 !important;
+            color: var(--bb-red) !important;
             &::before {
                 content: '\00D7';
             }
@@ -278,9 +275,9 @@
     }
 
     .form-error-message {
-        color: $breadbutter-red;
-        font-size: 12px;
-        line-height: 17px;
+        color: var(--bb-form-error-color);
+        font-size: var(--bb-form-error-font-size);
+        line-height: var(--bb-form-error-line-height);
         text-align: center;
         width: 225px;
         margin: 13px auto 0;
@@ -349,7 +346,7 @@
     }
     .breadbutter {
         &-reset-form {
-            background-color: #fff;
+            background-color: var(--bb-main-background-color);
             padding-top: 10px;
 
             .form-email {
@@ -370,13 +367,13 @@
                 &.form-options {
                     background-color: transparent;
                     text-decoration: underline;
-                    color: #707070 !important;
+                    color: var(--bb-form-options-color) !important;
                     padding: 10px 0px 20px 0px;
                 }
             }
 
             .breadbutter-buttons-holder {
-                background-color: #eeeeee;
+                background-color: var(--bb-sub-background-color);
                 padding: 10px 10px 10px 11px;
                 .form-message {
                     margin-bottom: 3px;
@@ -499,7 +496,7 @@
     }
 
     .breadbutter-forms {
-        background: #fff;
+        background-color: var(--bb-main-background-color);
         position: relative;
         .breadbutter-module-poweredby {
             overflow: hidden;
@@ -542,7 +539,7 @@
 
         &-email,
         &-incognito {
-            background-color: #ffffff;
+            background-color: var(--bb-main-background-color);
             padding: 0;
             position: relative;
         }
@@ -553,7 +550,7 @@
         &-reset-title,
         &-confirm-title,
         &-alert {
-            background-color: #ffffff;
+            background-color: var(--bb-main-background-color);
             padding: 12px 13px 0 14px;
             position: relative;
         }
@@ -626,7 +623,7 @@
 
         &-password-validation {
             background-color: transparent;
-            color: #414042;
+            color: var(--bb-dark-grey2);
             padding: 20px 0 0 40px;
             text-align: left;
             position: relative;
@@ -636,7 +633,7 @@
                 font-style: normal !important;
                 text-align: left !important;
                 margin-top: 0 !important;
-                font-size: 11px !important;
+                font-size: var(--bb-form-message-password-valiation-font-size) !important;
             }
         }
 
@@ -659,7 +656,7 @@
 
         &-switch-login {
             position: relative;
-            background-color: #ffffff;
+            background-color: var(--bb-main-background-color);
             //padding: 15px $view-padding 14px;
         }
 
@@ -711,7 +708,7 @@
         &-reset-form,
         &-confirm-form {
             background-color: #eeeeee;
-            padding: 20px $view-padding;
+            padding: 20px var(--bb-view-padding);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -720,7 +717,7 @@
         &-forgot-buttons,
         &-expire-buttons {
             background-color: transparent;
-            padding: 15px $view-padding 17px;
+            padding: 15px var(--bb-view-padding) 17px;
         }
 
         &-incognito-holder, &-email-holder {
@@ -750,17 +747,17 @@
         }
 
         &-confirm-form {
-            background-color: #fff;
+            background-color: var(--bb-main-background-color);
             padding-top: 0px;
         }
 
         &-buttons-holder {
-            background-color: #fff;
+            background-color: var(--bb-main-background-color);
             //padding: 10px 0;
             padding: 6px 10px 6px 10px;
             &.login-provider {
                 //margin: 0 -3px;
-                background-color: #fff;
+                background-color: var(--bb-main-background-color);
                 * {
                     box-sizing: content-box;
                 }
@@ -770,7 +767,7 @@
             }
 
             &.register-suggested {
-                background-color: #fff !important;
+                background-color: var(--bb-main-background-color) !important;
                 padding: 0px;
                 margin-bottom: 7px !important;
                 .breadbutter-buttons {
@@ -806,7 +803,7 @@
                 align-items: flex-start;
                 justify-content: flex-start;
                 z-index: 1;
-                //background-color: #e6e6e6;
+                //background-color: var(--bb-light-grey);
 
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
@@ -835,7 +832,7 @@
             .collapsible {
                 width: 100%;
                 padding: 0px;
-                background-color: $breadbutter-light-grey;
+                background-color: var(--bb-light-grey);
                 border-bottom-left-radius: 4px;
                 border-bottom-right-radius: 4px;
                 padding-bottom: 3px;
@@ -863,7 +860,7 @@
             }
 
             .breadbutter-buttons-holder {
-                background-color: #fff;
+                background-color: var(--bb-main-background-color);
                 //padding: 10px 0;
                 padding: 6px 10px 0;
                 .breadbutter-buttons:not(.bb-icon)>div:not(.enterprise):not(:hover) > div:not(.green) .bb-icon-wrapper {
@@ -873,7 +870,7 @@
 
             .breadbutter-switch-login {
                 padding: 0 10px 3px!important;
-                background-color: #fff;
+                background-color: var(--bb-main-background-color);
                 * {
                     box-sizing: content-box;
                 }
@@ -892,7 +889,7 @@
             .breadbutter-module-magic-link {
                 //display: none;
                 padding: 0 10px !important;
-                background-color: #fff;
+                background-color: var(--bb-main-background-color);
                 .breadbutter-magic-link-button {
                     border-color: #000;
                     margin: 0 3px;
@@ -914,7 +911,7 @@
         }
 
         &-register-holder {
-            background-color: #fff;
+            background-color: var(--bb-main-background-color);
             padding: 0 13px 0 14px;
             flex-direction: column;
             align-items: center;
@@ -970,7 +967,7 @@
                 display: none;
             }
             .breadbutter-buttons-holder {
-                background-color: #eee;
+                background-color: var(--bb-sub-background-color);
                 align-items: flex-start;
                 padding: 6px 10px 6px 10px;
                 .breadbutter-buttons {
@@ -982,7 +979,7 @@
                     text-align: left;
                 }
                 .form-options {
-                    color: #707070;
+                    color: var(--bb-form-options-color);
                     text-decoration: underline;
                     background-color: transparent;
                     margin: 8px auto;
@@ -1125,23 +1122,23 @@
             padding: 52px 37px 20px;
         }
         .form-title {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: var(--bb-form-title-font-size);
+            font-weight: var(--bb-form-title-font-weight);
             font-stretch: normal;
             font-style: normal;
-            line-height: 1.17;
+            line-height: var(--bb-form-title-deidentify-line-height);
             letter-spacing: normal;
-            color: #2c2c2c;
+            color: var(--bb-form-title-deidentify-color);
         }
         .form-subtitle {
-            font-size: 13px;
+            font-size: var(--bb-form-subtitle-deidentify-font-size);
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
             text-align: left;
-            color: #4e5051;
+            color: var(--bb-form-subtitle-deidentify-color);
             margin-left: 25px;
         }
         .breadbutter-deidentify-form, .breadbutter-custom-data-form {
@@ -1150,7 +1147,7 @@
                 width: 80%;
             }
             .bb-icon-wrapper {
-                border: 1px solid #414042 !important;
+                border: 1px solid var(--bb-dark-grey2) !important;
             }
             .breadbutter-buttons {
                 padding: 5px 15px;
@@ -1288,8 +1285,8 @@
 
                 .breadbutter-module-email-discovery {
                     height: 40px;
-                    background-color: #fff !important;
-                    border: 1px solid #e6e6e6;
+                    background-color: var(--bb-tile-background-color) !important;
+                    border: 1px solid var(--bb-light-grey);
                     color: #797a79;
                     border-radius: 4px;
                     text-align: center;
@@ -1299,7 +1296,7 @@
 
                     input.form-email {
                         padding: 11px 35px 7px 12px;
-                        background-color: rgba(0, 0, 0, 0) !important;
+                        background-color: var(--bb-input-background-color) !important;
                         margin: 0;
                         border: none;
                     }
@@ -1404,7 +1401,7 @@
         &.form-disabled-email {
             .form-email {
                 background-color: transparent !important;
-                color: #414042 !important;
+                color: var(--bb-dark-grey2) !important;
                 font-size: 16px;
                 line-height: 0.88;
                 text-align: center;
@@ -1460,7 +1457,7 @@
             .breadbutter-buttons {
                 .bb-google, .bb-microsoft, .bb-slack, .bb-salesforce, .bb-linkedin {
                     .bb-icon-wrapper {
-                        border: solid 1px #414042 !important;
+                        border: solid 1px var(--bb-dark-grey2) !important;
                     }
                 }
                 & > div:not(.more-block):hover {
@@ -1482,7 +1479,7 @@
             &.bb-collapsed {
                 .bb-google, .bb-microsoft, .bb-slack, .bb-salesforce, .bb-linkedin {
                     .bb-icon-wrapper {
-                        border: solid 1px #414042 !important;
+                        border: solid 1px var(--bb-dark-grey2) !important;
                     }
                 }
                 & > div:not(.more-block):hover {
@@ -1502,10 +1499,10 @@
     }
 
     .breadbutter-term-policy {
-        font-size: 12px;
-        color: rgba(112, 112, 112, 0.5);
+        font-size: var(--bb-term-policy-font-size);
+        color: var(--bb-term-policy-color);
         a {
-            color: rgba(112, 112, 112, 0.5);
+            color: var(--bb-term-policy-color);
             text-decoration: underline;
         }
     }
@@ -1608,7 +1605,7 @@
 
         .breadbutter-contactus {
             //overflow: hidden;
-            background-color: #ffffff;
+            background-color: var(--bb-main-background-color);
             padding: 0px 18px 18px;
             display: flex;
             flex-direction: column;
@@ -1616,9 +1613,10 @@
             .bb-button {
                 &.form-submit {
                     min-height: 40px;
-                    background-color: #1cb93f;
-                    color: #ffffff;
-                    border: 1px solid #1cb93f;
+                    background-color: var(--bb-contact-us-form-submit-button-background-color);
+                    color: var(--bb-contact-us-form-submit-button-color);
+                    border: 1px solid var(--bb-contact-us-form-submit-button-border-color);
+                    font-size: var(--bb-contact-us-form-submit-button-border-color);
                     border-radius: 5px;
                     //margin: 12px 0px 0px;
                     //width: 100%;
@@ -1626,7 +1624,6 @@
                     margin: 0px auto;
                     display: inline-block;
                     text-transform: uppercase;
-                    font-size: 15px;
                     font-weight: bold;
                 }
             }
@@ -1645,11 +1642,12 @@
                     padding: 14px 12px 14px 21px;
                     box-sizing: border-box;
                     text-align: left;
-                    border: solid 1px #f0f0f0;
+                    border: solid 1px var(--bb-contact-us-textarea-border-color);
                     resize: none;
-                    font-size: 13px;
+                    color: var(--bb-contact-us-textarea-color);
+                    font-size: var(--bb-contact-us-textarea-font-size);
                     &::placeholder {
-                        color: #d3d3d3;
+                        color: var(--bb-contact-us-textarea-placeholder-color);
                     }
                 }
                 .breadbutter-name-holder {
@@ -1673,6 +1671,15 @@
                     height: 18px;
                 }
             }
+            &.bb-not-verified {
+                .breadbutter-contactus-form {
+                    textarea {
+                        &::placeholder {
+                            color: #d3d3d3;
+                        }
+                    }
+                }
+            }
         }
         .breadbutter-contactus-complete {
             padding: 10px 20px 10px 35px;
@@ -1681,7 +1688,7 @@
             width: auto;
             letter-spacing: normal;
             text-align: left;
-            color: #414042;
+            color: var(--bb-dark-grey2);
         }
 
         .breadbutter-incognito,.breadbutter-email {
@@ -1782,25 +1789,25 @@
                         margin: 0px 31px 12px 41px;
                     }
                     .breadbutter-floating-text {
-                        font-size: 13px;
+                        font-size: var(--bb-contact-us-floating-text-font-size);
                         font-weight: normal;
                         font-stretch: normal;
                         font-style: normal;
                         line-height: normal;
                         letter-spacing: normal;
-                        color: #f5f5f5;
+                        color: var(--bb-contact-us-floating-text-color);
                         margin: 0px 31px 12px 41px;
                         text-align: left;
                     }
                     .breadbutter-floating-text-title {
-                        font-size: 20px;
+                        font-size: var(--bb-contact-us-floating-text-title-font-size);
                         font-weight: bold;
                         font-stretch: normal;
                         font-style: normal;
                         line-height: normal;
                         letter-spacing: normal;
                         text-align: center;
-                        color: #fff;
+                        color: var(--bb-contact-us-floating-text-title-color);
                         margin-top: 0px;
                         margin-bottom: 12px;
                     }
@@ -1819,7 +1826,7 @@
         > .breadbutter-module-header-discovery {
             display: block !important;
             padding: 31px 13px 25px 14px;
-            background: white;
+            background: var(--bb-contact-us-background);
             //display: none;
         }
         .sign-out-link {
@@ -1847,14 +1854,14 @@
         font-size: 13px;
         color: #333;
         line-height: 40px;
-        border: 1px solid #e6e6e6;
+        border: 1px solid var(--bb-light-grey);
         border-radius: 4px;
         position: relative;
         height: 40px;
         text-align: center;
         background-color: white;
         //font-family: Roboto, 'Arial' !important;
-        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif !important;
+        font-family: var(--bb-font-family);
         font-weight: 600;
         font-size: 12px;
         .breadbutter-magic-link-wand {

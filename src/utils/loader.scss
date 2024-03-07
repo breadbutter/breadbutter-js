@@ -2,21 +2,21 @@
 $brand-success: #333333;
 $brand-failure: #DC6550;
 $loader-size: 56px;
-$check-height: $loader-size/2;
-$check-width: $check-height/2;
-$check-left: ($loader-size/6 + $loader-size/12);
+$check-height: calc($loader-size/2);
+$check-width: calc($check-height/2);
+$check-left: calc($loader-size/6 + $loader-size/12);
 $check-thickness: 3px;
 $check-color: $brand-success;
 $small-loader-size: 36px;
 
-$error-height: $loader-size/3;
-$error-width: $loader-size/3;
-$error-left: ($loader-size/6 + $loader-size/12);
+$error-height: calc($loader-size/3);
+$error-width: calc($loader-size/3);
+$error-left: calc($loader-size/6 + $loader-size/12);
 $error-thickness: 3px;
 $error-color: $brand-failure;
 
 .breadbutter-ui-loader-holder {
-  background: rgba(255,255,255,1);
+  background: var(--bb-loader-background);
   top: 0;
   left: 0;
   right: 0;
@@ -72,14 +72,14 @@ $error-color: $brand-failure;
     .util-loader-checkmark {
       display: none;
       svg {
-        fill: #4DE515;
+        fill: var(--bb-green);
       }
     }
     .util-loader-error {
       display: none;
 
       svg {
-        fill: #EC1C24;
+        fill: var(--bb-red);
       }
     }
     &.bb-success {

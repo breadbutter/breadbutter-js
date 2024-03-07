@@ -4,7 +4,7 @@
   height: 250px;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: var(--bb-popup-focusing-text-color);
   &.bb-top {
     bottom: 30%;
     justify-content: flex-end;
@@ -28,8 +28,8 @@
   }
 
   .breadbutter-floating-message-holder {
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: var(--bb-popup-focusing-text-message-font-size);
+    line-height: var(--bb-popup-focusing-text-message-line-height);
     margin-bottom: 24px;
     width: 100%;
     font-style: italic;
@@ -40,15 +40,15 @@
     text-decoration: underline;
 }
   .breadbutter-floating-text {
-    font-size: 22px;
-    line-height: 2;
+    font-size: var(--bb-popup-focusing-text-font-size);
+    line-height: var(--bb-popup-focusing-text-line-height);
     font-style: normal;
     margin-bottom: 24px;
     width: 100%;
   }
   .breadbutter-floating-text-title {
-    font-size: 38px;
-    line-height: 1.32;
+    font-size:  var(--bb-popup-focusing-text-title-font-size);
+    line-height: var(--bb-popup-focusing-text-title-line-height);
     font-weight: bold;
     margin-bottom: 24px;
     width: 100%;
@@ -62,11 +62,11 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
-  background-color: rgba(28, 28, 28, 0.86);
+  background-color: var(--bb-mask-background-color);
   @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-    backdrop-filter: blur(16.6px);
-    -webkit-backdrop-filter: blur(16.6px);
-    background-color: rgba(80, 92, 109, .5);
+    backdrop-filter: var(--bb-mask-filter);
+    -webkit-backdrop-filter: var(--bb-mask-filter);
+    background-color: var(--bb-mask-filter-background-color);
   }
   &.breadbutter-mask-transparent {
     background: none;
@@ -76,12 +76,12 @@
 }
 
 .breadbutter-popup {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--bb-font-family);
   position: fixed;
   z-index: 10000;
   font-weight: 400;
   div {
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--bb-font-family);
     font-weight: 400;
   }
   &.hide {
@@ -91,14 +91,14 @@
     z-index: 1;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: var(--bb-popup-box-shadow);
     position: relative;
   }
 
   .breadbutter-popup-header {
     min-width: 241px;
-    background: #fff;
-    color: #414042;
+    background-color: var(--bb-main-background-color);
+    color: var(--bb-popup-title-color);
     display: flex;
     align-items: center;
     padding: 0 11px 0 18px;
@@ -333,19 +333,19 @@
     margin-left: -187px;
 
     .breadbutter-floating-message-holder {
-      font-size: 11px;
-      line-height: 1.5;
+      font-size: var(--bb-popup-focusing-mobile-text-message-font-size);
+      line-height: var(--bb-popup-focusing-mobile-text-message-line-height);
       margin-bottom: 7px;
     }
     .breadbutter-floating-text {
-      font-size: 15px;
-      line-height: 2;
+      font-size: var(--bb-popup-focusing-mobile-text-font-size);
+      line-height: var(--bb-popup-focusing-mobile-text-line-height);
       font-style: normal;
       margin-bottom: 7px;
     }
     .breadbutter-floating-text-title {
-      font-size: 22px;
-      line-height: 1.32;
+      font-size: var(--bb-popup-focusing-mobile-text-title-font-size);
+      line-height: var(--bb-popup-focusing-mobile-text-title-line-height);
       font-weight: bold;
       margin-bottom: 7px;
       width: 100%;
@@ -441,16 +441,17 @@
   .breadbutter-popup-wrapper {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: #fff;
+    background-color: var(--bb-main-background-color);
     .breadbutter-popup-header {
       padding-top: 25px;
       position: relative;
       .popup-title {
         height: 32px;
-        line-height: 32px;
         padding-bottom: 5px;
         padding-right: 0;
-        font-size: 16px;
+        line-height: var(--bb-popup-title-line-height);
+        font-size: var(--bb-popup-title-font-size);
+        color: var(--bb-popup-title-color);
       }
       .bb-mobile-handler {
         position: absolute;
@@ -463,11 +464,6 @@
         align-items: center;
         justify-content: center;
         .bb-mobile-dropdown {
-          //border-right: solid 3px #878787;
-          //border-bottom: solid 3px #878787;
-          //width: 15px;
-          //height: 15px;
-          //transform: rotate(45deg) skew(-30deg, -30deg);
           border-top: solid 2px #d6d6d6;
           border-bottom: solid 2px #d6d6d6;
           margin-top: 7px;

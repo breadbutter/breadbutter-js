@@ -55,7 +55,8 @@ const getContinueAnotherWayButton = function() {
                 button_theme,
                 pass,
                 register
-            }
+            },
+            true
         )
     );
     return container;

@@ -1,9 +1,9 @@
 .breadbutter {
     &-ui {
-        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-family: var(--bb-font-family);
         font-weight: 400;
         div {
-            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--bb-font-family);
             font-weight: 400;
         }
 
@@ -20,11 +20,11 @@
         input:not([type=checkbox]) {
             width: 100%;
             max-width: 100%;
-            background-color: rgba(0,0,0,0) !important;
-            color: #1c1958 !important;
-            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px !important;
-            line-height: 1.7 !important;
+            background-color: var(--bb-input-background-color) !important;
+            color: var(--bb-input-color) !important;
+            font-family: var(--bb-font-family);
+            font-size: var(--bb-input-font-size) !important;
+            line-height: var(--bb-input-line-height) !important;
             border-bottom: 1px solid #c7ccd6;
             border-top: none !important;
             border-left: none !important;
@@ -37,16 +37,16 @@
             box-shadow: none !important;
             box-sizing: border-box;
             &.focus, &:focus {
-              border-color: #50aff5;
+              border-color: var(--bb-input-focus-color);
               & + .form-next-icon{
-                background: #50aff5;
+                background: var(--bb-input-focus-color);
                 svg {
                   fill: #fff;
                 }
               }
             }
             &::placeholder {
-                color: #989898;
+                color: var(--bb-input-placeholder-color);
             }
         }
         input[type=checkbox] {
@@ -331,10 +331,10 @@
 }
 
 .breadbutter-ui-hover-holder {
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--bb-font-family);
     position: fixed;
     background: #fff;
-    color: #707070;
+    color: var(--bb-grey);
     padding: 19px 20px;
     border-radius: 12px;
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.26);

@@ -329,11 +329,11 @@ const VIEWPOPUP = function() {
         wrapper.appendChild(header);
         wrapper.appendChild(holder);
 
-        if (isMobile) {
+        if (isMobile && !isContactUs) {
             header.appendChild(getMobileHandler())
         }
         header.appendChild(getTitle());
-        if (!isMobile && !options.locked) {
+        if ((!isMobile && !options.locked) || isContactUs) {
             header.appendChild(getCloseIcon());
         }
 

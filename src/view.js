@@ -421,7 +421,7 @@ const svgPoweredByFooter = function () {
                         </g>
                     </g>
                 </g>
-                <text transform="matrix(1 0 0 1 2093.2539 145.708)" fill="#58595b" font-size="11"
+                <text transform="matrix(1 0 0 1 2093.2539 145.708)" fill="var(--bb-poweredby-text-color)" font-size="11"
                       font-family="OpenSansLight-Italic, OpenSans-Italic, Open Sans" font-style="italic">powered by</text>
             </g>
         </svg>

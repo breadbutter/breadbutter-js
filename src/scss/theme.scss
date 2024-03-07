@@ -1,11 +1,373 @@
-$breadbutter-red: #ec1c24;
-$breadbutter-blue: #50aff5;
+:root {
+  --bb-font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 
-$breadbutter-green: #4de515;
+  //general grouping
+  --bb-dark-grey2: #414042;
+  --bb-dark-grey: #919090;
+  --bb-grey: #707070;
+  --bb-light-grey: #e6e6e6;
+  --bb-green: #4de515;
+  --bb-blue: #50aff5;
+  --bb-red: #ec1c24;
+  --bb-white: #ffffff;
+  --bb-black: #000000;
 
-$breadbutter-dark-grey2: #414042;
-$breadbutter-dark-grey: #919090;
-$breadbutter-grey: #707070;
-$breadbutter-light-grey: #e6e6e6;
+  --bb-view-padding: 13px;
 
-$view-padding: 13px;
+  // microsoft, linkedin,
+  // google, github, basecamp, fitbit, facebook, dropbox, evernote,
+  // shopify, planningcenter, quickbooks, salesforce, slack,
+  // twitter, apple, twitch, local
+
+  //border color and background-color are for icon
+  //hover for all
+  //dashboard for icon display on the profile name dashboard
+  --bb-microsoft-border-color: var(--bb-light-grey);
+  --bb-microsoft-background-color: var(--bb-white);
+  --bb-microsoft-hover-border-color: #f4f4f4;
+  --bb-microsoft-hover-background-color: #f4f4f4;
+  --bb-microsoft-dashboard-border-color: var(--bb-light-grey);
+  --bb-microsoft-dashboard-background-color: var(--bb-white);
+
+  --bb-linkedin-border-color: var(--bb-light-grey);
+  --bb-linkedin-background-color: var(--bb-white);
+  --bb-linkedin-hover-border-color: #2f7ab1;
+  --bb-linkedin-hover-background-color: #2f7ab1;
+  --bb-linkedin-dashboard-border-color: var(--bb-light-grey);
+  --bb-linkedin-dashboard-background-color: var(--bb-white);
+
+  --bb-google-border-color: var(--bb-light-grey);
+  --bb-google-background-color: var(--bb-white);
+  --bb-google-hover-border-color: #3e82f1;
+  --bb-google-hover-background-color: #3e82f1;
+  --bb-google-dashboard-border-color: var(--bb-light-grey);
+  --bb-google-dashboard-background-color: var(--bb-white);
+
+  --bb-github-border-color: #444;
+  --bb-github-background-color: #444;
+  --bb-github-hover-border-color: #5f6060;
+  --bb-github-hover-background-color: #5f6060;
+  --bb-github-dashboard-border-color: #444;
+  --bb-github-dashboard-background-color: #444;
+
+  --bb-basecamp-border-color: #1d2d35;
+  --bb-basecamp-background-color: #1d2d35;
+  --bb-basecamp-hover-border-color: #31474f;
+  --bb-basecamp-hover-background-color: #31474f;
+  --bb-basecamp-dashboard-border-color: #1d2d35;
+  --bb-basecamp-dashboard-background-color: #1d2d35;
+
+  --bb-fitbit-border-color: #002a3a;
+  --bb-fitbit-background-color: #002a3a;
+  --bb-fitbit-hover-border-color: #06475b;
+  --bb-fitbit-hover-background-color: #06475b;
+  --bb-fitbit-dashboard-border-color: #002a3a;
+  --bb-fitbit-dashboard-background-color: #002a3a;
+
+  --bb-facebook-border-color: #227aed;
+  --bb-facebook-background-color: #227aed;
+  --bb-facebook-hover-border-color: #5e9ef2;
+  --bb-facebook-hover-background-color: #5e9ef2;
+  --bb-facebook-dashboard-border-color: #227aed;
+  --bb-facebook-dashboard-background-color: #227aed;
+
+  --bb-dropbox-border-color: #0061ff;
+  --bb-dropbox-background-color: #0061ff;
+  --bb-dropbox-hover-border-color: #044bb2;
+  --bb-dropbox-hover-background-color: #044bb2;
+  --bb-dropbox-dashboard-border-color: #0061ff;
+  --bb-dropbox-dashboard-background-color: #0061ff;
+
+  --bb-evernote-border-color: #00a82d;
+  --bb-evernote-background-color: #00a82d;
+  --bb-evernote-hover-border-color: #077020;
+  --bb-evernote-hover-background-color: #077020;
+  --bb-evernote-dashboard-border-color: #00a82d;
+  --bb-evernote-dashboard-background-color: #00a82d;
+
+  --bb-shopify-border-color: #95bf47;
+  --bb-shopify-background-color: #95bf47;
+  --bb-shopify-hover-border-color: #6a8432;
+  --bb-shopify-hover-background-color: #6a8432;
+  --bb-shopify-dashboard-border-color: #95bf47;
+  --bb-shopify-dashboard-background-color: #95bf47;
+
+  --bb-planningcenter-border-color: #2266f7;
+  --bb-planningcenter-background-color: #2266f7;
+  --bb-planningcenter-hover-border-color: #1e51ad;
+  --bb-planningcenter-hover-background-color: #1e51ad;
+  --bb-planningcenter-dashboard-border-color: #2266f7;
+  --bb-planningcenter-dashboard-background-color: #2266f7;
+
+  --bb-quickbooks-border-color: #2ca01c;
+  --bb-quickbooks-background-color: #2ca01c;
+  --bb-quickbooks-hover-border-color: #145907;
+  --bb-quickbooks-hover-background-color: #145907;
+  --bb-quickbooks-dashboard-border-color: #2ca01c;
+  --bb-quickbooks-dashboard-background-color: #2ca01c;
+
+  --bb-salesforce-border-color: var(--bb-light-grey);
+  --bb-salesforce-background-color: var(--bb-white);
+  --bb-salesforce-hover-border-color: #f4f4f4;
+  --bb-salesforce-hover-background-color: #f4f4f4;
+  --bb-salesforce-dashboard-border-color: var(--bb-light-grey);
+  --bb-salesforce-dashboard-background-color: var(--bb-white);
+
+  --bb-slack-border-color: var(--bb-light-grey);
+  --bb-slack-background-color: var(--bb-white);
+  --bb-slack-hover-border-color: #f4f4f4;
+  --bb-slack-hover-background-color: #f4f4f4;
+  --bb-slack-dashboard-border-color: var(--bb-light-grey);
+  --bb-slack-dashboard-background-color: var(--bb-white);
+
+  --bb-twitter-border-color: #3399ff;
+  --bb-twitter-background-color: #3399ff;
+  --bb-twitter-hover-border-color: #2778ba;
+  --bb-twitter-hover-background-color: #2778ba;
+  --bb-twitter-dashboard-border-color: #3399ff;
+  --bb-twitter-dashboard-background-color: #3399ff;
+
+  --bb-apple-border-color: var(--bb-black);
+  --bb-apple-background-color: var(--bb-black);
+  --bb-apple-hover-border-color: #464646;
+  --bb-apple-hover-background-color: #464646;
+  --bb-apple-dashboard-border-color: var(--bb-black);
+  --bb-apple-dashboard-background-color: var(--bb-black);
+
+  --bb-twitch-border-color: #9146ff;
+  --bb-twitch-background-color: #9146ff;
+  --bb-twitch-hover-border-color: #5511bf;
+  --bb-twitch-hover-background-color: #5511bf;
+  --bb-twitch-dashboard-border-color: #9146ff;
+  --bb-twitch-dashboard-background-color: #9146ff;
+
+  --bb-local-border-color: var(--bb-light-grey);
+  --bb-local-background-color: var(--bb-white);
+  --bb-local-hover-border-color: #f1f1f1;
+  --bb-local-hover-background-color: #f1f1f1;
+  --bb-local-dashboard-border-color: #555;
+  --bb-local-dashboard-background-color: #555;
+
+  --bb-okta-border-color: var(--bb-light-grey);
+  --bb-okta-background-color: var(--bb-white);
+  --bb-okta-hover-border-color: var(--bb-white);
+  --bb-okta-hover-background-color: #007dc1;
+
+  --bb-onelogin-border-color: var(--bb-white);
+  --bb-onelogin-background-color: var(--bb-light-grey);
+  --bb-onelogin-hover-border-color: var(--bb-white);
+  --bb-onelogin-hover-background-color: #1C1F2A;
+
+  //enterprise style
+  --bb-microsoft-enterprise-border-color: var(--bb-white);
+  --bb-microsoft-enterprise-background-color: var(--bb-light-grey);
+  --bb-microsoft-enterprise-color: #8c8c8c;
+  --bb-google-enterprise-border-color: #4285f4;
+  --bb-google-enterprise-background-color: #4285f4;
+  --bb-google-enterprise-color: var(--bb-white);
+  --bb-okta-enterprise-border-color: #f7f7f7;
+  --bb-okta-enterprise-background-color: #f7f7f7;
+  --bb-okta-enterprise-color: #007dc1;
+  --bb-onelogin-enterprise-border-color: #1c1f2a;
+  --bb-onelogin-enterprise-background-color: #1c1f2a;
+  --bb-onelogin-enterprise-color: var(--bb-white);
+
+  //login with email style
+  --bb-email-hover-border-color: #f1f1f1;
+  --bb-email-hover-background-color: #f1f1f1;
+  --bb-local-green-hover-border-color: #53913c;
+  --bb-local-green-hover-background-color: #53913c;
+
+  //general sso button style
+  --bb-sso-border-color: var(--bb-light-grey);
+  --bb-sso-background-color: var(--bb-white);
+  --bb-sso-color: #333;
+
+  //breadbutter sign in password style
+  --bb-signin-border-color: var(--bb-green);
+  --bb-signin-background-color: var(--bb-green);
+  --bb-signin-color: var(--bb-white);
+
+  //title style
+  --bb-form-title-color: var(--bb-dark-grey2);
+  --bb-form-title-font-size: 24px;
+  --bb-form-title-font-weight: 600;
+  --bb-form-title-line-height: 35px;
+  --bb-form-title-line-height3: 26px;
+  --bb-form-title-deidentify-color: #2c2c2c;
+  --bb-form-title-deidentify-line-height: 28px;
+  --bb-form-title-content-gating-font-size: 22px;
+  --bb-form-title-content-gating-line-height: 21px;
+
+  //subtitle style
+  --bb-form-subtitle-color: var(--bb-dark-grey2);
+  --bb-form-subtitle-font-size: 16px;
+  --bb-form-subtitle-line-height: calc(26 / 16);
+  --bb-form-subtitle-deidentify-color: #4e5051;
+  --bb-form-subtitle-deidentify-font-size: 13px;
+  --bb-form-subtitle-content-gating-font-size: 12px;
+  --bb-form-subtitle-content-gating-line-height: calc(16 / 12);
+
+  //message style
+  --bb-form-message-color: var(--bb-grey);
+  --bb-form-message-font-size: 13px;
+  --bb-form-message-line-height: calc(18 / 13);
+
+  //password validation style
+  --bb-form-message-password-valiation-font-size: 11px;
+
+  //small hint text style
+  --bb-form-hint-color: #afafaf;
+  --bb-form-hint-font-size: 11px;
+  --bb-form-hint-line-height: calc(15 / 11);
+
+  //register password hint title
+  --bb-form-options-color: var(--bb-dark-grey2);
+  --bb-form-options-font-size: 13px;
+  --bb-form-options-line-height: calc(19/13);
+
+  //error message style
+  --bb-form-error-color: var(--bb-red);
+  --bb-form-error-font-size: 12px;
+  --bb-form-error-line-height: 17px;
+
+  //cancel text style
+  --bb-form-cancel-color: #c3c3c3;
+  --bb-form-cancel-background-color: rgba(0, 0, 0, 0);
+
+  //email display style
+  --bb-form-email-display-color: var(--bb-dark-grey2);
+  --bb-form-email-display-background-color: transparent;
+  --bb-form-email-display-font-size: 16px;
+  --bb-form-email-display-line-height: 0.88;
+
+  //input style
+  --bb-input-color: #1c1958;
+  --bb-input-font-size: 13px;
+  --bb-input-line-height: 22px;
+  --bb-input-focus-color: var(--bb-blue);
+  --bb-input-placeholder-color: #989898;
+  --bb-input-background-color: rgba(0, 0, 0, 0);
+  --bb-tile-background-color: var(--bb-white);
+
+  //main background color
+  --bb-main-background-color: var(--bb-white);
+  --bb-sub-background-color: #eee;
+
+  //term and policy style
+  --bb-term-policy-color: rgba(112, 112, 112, 0.5);
+  --bb-term-policy-font-size: 12px;
+
+  //blue functional button style
+  --bb-function-button-background-color: var(--bb-blue);
+  --bb-function-button-color: var(--bb-white);
+  --bb-function-button-border-color: var(--bb-blue);
+
+  //disabled button style
+  --bb-disabled-button-background-color: #989898;
+  --bb-disabled-button-color: var(--bb-white);
+  --bb-disabled-button-border-color: #989898;
+
+  //unique text action style
+  --bb-function-text-color: var(--bb-blue);
+  --bb-function-text-font-size: 11px;
+  --bb-function-text-line-height: 16px;
+
+  //continueWith popup title style
+  --bb-popup-title-color: var(--bb-dark-grey2);
+  --bb-popup-title-font-size: 16px;
+  --bb-popup-title-line-height: 32px;
+
+  //continueWith box shadow
+  --bb-popup-box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.2);
+
+  //loader background color
+  --bb-loader-background: var(--bb-main-background-color);
+
+  //contact us
+  --bb-contact-us-background: var(--bb-main-background-color);
+
+  --bb-contact-us-icon-message-background: var(--bb-white);
+  --bb-contact-us-icon-message-font-size: 12px;
+  --bb-contact-us-icon-message-color: var(--bb-dark-grey2);
+  --bb-contact-us-icon-message-box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, .25);
+
+  --bb-contact-us-floating-text-title-color: var(--bb-white);
+  --bb-contact-us-floating-text-title-font-size: 20px;
+
+  --bb-contact-us-floating-text-color: #f5f5f5;
+  --bb-contact-us-floating-text-font-size: 13px;
+
+  --bb-contact-us-textarea-border-color: #f0f0f0;
+  --bb-contact-us-textarea-color: var(--bb-form-message-color);
+  --bb-contact-us-textarea-placeholder-color: #989898;
+  --bb-contact-us-textarea-font-size: 13px;
+
+  --bb-contact-us-form-submit-button-color: var(--bb-white);
+  --bb-contact-us-form-submit-button-background-color: #1cb93f;
+  --bb-contact-us-form-submit-button-border-color: #1cb93f;
+  --bb-contact-us-form-submit-button-font-size: 15px;
+
+  //content gating
+  --bb-content-gating-background-color: var(--bb-main-background-color);
+  --bb-content-gating-box-shadow: 0 32px 64px 0 rgba(0,0,0,0.2);
+
+  //newsletter style
+  --bb-newsletter-background-color: var(--bb-main-background-color);
+  --bb-newsletter-box-shadow: 0 32px 64px 0 rgba(0,0,0,0.2);
+  --bb-newsletter-title-color: var(--bb-dark-grey2);
+  --bb-newsletter-title-font-size: 22px;
+  --bb-newsletter-title-line-height: calc(21/22);
+  --bb-newsletter-subtitle-color: var(--bb-dark-grey2);
+  --bb-newsletter-subtitle-font-size: 12px;
+  --bb-newsletter-subtitle-line-height: calc(16/12);
+
+  //profile name
+  --bb-profile-name-holder-color: var(--bb-black);
+  --bb-profile-name-holder-line-height: 40px;
+  --bb-profile-name-holder-background: #f1f5fb;
+
+  --bb-profile-dashboard-logout-button-color: var(--bb-white);
+  --bb-profile-dashboard-logout-button-background-color: #2c2c2c;
+  --bb-profile-dashboard-logout-button-font-size: 14px;
+  --bb-profile-dashboard-logout-button-line-height: calc(18/14);
+
+  --bb-profile-dashboard-name-color: #4e5051;
+  --bb-profile-dashboard-name-font-size: 16px;
+  --bb-profile-dashboard-name-line-height: calc(20/14);
+
+  --bb-profile-dashboard-email-color: #4e5051;
+  --bb-profile-dashboard-email-font-size: 12px;
+  --bb-profile-dashboard-email-line-height: calc(20/12);
+
+  --bb-profile-dashboard-background-color: var(--bb-white);
+  --bb-profile-dashboard-box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.25);
+
+  --bb-profile-dashboard-shade-background-color: #eeeeee;
+
+  //popup focusing text
+  --bb-popup-focusing-text-color: var(--bb-white);
+
+  --bb-popup-focusing-mobile-text-title-font-size: 22px;
+  --bb-popup-focusing-mobile-text-title-line-height: calc(29/23);
+  --bb-popup-focusing-mobile-text-font-size: 15px;
+  --bb-popup-focusing-mobile-text-line-height: calc(30/15);
+  --bb-popup-focusing-mobile-text-message-font-size: 11px;
+  --bb-popup-focusing-mobile-text-message-line-height: calc(17/11);
+
+  --bb-popup-focusing-text-title-font-size: 38px;
+  --bb-popup-focusing-text-title-line-height: calc(50/38);
+  --bb-popup-focusing-text-font-size: 22px;
+  --bb-popup-focusing-text-line-height: calc(44/22);
+  --bb-popup-focusing-text-message-font-size: 13px;
+  --bb-popup-focusing-text-message-line-height: calc(20/13);
+
+  //popup mask
+  --bb-mask-background-color: rgba(28, 28, 28, 0.86);
+  --bb-mask-filter: blur(16.6px);
+  --bb-mask-filter-background-color: rgba(80, 92, 109, .5);
+
+  //poweredby text
+  --bb-poweredby-text-color: #58595b;
+
+}

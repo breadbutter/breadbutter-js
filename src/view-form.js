@@ -400,6 +400,9 @@ const VIEWFORM = function() {
                 c = container.children[i];
             }
         }
+        if (!c) {
+            c = findKid(container, child);
+        }
         return c;
     };
 
@@ -1407,7 +1410,7 @@ const VIEWFORM = function() {
                 let form = incognitoForm(res, email_address, false, top);
                 top.appendChild(form);
                 if (email_address) {
-                    continueEmailLookup(findChild(form, INCOGNITO_HOLDER_ID));
+                    continueEmailLookup(form);
                 }
             } else {
                 let form = emailForm(res, email_address, false, top);
@@ -2021,7 +2024,7 @@ const VIEWFORM = function() {
         let container = view.addView(MODULE_FORM_INPUT);
         container.classList.add(FORM.PHONE_NUMBER);
         let b = view.addBlock('input', FORM.PHONE_NUMBER);
-        // b.type = 'number';
+        b.type = 'tel';
         // b.pattern = '[0-9]*';
         // b.inputmode = 'numberic';
         b.placeholder = Locale.CONTACT_US.PHONE_NUMBER;
@@ -2224,6 +2227,8 @@ const VIEWFORM = function() {
         return b;
     };
 
+    let POPUP_SCROLL = false;
+
     const getPin = function(cls, pin, trigger) {
         let b = view.addBlock('input', FORM.PIN);
         b.type = 'number';
@@ -2239,6 +2244,45 @@ const VIEWFORM = function() {
             b.classList.add(cls);
         }
 
+        b.addEventListener('touchend', (e) => {
+            // console.log('touchend');
+            // PIN_TOUCH_EVENT = e.target;
+            if(isMobile && !CONTACT_US) {
+                if (POPUP_SCROLL) {
+                    document.scrollingElement.scrollTop = POPUP_SCROLL;
+                }
+                e.target.focus();
+            }
+        });
+
+        b.addEventListener('focus', (e) => {
+            // console.log('focus');
+            if(isMobile && !CONTACT_US) {
+                if (!POPUP_SCROLL || document.scrollingElement.scrollTop < (document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight)) {
+                    document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight + 232;
+                    setTimeout(()=> {
+                        POPUP_SCROLL = document.scrollingElement.scrollTop;
+                    }, 10);
+                }
+            }
+        })
+
+        b.addEventListener('blur', (e) => {
+            // if (isMobile) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     console.log('blur');
+            //     if (PIN_TOUCH_EVENT) {
+            //         console.log('pin->focus');
+            //         setTimeout(()=> {
+            //             PIN_TOUCH_EVENT.focus();
+            //             PIN_TOUCH_EVENT = false;
+            //         }, 0);
+            //     }
+            // }
+            // return false;
+        });
+
         b.addEventListener('keyup', (e)=> {
             e.stopPropagation();
             triggerPin(e, trigger);
@@ -2249,7 +2293,7 @@ const VIEWFORM = function() {
         });
         return b;
     };
-
+    let PIN_TOUCH_EVENT = false;
     const getPinTokenSet = function(length, pin, trigger, cb) {
         let b = view.addBlock('div', FORM.TOKEN_PIN);
 
@@ -3306,6 +3350,13 @@ const VIEWFORM = function() {
             removeChild(container, CONTACTUS_FORM_ID);
             setTimeout(()=> {
                 top.style.height = '265px';
+                setTimeout(()=> {
+                    view.getData(top, 'forceQuit')();
+                    let icon = document.querySelector('.breadbutter-ui-contact-us-icon-message');
+                    if (icon) {
+                        icon.classList.add('bb-hide');
+                    }
+                }, 5000)
             }, 50);
         };
 
@@ -3406,6 +3457,7 @@ const VIEWFORM = function() {
         container.appendChild(getHeaderModule(Locale.RESET_PASSWORD.TITLE, Locale.RESET_PASSWORD.CONTENT));
 
         let email = getEmail(email_address, true);
+        saveLocalEmail(email_address);
         container.appendChild(email);
         container.appendChild(getToken(pin));
 
@@ -3862,6 +3914,8 @@ const VIEWFORM = function() {
         return {list, button_holder};
     };
 
+    let FIRST_MOBILE_COLLPASE = true;
+
     const incognitoForm = function(res, email_address, options, holder) {
         formEntry(INCOGNITO_FORM);
         let top = view.addView(INCOGNITO_ID);
@@ -3949,12 +4003,22 @@ const VIEWFORM = function() {
                 //         d = getArrowDown();
                 //         button_holder.append(d);
                 //     }
-                    // console.log(options);
+                // console.log(options);
+                if (FIRST_MOBILE_COLLPASE) {
                     if (isPopup) {
                         top.classList.add('bb-mobile-collapse');
                     }
                     button_holder.classList.add('bb-limit-providers');
+                    FIRST_MOBILE_COLLPASE = false;
+                } else {
+                    top.classList.remove('bb-mobile-collapse');
+                    button_holder.classList.remove('bb-limit-providers');
+                    if (top.querySelector('.bb-more-button')) {
+                        top.querySelector('.bb-more-button').remove();
+                    }
+                }
                     // d.onclick = function() {
+
                     //     top.classList.remove('bb-mobile-collapse');
                     //     this.parentElement.classList.remove('bb-limit-providers');
                     //     this.remove();
@@ -4095,6 +4159,7 @@ const VIEWFORM = function() {
         }
         if (!isNaN(e.key)) {
             if (input.nextSibling) {
+                // PIN_TOUCH_EVENT = input.nextSibling;
                 input.nextSibling.focus();
             } else {
                 trigger(pin.parentElement.parentElement);
@@ -4102,11 +4167,13 @@ const VIEWFORM = function() {
         }
         if (e.code == 'ArrowRight') {
             if (input.nextSibling) {
+                // PIN_TOUCH_EVENT = input.nextSibling;
                 input.nextSibling.focus();
             }
         }
         if (e.code == 'Backspace' || e.code == 'ArrowLeft') {
             if (input.previousSibling) {
+                // PIN_TOUCH_EVENT = input.previousSibling;
                 input.previousSibling.focus();
             }
         }
